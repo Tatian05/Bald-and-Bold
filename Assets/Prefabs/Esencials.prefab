@@ -318,7 +318,7 @@ MonoBehaviour:
   - {x: -0.5, y: 0.2, z: 0}
   m_ShapePathHash: -1906480883
   m_Mesh: {fileID: 0}
-  m_InstanceId: 29406
+  m_InstanceId: 172402
 --- !u!1 &859833147576569514
 GameObject:
   m_ObjectHideFlags: 0
@@ -2698,6 +2698,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb2bd6f2df97d964da98302836ea0570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cinematicCamera: {fileID: 2631416385357818961}
   _curve:
     serializedVersion: 2
     m_Curve:

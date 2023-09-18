@@ -16,7 +16,6 @@ public class CinematicManager : MonoBehaviour
     {
         Helpers.LevelTimerManager.OnLevelDefeat += PlayDefeatCinematic;
 
-        _cinemacticCamera.SetActive(false);
         _initialTimeline = GameObject.Find("InitialTimeline") ? GameObject.Find("InitialTimeline").GetComponent<PlayableDirector>() : null;
         _defeatTimeline = GameObject.Find("DefeatTimeline") ? GameObject.Find("DefeatTimeline").GetComponent<PlayableDirector>(): null;
         _victoryTimeline = GameObject.Find("VictoryTimeline") ? GameObject.Find("VictoryTimeline").GetComponent<PlayableDirector>() : null ;
