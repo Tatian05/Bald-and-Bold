@@ -318,7 +318,7 @@ MonoBehaviour:
   - {x: -0.5, y: 0.2, z: 0}
   m_ShapePathHash: -1906480883
   m_Mesh: {fileID: 0}
-  m_InstanceId: 184368
+  m_InstanceId: 29406
 --- !u!1 &859833147576569514
 GameObject:
   m_ObjectHideFlags: 0
@@ -2805,6 +2805,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 2b61efb1dc61ec14aa9572a0226a6952, type: 2}
     - {fileID: 11400000, guid: 52b8131c9464bb144954eca20147de50, type: 2}
     - {fileID: 11400000, guid: 1f5c777537338544a8c52f4422051159, type: 2}
+    - {fileID: 11400000, guid: 5a652647b62b1d0418ed3d10bba733ed, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -2867,7 +2868,7 @@ MonoBehaviour:
         - m_Target: {fileID: 1532709085841239892}
           m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
           m_MethodName: DisableCamera
-          m_Mode: 1
+          m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2875,6 +2876,20 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1532709085841239892}
+          m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
+          m_MethodName: DisableCamera
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
           m_CallState: 2
 --- !u!1001 &1234803909684330647
 PrefabInstance:

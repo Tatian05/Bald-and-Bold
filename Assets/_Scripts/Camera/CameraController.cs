@@ -6,16 +6,19 @@ public class CameraController : MonoBehaviour
     GameManager _gameManager;
     Transform _myTransform, _player;
     Action _cameraBehaviour;
+    Camera _camera;
 
     [SerializeField] AnimationCurve _curve;
     [SerializeField] float[] _clampX = new float[2];
     [SerializeField] float[] _clampY = new float[2];
     [SerializeField] float _smooth;
     [SerializeField] bool _static;
+
     private void Start()
     {
         _myTransform = transform;
-        _gameManager = GameManager.instance;
+        _gameManager = Helpers.GameManager;
+        _camera = Helpers.MainCamera;
         _player = GameObject.FindGameObjectWithTag("Player").transform;
         _gameManager.EnemyManager.OnEnemyKilled += () => StartCoroutine(Shaking());
         _gameManager.EnemyManager.OnHeavyAttack += () => StartCoroutine(Shaking());
@@ -39,7 +42,7 @@ public class CameraController : MonoBehaviour
     public void StartCameraShake(float duration) => StartCoroutine(CameraShake(duration));
     public void StartShaking() => StartCoroutine(Shaking());
 
-    public void DisableCamera() => GetComponent<Camera>().enabled = false;
+    public void DisableCamera(bool enabled) => _camera.enabled = enabled;
     IEnumerator CameraShake(float duration)
     {
         Vector3 startPosition = _myTransform.localPosition;
