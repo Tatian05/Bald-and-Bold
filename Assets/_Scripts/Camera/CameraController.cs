@@ -8,7 +8,6 @@ public class CameraController : MonoBehaviour
     Action _cameraBehaviour;
     Camera _camera;
 
-    [SerializeField] GameObject _cinematicCamera;
     [SerializeField] AnimationCurve _curve;
     [SerializeField] float[] _clampX = new float[2];
     [SerializeField] float[] _clampY = new float[2];
@@ -20,7 +19,6 @@ public class CameraController : MonoBehaviour
         _myTransform = transform;
         _gameManager = Helpers.GameManager;
         _camera = Helpers.MainCamera;
-        _cinematicCamera.SetActive(false);
         _player = GameObject.FindGameObjectWithTag("Player").transform;
         _gameManager.EnemyManager.OnEnemyKilled += () => StartCoroutine(Shaking());
         _gameManager.EnemyManager.OnHeavyAttack += () => StartCoroutine(Shaking());

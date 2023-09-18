@@ -8,25 +8,39 @@ public class CinematicManager : MonoBehaviour
     [SerializeField, Tooltip("Está como hijo de la Main Camera")] GameObject _cinemacticCamera;
     [SerializeField] GameObject _skipCinematicUI;
 
+    Camera _mainCamera;
     public bool playingCinematic
     {
         get { return _initialTimeline && _victoryTimeline && _defeatTimeline ? _initialTimeline.state == PlayState.Playing || _victoryTimeline.state == PlayState.Playing || _defeatTimeline.state == PlayState.Playing : default; }
     }
     void Start()
     {
+        _mainCamera = Helpers.MainCamera;
         Helpers.LevelTimerManager.OnLevelDefeat += PlayDefeatCinematic;
 
         _initialTimeline = GameObject.Find("InitialTimeline") ? GameObject.Find("InitialTimeline").GetComponent<PlayableDirector>() : null;
-        _defeatTimeline = GameObject.Find("DefeatTimeline") ? GameObject.Find("DefeatTimeline").GetComponent<PlayableDirector>(): null;
-        _victoryTimeline = GameObject.Find("VictoryTimeline") ? GameObject.Find("VictoryTimeline").GetComponent<PlayableDirector>() : null ;
+        _defeatTimeline = GameObject.Find("DefeatTimeline") ? GameObject.Find("DefeatTimeline").GetComponent<PlayableDirector>() : null;
+        _victoryTimeline = GameObject.Find("VictoryTimeline") ? GameObject.Find("VictoryTimeline").GetComponent<PlayableDirector>() : null;
         var currentScene = "initialTimeline " + SceneManager.GetActiveScene().name;
 
         if (!PlayerPrefs.HasKey(currentScene) && _initialTimeline)
         {
-            Helpers.MainCamera.GetComponent<CameraAnimation>().enabled = true;
+            _initialTimeline.played += (x) =>
+            {
+                Debug.Log("played");
+                _cinemacticCamera.SetActive(true);
+                _mainCamera.enabled = false;
+                Helpers.GameManager.PauseManager.PauseObjectsInCinematic();
+            };
             _initialTimeline.Play();
-            Helpers.GameManager.PauseManager.PauseObjectsInCinematic();
-            _initialTimeline.stopped += (x) => Helpers.GameManager.PauseManager.UnpauseObjectsInCinematic();
+            //Helpers.MainCamera.GetComponent<CameraAnimation>().enabled = true;
+            _initialTimeline.stopped += (x) =>
+            {
+                Debug.Log("stopped");
+                _mainCamera.enabled = true;
+                _cinemacticCamera.SetActive(false);
+                Helpers.GameManager.PauseManager.UnpauseObjectsInCinematic();
+            };
         }
         PlayerPrefs.SetString(currentScene, currentScene);
     }
