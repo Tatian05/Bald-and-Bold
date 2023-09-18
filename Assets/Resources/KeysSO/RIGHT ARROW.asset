@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8da14e1cc50009d45bdcc6a43a5c1bfe, type: 3}
+  m_Name: RIGHT ARROW
+  m_EditorClassIdentifier: 
+  keySprite: {fileID: 21300000, guid: d060047e0aab70844847b7db6026af36, type: 3}
+  pressedKey: {fileID: 4934598262608157310, guid: b2948ef2f79bd0a4984fb8799f7b5601, type: 3}
+  input: 275

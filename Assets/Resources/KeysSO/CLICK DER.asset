@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8da14e1cc50009d45bdcc6a43a5c1bfe, type: 3}
+  m_Name: CLICK DER
+  m_EditorClassIdentifier: 
+  keySprite: {fileID: 21300000, guid: a4a2838b0ded7624d85aaf63d57b3b11, type: 3}
+  pressedKey: {fileID: 21300000, guid: 9861adf559c5471488bdf911f6b93df2, type: 3}
+  input: 324

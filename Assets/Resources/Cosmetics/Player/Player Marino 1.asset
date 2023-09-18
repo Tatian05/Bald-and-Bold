@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a52bc19e8500d2b4885dde9bbe02d1e8, type: 3}
+  m_Name: Player Marino 1
+  m_EditorClassIdentifier: 
+  cosmeticName: Marino
+  cost: 2
+  headSprite: {fileID: 21300000, guid: de62642e4a6c348488fc21e290d00743, type: 3}
+  torsoSprite: {fileID: 21300000, guid: 14e396cf27d920a49810e266f2f790f4, type: 3}
+  rightLegSprite: {fileID: 21300000, guid: 6fb1b00a9c3e14d48b630229858832c1, type: 3}
+  leftLegSprite: {fileID: 21300000, guid: 6fb1b00a9c3e14d48b630229858832c1, type: 3}
+  rightHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
+  leftHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
+  tailSprite: {fileID: 0}

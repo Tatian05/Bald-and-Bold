@@ -1,0 +1,148 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1520184938380114091
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1520184938380114089}
+  - component: {fileID: 1948077365993056737}
+  - component: {fileID: 6986544610262690710}
+  m_Layer: 0
+  m_Name: PersistantData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1520184938380114089
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520184938380114091}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.9973042, y: 0.4744898, z: -83.59236}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1948077365993056737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520184938380114091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e91771b3b1cac8145be6b5cdd1bcc59d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameData:
+    unlockedZones: 0
+    currentLevel: 1
+    gameMode: 0
+    firstTime: 1
+    firstTimeLevelsMap: 1
+    currentDeaths: 0
+    levels: []
+    deaths: 
+  persistantDataSaved:
+    coins: 0
+    currentLanguageIndex: 0
+    playerCosmeticEquiped: {fileID: 0}
+    presidentCosmeticEquiped: {fileID: 0}
+    playerCosmeticCollection: []
+    presidentCosmeticCollection: []
+--- !u!114 &6986544610262690710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520184938380114091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 405417960585f6345987e784aac6b27e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zones:
+  - levelsZone:
+    - Level 1
+    - Level 2
+    - Level 3
+    - Level 4
+    - Level 5
+    deathsNeeded: 6
+    currentDeathsInZone: 0
+    ID: 0
+  - levelsZone:
+    - Level 6
+    - Level 7
+    - Level 8
+    - Level 9
+    - Level 10
+    deathsNeeded: 15
+    currentDeathsInZone: 0
+    ID: 1
+  - levelsZone:
+    - Level 11
+    - Level 12
+    - Level 13
+    - Level 14
+    - Level 15
+    deathsNeeded: 25
+    currentDeathsInZone: 0
+    ID: 2
+  - levelsZone:
+    - Level 16
+    - Level 17
+    - Level 18
+    - Level 19
+    - Level 20
+    deathsNeeded: 35
+    currentDeathsInZone: 0
+    ID: 3
+  - levelsZone:
+    - Level 21
+    - Level 22
+    - Level 23
+    - Level 24
+    - Level 25
+    deathsNeeded: 45
+    currentDeathsInZone: 0
+    ID: 4
+  - levelsZone:
+    - Level 26
+    - Level 27
+    - Level 28
+    - Level 29
+    - Level 30
+    deathsNeeded: 55
+    currentDeathsInZone: 0
+    ID: 5
+  - levelsZone:
+    - Level 31
+    - Level 32
+    - Level 33
+    - Level 34
+    - Level 35
+    deathsNeeded: 65
+    currentDeathsInZone: 0
+    ID: 6
+  - levelsZone:
+    - Level 36
+    - Level 37
+    - Level 38
+    - Level 39
+    - Level 40
+    deathsNeeded: 85
+    currentDeathsInZone: 0
+    ID: 7
+  lastLevelsZone: []

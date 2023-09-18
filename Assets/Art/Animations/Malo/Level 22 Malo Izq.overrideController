@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Level 22 Malo Izq
+  m_Controller: {fileID: 9100000, guid: dad62e81a88840441b2adc9820d4fba2, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: d5e3fa49acd87204fa985942d350e422, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d5e3fa49acd87204fa985942d350e422, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 19ed38a1143e74946b0928983120d769, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 545d3870fbedb454f9f14126753fa3bd, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: ba6bc58f52c428e40bbf1e4a9534428e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: ba6bc58f52c428e40bbf1e4a9534428e, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6b449cfd57fa0bb418343428f9cbf79c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 415af8625903ecb4b824bcf61279b128, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 731e47026e874a4488f5cee7d64345cd, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 731e47026e874a4488f5cee7d64345cd, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6b37e77909ca1a34094707b162b2206c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: db64a6f805f6e1946ae948b4cb2b7c8d, type: 2}
