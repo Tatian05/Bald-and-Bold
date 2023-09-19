@@ -55,7 +55,6 @@ public class PersistantDataSaved
     public CosmeticData presidentCosmeticEquiped;
     public List<CosmeticData> playerCosmeticCollection = new List<CosmeticData>();
     public List<CosmeticData> presidentCosmeticCollection = new List<CosmeticData>();
-
     public void RemoveEmptySlot()
     {
         for (int i = 0; i < playerCosmeticCollection.Count; i++)
@@ -65,16 +64,8 @@ public class PersistantDataSaved
             if (!presidentCosmeticCollection[i]) presidentCosmeticCollection.Remove(presidentCosmeticCollection[i]);
     }
     public void Buy(int amount) { coins -= amount; }
-    public void AddPlayerCosmetic(CosmeticData cosmetic)
-    {
-        playerCosmeticCollection.Add(cosmetic);
-        Buy(cosmetic.cost);
-    }
-    public void AddPresidentCosmetic(CosmeticData cosmetic)
-    {
-        presidentCosmeticCollection.Add(cosmetic);
-        Buy(cosmetic.cost);
-    }
+    public void AddPlayerCosmetic(CosmeticData cosmetic) { if (!playerCosmeticCollection.Contains(cosmetic)) playerCosmeticCollection.Add(cosmetic); }
+    public void AddPresidentCosmetic(CosmeticData cosmetic) { if (!presidentCosmeticCollection.Contains(cosmetic)) presidentCosmeticCollection.Add(cosmetic); }
 }
 
 [Serializable]

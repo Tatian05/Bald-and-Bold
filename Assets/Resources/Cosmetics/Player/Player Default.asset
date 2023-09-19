@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a52bc19e8500d2b4885dde9bbe02d1e8, type: 3}
-  m_Name: Presi Princesa
+  m_Name: Player Default
   m_EditorClassIdentifier: 
-  cosmeticName: Princess
-  ID: ID_SkinPrincess
-  cost: 2
-  headSprite: {fileID: 21300000, guid: a6f87c90f5ecedc4e89da53b8dcf989f, type: 3}
-  torsoSprite: {fileID: 21300000, guid: a6122faacabf8314d96051d2674188fd, type: 3}
-  rightLegSprite: {fileID: 21300000, guid: c912a3226539b3c4bad4e459fb1a90a1, type: 3}
-  leftLegSprite: {fileID: 21300000, guid: c912a3226539b3c4bad4e459fb1a90a1, type: 3}
+  cosmeticName: Default
+  ID: ID_SkinDefault
+  cost: 0
+  headSprite: {fileID: 21300000, guid: 4bf66a8f8aaa75949bd477401cfc09ef, type: 3}
+  torsoSprite: {fileID: 21300000, guid: 53993b4627f7ffb4fbc726af091cbdf8, type: 3}
+  rightLegSprite: {fileID: 21300000, guid: f72716b710e51fd46a0d638c680767bc, type: 3}
+  leftLegSprite: {fileID: 21300000, guid: f72716b710e51fd46a0d638c680767bc, type: 3}
   rightHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
   leftHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
   tailSprite: {fileID: 0}
