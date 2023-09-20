@@ -40,12 +40,11 @@ public class PlayerController : IController
     {
         System.Action<float> OnMove = _player.OnMove;
         float timer = 0;
-        float dir = _xAxis != 0 ? _xAxis : _playerModel.GetLookingForDir;
-        _player.OnDash(dir);
+        _player.OnDash();
         _player.DashTween = DOTween.To(() => timer, x => timer = x, .1f, .1f).OnUpdate(() =>
         {
             _player.OnMove = delegate { };
-            _playerModel.Dash(dir);
+            _playerModel.Dash();
         }).OnComplete(() => _player.OnMove = OnMove).OnKill(() => _player.OnMove = OnMove);
     }
 }
@@ -85,13 +84,12 @@ public class ClimbController : IController
     {
         System.Action<float> OnMove = _player.OnMove;
         float timer = 0;
-        float dir = _xAxis != 0 ? _xAxis : _playerModel.GetLookingForDir;
-        _player.OnDash(dir);
+        _player.OnDash();
         _player.DashTween = DOTween.To(() => timer, x => timer = x, .1f, .1f).OnUpdate(() =>
          {
              _player.OnMove = delegate { };
              _playerModel.CeroGravity();
-             _playerModel.Dash(dir);
+             _playerModel.Dash();
          }).OnComplete(() => { _player.OnMove = OnMove; _playerModel.NormalGravity(); }).OnKill(() => { _player.OnMove = OnMove; _playerModel.NormalGravity(); });
     }
 }

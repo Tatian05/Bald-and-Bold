@@ -27,7 +27,6 @@ public class CinematicManager : MonoBehaviour
         {
             _initialTimeline.played += (x) =>
             {
-                Debug.Log("played");
                 _cinemacticCamera.SetActive(true);
                 _mainCamera.enabled = false;
                 Helpers.GameManager.PauseManager.PauseObjectsInCinematic();
@@ -36,7 +35,6 @@ public class CinematicManager : MonoBehaviour
             //Helpers.MainCamera.GetComponent<CameraAnimation>().enabled = true;
             _initialTimeline.stopped += (x) =>
             {
-                Debug.Log("stopped");
                 _mainCamera.enabled = true;
                 _cinemacticCamera.SetActive(false);
                 Helpers.GameManager.PauseManager.UnpauseObjectsInCinematic();

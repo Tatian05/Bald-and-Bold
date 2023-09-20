@@ -43,7 +43,7 @@ public class Player : GeneralPlayer
     #endregion
 
     public Action<float> OnMove;
-    public Action<float> OnDash = delegate { };
+    public Action OnDash = delegate { };
     public Action OnJump;
     public Action<float> OnClimb;
 
@@ -65,7 +65,7 @@ public class Player : GeneralPlayer
         OnJump += _playerModel.Jump;
         OnJump += playerView.Jump;
 
-        OnDash += x => FreezeVelocity();
+        OnDash += FreezeVelocity;
         OnDash += playerView.Dash;
 
         OnClimb += _playerModel.ClimbMove;

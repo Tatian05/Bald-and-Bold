@@ -30,9 +30,8 @@ public class PlayerView
         Helpers.AudioManager.PlaySFX("Player_Jump");
     }
 
-    public void Dash(float xDir)
+    public void Dash()
     {
-        _dashParticle.gameObject.transform.localScale = Vector3.right * xDir;
         _dashParticle.Play();
         Helpers.AudioManager.PlaySFX("Player_Dash");
     }

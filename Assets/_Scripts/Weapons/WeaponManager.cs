@@ -57,6 +57,7 @@ public class WeaponManager : MonoBehaviour
     void EquipWeapon(Weapon newWeapon)
     {
         _currentMainWeapon = newWeapon;
+        _mainWeaponContainer.localEulerAngles = transform.eulerAngles;
         _lookAtMouse += () => { if (_inputManager.GetButton("Shoot") && _currentMainWeapon) _currentMainWeapon.Attack(); };
         _lookAtMouse += MainWeapon;
         _currentMainWeapon.PickUp().SetParent(_mainWeaponContainer).SetPosition(_mainWeaponContainer.position);
@@ -84,6 +85,8 @@ public class WeaponManager : MonoBehaviour
     Vector2 primaryWeaponRotation;
     void MainWeapon()
     {
+        if (Vector3.Dot(transform.right, GetMouseDirectionMain()) < Mathf.Cos(90) * Mathf.Deg2Rad) return;
+
         _mainWeaponContainer.eulerAngles = new Vector3(0, 0, GetAngle());
         primaryWeaponRotation = new Vector2(_currentMainWeapon.transform.localScale.x, Mathf.Sign(GetMouseDirectionMain().x));
         _currentMainWeapon.transform.localScale = primaryWeaponRotation;

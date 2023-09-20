@@ -42,7 +42,6 @@ public class PlayerModel
     }
     public void OnUpdate()
     {
-        LookAtMouse();
         if (InGrounded)
         {
             if (_rb.velocity.y <= 0 && _currentJumps != 0) _currentJumps = 0;
@@ -52,9 +51,11 @@ public class PlayerModel
 
         _dashTimer += Time.deltaTime;
     }
-    public void Move(float axis)
+    public void Move(float xAxis)
     {
-        _rb.velocity = new Vector2(axis * _speed * Time.fixedDeltaTime, _rb.velocity.y);
+        _rb.velocity = new Vector2(xAxis * _speed * Time.fixedDeltaTime, _rb.velocity.y);
+
+        LookAt(xAxis);
     }
 
     public void ClimbMove(float yAxis)
@@ -69,24 +70,24 @@ public class PlayerModel
         _secondJump = false;
     }
 
-    public void Dash(float xAxis)
+    public void Dash()
     {
-        _rb.velocity = new Vector2(xAxis * _dashSpeed * Time.fixedDeltaTime, 0f);
+        _rb.velocity = new Vector2(Mathf.Sign(_myTransform.right.x) * _dashSpeed * Time.fixedDeltaTime, 0f);
         _dashTimer = 0;
         _secondJump = true;
     }
 
-    public void LookAtMouse()
+    float x;
+    public void LookAt(float xAxis)
     {
-        float angle = _weaponManager.GetAngle();
-        Vector3 playerLocalScale = Vector3.one;
+        Debug.Log(xAxis != x);
+        if (xAxis != x)
+        {
+            x = xAxis;
 
-        if (angle > 90 || angle < -90)
-            playerLocalScale.x *= -1;
-        else
-            playerLocalScale.x *= Mathf.Abs(1);
+            _myTransform.localEulerAngles = new Vector3(0, Mathf.Sign(x) >= 1 ? 0 : 180, 0);
+        }
 
-        _spriteContainerTransform.localScale = playerLocalScale;
     }
     public void CeroGravity() { _rb.gravityScale = 0; }
     public void NormalGravity() { _rb.gravityScale = _defaultGravity; }
