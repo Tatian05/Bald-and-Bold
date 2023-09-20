@@ -76,18 +76,10 @@ public class PlayerModel
         _dashTimer = 0;
         _secondJump = true;
     }
-
-    float x;
     public void LookAt(float xAxis)
     {
-        Debug.Log(xAxis != x);
-        if (xAxis != x)
-        {
-            x = xAxis;
-
-            _myTransform.localEulerAngles = new Vector3(0, Mathf.Sign(x) >= 1 ? 0 : 180, 0);
-        }
-
+        if (xAxis != 0)
+            _myTransform.localEulerAngles = new Vector3(0, Mathf.Sign(xAxis) >= 1 ? 0 : 180, 0);
     }
     public void CeroGravity() { _rb.gravityScale = 0; }
     public void NormalGravity() { _rb.gravityScale = _defaultGravity; }

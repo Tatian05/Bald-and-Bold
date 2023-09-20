@@ -1,10 +1,11 @@
 using System.Collections;
 using UnityEngine;
 using System;
-using DG.Tweening;
+public enum PlayerStates { Empty, Dash }
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
+
 public class Player : GeneralPlayer
 {
     bool _dead;
@@ -16,10 +17,9 @@ public class Player : GeneralPlayer
     IController _defaultController, _controller;
     PlayerModel _playerModel;
     Rigidbody2D _rb;
-    Tween _dashTween;
     WeaponManager _weaponManager;
     public WeaponManager WeaponManager { get { return _weaponManager; } private set { } }
-    public Tween DashTween { get { return _dashTween; } set { _dashTween = value; } }
+
     #endregion
 
     #region Movement
@@ -47,6 +47,7 @@ public class Player : GeneralPlayer
     public Action OnJump;
     public Action<float> OnClimb;
 
+    EventFSM<PlayerStates> _myFsm;
     private void Start()
     {
         _weaponManager = GetComponent<WeaponManager>();
@@ -62,6 +63,7 @@ public class Player : GeneralPlayer
         OnMove += playerView.Run;
 
         OnJump += FreezeVelocity;
+        OnJump += () => _myFsm.SendInput(PlayerStates.Empty);
         OnJump += _playerModel.Jump;
         OnJump += playerView.Jump;
 
@@ -70,11 +72,41 @@ public class Player : GeneralPlayer
 
         OnClimb += _playerModel.ClimbMove;
 
-        EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDeath);
+        #region FSM
+
+        var Empty = new State<PlayerStates>("Empty");
+        var Dash = new State<PlayerStates>("Dash");
+
+        StateConfigurer.Create(Empty).SetTransition(PlayerStates.Dash, Dash).Done();
+        StateConfigurer.Create(Dash).SetTransition(PlayerStates.Empty, Empty).Done();
+
+        Action<float> onMove = delegate { };
+        float dashTimer = 0;
+        Dash.OnEnter += x =>
+        {
+            OnDash();
+            onMove = OnMove;
+            OnMove = delegate { };
+            dashTimer = 0;
+        };
+        Dash.OnUpdate += () =>
+        {
+            dashTimer += Time.deltaTime;
+            _playerModel.CeroGravity();
+            if (dashTimer >= .1f) _myFsm.SendInput(PlayerStates.Empty);
+        };
+        Dash.OnFixedUpdate += _playerModel.Dash;
+        Dash.OnExit += x => { OnMove = onMove; _playerModel.NormalGravity(); };
+
+        #endregion
 
         _defaultController = new PlayerController(this, _playerModel);
 
         _controller = _defaultController;
+
+        _myFsm = new EventFSM<PlayerStates>(Empty);
+
+        EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDeath);
     }
     private void OnDestroy()
     {
@@ -83,15 +115,16 @@ public class Player : GeneralPlayer
     private void Update()
     {
         _controller?.OnUpdate();
+        _myFsm.Update();
     }
 
     private void FixedUpdate()
     {
         _controller?.OnFixedUpdate();
+        _myFsm.FixedUpdate();
     }
     public void FreezeVelocity()
     {
-        _dashTween.Kill();
         _rb.velocity = Vector2.zero;
     }
     private void OnDrawGizmos()
@@ -118,6 +151,7 @@ public class Player : GeneralPlayer
         StartCoroutine(CanMoveDelay());
     }
 
+    public void SendInput(PlayerStates PlayerState) { _myFsm.SendInput(PlayerState); }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Rope") && !_dead)

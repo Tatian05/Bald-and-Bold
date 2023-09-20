@@ -1,4 +1,3 @@
-using DG.Tweening;
 public class PlayerController : IController
 {
     Player _player;
@@ -29,24 +28,13 @@ public class PlayerController : IController
 
         if (_inputManager.GetButtonDown("Jump") && _playerModel.CanJump) _player.OnJump();
 
-        if (_inputManager.GetButtonDown("Dash") && _playerModel.CanDash) PlayDash();
+        if (_inputManager.GetButtonDown("Dash") && _playerModel.CanDash) _player.SendInput(PlayerStates.Dash);
     }
     public void OnFixedUpdate()
     {
         _player.OnMove(_xAxis);
     }
     bool FirstInput() => (_xAxis != 0 || _inputManager.GetButtonDown("Jump") || _inputManager.GetButtonDown("Dash") || _inputManager.GetButtonDown("Knife")) && _fistInput;
-    void PlayDash()
-    {
-        System.Action<float> OnMove = _player.OnMove;
-        float timer = 0;
-        _player.OnDash();
-        _player.DashTween = DOTween.To(() => timer, x => timer = x, .1f, .1f).OnUpdate(() =>
-        {
-            _player.OnMove = delegate { };
-            _playerModel.Dash();
-        }).OnComplete(() => _player.OnMove = OnMove).OnKill(() => _player.OnMove = OnMove);
-    }
 }
 public class ClimbController : IController
 {
@@ -74,22 +62,10 @@ public class ClimbController : IController
 
         if (_inputManager.GetButtonDown("Jump")) { _player.ExitClimb(); _player.OnJump(); };
 
-        if (_inputManager.GetButtonDown("Dash") && _playerModel.CanDash) PlayDash();
+        if (_inputManager.GetButtonDown("Dash") && _playerModel.CanDash) _player.SendInput(PlayerStates.Dash);
     }
     public void OnFixedUpdate()
     {
         _player.OnClimb(_yAxis);
-    }
-    void PlayDash()
-    {
-        System.Action<float> OnMove = _player.OnMove;
-        float timer = 0;
-        _player.OnDash();
-        _player.DashTween = DOTween.To(() => timer, x => timer = x, .1f, .1f).OnUpdate(() =>
-         {
-             _player.OnMove = delegate { };
-             _playerModel.CeroGravity();
-             _playerModel.Dash();
-         }).OnComplete(() => { _player.OnMove = OnMove; _playerModel.NormalGravity(); }).OnKill(() => { _player.OnMove = OnMove; _playerModel.NormalGravity(); });
     }
 }
