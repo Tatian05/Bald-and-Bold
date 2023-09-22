@@ -37,6 +37,8 @@ public class WeaponManager : MonoBehaviour
         //if (_inputManager.GetButtonDown("Throw Weapon")) ThrowWeapon();
 
         if (_inputManager.GetButtonDown("Interact") && _onWeaponTrigger) SetWeapon();
+
+        if (_inputManager.GetButton("Shoot") && _currentMainWeapon) _currentMainWeapon.Attack();
     }
 
     #region Weapon Funcs
@@ -58,7 +60,6 @@ public class WeaponManager : MonoBehaviour
     {
         _currentMainWeapon = newWeapon;
         _mainWeaponContainer.localEulerAngles = transform.eulerAngles;
-        _lookAtMouse += () => { if (_inputManager.GetButton("Shoot") && _currentMainWeapon) _currentMainWeapon.Attack(); };
         _lookAtMouse += MainWeapon;
         _currentMainWeapon.PickUp().SetParent(_mainWeaponContainer).SetPosition(_mainWeaponContainer.position);
         _rightHand.SetActive(false);
@@ -95,6 +96,8 @@ public class WeaponManager : MonoBehaviour
     Vector2 secondaryWeaponSize;
     void SecundaryWeapon()
     {
+        if (Vector3.Dot(transform.right, GetMouseDirectionSecundary()) < Mathf.Cos(90) * Mathf.Deg2Rad) return;
+
         _secundaryWeaponContainer.eulerAngles = new Vector3(0, 0, GetAngle());
         secondaryWeaponSize = new Vector2(_secundaryWeaponTransform.localScale.x, Mathf.Sign(GetMouseDirectionSecundary().x));
         _secundaryWeaponTransform.localScale = secondaryWeaponSize;

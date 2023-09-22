@@ -28,6 +28,8 @@ public class PlayerController : IController
         _xAxis = _inputManager.GetAxisRaw("Horizontal");
         _yAxis = _inputManager.GetAxisRaw("Vertical");
 
+        _playerModel.LookAt(_xAxis);
+
         if (_inputManager.GetButtonDown("Jump") && (_playerModel.CanJump || _playerModel.InRope)) { _player.ExitClimb(); _player.OnJump(); };
 
         if (_inputManager.GetButtonDown("Dash") && _playerModel.CanDash) { _player.ExitClimb(); _player.SendInput(PlayerStates.Dash); };

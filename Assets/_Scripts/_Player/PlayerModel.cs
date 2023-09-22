@@ -56,8 +56,6 @@ public class PlayerModel
     public void Move(float xAxis, float yAxis = 0)
     {
         _rb.velocity = new Vector2(xAxis * _speed * Time.fixedDeltaTime, _rb.velocity.y);
-
-        LookAt(xAxis);
     }
 
     public void ClimbMove(float xAxis, float yAxis)

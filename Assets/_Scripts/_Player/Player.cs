@@ -68,7 +68,7 @@ public class Player : GeneralPlayer
         OnJump += _playerView.Jump;
 
         OnDash += _playerModel.FreezeVelocity;
-        OnDash += _playerView.Dash;
+        OnDash += () => _playerView.Dash(transform.right.x);
 
         #region FSM
 

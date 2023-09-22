@@ -30,9 +30,10 @@ public class PlayerView
         Helpers.AudioManager.PlaySFX("Player_Jump");
     }
 
-    public void Dash()
+    public void Dash(float xAxis)
     {
         _dashParticle.Play();
+        _dashParticle.transform.localScale = new Vector3(.7f * Mathf.Sign(xAxis), 1, 1);
         Helpers.AudioManager.PlaySFX("Player_Dash");
     }
 }
