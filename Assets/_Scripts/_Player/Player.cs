@@ -14,8 +14,9 @@ public class Player : GeneralPlayer
     [SerializeField] Animator _anim;
     [SerializeField] Transform _playerSprite, _groundCheckTransform;
 
-    IController _defaultController, _controller;
+    IController _controller;
     PlayerModel _playerModel;
+    PlayerView _playerView;
     Rigidbody2D _rb;
     WeaponManager _weaponManager;
     public WeaponManager WeaponManager { get { return _weaponManager; } private set { } }
@@ -42,7 +43,7 @@ public class Player : GeneralPlayer
 
     #endregion
 
-    public Action<float> OnMove;
+    public Action<float, float> OnMove;
     public Action OnDash = delegate { };
     public Action OnJump;
     public Action<float> OnClimb;
@@ -55,22 +56,19 @@ public class Player : GeneralPlayer
         float defaultGravity = _rb.gravityScale;
 
         _playerModel = new PlayerModel(_rb, transform, _playerSprite, _groundCheckTransform, _speed, _jumpForce, _maxJumps, _dashSpeed, defaultGravity, _coyotaTime, _weaponManager);
-        PlayerView playerView = new PlayerView(_anim, _dashParticle);
+        _playerView = new PlayerView(_anim, _dashParticle);
 
         StartCoroutine(CanMoveDelay());
 
-        OnMove += _playerModel.Move;
-        OnMove += playerView.Run;
+        OnMove += (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, y); };
 
-        OnJump += FreezeVelocity;
+        OnJump += _playerModel.FreezeVelocity;
         OnJump += () => _myFsm.SendInput(PlayerStates.Empty);
         OnJump += _playerModel.Jump;
-        OnJump += playerView.Jump;
+        OnJump += _playerView.Jump;
 
-        OnDash += FreezeVelocity;
-        OnDash += playerView.Dash;
-
-        OnClimb += _playerModel.ClimbMove;
+        OnDash += _playerModel.FreezeVelocity;
+        OnDash += _playerView.Dash;
 
         #region FSM
 
@@ -80,7 +78,7 @@ public class Player : GeneralPlayer
         StateConfigurer.Create(Empty).SetTransition(PlayerStates.Dash, Dash).Done();
         StateConfigurer.Create(Dash).SetTransition(PlayerStates.Empty, Empty).Done();
 
-        Action<float> onMove = delegate { };
+        Action<float, float> onMove = delegate { };
         float dashTimer = 0;
         Dash.OnEnter += x =>
         {
@@ -100,9 +98,7 @@ public class Player : GeneralPlayer
 
         #endregion
 
-        _defaultController = new PlayerController(this, _playerModel);
-
-        _controller = _defaultController;
+        _controller = new PlayerController(this, _playerModel);
 
         _myFsm = new EventFSM<PlayerStates>(Empty);
 
@@ -123,10 +119,6 @@ public class Player : GeneralPlayer
         _controller?.OnFixedUpdate();
         _myFsm.FixedUpdate();
     }
-    public void FreezeVelocity()
-    {
-        _rb.velocity = Vector2.zero;
-    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -137,28 +129,22 @@ public class Player : GeneralPlayer
         yield return new WaitForSeconds(_maxDelayCanMove);
 
         _canMove = true;
-        _controller = _defaultController;
     }
     public override void PausePlayer()
     {
         _canMove = false;
-        FreezeVelocity();
+        _playerModel.FreezeVelocity();
         _anim.SetInteger("xAxis", 0);
         _controller = null;
     }
-    public override void UnPausePlayer()
-    {
-        StartCoroutine(CanMoveDelay());
-    }
+    public override void UnPausePlayer() { StartCoroutine(CanMoveDelay()); }
 
     public void SendInput(PlayerStates PlayerState) { _myFsm.SendInput(PlayerState); }
-
-    bool _inRope;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Rope") && !_dead)
         {
-            _inRope = true;
+            _playerModel.InRope = true;
             if (_playerModel.InGrounded) return;
 
             EnterRope(collision.gameObject);
@@ -166,13 +152,13 @@ public class Player : GeneralPlayer
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (_inRope && !_dead)
+        if (_playerModel.InRope && !_dead)
         {
             if (!_playerModel.InGrounded) return;
 
-            if ((_controller.YAxis() >= 1 || _rb.velocity.y >= 1) && _controller == _defaultController)
+            if (_controller.YAxis() >= 1 || _rb.velocity.y >= 1)
                 EnterRope(collision.gameObject);
-            else if (_controller.XAxis() != 0 && _controller != _defaultController)
+            else if (_controller.XAxis() != 0)
                 ExitClimb();
         }
     }
@@ -180,23 +166,28 @@ public class Player : GeneralPlayer
     {
         if (collision.CompareTag("Rope"))
         {
-            _inRope = false;
+            _playerModel.InRope = false;
             ExitClimb();
         }
     }
 
     void EnterRope(GameObject rope)
     {
-        FreezeVelocity();
-        _controller = new ClimbController(this, _playerModel);
+        _playerModel.FreezeVelocity();
+        _playerModel.ResetStats();
+        _playerModel.CeroGravity();
+
+        OnMove = _playerModel.ClimbMove;
+
         _anim.SetInteger("xAxis", 0);
         transform.position = new Vector2(rope.transform.position.x, transform.position.y);
     }
     public void ExitClimb()
     {
-        if (_controller == _defaultController) return;
-        _controller = _defaultController;
+        if (!_playerModel.InRope) return;
+
         _playerModel.NormalGravity();
+        OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, y); };
     }
 
     IEnumerator Death()
@@ -207,7 +198,7 @@ public class Player : GeneralPlayer
     }
     void OnPlayerDeath(params object[] param)
     {
-        FreezeVelocity();
+        _playerModel.FreezeVelocity();
         StartCoroutine(Death());
         _playerModel.ResetStats();
     }

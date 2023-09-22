@@ -7,6 +7,8 @@ public class PlayerModel
     float _coyotaTimer;
     float _coyotaTime;
     bool _secondJump;
+    bool _inRope;
+    public bool InRope { get { return _inRope; } set { _inRope = value; } }
 
     #region Constructor 
 
@@ -51,14 +53,14 @@ public class PlayerModel
 
         _dashTimer += Time.deltaTime;
     }
-    public void Move(float xAxis)
+    public void Move(float xAxis, float yAxis = 0)
     {
         _rb.velocity = new Vector2(xAxis * _speed * Time.fixedDeltaTime, _rb.velocity.y);
 
         LookAt(xAxis);
     }
 
-    public void ClimbMove(float yAxis)
+    public void ClimbMove(float xAxis, float yAxis)
     {
         _rb.velocity = new Vector2(_rb.velocity.x, yAxis * _speed * Time.fixedDeltaTime);
     }
@@ -81,6 +83,7 @@ public class PlayerModel
         if (xAxis != 0)
             _myTransform.localEulerAngles = new Vector3(0, Mathf.Sign(xAxis) >= 1 ? 0 : 180, 0);
     }
+    public void FreezeVelocity() { _rb.velocity = Vector2.zero; }
     public void CeroGravity() { _rb.gravityScale = 0; }
     public void NormalGravity() { _rb.gravityScale = _defaultGravity; }
     public void ResetStats()

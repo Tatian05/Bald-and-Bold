@@ -12,7 +12,7 @@ public class PlayerView
         _anim = anim;
         _dashParticle = dashParticle;
     }
-    public void Run(float xAxis)
+    public void Run(float xAxis, float yAxis = 0)
     {
         _anim.SetInteger("xAxis", Mathf.Abs((int)xAxis));
 
