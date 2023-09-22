@@ -4,6 +4,7 @@ public class PlayerController : IController
     PlayerModel _playerModel;
     InputManager _inputManager;
     public float _xAxis { get; private set; }
+    public float _yAxis { get; private set; }
 
     bool _fistInput = true;
     public PlayerController(Player player, PlayerModel playerModel)
@@ -25,6 +26,7 @@ public class PlayerController : IController
         _playerModel.OnUpdate();
 
         _xAxis = _inputManager.GetAxisRaw("Horizontal");
+        _yAxis = _inputManager.GetAxisRaw("Vertical");
 
         if (_inputManager.GetButtonDown("Jump") && _playerModel.CanJump) _player.OnJump();
 
@@ -35,6 +37,10 @@ public class PlayerController : IController
         _player.OnMove(_xAxis);
     }
     bool FirstInput() => (_xAxis != 0 || _inputManager.GetButtonDown("Jump") || _inputManager.GetButtonDown("Dash") || _inputManager.GetButtonDown("Knife")) && _fistInput;
+
+    public float YAxis() => _yAxis;
+
+    public float XAxis() => _xAxis;
 }
 public class ClimbController : IController
 {
@@ -68,4 +74,8 @@ public class ClimbController : IController
     {
         _player.OnClimb(_yAxis);
     }
+
+    public float YAxis() => _yAxis;
+
+    public float XAxis() => _xAxis;
 }

@@ -152,15 +152,37 @@ public class Player : GeneralPlayer
     }
 
     public void SendInput(PlayerStates PlayerState) { _myFsm.SendInput(PlayerState); }
+
+    bool _inRope;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Rope") && !_dead)
+        {
+            _inRope = true;
+            if (_playerModel.InGrounded) return;
+
             EnterRope(collision.gameObject);
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (_inRope && !_dead)
+        {
+            if (!_playerModel.InGrounded) return;
+
+            if ((_controller.YAxis() >= 1 || _rb.velocity.y >= 1) && _controller == _defaultController)
+                EnterRope(collision.gameObject);
+            else if (_controller.XAxis() != 0 && _controller != _defaultController)
+                ExitClimb();
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Rope"))
+        {
+            _inRope = false;
             ExitClimb();
+        }
     }
 
     void EnterRope(GameObject rope)
