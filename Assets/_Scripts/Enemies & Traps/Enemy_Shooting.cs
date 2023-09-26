@@ -21,7 +21,7 @@ public class Enemy_Shooting : Enemy
     {
         base.Start();
         OnUpdate += Attack;
-        _armRotation = new Movement_RotateObject(armPivot, weaponSprite, sprite);
+        _armRotation = new Movement_RotateObject(armPivot, _playerCenterPivot, weaponSprite, sprite);
     }
 
     public virtual void Attack()

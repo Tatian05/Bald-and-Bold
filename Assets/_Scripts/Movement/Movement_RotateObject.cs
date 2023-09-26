@@ -1,24 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class Movement_RotateObject : IMovement
 {
-    GameManager _gameManager;
-    Transform _armPivot;
-    Transform _weaponSprite;
-    Transform _sprite;
+    Transform _armPivot, _weaponSprite, _sprite, _playerCenterTransform;
 
-    public Movement_RotateObject(Transform armPivot, Transform weaponSprite = null, Transform sprite = null)
+    public Movement_RotateObject(Transform armPivot, Transform playerCenterTransform, Transform weaponSprite = null, Transform sprite = null)
     {
-        _gameManager = GameManager.instance;
         _armPivot = armPivot;
+        _playerCenterTransform = playerCenterTransform;
         _weaponSprite = weaponSprite;
         _sprite = sprite;
     }
     public void Move()
     {
-        Vector3 dirToLookAt = (_gameManager.Player.transform.position + (Vector3.up * .75f) - _armPivot.position).normalized;
+        Vector3 dirToLookAt = (_playerCenterTransform.position - _armPivot.position).normalized;
         float angle = Mathf.Atan2(dirToLookAt.y, dirToLookAt.x) * Mathf.Rad2Deg;
 
         _armPivot.eulerAngles = new Vector3(0, 0, angle);

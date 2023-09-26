@@ -1,180 +1,97 @@
 using UnityEngine;
 public class Enemy_ChargeDrone : Enemy
 {
-    StateMachine _fsm;
-
-    [Header ("Idle")]
     [SerializeField] float _idleWaitTime;
-    public float IdleWaitTime { get { return _idleWaitTime; } }
-
-    [Header("Charge")]
     [SerializeField] float _chargeSpeed;
-    public float ChargeSpeed { get { return _chargeSpeed; } }
-
     [SerializeField] float _chargeDistance;
-    public float ChargeDistance { get { return _chargeDistance; } }
-
     [SerializeField] GameObject _particles;
-    public GameObject Particles { get { return _particles; } }
-
-    public Animator Anim { get { return anim; } }
-
+    enum ChargeDroneStates { Idle, LoadCharge, Charge }
+    EventFSM<ChargeDroneStates> _myFSM;
     public override void Start()
     {
         base.Start();
-  
-        //Components
-        _fsm = new StateMachine();
 
-        //StateMachine
-        _fsm.AddState(StateName.CD_Idle, new CD_Idle(_fsm, this));
-        _fsm.AddState(StateName.CD_Charge, new CD_Charge(_fsm, this));
-        _fsm.AddState(StateName.CD_LoadCharge, new CD_LoadCharge(_fsm, this));
-        _fsm.ChangeState(StateName.CD_Idle);
+        var IDLE = new State<ChargeDroneStates>("IDLE");
+        var LOADCHARGE = new State<ChargeDroneStates>("LOAD_CHARGE");
+        var CHARGE = new State<ChargeDroneStates>("CHARGE");
 
-        OnUpdate += FalseUpdate;
+        StateConfigurer.Create(IDLE).SetTransition(ChargeDroneStates.LoadCharge, LOADCHARGE).Done();
+        StateConfigurer.Create(LOADCHARGE).SetTransition(ChargeDroneStates.Charge, CHARGE).Done();
+        StateConfigurer.Create(CHARGE).SetTransition(ChargeDroneStates.Idle, IDLE).Done();
+
+        #region IDLE
+
+        float currentIdleTime = 0;
+        IDLE.OnEnter += x =>
+        {
+            _particles.SetActive(false);
+            currentIdleTime = 0;
+
+            anim.Play("ChargeDrone_Idle");
+        };
+
+        IDLE.OnUpdate += delegate
+        {
+            if (!SeePlayer()) return;
+            currentIdleTime += Time.deltaTime;
+            LookAtPlayer();
+
+            if (currentIdleTime > _idleWaitTime) _myFSM.SendInput(ChargeDroneStates.LoadCharge);
+        };
+
+        #endregion
+
+        #region LOADCHARGE
+
+        LOADCHARGE.OnEnter += x => anim.Play("ChargeDrone_LoadCharge");
+        LOADCHARGE.OnUpdate += delegate
+        {
+            if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < .9f) return;
+            _myFSM.SendInput(ChargeDroneStates.Charge);
+        };
+
+        #endregion
+
+        #region CHARGE
+        LayerMask borderLayer = gameManager.BorderLayer;
+        float currentChargeDistance = 0;
+        CHARGE.OnEnter += x =>
+        {
+            _particles.SetActive(true);
+            anim.Play("ChargeDrone_Charge");
+            currentChargeDistance = 0;
+        };
+
+        CHARGE.OnUpdate += delegate
+        {
+            currentChargeDistance += Time.deltaTime;
+            if (currentChargeDistance > _chargeDistance || Physics2D.Raycast(transform.position, transform.right, .6f, borderLayer))
+                _myFSM.SendInput(ChargeDroneStates.Idle);
+
+            transform.position += transform.right * _chargeSpeed * Time.deltaTime;
+        };
+
+        #endregion
+
+        _myFSM = new EventFSM<ChargeDroneStates>(IDLE);
     }
-    void FalseUpdate()
+    public override void Update()
     {
-        /*if(CanSeePlayer())*/ _fsm.Update();
-    }
-    public Vector3 GetDistanceToPlayer()
-    {
-        return DistanceToPlayer();
+        _myFSM.Update();
     }
     public void LookAtPlayer()
     {
-        transform.right = GetDistanceToPlayer().normalized;
+        transform.right = DistanceToPlayer().normalized;
     }
     public override void ReturnObject()
     {
         base.ReturnObject();
         FRY_Enemy_ChargeDrone.Instance.pool.ReturnObject(this);
-        _fsm.ChangeState(StateName.CD_Idle);
+        _myFSM.SendInput(ChargeDroneStates.Idle);
     }
 
     public bool SeePlayer()
     {
         return CanSeePlayer();
     }
-}
-
-public class CD_Idle : IState
-{
-    StateMachine _fsm;
-    Enemy_ChargeDrone _enemy;
-
-    float _currentIdleTime;
-
-    public CD_Idle(StateMachine fsm, Enemy_ChargeDrone enemy)
-    {
-        _fsm = fsm;
-        _enemy = enemy;
-    }
-
-    public void OnEnter()
-    {
-        _enemy.Particles.SetActive(false);
-        _currentIdleTime = 0;
-
-        _enemy.Anim.Play("ChargeDrone_Idle");
-    }
-
-    public void OnExit()
-    {
-    }
-
-    public void OnFixedUpdate() 
-    { 
-
-    }
-
-    public void OnUpdate()
-    {
-        if(!_enemy.SeePlayer()) return;
-        _currentIdleTime += Time.deltaTime;
-        _enemy.LookAtPlayer();
-
-        if(_currentIdleTime > _enemy.IdleWaitTime) _fsm.ChangeState(StateName.CD_LoadCharge);
-    }
-}
-public class CD_LoadCharge : IState
-{
-    StateMachine _fsm;
-    Enemy_ChargeDrone _enemy;
-
-    public CD_LoadCharge(StateMachine fsm, Enemy_ChargeDrone enemy)
-    {
-        _fsm = fsm;
-        _enemy = enemy;
-
-    }
-
-    public void OnEnter()
-    {
-        _enemy.Anim.Play("ChargeDrone_LoadCharge");
-    }
-
-    public void OnExit()
-    {
-
-    }
-
-    public void OnFixedUpdate()
-    {
-
-    }
-
-    public void OnUpdate()
-    {
-        if (_enemy.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime < .9f) return;
-       
-        _fsm.ChangeState(StateName.CD_Charge);
-    }
-}
-public class CD_Charge : IState
-{
-    StateMachine _fsm;
-    Enemy_ChargeDrone _enemy;
-    GameManager _gameManager;
-
-    float _currentChargeDistance;
-
-    public CD_Charge(StateMachine fsm, Enemy_ChargeDrone enemy)
-    {
-        _fsm = fsm;
-        _enemy = enemy;
-
-        _gameManager = GameManager.instance;
-    }
-
-    public void OnEnter()
-    {
-        _enemy.Particles.SetActive(true);
-        _enemy.Anim.Play("ChargeDrone_Charge"); 
-    }
-
-    public void OnExit()
-    {
-        _currentChargeDistance = 0;
-    }
-
-    public void OnFixedUpdate() 
-    { 
-    
-    }
-
-    public void OnUpdate()
-    {
-        _currentChargeDistance += Time.deltaTime;
-        if (_currentChargeDistance > _enemy.ChargeDistance || Physics2D.Raycast(_enemy.transform.position, _enemy.transform.right, .6f, _gameManager.BorderLayer))
-            _fsm.ChangeState(StateName.CD_Idle);
-
-        Charge();
-    }
-    void Charge()
-    {
-        _enemy.transform.position += _enemy.transform.right * _enemy.ChargeSpeed * Time.deltaTime;
-    }
-
 }

@@ -60,7 +60,7 @@ public class Player : GeneralPlayer
 
         StartCoroutine(CanMoveDelay());
 
-        OnMove += (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, y); };
+        OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, y); };
 
         OnJump += _playerModel.FreezeVelocity;
         OnJump += () => _myFsm.SendInput(PlayerStates.Empty);
@@ -201,5 +201,6 @@ public class Player : GeneralPlayer
         _playerModel.FreezeVelocity();
         StartCoroutine(Death());
         _playerModel.ResetStats();
+        OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, y); };
     }
 }

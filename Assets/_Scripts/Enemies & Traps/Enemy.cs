@@ -4,6 +4,7 @@ using System;
 public class Enemy : MonoBehaviour, IDamageable
 {
     protected GameManager gameManager;
+    protected Transform _playerCenterPivot;
     [SerializeField] protected Animator anim;
 
     public event Action OnUpdate;
@@ -27,6 +28,8 @@ public class Enemy : MonoBehaviour, IDamageable
         _currentHp = _maxHp;
         _renderer = sprite.GetComponent<SpriteRenderer>();
         if (!_renderer) _renderer = sprite.GetChild(0).GetComponent<SpriteRenderer>();
+
+        _playerCenterPivot = gameManager.Player.CenterPivot;
     }
     protected virtual void OnDestroy()
     {
@@ -70,7 +73,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     protected Vector3 DistanceToPlayer()
     {
-        return gameManager.Player ? gameManager.Player.transform.position - transform.position : Vector3.zero;
+        return gameManager.Player ? _playerCenterPivot.position - transform.position : Vector3.zero;
     }
 
     public virtual bool CanSeePlayer()

@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class Enemy_ShootingRobot : Enemy_Waypoint
 {
     IMovement _armRotation;
@@ -15,8 +12,8 @@ public class Enemy_ShootingRobot : Enemy_Waypoint
     public override void Start()
     {
         base.Start();
-        _armRotation = new Movement_RotateObject(_armPivot, _armPivot);
-       
+        _armRotation = new Movement_RotateObject(_armPivot, _playerCenterPivot, _armPivot);
+
         OnUpdate += CalculateAttack;
         OnUpdate += () => { if (CanSeePlayer()) _armRotation.Move(); };
     }
@@ -29,7 +26,7 @@ public class Enemy_ShootingRobot : Enemy_Waypoint
     {
         if (!CanSeePlayer()) return;
 
-        
+
         _currentAttackSpeed += Time.deltaTime;
 
         if (_currentAttackSpeed > _attackSpeed)
@@ -47,7 +44,7 @@ public class Enemy_ShootingRobot : Enemy_Waypoint
                                             .SetSpeed(_bulletSpeed)
                                             .SetPosition(_bulletSpawnPosition.position)
                                             .SetDirection(_armPivot.right);
-     
+
     }
     public override void Reset()
     {

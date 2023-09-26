@@ -90,5 +90,6 @@ public class PlayerModel
         _currentJumps = 0;
         _coyotaTimer = _coyotaTime;
         _secondJump = false;
+        NormalGravity();
     }
 }
