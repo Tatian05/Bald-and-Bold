@@ -86,11 +86,11 @@ public class Player : GeneralPlayer
             onMove = OnMove;
             OnMove = delegate { };
             dashTimer = 0;
+            _playerModel.CeroGravity();
         };
         Dash.OnUpdate += () =>
         {
             dashTimer += Time.deltaTime;
-            _playerModel.CeroGravity();
             if (dashTimer >= .1f) _myFsm.SendInput(PlayerStates.Empty);
         };
         Dash.OnFixedUpdate += _playerModel.Dash;
@@ -135,7 +135,6 @@ public class Player : GeneralPlayer
         _canMove = false;
         _playerModel.FreezeVelocity();
         _anim.SetInteger("xAxis", 0);
-        _controller = null;
     }
     public override void UnPausePlayer() { StartCoroutine(CanMoveDelay()); }
 
@@ -147,6 +146,7 @@ public class Player : GeneralPlayer
             _playerModel.InRope = true;
             if (_playerModel.InGrounded) return;
 
+            _myFsm.SendInput(PlayerStates.Empty);
             EnterRope(collision.gameObject);
         }
     }
