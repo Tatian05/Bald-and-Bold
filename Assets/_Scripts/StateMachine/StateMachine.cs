@@ -4,7 +4,6 @@ public enum StateName
 {
     Climb,               //Player
     FlyingUp, Droping, OnFloor,                         //JetpackPlayer
-    SH_Patrol, SH_Attack,                               //SimpleHumanoid
     LIGHT_GoingRed, LIGHT_Normal                        //Lights
 }
 

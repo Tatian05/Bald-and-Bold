@@ -32,7 +32,7 @@ public class Enemy_ChargeDrone : Enemy
 
         IDLE.OnUpdate += delegate
         {
-            if (!SeePlayer()) return;
+            if (!CanSeePlayer()) return;
             currentIdleTime += Time.deltaTime;
             LookAtPlayer();
 
@@ -79,19 +79,11 @@ public class Enemy_ChargeDrone : Enemy
     {
         _myFSM.Update();
     }
-    public void LookAtPlayer()
-    {
-        transform.right = DistanceToPlayer().normalized;
-    }
+    void LookAtPlayer() { transform.right = DistanceToPlayer().normalized; }
     public override void ReturnObject()
     {
         base.ReturnObject();
         FRY_Enemy_ChargeDrone.Instance.pool.ReturnObject(this);
         _myFSM.SendInput(ChargeDroneStates.Idle);
-    }
-
-    public bool SeePlayer()
-    {
-        return CanSeePlayer();
     }
 }

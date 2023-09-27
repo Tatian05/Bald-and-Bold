@@ -71,15 +71,9 @@ public class Enemy : MonoBehaviour, IDamageable
         _renderer.color = Color.white;
     }
 
-    protected Vector3 DistanceToPlayer()
-    {
-        return gameManager.Player ? _playerCenterPivot.position - transform.position : Vector3.zero;
-    }
+    protected Vector3 DistanceToPlayer() => _playerCenterPivot.position - _eyes.position;
 
-    public virtual bool CanSeePlayer()
-    {
-        return gameManager.Player ? !Physics2D.Raycast(_eyes.position, DistanceToPlayer().normalized, DistanceToPlayer().magnitude, gameManager.BorderLayer) : false;
-    }
+    public virtual bool CanSeePlayer() => !Physics2D.Raycast(_eyes.position, DistanceToPlayer().normalized, DistanceToPlayer().magnitude, gameManager.BorderLayer);
 
     protected void ResetHp()
     {

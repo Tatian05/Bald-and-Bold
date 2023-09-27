@@ -1,51 +1,78 @@
-using System.Collections;
 using UnityEngine;
 public class Enemy_GroundHumanoid : Enemy
 {
-    StateMachine _fsm;
-    [SerializeField] protected Animator _anim;
     [SerializeField] protected float _viewRadius;
     [SerializeField] protected float _viewAngle;
-
-    public Transform Sprite { get { return sprite; } private set { } }
-
     [SerializeField] float _speed = 1f;
-    public float Speed { get { return _speed; } private set { } }
-
     [SerializeField] float _sightRange = 10f;
-    public float SightRange { get { return _sightRange; } private set { } }
-
     [SerializeField] float _stopAttackingTime = 1f;
-    public float StopAttackingTime { get { return _stopAttackingTime; } private set { } }
-
-    public bool isFacingRight = true;
-
+    enum AK_States { Patrol, Attack }
+    EventFSM<AK_States> _myFSM;
+    Vector3 _dir = Vector3.right;
     public override void Start()
     {
         base.Start();
+        LayerMask invisibleWall = gameManager.InvisibleWallLayer;
 
-        //Components
-        _fsm = new StateMachine();
-        _anim = GetComponentInChildren<Animator>();
+        var PATROL = new State<AK_States>("PATROL");
+        var ATTACK = new State<AK_States>("ATTACK");
 
-        //StateMachine
-        _fsm.AddState(StateName.SH_Patrol, new SH_PatrolState(_fsm, this));
-        _fsm.AddState(StateName.SH_Attack, new SH_AttackState(_fsm, this));
-        _fsm.ChangeState(StateName.SH_Patrol);
+        StateConfigurer.Create(PATROL).SetTransition(AK_States.Attack, ATTACK).Done();
+        StateConfigurer.Create(ATTACK).SetTransition(AK_States.Patrol, PATROL).Done();
 
-        OnUpdate += _fsm.Update;
+        #region PATROL
+
+        PATROL.OnEnter += x => OnPatrolStart();
+        PATROL.OnUpdate += () =>
+        {
+            transform.position += _dir * _speed * Time.deltaTime;
+            if (Physics2D.Raycast(transform.position, transform.right, 1f, invisibleWall)) FlipEnemy();
+            if (GetCanSeePlayer())
+                _myFSM.SendInput(AK_States.Attack);
+        };
+
+        #endregion
+
+        #region ATTACK
+
+        ATTACK.OnEnter += x =>
+        {
+            OnAttackStart();
+            //Si no lo seteas a uno se rompe el brazo y apunta para atras por como esta seteado el flip del patrol
+            transform.localScale = Vector3.one;
+        };
+
+        ATTACK.OnUpdate += delegate
+        {
+            OnAttack();
+
+            if (!GetCanSeePlayer())
+                _myFSM.SendInput(AK_States.Patrol);
+        };
+
+        #endregion
+
+        _myFSM = new EventFSM<AK_States>(PATROL);
     }
 
+    public override void Update()
+    {
+        _myFSM.Update();
+    }
     public bool GetCanSeePlayer()
     {
-        Vector3 dir = DistanceToPlayer();
-
-        if (Vector3.Angle(transform.right, dir.normalized) <= _viewAngle / 2)
+        if (Vector3.Angle(transform.right, DistanceToPlayer().normalized) <= _viewAngle / 2)
             return CanSeePlayer();
 
         return default;
     }
+    void FlipEnemy()
+    {
+        _dir *= -1;
+        float angle = transform.eulerAngles.y == 0 ? 180 : 0;
 
+        transform.eulerAngles = new Vector3(0, angle, 0);
+    }
     public virtual void OnAttack() { }
     public virtual void OnPatrolStart() { }
     public virtual void OnAttackStart() { }
@@ -53,108 +80,11 @@ public class Enemy_GroundHumanoid : Enemy
     public override void ReturnObject()
     {
         base.ReturnObject();
-        _fsm.ChangeState(StateName.SH_Patrol);
+        _myFSM.SendInput(AK_States.Patrol);
     }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, transform.right * 1);
-    }
-}
-
-public class SH_PatrolState : IState
-{
-    StateMachine _fsm;
-    Enemy_GroundHumanoid _enemy;
-
-    Vector3 _dir = Vector3.right;
-
-    public SH_PatrolState(StateMachine fsm, Enemy_GroundHumanoid enemy)
-    {
-        _fsm = fsm;
-        _enemy = enemy;
-    }
-
-    public void OnEnter()
-    {
-        _enemy.OnPatrolStart();
-    }
-
-    public void OnExit()
-    {
-    }
-
-    public void OnFixedUpdate() { }
-
-    public void OnUpdate()
-    {
-        Move();
-
-        if (_enemy.GetCanSeePlayer())
-            _fsm.ChangeState(StateName.SH_Attack);
-    }
-
-    void Move()
-    {
-        _enemy.transform.position += _dir * _enemy.Speed * Time.deltaTime;
-
-        if (Physics2D.Raycast(_enemy.transform.position, _enemy.transform.right, 1f, Helpers.GameManager.InvisibleWallLayer)) Flip();
-    }
-
-    void Flip()
-    {
-        _dir *= -1;
-        float angle = _enemy.transform.eulerAngles.y == 0 ? 180 : 0;
-
-        _enemy.transform.eulerAngles = new Vector3(0, angle, 0);
-    }
-}
-public class SH_AttackState : IState
-{
-    StateMachine _fsm;
-    Enemy_GroundHumanoid _enemy;
-
-    bool _isInCoroutine = false;
-
-    public SH_AttackState(StateMachine fsm, Enemy_GroundHumanoid enemy)
-    {
-        _fsm = fsm;
-        _enemy = enemy;
-    }
-
-    public void OnEnter()
-    {
-        _enemy.OnAttackStart();
-        _isInCoroutine = false;
-
-        //Si no lo seteas a uno se rompe el brazo y apunta para atras por como esta seteado el flip del patrol
-        _enemy.transform.localScale = Vector3.one;
-
-    }
-
-    public void OnExit()
-    {
-    }
-
-    public void OnFixedUpdate() { }
-
-    public void OnUpdate()
-    {
-        _enemy.OnAttack();
-
-        if (!_enemy.GetCanSeePlayer())
-        {
-            if (!_isInCoroutine)
-            {
-                _enemy.StartCoroutine(StopAttackingCoroutine());
-                _isInCoroutine = true;
-            }
-        }
-    }
-
-    IEnumerator StopAttackingCoroutine()
-    {
-        yield return new WaitForSeconds(_enemy.StopAttackingTime);
-        _fsm.ChangeState(StateName.SH_Patrol);
     }
 }

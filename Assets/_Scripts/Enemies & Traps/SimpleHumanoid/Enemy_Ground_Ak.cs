@@ -11,13 +11,13 @@ public class Enemy_Ground_Ak : Enemy_GroundHumanoid
 
     public override void OnPatrolStart()
     {
-        _anim.SetBool("IsRunning", true);
+        anim.SetBool("IsRunning", true);
         _armPivot.eulerAngles = transform.eulerAngles;
     }
 
     public override void OnAttackStart()
     {
-        _anim.SetBool("IsRunning", false);
+        anim.SetBool("IsRunning", false);
     }
     public override void OnAttack()
     {

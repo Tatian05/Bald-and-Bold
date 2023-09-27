@@ -223,7 +223,7 @@ MonoBehaviour:
   - {x: -0.4508499, y: 0.44186878, z: 0}
   m_ShapePathHash: 1484441434
   m_Mesh: {fileID: 0}
-  m_InstanceId: 718106
+  m_InstanceId: 185940
 --- !u!114 &3811069208634687853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,18 +505,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f46bad7eee0977c4d97daaa6dddd72ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 0}
+  anim: {fileID: 1729968459289125573}
   sprite: {fileID: 1729968459289125578}
-  _eyes: {fileID: 1729968459251276775}
+  _eyes: {fileID: 1729968459289125578}
   _isRobot: 0
   _maxHp: 3
-  _anim: {fileID: 0}
   _viewRadius: 8
   _viewAngle: 45
   _speed: 1
   _sightRange: 10
   _stopAttackingTime: 0.3
-  isFacingRight: 1
   _bulletSpawnPosition: {fileID: 1729968458609842710}
   _armPivot: {fileID: 1729968457899327859}
   _bulletDamage: 1
