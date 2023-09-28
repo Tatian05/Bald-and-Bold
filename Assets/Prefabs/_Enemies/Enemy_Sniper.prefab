@@ -144,6 +144,7 @@ MonoBehaviour:
   _bulletDamage: 1
   _bulletSpeed: 10
   _attackSpeed: 2
+  _turnSpeed: 3
   _laserSpeed: {x: 0, y: -2}
   _sniperRay: {fileID: 8906263663352225184}
 --- !u!61 &1016096215589035423
@@ -445,7 +446,7 @@ MonoBehaviour:
   - {x: -0.47685814, y: 0.44836223, z: 0}
   m_ShapePathHash: -2122044811
   m_Mesh: {fileID: 0}
-  m_InstanceId: 95466
+  m_InstanceId: 54610
 --- !u!114 &5408961830197213280
 MonoBehaviour:
   m_ObjectHideFlags: 0

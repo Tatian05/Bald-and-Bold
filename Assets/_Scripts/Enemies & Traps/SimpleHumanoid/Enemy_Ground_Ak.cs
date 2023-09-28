@@ -3,7 +3,6 @@ public class Enemy_Ground_Ak : Enemy_GroundHumanoid
 {
     [SerializeField] Transform _bulletSpawnPosition;
     [SerializeField] Transform _armPivot;
-
     [SerializeField] float _bulletDamage = 1f;
     [SerializeField] float _bulletSpeed = 10f;
     [SerializeField] float _attackSpeed = 2f;
@@ -40,12 +39,14 @@ public class Enemy_Ground_Ak : Enemy_GroundHumanoid
                                             .SetSpeed(_bulletSpeed);
     }
 
+    Vector3 _dirLookAt;
+    float _r;
     void LookAtPlayer()
     {
-        Vector3 dirToLookAt = (gameManager.Player.transform.position - transform.position).normalized;
-        float angle = Mathf.Atan2(dirToLookAt.y, Mathf.Abs(dirToLookAt.x)) * Mathf.Rad2Deg;
-
-        _armPivot.localEulerAngles = new Vector3(0, 0, angle);
+        _dirLookAt = (_playerCenterPivot.position - _armPivot.position).normalized;
+        float angle = Mathf.Atan2(_dirLookAt.y, Mathf.Abs(_dirLookAt.x)) * Mathf.Rad2Deg;
+        float smoothAngle = Mathf.SmoothDampAngle(_armPivot.localEulerAngles.z, angle, ref _r, .1f);
+        _armPivot.localEulerAngles = new Vector3(0, 0, smoothAngle);
     }
 
     public override void ReturnObject()

@@ -2,23 +2,19 @@ using UnityEngine;
 using DG.Tweening;
 public class Enemy_Sniper : Enemy
 {
-    IMovement _armRotation;
-
     [SerializeField] Transform _bulletSpawnPosition;
     [SerializeField] Transform _armPivot;
-    [SerializeField] Transform _weaponSprite;
     [SerializeField] float _bulletDamage = 1f, _bulletSpeed = 10f, _attackSpeed = 2f;
     [SerializeField] Vector2 _laserSpeed;
-    [SerializeField] LineRenderer _sniperRay;
+    [SerializeField] LineRenderer _sniperLaser;
     enum SniperStates { Idle, LoadShoot, Shoot };
     EventFSM<SniperStates> _myFSM;
     Color[] _rayColors = new Color[3] { Color.green, Color.yellow, Color.red };
     public override void Start()
     {
         base.Start();
-        _armRotation = new Movement_RotateObject(_armPivot, _playerCenterPivot, _weaponSprite, sprite);
-        _sniperRay = GetComponent<LineRenderer>();
-        var sniperMat = _sniperRay.material;
+        _sniperLaser = GetComponent<LineRenderer>();
+        var sniperMat = _sniperLaser.material;
         sniperMat.SetVector("LaserSpeed", _laserSpeed);
 
         var IDLE = new State<SniperStates>("IDLE");
@@ -29,9 +25,9 @@ public class Enemy_Sniper : Enemy
         StateConfigurer.Create(LOAD_SHOOT).SetTransition(SniperStates.Shoot, SHOOT).SetTransition(SniperStates.Idle, IDLE).Done();
         StateConfigurer.Create(SHOOT).SetTransition(SniperStates.LoadShoot, LOAD_SHOOT).Done();
 
-        _sniperRay.positionCount = 2;
-        _sniperRay.SetPosition(0, _bulletSpawnPosition.position);
-        _sniperRay.SetPosition(1, _bulletSpawnPosition.position + _bulletSpawnPosition.right * 100);
+        _sniperLaser.positionCount = 2;
+        _sniperLaser.SetPosition(0, _bulletSpawnPosition.position);
+        _sniperLaser.SetPosition(1, _bulletSpawnPosition.position + _bulletSpawnPosition.right * 100);
         sniperMat.SetColor("MainColor", _rayColors[0] * 5);
 
         #region IDLE 
@@ -47,9 +43,8 @@ public class Enemy_Sniper : Enemy
         {
             sniperMat.SetColor("MainColor", MultiLerp(loadingAmmoTimer / _attackSpeed, _rayColors) * 5);
             loadingAmmoTimer += Time.deltaTime;
-            _armRotation.Move();
+            WeaponRot();
             LookAtPlayer();
-            //HACER LASER
             if (!CanSeePlayer()) _myFSM.SendInput(SniperStates.Idle);
             if (loadingAmmoTimer >= _attackSpeed)
             {
@@ -70,7 +65,7 @@ public class Enemy_Sniper : Enemy
             OnComplete(() =>
             {
                 anim.Play("LoadAmmo");
-                _armPivot.DOLocalRotate(Vector3.zero, 2.5f).OnComplete(() => _myFSM.SendInput(SniperStates.LoadShoot)); ;
+                _armPivot.DOLocalRotate(Vector3.zero, 1f).SetEase(Ease.Linear).OnComplete(() => _myFSM.SendInput(SniperStates.LoadShoot));
             });
         };
 
@@ -78,18 +73,32 @@ public class Enemy_Sniper : Enemy
 
         _myFSM = new EventFSM<SniperStates>(IDLE);
     }
+
+    RaycastHit2D _ray;
     public override void Update()
     {
         _myFSM.Update();
 
-        RaycastHit2D ray = Physics2D.Raycast(_bulletSpawnPosition.position, _bulletSpawnPosition.right, 100);
-        _sniperRay.SetPosition(0, _bulletSpawnPosition.position);
-        _sniperRay.SetPosition(1, ray.point);
+        _ray = Physics2D.Raycast(_bulletSpawnPosition.position, _bulletSpawnPosition.right, 100);
+        _sniperLaser.SetPosition(0, _bulletSpawnPosition.position);
+        _sniperLaser.SetPosition(1, _ray.point);
     }
+
+    Vector3 _dir;
+    float _r, _angle, _smoothAngle;
+    void WeaponRot()
+    {
+        _dir = (_playerCenterPivot.position - _armPivot.position).normalized;
+        _angle = CanSeePlayer() ? Mathf.Atan2(_dir.y, _dir.x) * Mathf.Rad2Deg : 0;
+        _smoothAngle = Mathf.SmoothDampAngle(_armPivot.eulerAngles.z, _angle, ref _r, .1f);
+        _armPivot.eulerAngles = new Vector3(0, 0, _smoothAngle);
+    }
+
+    Vector3 _dirToLookAt;
     void LookAtPlayer()
     {
-        Vector3 dirToLookAt = (_playerCenterPivot.position - transform.position).normalized;
-        float angle = Mathf.Atan2(dirToLookAt.y, Mathf.Abs(dirToLookAt.x)) * Mathf.Rad2Deg;
+        _dirToLookAt = (_playerCenterPivot.position - transform.position).normalized;
+        float angle = Mathf.Atan2(_dirToLookAt.y, Mathf.Abs(_dirToLookAt.x)) * Mathf.Rad2Deg;
 
         Vector3 newScale = Vector3.one;
 

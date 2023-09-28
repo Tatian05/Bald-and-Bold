@@ -3,18 +3,19 @@ public class PlayerBullet : Bullet
 {
     [SerializeField] protected LayerMask _bulletLayer;
 
-    Vector3 _lastPosition;
+    Vector3 _lastPosition, _dir;
+
     private void Update()
     {
         transform.position += _direction.normalized * _speed * Time.deltaTime;
 
-        Vector3 direction = _lastPosition - transform.position;
-        var raycast = Physics2D.Raycast(transform.position, direction, direction.magnitude, _bulletLayer);
+        _dir = _lastPosition - transform.position;
+        var raycast = Physics2D.Raycast(transform.position, _dir, _dir.magnitude, _bulletLayer);
 
         if (raycast)
         {
-            var enemy = raycast.collider.GetComponent<IDamageable>();
-            if (enemy != null) enemy.TakeDamage(_dmg);
+            Debug.Log(raycast.collider.name);
+            if (raycast.collider.TryGetComponent(out IDamageable enemy)) enemy.TakeDamage(_dmg);
             else Helpers.AudioManager.PlaySFX("Bullet_GroundHit");
             ReturnBullet();
         }
