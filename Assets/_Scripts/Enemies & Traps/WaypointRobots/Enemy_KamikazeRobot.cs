@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 public class Enemy_KamikazeRobot : Enemy
 {
@@ -16,7 +17,6 @@ public class Enemy_KamikazeRobot : Enemy
     void Drop()
     {
         transform.position += -transform.up * _dropSpeed * Time.deltaTime;
-        Debug.Log("Dropping");
     }
 
     public void Attack()
@@ -42,15 +42,19 @@ public class Enemy_KamikazeRobot : Enemy
     {
         if (!_isDropping || collision.CompareTag("Bullet") || collision.gameObject.layer == 25) return;
 
-        var player = collision.GetComponent<IDamageable>();
-
         Die();
-        if (player != null) { player.TakeDamage(_dmg); return; }
 
-        var overlap = Physics2D.OverlapCircle(sprite.position, _overlapCircleRadius, gameManager.PlayerLayer);
+        if (collision.TryGetComponent(out IDamageable player))
+        {
+            player.TakeDamage(_dmg);
+            return;
+        }
 
-        if (overlap)
-            overlap.GetComponent<IDamageable>().TakeDamage(_dmg);
+        var overlap = Physics2D.OverlapCircleAll(sprite.position, _overlapCircleRadius, gameManager.PlayerLayer).
+                      Where(x => Physics2D.Raycast(_eyes.position, DistanceToPlayer(), _overlapCircleRadius)).FirstOrDefault();
+
+        if (overlap && overlap.TryGetComponent(out player))
+            player.TakeDamage(_dmg);
     }
 
     public override void ReturnObject()

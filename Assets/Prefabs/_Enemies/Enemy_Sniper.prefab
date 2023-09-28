@@ -144,7 +144,8 @@ MonoBehaviour:
   _bulletDamage: 1
   _bulletSpeed: 10
   _attackSpeed: 2
-  _sniperRay: {fileID: 0}
+  _laserSpeed: {x: 0, y: -2}
+  _sniperRay: {fileID: 8906263663352225184}
 --- !u!61 &1016096215589035423
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -224,7 +225,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 4b13ccad5976b2d40a0221b9b80dbc75, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -242,8 +243,8 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 537239205
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
@@ -405,8 +406,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1075233411
-  m_SortingLayer: 2
+  m_SortingLayerID: 716399449
+  m_SortingLayer: 3
   m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: b564f7c0ee165c440860d25cd26772a8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -444,7 +445,7 @@ MonoBehaviour:
   - {x: -0.47685814, y: 0.44836223, z: 0}
   m_ShapePathHash: -2122044811
   m_Mesh: {fileID: 0}
-  m_InstanceId: 154076
+  m_InstanceId: 95466
 --- !u!114 &5408961830197213280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -552,8 +553,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1075233411
-  m_SortingLayer: 2
+  m_SortingLayerID: 716399449
+  m_SortingLayer: 3
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: be2478f1d969eec48875e524efd0c901, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -634,8 +635,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1075233411
-  m_SortingLayer: 2
+  m_SortingLayerID: 716399449
+  m_SortingLayer: 3
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: be2478f1d969eec48875e524efd0c901, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -698,7 +699,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -718,7 +719,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 716399449
   m_SortingLayer: 3
-  m_SortingOrder: 5
+  m_SortingOrder: 8
   m_Sprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -798,8 +799,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1075233411
-  m_SortingLayer: 2
+  m_SortingLayerID: 716399449
+  m_SortingLayer: 3
   m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: 1a2aab332af4f4a44aeebf69cfeec4a2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -883,9 +884,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1075233411
-  m_SortingLayer: 2
-  m_SortingOrder: 8
+  m_SortingLayerID: 1078434979
+  m_SortingLayer: 4
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2a16164e6715c124bbe6efffad836d9d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -947,7 +948,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -967,7 +968,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 716399449
   m_SortingLayer: 3
-  m_SortingOrder: 5
+  m_SortingOrder: 8
   m_Sprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

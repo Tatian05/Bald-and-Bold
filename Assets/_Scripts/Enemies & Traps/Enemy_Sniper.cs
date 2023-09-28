@@ -8,6 +8,7 @@ public class Enemy_Sniper : Enemy
     [SerializeField] Transform _armPivot;
     [SerializeField] Transform _weaponSprite;
     [SerializeField] float _bulletDamage = 1f, _bulletSpeed = 10f, _attackSpeed = 2f;
+    [SerializeField] Vector2 _laserSpeed;
     [SerializeField] LineRenderer _sniperRay;
     enum SniperStates { Idle, LoadShoot, Shoot };
     EventFSM<SniperStates> _myFSM;
@@ -17,6 +18,8 @@ public class Enemy_Sniper : Enemy
         base.Start();
         _armRotation = new Movement_RotateObject(_armPivot, _playerCenterPivot, _weaponSprite, sprite);
         _sniperRay = GetComponent<LineRenderer>();
+        var sniperMat = _sniperRay.material;
+        sniperMat.SetVector("LaserSpeed", _laserSpeed);
 
         var IDLE = new State<SniperStates>("IDLE");
         var LOAD_SHOOT = new State<SniperStates>("LOAD_SHOOT");
@@ -29,10 +32,10 @@ public class Enemy_Sniper : Enemy
         _sniperRay.positionCount = 2;
         _sniperRay.SetPosition(0, _bulletSpawnPosition.position);
         _sniperRay.SetPosition(1, _bulletSpawnPosition.position + _bulletSpawnPosition.right * 100);
+        sniperMat.SetColor("MainColor", _rayColors[0] * 5);
 
         #region IDLE 
 
-        IDLE.OnEnter += x => { _sniperRay.startColor = _rayColors[0]; _sniperRay.endColor = _rayColors[0]; };
         IDLE.OnUpdate += delegate { if (CanSeePlayer()) _myFSM.SendInput(SniperStates.LoadShoot); };
 
         #endregion
@@ -42,8 +45,7 @@ public class Enemy_Sniper : Enemy
         float loadingAmmoTimer = 0;
         LOAD_SHOOT.OnUpdate += delegate
         {
-            _sniperRay.startColor = MultiLerp(loadingAmmoTimer / _attackSpeed, _rayColors);
-            _sniperRay.endColor = MultiLerp(loadingAmmoTimer / _attackSpeed, _rayColors);
+            sniperMat.SetColor("MainColor", MultiLerp(loadingAmmoTimer / _attackSpeed, _rayColors) * 5);
             loadingAmmoTimer += Time.deltaTime;
             _armRotation.Move();
             LookAtPlayer();
@@ -63,8 +65,7 @@ public class Enemy_Sniper : Enemy
         SHOOT.OnEnter += x =>
         {
             Shoot();
-            _sniperRay.startColor = _rayColors[0];
-            _sniperRay.endColor = _rayColors[0];
+            sniperMat.SetColor("MainColor", _rayColors[0] * 5);
             _armPivot.DOLocalRotate(new Vector3(0, 0, _armPivot.localEulerAngles.z + 20), .1f).
             OnComplete(() =>
             {
@@ -81,7 +82,7 @@ public class Enemy_Sniper : Enemy
     {
         _myFSM.Update();
 
-        RaycastHit2D ray = Physics2D.Raycast(_bulletSpawnPosition.position, _bulletSpawnPosition.right, Mathf.Infinity);
+        RaycastHit2D ray = Physics2D.Raycast(_bulletSpawnPosition.position, _bulletSpawnPosition.right, 100);
         _sniperRay.SetPosition(0, _bulletSpawnPosition.position);
         _sniperRay.SetPosition(1, ray.point);
     }

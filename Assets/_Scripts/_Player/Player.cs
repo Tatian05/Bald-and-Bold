@@ -165,10 +165,7 @@ public class Player : GeneralPlayer
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Rope"))
-        {
-            _playerModel.InRope = false;
             ExitClimb();
-        }
     }
 
     void EnterRope(GameObject rope)
@@ -186,6 +183,7 @@ public class Player : GeneralPlayer
     {
         if (!_playerModel.InRope) return;
 
+        _playerModel.InRope = false;
         _playerModel.NormalGravity();
         OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, y); };
     }
