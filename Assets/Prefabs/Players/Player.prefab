@@ -299,10 +299,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf0c55437b9e40c498d6901efc82d889, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _centerPivot: {fileID: 8554356772988801619}
   _anim: {fileID: 1266088773945994461}
   _playerSprite: {fileID: 1266088773945994460}
   _groundCheckTransform: {fileID: 1266088773520511965}
-  _centerPivot: {fileID: 8554356772988801619}
   _speed: 400
   _maxDelayCanMove: 0.2
   _jumpForce: 20
@@ -494,7 +494,7 @@ MonoBehaviour:
   - {x: -0.32084942, y: 0.014481306, z: 0}
   m_ShapePathHash: -460105547
   m_Mesh: {fileID: 0}
-  m_InstanceId: 28788
+  m_InstanceId: 207828
 --- !u!1 &1266088774822671311
 GameObject:
   m_ObjectHideFlags: 0
@@ -1045,7 +1045,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1912971515265885976, guid: 9580529311449b8439126bec61056163, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.67
+      value: 0.103
       objectReference: {fileID: 0}
     - target: {fileID: 1912971515265885976, guid: 9580529311449b8439126bec61056163, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1086,6 +1086,10 @@ PrefabInstance:
     - target: {fileID: 2666764263204755278, guid: 9580529311449b8439126bec61056163, type: 3}
       propertyPath: m_Name
       value: DashTrailPT
+      objectReference: {fileID: 0}
+    - target: {fileID: 8248882286955623039, guid: 9580529311449b8439126bec61056163, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.a
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9580529311449b8439126bec61056163, type: 3}
