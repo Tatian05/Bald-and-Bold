@@ -20,8 +20,13 @@ public class PresidentWallsTrap : MonoBehaviour
         _wallsInitialPositions = _walls.Select(x => x.transform.position).ToArray();
         _wallsFinalPositions = _wallsInitialPositions.Select(x => x - Vector3.up * 2.25f).ToArray();
 
-        Helpers.LevelTimerManager.OnLevelStart += () => _wallAction = WallGoing;
+        EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, WallAction);
         Helpers.GameManager.EnemyManager.OnEnemyKilled += () => StartCoroutine(Wait());
+    }
+    void WallAction(params object[] param) { _wallAction = WallGoing; }
+    private void OnDestroy()
+    {
+        EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, WallAction);     
     }
     void Update()
     {

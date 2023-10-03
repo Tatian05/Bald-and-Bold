@@ -6,6 +6,7 @@ public class Enemy_FollowDrone : Enemy
     [SerializeField] protected float _speed = 1f;
 
     protected EventFSM<DroneStates> _myFsm;
+    State<DroneStates> idle;
     protected NavMeshAgent _navMeshAgent;
     public override void Start()
     {
@@ -17,7 +18,7 @@ public class Enemy_FollowDrone : Enemy
         _navMeshAgent.speed = _speed;
         var playerTransform = Helpers.GameManager.Player.transform;
 
-        var idle = new State<DroneStates>("Idle");
+        idle = new State<DroneStates>("Idle");
         var follow = new State<DroneStates>("Follow");
 
         StateConfigurer.Create(idle).SetTransition(DroneStates.Follow, follow).Done();
@@ -26,7 +27,13 @@ public class Enemy_FollowDrone : Enemy
         idle.OnUpdate += delegate { if (CanSeePlayer()) _myFsm.SendInput(DroneStates.Follow); };
         follow.OnUpdate += delegate { _navMeshAgent.SetDestination(playerTransform.position); };
 
-        _myFsm = new EventFSM<DroneStates>(idle);
+        EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
+    }
+    void StartFSM(params object[] param) { _myFsm = new EventFSM<DroneStates>(idle); }
+    protected override void OnDestroy()
+    {
+        EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
+        base.OnDestroy();
     }
     public override void Update()
     {

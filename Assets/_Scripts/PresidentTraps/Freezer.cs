@@ -16,7 +16,7 @@ public class Freezer : MonoBehaviour
     private void Start()
     {
         Helpers.GameManager.EnemyManager.OnEnemyKilled += () => StartCoroutine(StopFreezer());
-        Helpers.LevelTimerManager.OnLevelStart += () => _freezerPS.Play();
+        EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, PlayFreezer);
 
         _presidentAnimator = _president.GetComponent<Animator>();
         _levelMaxTime = Helpers.LevelTimerManager.LevelMaxTime;
@@ -28,6 +28,11 @@ public class Freezer : MonoBehaviour
         _iceStartColor = _ice.color;
 
         _freezerAction = FreezerOn;
+    }
+    void PlayFreezer(params object[] param) => _freezerPS.Play();
+    private void OnDestroy()
+    {
+        EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, PlayFreezer);
     }
     void Update()
     {

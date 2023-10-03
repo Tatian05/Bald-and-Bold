@@ -13,6 +13,7 @@ public class DonasHomero : MonoBehaviour
     Action _eatingDona = delegate { };
     GameObject _donaAte;
     EventFSM<DonasStates> _myFsm;
+    State<DonasStates> go;
     enum DonasStates { GO, BACK, WAIT }
     void Start()
     {
@@ -20,7 +21,7 @@ public class DonasHomero : MonoBehaviour
 
         for (int i = 0; i < _cintas.Length; i++) _cintas[i].enabled = false;
 
-        var go = new State<DonasStates>("GO");
+        go = new State<DonasStates>("GO");
         var back = new State<DonasStates>("BACK");
         var wait = new State<DonasStates>("WAIT");
 
@@ -91,7 +92,12 @@ public class DonasHomero : MonoBehaviour
 
         #endregion
 
-        Helpers.LevelTimerManager.OnLevelStart += () => _myFsm = new EventFSM<DonasStates>(go);
+        EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
+    }
+    void StartFSM(params object[] param) { _myFsm = new EventFSM<DonasStates>(go); }
+    private void OnDestroy()
+    {
+        EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);       
     }
     void Update()
     {

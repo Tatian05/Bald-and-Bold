@@ -7,8 +7,13 @@ public class Malo : MonoBehaviour
     void Start()
     {
         _animator = GetComponent<Animator>();
-        if (_setAnimOnLevelStart) Helpers.LevelTimerManager.OnLevelStart += delegate { _animator.Play(_levelStartAnimName); };
+        if (_setAnimOnLevelStart) EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, PlayAnim);
         Helpers.GameManager.EnemyManager.OnEnemyKilled += () => _animator.Play(_onEnemyKilledAnimation);
         Helpers.LevelTimerManager.OnLevelDefeat += () => _animator.Play(_winAnimationName);
+    }
+    void PlayAnim(params object[] param) { _animator.Play(_levelStartAnimName); }
+    private void OnDestroy()
+    {
+        EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, PlayAnim);
     }
 }

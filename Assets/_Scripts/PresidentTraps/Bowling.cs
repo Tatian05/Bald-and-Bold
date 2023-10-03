@@ -20,13 +20,18 @@ public class Bowling : MonoBehaviour
         _wallsInitialPositions = _bolosContainer.Select(x => x.transform.position).ToArray();
         _wallsFinalPositions = _wallsInitialPositions.Select(x => x - Vector3.up * 2.75f).ToArray();
 
-        Helpers.LevelTimerManager.OnLevelStart += () => _wallAction = BoloGoing;
+        EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, WallAction);
 
         Helpers.LevelTimerManager.RedButton += () =>
         {
             _bolos.Last().transform.SetParent(GameObject.Find("Cinematic").transform);
             _bolos.Last().AddComponent<Rigidbody2D>().freezeRotation = true;
         };
+    }
+    void WallAction(params object[] param) => _wallAction = BoloGoing;
+    private void OnDestroy()
+    {
+        EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, WallAction);      
     }
     void Update()
     {

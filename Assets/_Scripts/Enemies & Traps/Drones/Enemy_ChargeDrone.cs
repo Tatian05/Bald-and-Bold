@@ -7,11 +7,12 @@ public class Enemy_ChargeDrone : Enemy
     [SerializeField] GameObject _particles;
     enum ChargeDroneStates { Idle, LoadCharge, Charge }
     EventFSM<ChargeDroneStates> _myFSM;
+    State<ChargeDroneStates> IDLE;
     public override void Start()
     {
         base.Start();
 
-        var IDLE = new State<ChargeDroneStates>("IDLE");
+        IDLE = new State<ChargeDroneStates>("IDLE");
         var LOADCHARGE = new State<ChargeDroneStates>("LOAD_CHARGE");
         var CHARGE = new State<ChargeDroneStates>("CHARGE");
 
@@ -73,11 +74,17 @@ public class Enemy_ChargeDrone : Enemy
 
         #endregion
 
-        _myFSM = new EventFSM<ChargeDroneStates>(IDLE);
+        EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
+    }
+    void StartFSM(params object[] param) { _myFSM = new EventFSM<ChargeDroneStates>(IDLE); }
+    protected override void OnDestroy()
+    {
+        EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
+        base.OnDestroy();
     }
     public override void Update()
     {
-        _myFSM.Update();
+        _myFSM?.Update();
     }
     void LookAtPlayer() { transform.right = DistanceToPlayer().normalized; }
     public override void ReturnObject()

@@ -10,6 +10,7 @@ public class Enemy_Sniper : Enemy
     enum SniperStates { Idle, LoadShoot, Shoot };
     EventFSM<SniperStates> _myFSM;
     Color[] _rayColors = new Color[3] { Color.green, Color.yellow, Color.red };
+    State<SniperStates> IDLE;
     public override void Start()
     {
         base.Start();
@@ -17,7 +18,7 @@ public class Enemy_Sniper : Enemy
         var sniperMat = _sniperLaser.material;
         sniperMat.SetVector("LaserSpeed", _laserSpeed);
 
-        var IDLE = new State<SniperStates>("IDLE");
+        IDLE = new State<SniperStates>("IDLE");
         var LOAD_SHOOT = new State<SniperStates>("LOAD_SHOOT");
         var SHOOT = new State<SniperStates>("SHOOT");
 
@@ -71,9 +72,14 @@ public class Enemy_Sniper : Enemy
 
         #endregion
 
-        _myFSM = new EventFSM<SniperStates>(IDLE);
+        EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
     }
-
+    void StartFSM(params object[] param) { _myFSM = new EventFSM<SniperStates>(IDLE); }
+    protected override void OnDestroy()
+    {
+        EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
+        base.OnDestroy();
+    }
     RaycastHit2D _ray;
     public override void Update()
     {

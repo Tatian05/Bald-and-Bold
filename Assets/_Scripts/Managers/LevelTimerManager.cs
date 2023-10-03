@@ -16,7 +16,6 @@ public class LevelTimerManager : MonoBehaviour
     bool _firstTime;
 
     public Action RedButton;
-    public event Action OnLevelStart;
     public event Action OnLevelDefeat;
     void Start()
     {
@@ -45,7 +44,7 @@ public class LevelTimerManager : MonoBehaviour
     {
         if (_firstTime) yield break;
         _firstTime = true;
-        OnLevelStart();
+        EventManager.TriggerEvent(Contains.ON_LEVEL_START);
         WaitForSeconds wait = new WaitForSeconds(_timeToDiscount);
         while (_timer <= _levelMaxTime)
         {

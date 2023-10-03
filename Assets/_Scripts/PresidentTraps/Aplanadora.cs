@@ -11,7 +11,12 @@ public class Aplanadora : MonoBehaviour
     private void Start()
     {
         _levelTimerManager = Helpers.LevelTimerManager;
-        Helpers.LevelTimerManager.OnLevelStart += () => _stop = true;
+        EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, Stop);
+    }
+    void Stop(params object[] param) => _stop = true;
+    private void OnDestroy()
+    {
+        EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, Stop);    
     }
     private void Update()
     {

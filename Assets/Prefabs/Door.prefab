@@ -195,6 +195,7 @@ GameObject:
   - component: {fileID: 7105025233921599919}
   - component: {fileID: 3900194624719815402}
   - component: {fileID: 7750162110635138991}
+  - component: {fileID: 8772082808703769475}
   m_Layer: 20
   m_Name: Door
   m_TagString: Untagged
@@ -258,6 +259,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextScene: 5
+--- !u!114 &8772082808703769475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7207672766553818539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2efdb30fc3af9c43a297043cdae61ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   lightParent: {fileID: 622267163642673685}
   _anim: {fileID: 4311789695812183969}
 --- !u!1001 &8762902850563994304
@@ -270,6 +283,10 @@ PrefabInstance:
     - target: {fileID: 615395010080050648, guid: a98d305164a771e429a4721cc4099197, type: 3}
       propertyPath: m_Name
       value: ExitSign
+      objectReference: {fileID: 0}
+    - target: {fileID: 615395010080050648, guid: a98d305164a771e429a4721cc4099197, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2008250259915792674, guid: a98d305164a771e429a4721cc4099197, type: 3}
       propertyPath: m_RootOrder

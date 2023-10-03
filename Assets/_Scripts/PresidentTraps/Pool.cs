@@ -8,7 +8,12 @@ public class Pool : MonoBehaviour
     private void Start()
     {
         Helpers.GameManager.EnemyManager.OnEnemyKilled += () => StartCoroutine(StopWater());
-        Helpers.LevelTimerManager.OnLevelStart += () => _waterPs.Play();
+        EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, PlayWater);
+    }
+    void PlayWater(params object[] param) { _waterPs.Play(); }
+    private void OnDestroy()
+    {
+        EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, PlayWater);        
     }
     IEnumerator StopWater()
     {

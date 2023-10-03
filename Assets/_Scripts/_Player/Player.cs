@@ -133,6 +133,8 @@ public class Player : GeneralPlayer
     public override void PausePlayer()
     {
         _canMove = false;
+        _controller = null;
+        _myFsm.SendInput(PlayerStates.Empty);
         _playerModel.FreezeVelocity();
         _anim.SetInteger("xAxis", 0);
     }

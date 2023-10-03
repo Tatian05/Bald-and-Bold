@@ -8,8 +8,7 @@ public class EnemyManager : BaseEnemyManager
         LevelTimerManager levelTimer = Helpers.LevelTimerManager;
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDead);
 
-        if(levelTimer && levelTimer.enabled) Helpers.LevelTimerManager.OnLevelStart += () => StartCoroutine(CheckForEmptyLevel());
-        else StartCoroutine(CheckForEmptyLevel());
+        StartCoroutine(CheckForEmptyLevel());
     }
     private void OnDestroy()
     {
