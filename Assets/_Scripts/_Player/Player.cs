@@ -201,6 +201,7 @@ public class Player : GeneralPlayer
         _playerModel.FreezeVelocity();
         StartCoroutine(Death());
         _playerModel.ResetStats();
+        _myFsm.SendInput(PlayerStates.Empty);
         OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, y); };
     }
 }

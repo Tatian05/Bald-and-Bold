@@ -36,7 +36,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         _gameManager.EffectsManager.PlayerKilled(transform.position + Vector3.up);
         Helpers.AudioManager.PlaySFX("PlayerDeath");
 
-        _gameManager.Player.PausePlayer();
         foreach (var item in _allPlayerSprites)            
             item.gameObject.SetActive(false);
     }
