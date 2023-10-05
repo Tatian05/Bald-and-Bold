@@ -2,6 +2,7 @@ using UnityEngine;
 using DG.Tweening;
 public class Enemy_Sniper : Enemy
 {
+    [SerializeField] GameObject _agroSign;
     [SerializeField] Transform _bulletSpawnPosition;
     [SerializeField] Transform _armPivot;
     [SerializeField] float _bulletDamage = 1f, _bulletSpeed = 10f, _attackSpeed = 2f;
@@ -31,14 +32,18 @@ public class Enemy_Sniper : Enemy
         _sniperLaser.SetPosition(1, _bulletSpawnPosition.position + _bulletSpawnPosition.right * 100);
         sniperMat.SetColor("MainColor", _rayColors[0] * 5);
 
+        System.Action<bool> agroSign = x => _agroSign.SetActive(x);
+
         #region IDLE 
 
+        IDLE.OnEnter += x => agroSign(false);
         IDLE.OnUpdate += delegate { if (CanSeePlayer()) _myFSM.SendInput(SniperStates.LoadShoot); };
 
         #endregion
 
         #region LOAD_SHOOT
 
+        LOAD_SHOOT.OnEnter += x => agroSign(true);
         float loadingAmmoTimer = 0;
         LOAD_SHOOT.OnUpdate += delegate
         {
@@ -72,7 +77,8 @@ public class Enemy_Sniper : Enemy
 
         #endregion
 
-        EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
+        if (Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<SniperStates>(IDLE);
+        else EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
     }
     void StartFSM(params object[] param) { _myFSM = new EventFSM<SniperStates>(IDLE); }
     protected override void OnDestroy()
@@ -83,7 +89,7 @@ public class Enemy_Sniper : Enemy
     RaycastHit2D _ray;
     public override void Update()
     {
-        _myFSM.Update();
+        _myFSM?.Update();
 
         _ray = Physics2D.Raycast(_bulletSpawnPosition.position, _bulletSpawnPosition.right, 100);
         _sniperLaser.SetPosition(0, _bulletSpawnPosition.position);
@@ -123,6 +129,7 @@ public class Enemy_Sniper : Enemy
 
     public override void ReturnObject()
     {
+        _myFSM.SendInput(SniperStates.Idle);
         base.ReturnObject();
         FRY_Enemy_Sniper.Instance.pool.ReturnObject(this);
     }

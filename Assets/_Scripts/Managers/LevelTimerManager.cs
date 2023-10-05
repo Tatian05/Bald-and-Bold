@@ -10,6 +10,7 @@ public class LevelTimerManager : MonoBehaviour
     public float LevelMaxTime { get { return _levelMaxTime; } }
     public float TimeToDiscount { get { return _timeToDiscount; } }
     public bool TrapStopped { get { return _stopTrap; } }
+    public bool LevelStarted { get { return _timer > 0; } }
 
     bool _stopTimer;
     bool _stopTrap;
