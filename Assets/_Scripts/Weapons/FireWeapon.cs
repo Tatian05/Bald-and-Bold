@@ -39,8 +39,7 @@ public class FireWeapon : Weapon
         Helpers.LevelTimerManager.StartLevelTimer();
         //_currentAmmo--;
         //UpdateAmmoAmount();
-        Helpers.AudioManager.PlaySFX(_weaponData.weaponSoundName);
-        bool raycast = Physics2D.Raycast(_weaponManager.MainWeaponContainer.position, _bulletSpawn.position - _weaponManager.MainWeaponContainer.position, Vector2.Distance(_bulletSpawn.position, _weaponManager.MainWeaponContainer.position), _borderMask);
+        bool raycast = Physics2D.OverlapCircle(_bulletSpawn.position, .1f, _borderMask);
         var z = transform.localEulerAngles.z;
         var euler = transform.localEulerAngles;
         if (!raycast)
@@ -63,6 +62,7 @@ public class FireWeapon : Weapon
     }
     protected virtual void FireWeaponShoot()
     {
+        Helpers.AudioManager.PlaySFX(_weaponData.weaponSoundName);
         FRY_PlayerBullet.Instance.pool.GetObject().
                                             SetDmg(_weaponData.damage).
                                             SetSpeed(_weaponData.bulletSpeed).

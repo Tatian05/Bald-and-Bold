@@ -1,23 +1,52 @@
 using UnityEngine;
 using DG.Tweening;
-public class Enemy_Sniper : Enemy
+public class Enemy_Sniper : Enemy_Shooters
 {
-    [SerializeField] GameObject _agroSign;
-    [SerializeField] Transform _bulletSpawnPosition;
-    [SerializeField] Transform _armPivot;
-    [SerializeField] float _bulletDamage = 1f, _bulletSpeed = 10f, _attackSpeed = 2f;
     [SerializeField] Vector2 _laserSpeed;
     [SerializeField] LineRenderer _sniperLaser;
     enum SniperStates { Idle, LoadShoot, Shoot };
+    enum LaserStates { Off, On };
     EventFSM<SniperStates> _myFSM;
+    EventFSM<LaserStates> _laserFSM;
     Color[] _rayColors = new Color[3] { Color.green, Color.yellow, Color.red };
     State<SniperStates> IDLE;
+    LayerMask _laserMask;
+    Vector2 _weaponStartPos;
     public override void Start()
     {
         base.Start();
+        LayerMask borderMask = gameManager.BorderLayer;
+        _laserMask = gameManager.EnemyBulletLayer;
         _sniperLaser = GetComponent<LineRenderer>();
+        _weaponStartPos = _armPivot.localPosition;
         var sniperMat = _sniperLaser.material;
         sniperMat.SetVector("LaserSpeed", _laserSpeed);
+
+        #region LASER
+
+        var on = new State<LaserStates>("ON");
+        var off = new State<LaserStates>("OFF");
+
+        StateConfigurer.Create(on).SetTransition(LaserStates.Off, off).Done();
+        StateConfigurer.Create(off).SetTransition(LaserStates.On, on).Done();
+
+        on.OnEnter += x => _sniperLaser.positionCount = 2;
+        on.OnUpdate += delegate
+        {
+            _sniperLaser.SetPosition(0, _bulletSpawnPosition.position);
+            _sniperLaser.SetPosition(1, _ray.point);
+
+            if (Physics2D.OverlapCircle(_bulletSpawnPosition.position, .1f, borderMask)) _laserFSM.SendInput(LaserStates.Off);
+        };
+
+        off.OnEnter += x => _sniperLaser.positionCount = 0;
+        off.OnUpdate += () => { if (!Physics2D.OverlapCircle(_bulletSpawnPosition.position, .1f, borderMask)) _laserFSM.SendInput(LaserStates.On); };
+
+        _laserFSM = new EventFSM<LaserStates>(off);
+
+        #endregion
+
+        #region SNIPER_ENEMY
 
         IDLE = new State<SniperStates>("IDLE");
         var LOAD_SHOOT = new State<SniperStates>("LOAD_SHOOT");
@@ -27,23 +56,19 @@ public class Enemy_Sniper : Enemy
         StateConfigurer.Create(LOAD_SHOOT).SetTransition(SniperStates.Shoot, SHOOT).SetTransition(SniperStates.Idle, IDLE).Done();
         StateConfigurer.Create(SHOOT).SetTransition(SniperStates.LoadShoot, LOAD_SHOOT).Done();
 
-        _sniperLaser.positionCount = 2;
-        _sniperLaser.SetPosition(0, _bulletSpawnPosition.position);
-        _sniperLaser.SetPosition(1, _bulletSpawnPosition.position + _bulletSpawnPosition.right * 100);
         sniperMat.SetColor("MainColor", _rayColors[0] * 5);
 
-        System.Action<bool> agroSign = x => _agroSign.SetActive(x);
 
         #region IDLE 
 
-        IDLE.OnEnter += x => agroSign(false);
+        IDLE.OnEnter += x => AgroSign(false);
         IDLE.OnUpdate += delegate { if (CanSeePlayer()) _myFSM.SendInput(SniperStates.LoadShoot); };
 
         #endregion
 
         #region LOAD_SHOOT
 
-        LOAD_SHOOT.OnEnter += x => agroSign(true);
+        LOAD_SHOOT.OnEnter += x => AgroSign(true);
         float loadingAmmoTimer = 0;
         LOAD_SHOOT.OnUpdate += delegate
         {
@@ -67,11 +92,12 @@ public class Enemy_Sniper : Enemy
         {
             Shoot();
             sniperMat.SetColor("MainColor", _rayColors[0] * 5);
-            _armPivot.DOLocalRotate(new Vector3(0, 0, _armPivot.localEulerAngles.z + 20), .1f).
+            _armPivot.DOLocalMove(-Vector2.right * .2f, .1f).OnComplete(() => _armPivot.DOLocalMove(_weaponStartPos, .3f));
+            _armPivot.DOLocalRotate(new Vector3(0, 0, _armPivot.localEulerAngles.z + 20), .1f).SetEase(Ease.Linear).
             OnComplete(() =>
             {
                 anim.Play("LoadAmmo");
-                _armPivot.DOLocalRotate(Vector3.zero, 1f).SetEase(Ease.Linear).OnComplete(() => _myFSM.SendInput(SniperStates.LoadShoot));
+                _armPivot.DOLocalRotate(Vector2.zero, 1f).OnComplete(() => _myFSM.SendInput(SniperStates.LoadShoot));
             });
         };
 
@@ -79,6 +105,8 @@ public class Enemy_Sniper : Enemy
 
         if (Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<SniperStates>(IDLE);
         else EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
+
+        #endregion
     }
     void StartFSM(params object[] param) { _myFSM = new EventFSM<SniperStates>(IDLE); }
     protected override void OnDestroy()
@@ -90,36 +118,11 @@ public class Enemy_Sniper : Enemy
     public override void Update()
     {
         _myFSM?.Update();
+        _laserFSM?.Update();
 
-        _ray = Physics2D.Raycast(_bulletSpawnPosition.position, _bulletSpawnPosition.right, 100);
-        _sniperLaser.SetPosition(0, _bulletSpawnPosition.position);
-        _sniperLaser.SetPosition(1, _ray.point);
+        _ray = Physics2D.Raycast(_bulletSpawnPosition.position, _bulletSpawnPosition.right, 100, _laserMask);
     }
-
-    Vector3 _dir;
-    float _r, _angle, _smoothAngle;
-    void WeaponRot()
-    {
-        _dir = (_playerCenterPivot.position - _armPivot.position).normalized;
-        _angle = CanSeePlayer() ? Mathf.Atan2(_dir.y, _dir.x) * Mathf.Rad2Deg : 0;
-        _smoothAngle = Mathf.SmoothDampAngle(_armPivot.eulerAngles.z, _angle, ref _r, .1f);
-        _armPivot.eulerAngles = new Vector3(0, 0, _smoothAngle);
-    }
-
-    Vector3 _dirToLookAt;
-    void LookAtPlayer()
-    {
-        _dirToLookAt = (_playerCenterPivot.position - transform.position).normalized;
-        float angle = Mathf.Atan2(_dirToLookAt.y, Mathf.Abs(_dirToLookAt.x)) * Mathf.Rad2Deg;
-
-        Vector3 newScale = Vector3.one;
-
-        if (angle > 90 || angle < -90) newScale.x = -1;
-        else newScale.x = 1;
-
-        sprite.localScale = newScale;
-    }
-    void Shoot()
+    protected override void Shoot()
     {
         FRY_EnemyBullet.Instance.pool.GetObject().SetPosition(_bulletSpawnPosition.position)
                                             .SetDirection(_armPivot.right)

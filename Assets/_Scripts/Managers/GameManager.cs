@@ -7,13 +7,14 @@ public class GameManager : MonoBehaviour
     public Action SetPlayerSkin = delegate { }, SetPresidentSkin = delegate { };
 
     [Header("Layers")]
-    [SerializeField] LayerMask _groundLayer, _playerLayer, _weaponLayer, _dynamicBodies, _borderLayer, _invisibleWallLayer;
+    [SerializeField] LayerMask _groundLayer, _playerLayer, _weaponLayer, _dynamicBodies, _borderLayer, _invisibleWallLayer, _enemyBulletLayer;
     public LayerMask GroundLayer { get { return _groundLayer; } private set { } }
     public LayerMask BorderLayer { get { return _borderLayer; } private set { } }
     public LayerMask PlayerLayer { get { return _playerLayer; } private set { } }
     public LayerMask WeaponLayer { get { return _weaponLayer; } private set { } }
     public LayerMask InvisibleWallLayer { get { return _invisibleWallLayer; } private set { } }
     public LayerMask DynamicBodiesLayer { get { return _dynamicBodies; } private set { } }
+    public LayerMask EnemyBulletLayer { get { return _enemyBulletLayer; } private set { } }
 
 
     [Header("Camera")]

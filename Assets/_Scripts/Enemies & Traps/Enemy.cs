@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using System;
-public class Enemy : MonoBehaviour, IDamageable
+public abstract class Enemy : MonoBehaviour, IDamageable
 {
     protected GameManager gameManager;
     protected Transform _playerCenterPivot;

@@ -1,11 +1,8 @@
 using UnityEngine;
+using System;
 using DG.Tweening;
-public class Enemy_Ground_Ak : Enemy
+public class Enemy_Ground_Ak : Enemy_Shooters
 {
-    [SerializeField] GameObject _agroSign;
-    [SerializeField] Transform _bulletSpawnPosition;
-    [SerializeField] Transform _armPivot, _gunTransform;
-    [SerializeField] float _bulletDamage = 1f, _bulletSpeed = 10f, _attackSpeed = 2f;
     [SerializeField] float _viewRadius, _viewAngle;
     [SerializeField] float _speed = 1f;
     [SerializeField] int _bulletsAmountToShoot = 3;
@@ -27,7 +24,11 @@ public class Enemy_Ground_Ak : Enemy
         StateConfigurer.Create(PATROL).SetTransition(AK_States.Attack, ATTACK).Done();
         StateConfigurer.Create(ATTACK).SetTransition(AK_States.Patrol, PATROL).Done();
 
-        System.Action<bool> agroSign = x => _agroSign.SetActive(x);
+        Action OnPatrolStart = () =>
+        {
+            anim.SetBool("IsRunning", true);
+            _armPivot.eulerAngles = transform.eulerAngles;
+        };
 
         #region PATROL
 
@@ -46,10 +47,10 @@ public class Enemy_Ground_Ak : Enemy
 
         ATTACK.OnEnter += x =>
         {
-            OnAttackStart();
+            anim.SetBool("IsRunning", false);
             //Si no lo seteas a uno se rompe el brazo y apunta para atras por como esta seteado el flip del patrol
             transform.localScale = Vector3.one;
-            agroSign(true);
+            AgroSign(true);
         };
 
         ATTACK.OnUpdate += delegate
@@ -60,7 +61,7 @@ public class Enemy_Ground_Ak : Enemy
                 _myFSM.SendInput(AK_States.Patrol);
         };
 
-        ATTACK.OnExit += x => agroSign(false);
+        ATTACK.OnExit += x => AgroSign(false);
 
         #endregion
 
@@ -97,20 +98,9 @@ public class Enemy_Ground_Ak : Enemy
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, transform.right * 1);
     }
-
-    void OnPatrolStart()
-    {
-        anim.SetBool("IsRunning", true);
-        _armPivot.eulerAngles = transform.eulerAngles;
-    }
-
-    void OnAttackStart()
-    {
-        anim.SetBool("IsRunning", false);
-    }
     void OnAttack()
     {
-        LookAtPlayer();
+        WeaponRot();
 
         _currentAttackSpeed += Time.deltaTime;
 
@@ -122,7 +112,7 @@ public class Enemy_Ground_Ak : Enemy
     }
 
     int _currentBullets = 0;
-    void Shoot()
+    protected override void Shoot()
     {
         FRY_EnemyBullet.Instance.pool.GetObject().SetPosition(_bulletSpawnPosition.position)
                                             .SetDirection(_armPivot.right)
@@ -130,8 +120,7 @@ public class Enemy_Ground_Ak : Enemy
                                             .SetSpeed(_bulletSpeed);
 
         DOTween.Rewind(_gunTransform);
-        float recoilBack = .1f * 3f;
-        _gunTransform.DOLocalMove(-Vector2.right * .2f, .1f).OnComplete(() => _gunTransform.DOLocalMove(Vector3.zero, recoilBack));
+        _gunTransform.DOLocalMove(-Vector2.right * .2f, .1f).OnComplete(() => _gunTransform.DOLocalMove(Vector3.zero, .3f));
 
         if (_currentBullets < _bulletsAmountToShoot - 1) _currentBullets++;
         else
@@ -140,17 +129,6 @@ public class Enemy_Ground_Ak : Enemy
             _currentBullets = 0;
         }
     }
-
-    Vector3 _dirLookAt;
-    float _r;
-    void LookAtPlayer()
-    {
-        _dirLookAt = (_playerCenterPivot.position - _armPivot.position).normalized;
-        float angle = Mathf.Atan2(_dirLookAt.y, Mathf.Abs(_dirLookAt.x)) * Mathf.Rad2Deg;
-        float smoothAngle = Mathf.SmoothDampAngle(_armPivot.localEulerAngles.z, angle, ref _r, .1f);
-        _armPivot.localEulerAngles = new Vector3(0, 0, smoothAngle);
-    }
-
     public override void ReturnObject()
     {
         _myFSM.SendInput(AK_States.Patrol);
