@@ -24,10 +24,12 @@ public class Enemy_Ground_Ak : Enemy_Shooters
         StateConfigurer.Create(PATROL).SetTransition(AK_States.Attack, ATTACK).Done();
         StateConfigurer.Create(ATTACK).SetTransition(AK_States.Patrol, PATROL).Done();
 
+        Vector3 actualRot = Vector3.zero;
         Action OnPatrolStart = () =>
         {
             anim.SetBool("IsRunning", true);
             _armPivot.eulerAngles = transform.eulerAngles;
+            transform.eulerAngles = actualRot;
         };
 
         #region PATROL
@@ -40,12 +42,13 @@ public class Enemy_Ground_Ak : Enemy_Shooters
             if (GetCanSeePlayer())
                 _myFSM.SendInput(AK_States.Attack);
         };
+        PATROL.OnExit += x => actualRot = transform.eulerAngles;
 
         #endregion
 
         #region ATTACK
 
-        ATTACK.OnEnter += x =>
+         ATTACK.OnEnter += x =>
         {
             anim.SetBool("IsRunning", false);
             //Si no lo seteas a uno se rompe el brazo y apunta para atras por como esta seteado el flip del patrol
@@ -56,8 +59,8 @@ public class Enemy_Ground_Ak : Enemy_Shooters
         ATTACK.OnUpdate += delegate
         {
             OnAttack();
-
-            if (!GetCanSeePlayer())
+            LookAtPlayer();
+            if (!CanSeePlayer())
                 _myFSM.SendInput(AK_States.Patrol);
         };
 
@@ -89,7 +92,7 @@ public class Enemy_Ground_Ak : Enemy_Shooters
     void FlipEnemy()
     {
         _dir *= -1;
-        float angle = transform.eulerAngles.y == 0 ? 180 : 0;
+        float angle = Mathf.Sign(_dir.x) < 0 ? 180 : 0;
 
         transform.eulerAngles = new Vector3(0, angle, 0);
     }

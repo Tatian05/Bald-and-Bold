@@ -6,6 +6,7 @@ public class PauseManager : MonoBehaviour
     bool _tutorialPause;
     Stack<IScreen> _stack;
     CinematicManager _cinematicManager;
+    InputManager _inputManager;
 
     [SerializeField] Transform _mainGame;
     [SerializeField] ScreenPause _pauseGO;
@@ -13,6 +14,7 @@ public class PauseManager : MonoBehaviour
     private void Awake()
     {
         _stack = new Stack<IScreen>();
+        _inputManager = InputManager.Instance;
         Push(new PauseGO(_mainGame));
     }
     private void Start()
@@ -22,7 +24,7 @@ public class PauseManager : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) & !_cinematicManager.playingCinematic & !_tutorialPause)
+        if (_inputManager.GetButtonDown("Pause") & !_cinematicManager.playingCinematic & !_tutorialPause)
         {
             if (_paused) Pop();
             else Push(Instantiate(_pauseGO));

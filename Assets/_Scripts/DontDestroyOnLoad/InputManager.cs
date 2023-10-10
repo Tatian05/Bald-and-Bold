@@ -36,6 +36,7 @@ public class InputManager : MonoBehaviour
         //_buttonKeys["Throw Weapon"] = KeyCode.G;
         _buttonKeys["Shoot"] = KeyCode.Mouse0;
         _buttonKeys["Knife"] = KeyCode.Mouse1;
+        _buttonKeys["Pause"] = KeyCode.Escape;
 
         foreach (var item in _buttonKeys)
         {
