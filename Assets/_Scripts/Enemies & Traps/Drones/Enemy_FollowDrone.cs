@@ -24,7 +24,9 @@ public class Enemy_FollowDrone : Enemy
         StateConfigurer.Create(idle).SetTransition(DroneStates.Follow, follow).Done();
         StateConfigurer.Create(follow).SetTransition(DroneStates.Idle, idle).Done();
 
+        idle.OnEnter += x => AgroSign(false);
         idle.OnUpdate += delegate { if (CanSeePlayer()) _myFsm.SendInput(DroneStates.Follow); };
+        follow.OnEnter += x => AgroSign(true);
         follow.OnUpdate += delegate { _navMeshAgent.SetDestination(playerTransform.position); };
 
         EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);

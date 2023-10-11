@@ -6,6 +6,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     protected GameManager gameManager;
     protected Transform _playerCenterPivot;
     [SerializeField] protected Animator anim;
+    [SerializeField] protected GameObject _agroSign;
 
     public event Action OnUpdate;
 
@@ -35,15 +36,9 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     {
         EventManager.UnSubscribeToEvent(Contains.PLAYER_DEAD, ActionOnPlayerDead);
     }
-    public virtual void ActionOnPlayerDead(params object[] param)
-    {
-        ReturnObject();
-    }
-    public virtual void Update()
-    {
-        OnUpdate?.Invoke();
-    }
-
+    public virtual void ActionOnPlayerDead(params object[] param) { ReturnObject(); }
+    public virtual void Update() { OnUpdate?.Invoke(); }
+    protected void AgroSign(bool enabled) => _agroSign.SetActive(enabled);
     public virtual void TakeDamage(float dmg)
     {
         _currentHp -= dmg;

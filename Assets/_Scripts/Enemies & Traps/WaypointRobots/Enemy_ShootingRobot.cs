@@ -1,23 +1,46 @@
 using UnityEngine;
-public class Enemy_ShootingRobot : Enemy_Waypoint
+public enum ShootingRobot { Idle, Shoot }
+public class Enemy_ShootingRobot : Enemy_Shooters
 {
     IMovement _armRotation;
-    [SerializeField] Transform _bulletSpawnPosition;
-    [SerializeField] Transform _armPivot;
-
-    [SerializeField] float _bulletSpeed = 10;
-    [SerializeField] float _attackSpeed = 2f;
     float _currentAttackSpeed;
+    EventFSM<ShootingRobot> _myFSM;
+    State<ShootingRobot> IDLE;
 
+    [SerializeField] float _speed;
+    Vector3 _dir;
     public override void Start()
     {
         base.Start();
         _armRotation = new Movement_RotateObject(_armPivot, _playerCenterPivot, _armPivot);
 
-        OnUpdate += CalculateAttack;
-        OnUpdate += () => { if (CanSeePlayer()) _armRotation.Move(); };
+        IDLE = new State<ShootingRobot>("IDLE");
+        var SHOOT = new State<ShootingRobot>("SHOOT");
+
+        StateConfigurer.Create(IDLE).SetTransition(ShootingRobot.Shoot, SHOOT).Done();
+        StateConfigurer.Create(SHOOT).SetTransition(ShootingRobot.Idle, IDLE).Done();
+
+        IDLE.OnEnter += x => AgroSign(false);
+
+        SHOOT.OnEnter += x => AgroSign(true);
+        SHOOT.OnUpdate += delegate
+        {
+            _currentAttackSpeed += Time.deltaTime;
+            if (_currentAttackSpeed > _attackSpeed)
+            {
+                _currentAttackSpeed = 0;
+                Shoot();
+            }
+
+            _armRotation.Move();
+        };
     }
 
+    public override void Update()
+    {
+        _myFSM?.Update();
+        transform.position += _dir * _speed * Time.deltaTime;
+    }
     public override bool CanSeePlayer()
     {
         return gameManager.Player ? !Physics2D.Raycast(transform.position, DistanceToPlayer().normalized, DistanceToPlayer().magnitude, gameManager.BorderLayer) : false;
@@ -37,14 +60,12 @@ public class Enemy_ShootingRobot : Enemy_Waypoint
         }
     }
 
-    void Shoot()
+    protected override void Shoot()
     {
-
         FRY_EnemyBullet.Instance.pool.GetObject().SetDmg(1f)
                                             .SetSpeed(_bulletSpeed)
                                             .SetPosition(_bulletSpawnPosition.position)
                                             .SetDirection(_armPivot.right);
-
     }
     public override void Reset()
     {
@@ -56,5 +77,10 @@ public class Enemy_ShootingRobot : Enemy_Waypoint
     {
         base.ReturnObject();
         FRY_Enemy_ShootingRobot.Instance.pool.ReturnObject(this);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("InvisibleWall"))
+            FlipEnemy();
     }
 }

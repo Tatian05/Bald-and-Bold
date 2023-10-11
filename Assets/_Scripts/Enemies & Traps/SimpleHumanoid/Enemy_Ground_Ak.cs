@@ -89,13 +89,6 @@ public class Enemy_Ground_Ak : Enemy_Shooters
 
         return default;
     }
-    void FlipEnemy()
-    {
-        _dir *= -1;
-        float angle = Mathf.Sign(_dir.x) < 0 ? 180 : 0;
-
-        transform.eulerAngles = new Vector3(0, angle, 0);
-    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
