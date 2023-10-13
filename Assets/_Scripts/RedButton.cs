@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 public class RedButton : MonoBehaviour
 {
     Collider2D _collider;
@@ -7,14 +9,20 @@ public class RedButton : MonoBehaviour
     bool _isPlayerOnTrigger;
     InputManager _inputManager;
     ShowKeyUI _showKeyUI;
+    PlayerInputs _playerInputs;
+    InputAction _interact;
 
     //[SerializeField] GameObject lightParent;
     [SerializeField] SpriteRenderer _buttonSprite;
     private void Start()
     {
+        _playerInputs = Helpers.GameManager.PlayerInputs;
+        _interact = _playerInputs.Player.Interact;
         EventManager.SubscribeToEvent(Contains.ON_ROOM_WON, ShowExit);
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDead);
         Helpers.LevelTimerManager.RedButton += () => _anim.SetTrigger("Off");
+
+        _interact.performed += OnPlayRedButton;
 
         _showKeyUI = GetComponentInChildren<ShowKeyUI>();
         _showKeyUI.gameObject.SetActive(false);
@@ -28,11 +36,7 @@ public class RedButton : MonoBehaviour
         EventManager.UnSubscribeToEvent(Contains.ON_ROOM_WON, ShowExit);
         EventManager.UnSubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDead);
     }
-    private void Update()
-    {
-        if (_inputManager.GetButtonDown("Interact") && _isPlayerOnTrigger) PlayRedButton();
-    }
-
+    void OnPlayRedButton(InputAction.CallbackContext obj) { if (_isPlayerOnTrigger) PlayRedButton(); }
     void OnPlayerDead(params object[] param) { StartCoroutine(HideExit()); }
     void ShowExit(params object[] param)
     {

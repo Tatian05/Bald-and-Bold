@@ -24,7 +24,7 @@ public class PauseManager : MonoBehaviour
     }
     private void Update()
     {
-        if (_inputManager.GetButtonDown("Pause") & !_cinematicManager.playingCinematic & !_tutorialPause)
+        if (Input.GetKeyDown(KeyCode.Escape) && !_cinematicManager.playingCinematic && !_tutorialPause)
         {
             if (_paused) Pop();
             else Push(Instantiate(_pauseGO));

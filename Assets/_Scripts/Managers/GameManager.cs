@@ -4,7 +4,14 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+
     public Action SetPlayerSkin = delegate { }, SetPresidentSkin = delegate { };
+    public PlayerInputs PlayerInputs { get; private set; }
+
+    [Header("Gamepad References")]
+    [SerializeField] public RectTransform gamepadRectTransform;
+    [SerializeField] public RectTransform canvasRectTransform;
+    [SerializeField] public Canvas gamepadCanvas;
 
     [Header("Layers")]
     [SerializeField] LayerMask _groundLayer, _playerLayer, _weaponLayer, _dynamicBodies, _borderLayer, _invisibleWallLayer, _enemyBulletLayer;
@@ -55,9 +62,9 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
+        instance = this;
 
+        PlayerInputs = new PlayerInputs();
         _player = FindObjectOfType<GeneralPlayer>();
         _enemyManager = GetComponent<BaseEnemyManager>();
         if (_enemyManager == null) _enemyManager = FindObjectOfType<BaseEnemyManager>();

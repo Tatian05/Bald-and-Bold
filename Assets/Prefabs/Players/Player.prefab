@@ -237,11 +237,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1266088774287247118}
   - component: {fileID: 1266088774287247117}
+  - component: {fileID: 9048841793955093297}
   - component: {fileID: 1266088774287247121}
   - component: {fileID: 1266088774287247120}
   - component: {fileID: 1266088774287247123}
   - component: {fileID: 1266088774287247116}
   - component: {fileID: 505499263328215027}
+  - component: {fileID: 1360816382294682516}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -287,6 +289,19 @@ MonoBehaviour:
   - {fileID: 1266088774822671309}
   - {fileID: 1266088775024654866}
   - {fileID: 1266088773419284710}
+--- !u!114 &9048841793955093297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266088774287247122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3ee14154bc8aa94ebeee2861625cee8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cursorSpeed: 1000
 --- !u!114 &1266088774287247121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,6 +401,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shadowCaster: {fileID: 899862880646520267}
+--- !u!114 &1360816382294682516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266088774287247122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 87db302d52640824eba2063c7e6b37c4, type: 3}
+  m_NotificationBehavior: 3
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: dc8bce65-77a7-4393-9a9c-4c62a4f183ef
+    m_ActionName: Player/Jump[/Keyboard/space]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &1266088774438158974
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,7 +543,7 @@ MonoBehaviour:
   - {x: -0.32084942, y: 0.014481306, z: 0}
   m_ShapePathHash: -460105547
   m_Mesh: {fileID: 0}
-  m_InstanceId: 207828
+  m_InstanceId: 67720
 --- !u!1 &1266088774822671311
 GameObject:
   m_ObjectHideFlags: 0

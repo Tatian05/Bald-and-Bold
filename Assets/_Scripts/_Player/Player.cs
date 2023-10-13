@@ -14,7 +14,7 @@ public class Player : GeneralPlayer
     [SerializeField] Animator _anim;
     [SerializeField] Transform _playerSprite, _groundCheckTransform;
 
-    IController _controller;
+    PlayerController _controller;
     PlayerModel _playerModel;
     PlayerView _playerView;
     Rigidbody2D _rb;
@@ -42,6 +42,9 @@ public class Player : GeneralPlayer
     [SerializeField] ParticleSystem _dashParticle;
 
     #endregion
+
+    PlayerInputs _playerInputs;
+    public PlayerInputs PlayerInputs { get { return _playerInputs; } private set { } }
 
     public Action<float, float> OnMove;
     public Action OnDash = delegate { };
@@ -98,15 +101,19 @@ public class Player : GeneralPlayer
 
         #endregion
 
+
+
         _controller = new PlayerController(this, _playerModel);
 
         _myFsm = new EventFSM<PlayerStates>(Empty);
 
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDeath);
+        _controller.OnEnable();
     }
     private void OnDestroy()
     {
         EventManager.UnSubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDeath);
+        _controller.OnDisable();
     }
     private void Update()
     {

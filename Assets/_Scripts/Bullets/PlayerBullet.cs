@@ -14,7 +14,6 @@ public class PlayerBullet : Bullet
 
         if (raycast)
         {
-            Debug.Log(raycast.collider.name);
             if (raycast.collider.TryGetComponent(out IDamageable enemy)) enemy.TakeDamage(_dmg);
             else Helpers.AudioManager.PlaySFX("Bullet_GroundHit");
             ReturnBullet();

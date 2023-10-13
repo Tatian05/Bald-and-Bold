@@ -51,4 +51,5 @@ public class Contains
     public const string WAIT_PLAYER_DEAD = "Wait Player Dead";
     public const string ON_ROOM_WON = "On Room Won";
     public const string ON_LEVEL_START = "On level start";
+    public const string ON_CONTROLS_CHANGED = "On Controls Changed";
 }

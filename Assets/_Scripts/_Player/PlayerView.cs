@@ -14,8 +14,7 @@ public class PlayerView
     }
     public void Run(float xAxis, float yAxis = 0)
     {
-        _anim.SetInteger("xAxis", Mathf.Abs((int)xAxis));
-
+        _anim.SetInteger("xAxis", Mathf.Abs(Mathf.RoundToInt(xAxis)));
         _stepsTimer += Time.deltaTime;
 
         if (_stepsTimer >= .1f && xAxis != 0)

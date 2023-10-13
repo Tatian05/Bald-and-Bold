@@ -5,7 +5,6 @@ public class PlayerShop : MonoBehaviour
     [SerializeField] GameObject _shopCanvas, _collectionCanvas;
 
     Animator _animator;
-
     System.Action _currentState;
     InputManager _inputManager;
     bool _onShopTrigger, _onProbadorTrigger;
