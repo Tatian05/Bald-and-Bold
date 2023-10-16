@@ -10,12 +10,21 @@ public class WeaponManager : MonoBehaviour
     Transform _mainWeaponContainer, _secundaryWeaponContainer;
     Transform _secundaryWeaponTransform;
     PlayerInputs _playerInputs;
-    GamepadController _gamepadController;
+    PlayerInput _playerInput;
     InputAction _knife, _interact, _shoot;
     Action _lookAtMouse = delegate { };
     Camera _mainCamera;
     bool _onWeaponTrigger;
     Func<Vector2> _cursorPosition;
+
+    const string GAMEPAD_SCHEME = "Gamepad";
+    const string KEYBOARD_MOUSE = "Keyboard&Mouse";
+    string _previousControlScheme = string.Empty;
+    private void OnEnable()
+    {
+        _playerInput = GetComponent<PlayerInput>();
+        _playerInput.onControlsChanged += OnControlChanged;
+    }
     private void Start()
     {
         _mainCamera = Helpers.MainCamera;
@@ -25,10 +34,7 @@ public class WeaponManager : MonoBehaviour
         _secundaryWeaponTransform = _currentSecundaryWeapon.transform;
         _currentSecundaryWeapon.PickUp(true);
         _lookAtMouse += SecundaryWeapon;
-
-        _gamepadController = GetComponent<GamepadController>();
         _playerInputs = Helpers.GameManager.PlayerInputs;
-
         _knife = _playerInputs.Player.Knife;
         _interact = _playerInputs.Player.Interact;
         _shoot = _playerInputs.Player.Shoot;
@@ -39,6 +45,7 @@ public class WeaponManager : MonoBehaviour
         _interact.Enable();
         _shoot.Enable();
         EventManager.SubscribeToEvent(Contains.ON_CONTROLS_CHANGED, SetCursorPosition);
+        EventManager.TriggerEvent(Contains.ON_CONTROLS_CHANGED, _playerInput.currentControlScheme);
     }
     private void Update()
     {
@@ -103,7 +110,7 @@ public class WeaponManager : MonoBehaviour
     Vector2 primaryWeaponRotation;
     void MainWeapon()
     {
-        if (Vector3.Dot(transform.right, GetMouseDirectionMain()) < Mathf.Cos(90) * Mathf.Deg2Rad) return;
+        if (Vector3.Dot(transform.right, _cursorPosition()) < Mathf.Cos(90) * Mathf.Deg2Rad) return;
 
         _mainWeaponContainer.eulerAngles = new Vector3(0, 0, GetAngle());
         primaryWeaponRotation = new Vector2(_currentMainWeapon.transform.localScale.x, Mathf.Sign(GetMouseDirectionMain().x));
@@ -113,7 +120,7 @@ public class WeaponManager : MonoBehaviour
     Vector2 secondaryWeaponSize;
     void SecundaryWeapon()
     {
-        if (Vector3.Dot(transform.right, GetMouseDirectionSecundary()) < Mathf.Cos(90) * Mathf.Deg2Rad) return;
+        if (Vector3.Dot(transform.right, _cursorPosition()) < Mathf.Cos(90) * Mathf.Deg2Rad) return;
 
         _secundaryWeaponContainer.eulerAngles = new Vector3(0, 0, GetAngle());
         secondaryWeaponSize = new Vector2(_secundaryWeaponTransform.localScale.x, Mathf.Sign(GetMouseDirectionSecundary().x));
@@ -123,15 +130,31 @@ public class WeaponManager : MonoBehaviour
     #endregion
 
     #region Mouse Funcs
-    public float GetAngle() => Mathf.Atan2(GetMouseDirectionMain().y, GetMouseDirectionMain().x) * Mathf.Rad2Deg;
-    public Vector2 GetMousePosition() => _mainCamera.ScreenToWorldPoint(new Vector3(_cursorPosition().x, _cursorPosition().y, _mainCamera.nearClipPlane));
+    public float GetAngle() => Mathf.Atan2(_cursorPosition().y, _cursorPosition().x) * Mathf.Rad2Deg;
+    public Vector2 GetMousePosition() => _mainCamera.ScreenToWorldPoint(new Vector3(MouseCursorPosition().x, MouseCursorPosition().y, _mainCamera.nearClipPlane));
     Vector2 GetMouseDirectionMain() => (GetMousePosition() - (Vector2)_mainWeaponContainer.position).normalized;
     Vector2 GetMouseDirectionSecundary() => (GetMousePosition() - (Vector2)_secundaryWeaponContainer.position).normalized;
 
     #endregion
-    void SetCursorPosition(params object[] param) => _cursorPosition = (string)param[0] == "Gamepad" ? (Func<Vector2>)GamepadCursorPosition : (Func<Vector2>)MouseCursorPosition;
-    Vector2 GamepadCursorPosition() => _gamepadController.GamepadCursor;
+    void SetCursorPosition(params object[] param) => _cursorPosition = (string)param[0] == "Gamepad" ? (Func<Vector2>)GamepadCursorPosition : (Func<Vector2>)GetMouseDirectionMain;
+    Vector2 GamepadCursorPosition() => Gamepad.current.rightStick.ReadValue();
     Vector2 MouseCursorPosition() => Mouse.current.position.ReadValue();
+
+    void OnControlChanged(PlayerInput obj)
+    {
+        if (_playerInput.currentControlScheme == KEYBOARD_MOUSE && _previousControlScheme != KEYBOARD_MOUSE)
+        {
+            Cursor.visible = true;
+            _previousControlScheme = KEYBOARD_MOUSE;
+        }
+        else if (_playerInput.currentControlScheme == GAMEPAD_SCHEME && _previousControlScheme != GAMEPAD_SCHEME)
+        {
+            Cursor.visible = false;
+            _previousControlScheme = GAMEPAD_SCHEME;
+        }
+
+        EventManager.TriggerEvent(Contains.ON_CONTROLS_CHANGED, _playerInput.currentControlScheme);
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.GetComponent<ShowKeyUI>()) _onWeaponTrigger = true;
@@ -152,5 +175,6 @@ public class WeaponManager : MonoBehaviour
         _shoot.Disable();
 
         EventManager.UnSubscribeToEvent(Contains.ON_CONTROLS_CHANGED, SetCursorPosition);
+        _playerInput.onControlsChanged -= OnControlChanged;
     }
 }

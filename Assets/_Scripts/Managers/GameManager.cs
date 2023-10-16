@@ -8,11 +8,6 @@ public class GameManager : MonoBehaviour
     public Action SetPlayerSkin = delegate { }, SetPresidentSkin = delegate { };
     public PlayerInputs PlayerInputs { get; private set; }
 
-    [Header("Gamepad References")]
-    [SerializeField] public RectTransform gamepadRectTransform;
-    [SerializeField] public RectTransform canvasRectTransform;
-    [SerializeField] public Canvas gamepadCanvas;
-
     [Header("Layers")]
     [SerializeField] LayerMask _groundLayer, _playerLayer, _weaponLayer, _dynamicBodies, _borderLayer, _invisibleWallLayer, _enemyBulletLayer;
     public LayerMask GroundLayer { get { return _groundLayer; } private set { } }
