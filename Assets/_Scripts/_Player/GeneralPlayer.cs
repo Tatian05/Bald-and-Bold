@@ -5,5 +5,4 @@ public abstract class GeneralPlayer : MonoBehaviour
     [SerializeField] protected Transform _centerPivot;
     public Transform CenterPivot { get { return _centerPivot; } private set { } }
     public abstract void PausePlayer();
-    public abstract void UnPausePlayer();
 }

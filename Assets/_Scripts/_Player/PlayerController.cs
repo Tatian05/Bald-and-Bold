@@ -25,18 +25,14 @@ public class PlayerController
         _jump.performed += OnJump;
         _dash.performed += OnDash;
 
-        _jump.Enable();
-        _dash.Enable();
-        _movement.Enable();
+        _playerInputs.Enable();
     }
     public void OnDisable()
     {
         _jump.performed -= OnJump;
         _dash.performed -= OnDash;
 
-        _jump.Disable();
-        _dash.Disable();
-        _movement.Disable();
+        _playerInputs.Disable();
     }
     public void OnUpdate()
     {
@@ -50,7 +46,6 @@ public class PlayerController
 
         //_xAxis = _inputManager.GetAxisRaw("Horizontal");
         //_yAxis = _inputManager.GetAxisRaw("Vertical");
-
         _xAxis = _movement.ReadValue<Vector2>().x;
         _yAxis = _movement.ReadValue<Vector2>().y;
 

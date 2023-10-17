@@ -10,21 +10,11 @@ public class WeaponManager : MonoBehaviour
     Transform _mainWeaponContainer, _secundaryWeaponContainer;
     Transform _secundaryWeaponTransform;
     PlayerInputs _playerInputs;
-    PlayerInput _playerInput;
     InputAction _knife, _interact, _shoot;
     Action _lookAtMouse = delegate { };
     Camera _mainCamera;
     bool _onWeaponTrigger;
     Func<Vector2> _cursorPosition;
-
-    const string GAMEPAD_SCHEME = "Gamepad";
-    const string KEYBOARD_MOUSE = "Keyboard&Mouse";
-    string _previousControlScheme = string.Empty;
-    private void OnEnable()
-    {
-        _playerInput = GetComponent<PlayerInput>();
-        _playerInput.onControlsChanged += OnControlChanged;
-    }
     private void Start()
     {
         _mainCamera = Helpers.MainCamera;
@@ -44,8 +34,10 @@ public class WeaponManager : MonoBehaviour
         _knife.Enable();
         _interact.Enable();
         _shoot.Enable();
-        EventManager.SubscribeToEvent(Contains.ON_CONTROLS_CHANGED, SetCursorPosition);
-        EventManager.TriggerEvent(Contains.ON_CONTROLS_CHANGED, _playerInput.currentControlScheme);
+
+        EventManager.SubscribeToEvent(Contains.ON_CONTROLS_CHANGED, OnControlChanged);
+
+        EventManager.TriggerEvent(Contains.ON_CONTROLS_CHANGED, OnControlsChange.Instance.CurrentControl);
     }
     private void Update()
     {
@@ -136,24 +128,15 @@ public class WeaponManager : MonoBehaviour
     Vector2 GetMouseDirectionSecundary() => (GetMousePosition() - (Vector2)_secundaryWeaponContainer.position).normalized;
 
     #endregion
-    void SetCursorPosition(params object[] param) => _cursorPosition = (string)param[0] == "Gamepad" ? (Func<Vector2>)GamepadCursorPosition : (Func<Vector2>)GetMouseDirectionMain;
     Vector2 GamepadCursorPosition() => Gamepad.current.rightStick.ReadValue();
     Vector2 MouseCursorPosition() => Mouse.current.position.ReadValue();
 
-    void OnControlChanged(PlayerInput obj)
+    void OnControlChanged(params object[] param)
     {
-        if (_playerInput.currentControlScheme == KEYBOARD_MOUSE && _previousControlScheme != KEYBOARD_MOUSE)
-        {
-            Cursor.visible = true;
-            _previousControlScheme = KEYBOARD_MOUSE;
-        }
-        else if (_playerInput.currentControlScheme == GAMEPAD_SCHEME && _previousControlScheme != GAMEPAD_SCHEME)
-        {
-            Cursor.visible = false;
-            _previousControlScheme = GAMEPAD_SCHEME;
-        }
-
-        EventManager.TriggerEvent(Contains.ON_CONTROLS_CHANGED, _playerInput.currentControlScheme);
+        if ((string)param[0] == OnControlsChange.Instance.KEYBOARD_MOUSE)
+            _cursorPosition = GetMouseDirectionMain;
+        else
+            _cursorPosition = GamepadCursorPosition;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -174,7 +157,6 @@ public class WeaponManager : MonoBehaviour
         _interact.Disable();
         _shoot.Disable();
 
-        EventManager.UnSubscribeToEvent(Contains.ON_CONTROLS_CHANGED, SetCursorPosition);
-        _playerInput.onControlsChanged -= OnControlChanged;
+        EventManager.UnSubscribeToEvent(Contains.ON_CONTROLS_CHANGED, OnControlChanged);
     }
 }

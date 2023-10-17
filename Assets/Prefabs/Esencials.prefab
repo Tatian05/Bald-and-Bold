@@ -318,7 +318,7 @@ MonoBehaviour:
   - {x: -0.5, y: 0.2, z: 0}
   m_ShapePathHash: -1906480883
   m_Mesh: {fileID: 0}
-  m_InstanceId: 339700
+  m_InstanceId: 121760
 --- !u!1 &859833147576569514
 GameObject:
   m_ObjectHideFlags: 0
@@ -708,9 +708,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4273d1ffaa85343a636ef9a354a4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamepadRectTransform: {fileID: 0}
-  canvasRectTransform: {fileID: 6938859774034795534}
-  gamepadCanvas: {fileID: 1026667287010304670}
   _groundLayer:
     serializedVersion: 2
     m_Bits: 65600
@@ -858,8 +855,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c98258b8fae66d41a79f5549e69cadd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lockMode: 2
-  _visible: 1
+  _lockMode: 1
+  _visible: 0
 --- !u!1 &2566736729711227540
 GameObject:
   m_ObjectHideFlags: 0

@@ -44,7 +44,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         if (pred) return;
         transform.position = _initialPos;
-        _gameManager.Player.UnPausePlayer();
 
         foreach (var item in _allPlayerSprites)
             item.gameObject.SetActive(true);

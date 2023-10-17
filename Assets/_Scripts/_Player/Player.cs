@@ -26,7 +26,6 @@ public class Player : GeneralPlayer
     #region Movement
     [Header("Movement")]
     [SerializeField] float _speed;
-    [SerializeField] float _maxDelayCanMove = .2f;
     #endregion
 
     #region Jump
@@ -43,9 +42,6 @@ public class Player : GeneralPlayer
 
     #endregion
 
-    PlayerInputs _playerInputs;
-    public PlayerInputs PlayerInputs { get { return _playerInputs; } private set { } }
-
     public Action<float, float> OnMove;
     public Action OnDash = delegate { };
     public Action OnJump;
@@ -60,8 +56,6 @@ public class Player : GeneralPlayer
 
         _playerModel = new PlayerModel(_rb, transform, _playerSprite, _groundCheckTransform, _speed, _jumpForce, _maxJumps, _dashSpeed, defaultGravity, _coyotaTime, _weaponManager);
         _playerView = new PlayerView(_anim, _dashParticle);
-
-        StartCoroutine(CanMoveDelay());
 
         OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, y); };
 
@@ -131,22 +125,13 @@ public class Player : GeneralPlayer
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(_groundCheckTransform.position, .2f);
     }
-    public IEnumerator CanMoveDelay()
-    {
-        yield return new WaitForSeconds(_maxDelayCanMove);
-
-        _canMove = true;
-    }
     public override void PausePlayer()
     {
-        _canMove = false;
-        _controller = null;
+        _controller.OnDisable();
         _myFsm.SendInput(PlayerStates.Empty);
         _playerModel.FreezeVelocity();
         _anim.SetInteger("xAxis", 0);
     }
-    public override void UnPausePlayer() { StartCoroutine(CanMoveDelay()); }
-
     public void SendInput(PlayerStates PlayerState) { _myFsm.SendInput(PlayerState); }
     private void OnTriggerEnter2D(Collider2D collision)
     {
