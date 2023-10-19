@@ -135,16 +135,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 3794534730561632854}
+  _agroSign: {fileID: 6643527985921195329}
   sprite: {fileID: 1568787525670866302}
   _eyes: {fileID: 1568787525670866302}
   _isRobot: 0
   _maxHp: 3
-  _agroSign: {fileID: 6643527985921195329}
   _bulletSpawnPosition: {fileID: 1016096214225782244}
   _armPivot: {fileID: 1016096215764580469}
   _gunTransform: {fileID: 0}
   _bulletDamage: 1
-  _bulletSpeed: 10
+  _bulletSpeed: 20
   _attackSpeed: 2
   _laserSpeed: {x: 0, y: -2}
   _sniperLaser: {fileID: 0}
@@ -445,7 +445,7 @@ MonoBehaviour:
   - {x: -0.47685814, y: 0.44836223, z: 0}
   m_ShapePathHash: -2122044811
   m_Mesh: {fileID: 0}
-  m_InstanceId: 28374
+  m_InstanceId: 490148
 --- !u!114 &5408961830197213280
 MonoBehaviour:
   m_ObjectHideFlags: 0

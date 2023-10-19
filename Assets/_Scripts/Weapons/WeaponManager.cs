@@ -23,8 +23,8 @@ public class WeaponManager : MonoBehaviour
         _currentSecundaryWeapon = _secundaryWeaponContainer.GetComponentInChildren<Weapon>();
         _secundaryWeaponTransform = _currentSecundaryWeapon.transform;
         _currentSecundaryWeapon.PickUp(true);
-        _lookAtMouse += SecundaryWeapon;
         _playerInputs = Helpers.GameManager.PlayerInputs;
+        _lookAtMouse += SecundaryWeapon;
         _knife = _playerInputs.Player.Knife;
         _interact = _playerInputs.Player.Interact;
         _shoot = _playerInputs.Player.Shoot;

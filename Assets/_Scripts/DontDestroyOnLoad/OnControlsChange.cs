@@ -21,16 +21,23 @@ public class OnControlsChange : MonoBehaviour
     }
     private void OnEnable()
     {
+        EventManager.SubscribeToEvent(Contains.ON_CONTROLS_CHANGED, OnControlsChanged);
+
         _playerInput.onControlsChanged += TriggerOnControlsChange;
     }
     private void OnDisable()
     {
+        EventManager.UnSubscribeToEvent(Contains.ON_CONTROLS_CHANGED, OnControlsChanged);
+
         _playerInput.onControlsChanged -= TriggerOnControlsChange;
     }
     void TriggerOnControlsChange(PlayerInput obj)
     {
         EventManager.TriggerEvent(Contains.ON_CONTROLS_CHANGED, _playerInput.currentControlScheme);
-        CurrentControl = _playerInput.currentControlScheme;
+    }
+    void OnControlsChanged(params object[] param)
+    {
+        CurrentControl = (string)param[0];
         Cursor.visible = CurrentControl == KEYBOARD_MOUSE ? true : false;
     }
 }

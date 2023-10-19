@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Globalization;
 using UnityEngine.Networking;
 using System.Threading;
+using Microsoft.Win32;
 public enum Languages
 {
     eng,

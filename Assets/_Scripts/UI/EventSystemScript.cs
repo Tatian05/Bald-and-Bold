@@ -9,6 +9,16 @@ public class EventSystemScript : MonoBehaviour
     Stack<GameObject> _stack = new Stack<GameObject>();
     EventSystem _eventSystem;
     GameObject _lastSelectedGO;
+
+    public GameObject CurrentSelectedGO
+    {
+        get
+        {
+            if (!_eventSystem.currentSelectedGameObject) return null;
+
+            return _eventSystem.currentSelectedGameObject;
+        }
+    }
     private void Awake()
     {
         Instance = this;

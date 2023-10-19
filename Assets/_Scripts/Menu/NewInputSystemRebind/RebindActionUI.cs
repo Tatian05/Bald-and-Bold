@@ -291,9 +291,9 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                     });
 
             // If it's a part binding, show the name of the part in the UI.
-           //var partName = default(string);
-           //if (action.bindings[bindingIndex].isPartOfComposite)
-           //    partName = $"Binding '{action.bindings[bindingIndex].name}'. ";
+            //var partName = default(string);
+            //if (action.bindings[bindingIndex].isPartOfComposite)
+            //    partName = $"Binding '{action.bindings[bindingIndex].name}'. ";
 
             // Bring up rebind overlay, if we have one.
             m_RebindOverlay?.SetActive(true);
@@ -413,14 +413,14 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
         // We want the label for the action name to update in edit mode, too, so
         // we kick that off from here.
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         protected void OnValidate()
         {
             UpdateActionLabel();
             UpdateBindingDisplay();
         }
 
-        #endif
+#endif
 
         private void UpdateActionLabel()
         {

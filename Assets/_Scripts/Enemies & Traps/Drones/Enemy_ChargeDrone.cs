@@ -84,7 +84,8 @@ public class Enemy_ChargeDrone : Enemy
 
         #endregion
 
-        EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
+        if (Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<ChargeDroneStates>(IDLE);
+        else EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
     }
     void StartFSM(params object[] param) { _myFSM = new EventFSM<ChargeDroneStates>(IDLE); }
     protected override void OnDestroy()

@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 public enum ShootingRobot { Idle, Shoot }
 public class Enemy_ShootingRobot : Enemy_Shooters
 {
@@ -8,7 +9,7 @@ public class Enemy_ShootingRobot : Enemy_Shooters
     State<ShootingRobot> IDLE;
 
     [SerializeField] float _speed;
-    Vector3 _dir;
+    Vector3 _dir = Vector3.right;
     public override void Start()
     {
         base.Start();
@@ -20,21 +21,34 @@ public class Enemy_ShootingRobot : Enemy_Shooters
         StateConfigurer.Create(IDLE).SetTransition(ShootingRobot.Shoot, SHOOT).Done();
         StateConfigurer.Create(SHOOT).SetTransition(ShootingRobot.Idle, IDLE).Done();
 
+        float idleTimer = 0;
         IDLE.OnEnter += x => AgroSign(false);
+        IDLE.OnUpdate += delegate
+        {
+            idleTimer += Time.deltaTime;
+            if(idleTimer >= 3)
+            {
+                _armPivot.DOLocalRotate(new Vector3(0,0, Random.Range(0, -180)), .1f).SetEase(Ease.Linear);
+                idleTimer = 0;
+            }
+
+            if (CanSeePlayer()) _myFSM.SendInput(ShootingRobot.Shoot);
+        };
 
         SHOOT.OnEnter += x => AgroSign(true);
         SHOOT.OnUpdate += delegate
         {
-            _currentAttackSpeed += Time.deltaTime;
-            if (_currentAttackSpeed > _attackSpeed)
-            {
-                _currentAttackSpeed = 0;
-                Shoot();
-            }
+            if (!CanSeePlayer()) _myFSM.SendInput(ShootingRobot.Idle);
+
+            CalculateAttack();
 
             _armRotation.Move();
         };
+
+        if (Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<ShootingRobot>(IDLE);
+        else EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
     }
+    void StartFSM(params object[] param) { _myFSM = new EventFSM<ShootingRobot>(IDLE); }
 
     public override void Update()
     {
@@ -47,9 +61,6 @@ public class Enemy_ShootingRobot : Enemy_Shooters
     }
     void CalculateAttack()
     {
-        if (!CanSeePlayer()) return;
-
-
         _currentAttackSpeed += Time.deltaTime;
 
         if (_currentAttackSpeed > _attackSpeed)
@@ -59,7 +70,6 @@ public class Enemy_ShootingRobot : Enemy_Shooters
             Shoot();
         }
     }
-
     protected override void Shoot()
     {
         FRY_EnemyBullet.Instance.pool.GetObject().SetDmg(1f)
@@ -81,6 +91,6 @@ public class Enemy_ShootingRobot : Enemy_Shooters
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("InvisibleWall"))
-            FlipEnemy();
+            _dir *= -1;
     }
 }
