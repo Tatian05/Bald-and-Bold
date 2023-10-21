@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour
 
 
     public Action SetPlayerSkin = delegate { }, SetPresidentSkin = delegate { };
-    public PlayerInputs PlayerInputs { get; private set; }
 
     [Header("Layers")]
     [SerializeField] LayerMask _groundLayer, _playerLayer, _weaponLayer, _dynamicBodies, _borderLayer, _invisibleWallLayer, _enemyBulletLayer;
@@ -59,7 +58,6 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
 
-        PlayerInputs = new PlayerInputs();
         _player = FindObjectOfType<GeneralPlayer>();
         _enemyManager = GetComponent<BaseEnemyManager>();
         if (_enemyManager == null) _enemyManager = FindObjectOfType<BaseEnemyManager>();

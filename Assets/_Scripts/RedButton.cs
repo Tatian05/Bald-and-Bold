@@ -16,7 +16,7 @@ public class RedButton : MonoBehaviour
     [SerializeField] SpriteRenderer _buttonSprite;
     private void Start()
     {
-        _playerInputs = Helpers.GameManager.PlayerInputs;
+        _playerInputs = NewInputManager.PlayerInputs;
         _interact = _playerInputs.Player.Interact;
         EventManager.SubscribeToEvent(Contains.ON_ROOM_WON, ShowExit);
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDead);

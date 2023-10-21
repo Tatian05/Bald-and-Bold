@@ -14,7 +14,7 @@ public class PlayerController
     {
         _player = player;
         _playerModel = playerModel;
-        _playerInputs = Helpers.GameManager.PlayerInputs;
+        _playerInputs = NewInputManager.PlayerInputs;
 
         _movement = _playerInputs.Player.Movement;
         _jump = _playerInputs.Player.Jump;

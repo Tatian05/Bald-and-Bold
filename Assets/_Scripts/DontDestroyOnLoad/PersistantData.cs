@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 public class PersistantData : MonoBehaviour
 {
@@ -25,13 +26,14 @@ public class PersistantData : MonoBehaviour
     public void SavePersistantData()
     {
         savePersistantData();
-        SaveLoadSystem.SaveGameData(gameData, GAME_DATA);
+        SaveLoadSystem.SaveData(gameData, GAME_DATA);
     }
     public void LoadPersistantData()
     {
-        gameData = File.Exists(Application.persistentDataPath + $"/{GAME_DATA}.json") ? SaveLoadSystem.LoadGameData(GAME_DATA) : new GameData();
-        persistantDataSaved = File.Exists(Application.persistentDataPath + $"/{GAME_DATA}.json") ? SaveLoadSystem.LoadPersistantData(PERSISTANT_DATA) : new PersistantDataSaved();
+        gameData = File.Exists(Application.persistentDataPath + $"/{GAME_DATA}.json") ? SaveLoadSystem.LoadData<GameData>(GAME_DATA) : new GameData();
+        persistantDataSaved = File.Exists(Application.persistentDataPath + $"/{PERSISTANT_DATA}.json") ? SaveLoadSystem.LoadData<PersistantDataSaved>(PERSISTANT_DATA) : new PersistantDataSaved();
         persistantDataSaved.RemoveEmptySlot();
+        persistantDataSaved.LoadUserBindingsDictionary();
     }
     public void DeletePersistantData()
     {
@@ -42,7 +44,7 @@ public class PersistantData : MonoBehaviour
     private void OnDestroy()
     {
         SavePersistantData();
-        SaveLoadSystem.SavePersistantData(persistantDataSaved, PERSISTANT_DATA);
+        SaveLoadSystem.SaveData(persistantDataSaved, PERSISTANT_DATA);
         ResetCoins();
     }
 }
@@ -53,6 +55,11 @@ public class PersistantDataSaved
     public int coins, currentLanguageIndex;
     public CosmeticData playerCosmeticEquiped;
     public CosmeticData presidentCosmeticEquiped;
+
+    public List<string> userBindingKeys = new List<string>();
+    public List<string> userBindingValues = new List<string>();
+    public Dictionary<string, string> userBindings = new Dictionary<string, string>();
+
     public List<CosmeticData> playerCosmeticCollection = new List<CosmeticData>();
     public List<CosmeticData> presidentCosmeticCollection = new List<CosmeticData>();
     public void RemoveEmptySlot()
@@ -66,6 +73,23 @@ public class PersistantDataSaved
     public void Buy(int amount) { coins -= amount; }
     public void AddPlayerCosmetic(CosmeticData cosmetic) { if (!playerCosmeticCollection.Contains(cosmetic)) playerCosmeticCollection.Add(cosmetic); }
     public void AddPresidentCosmetic(CosmeticData cosmetic) { if (!presidentCosmeticCollection.Contains(cosmetic)) presidentCosmeticCollection.Add(cosmetic); }
+
+    public void AddBinding(string key, string value)
+    {
+        if (userBindings.ContainsKey(key))
+        {
+            userBindings[key] = value;
+            int index = userBindingKeys.IndexOf(key);
+            userBindingValues[index] = value;
+            return;
+        }
+
+        userBindingKeys.Add(key);
+        userBindingValues.Add(value);
+        userBindings.Add(key, value);
+    }
+    public string GetBind(string key) => userBindings.ContainsKey(key) ? userBindings[key] : string.Empty;
+    public void LoadUserBindingsDictionary() { userBindings = userBindingKeys.DictioraryFromTwoLists(userBindingValues); }
 }
 
 [Serializable]
