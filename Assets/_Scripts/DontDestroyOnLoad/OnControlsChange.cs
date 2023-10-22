@@ -31,7 +31,7 @@ public class OnControlsChange : MonoBehaviour
 
         _playerInput.onControlsChanged -= TriggerOnControlsChange;
     }
-    void TriggerOnControlsChange(PlayerInput obj)
+    public void TriggerOnControlsChange(PlayerInput obj)
     {
         EventManager.TriggerEvent(Contains.ON_CONTROLS_CHANGED, _playerInput.currentControlScheme);
     }

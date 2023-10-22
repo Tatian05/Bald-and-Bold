@@ -318,7 +318,7 @@ MonoBehaviour:
   - {x: -0.5, y: 0.2, z: 0}
   m_ShapePathHash: -1906480883
   m_Mesh: {fileID: 0}
-  m_InstanceId: 45780
+  m_InstanceId: 70010
 --- !u!1 &859833147576569514
 GameObject:
   m_ObjectHideFlags: 0
@@ -3266,6 +3266,74 @@ PrefabInstance:
     - target: {fileID: 7941577423572125934, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _action
+      value: 
+      objectReference: {fileID: 7596853005386734705, guid: 87db302d52640824eba2063c7e6b37c4, type: 3}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _inputBinding.m_Id
+      value: 8a392e2b-f85e-4ddf-bdf8-b87b61722c8b
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _inputBinding.m_Path
+      value: <Keyboard>/e
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _inputBinding.m_Action
+      value: Interact
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _inputBinding.m_Groups
+      value: Keyboard&Mouse
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[0].action
+      value: 
+      objectReference: {fileID: 7596853005386734705, guid: 87db302d52640824eba2063c7e6b37c4, type: 3}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].action
+      value: 
+      objectReference: {fileID: 7596853005386734705, guid: 87db302d52640824eba2063c7e6b37c4, type: 3}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].selectedBinding
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[0].inputBinding.m_Id
+      value: 8a392e2b-f85e-4ddf-bdf8-b87b61722c8b
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].inputBinding.m_Id
+      value: 9fc1364f-5c6d-4b45-aa29-f9b3d1075a0c
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[0].inputBinding.m_Path
+      value: <Keyboard>/e
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].inputBinding.m_Path
+      value: <Gamepad>/buttonWest
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[0].inputBinding.m_Action
+      value: Interact
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[0].inputBinding.m_Groups
+      value: Keyboard&Mouse
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].inputBinding.m_Action
+      value: Interact
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].inputBinding.m_Groups
+      value: Gamepad
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}

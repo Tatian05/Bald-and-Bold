@@ -17,19 +17,9 @@ public class TutorialControls : MonoBehaviour
         _inputActionTxt.text = LanguageManager.Instance.selectedLanguage == Languages.eng ? _ENGText : _SPAText;
         _info.SetActive(false);
     }
-    void Wait()
-    {
-        _activated = true;
-        _info.SetActive(true);
-        for (int i = 0; i < _inputsNames.Length; i++)
-        {
-            _keys[i].active = true;
-            _keys[i].SetDelay(i % 2 == 0).SetButtonSprite(_inputsNames[i]);
-        }
-    }
     private void OnTriggerEnter2D()
     {
         if (!_activated)
-            Wait();
+            _info.SetActive(true);
     }
 }

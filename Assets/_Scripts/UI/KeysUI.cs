@@ -1,63 +1,50 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System.Collections.Generic;
+using System.Linq;
+
 public class KeysUI : MonoBehaviour
 {
     [SerializeField] Image _keyImg;
-    Sprite[] _sprites = new Sprite[2];
-    int _delay;
-    public bool active { get; set; }
-    IEnumerator PressedAnimation()
-    {
-        var waitForSeconds = new WaitForSeconds(.5f);
-        while (true)
-        {
-            _keyImg.sprite = _sprites[_delay++ % _sprites.Length];
-            yield return waitForSeconds;
-            _keyImg.sprite = _sprites[_delay++ % _sprites.Length];
-            yield return waitForSeconds;
-        }
-    }
+    [SerializeField] TextMeshProUGUI _text;
+    [SerializeField] Sprite[] _gamepadButtonsSprites;
 
+    string[] _gamepadButtonsNames = new string[3] { "button", "Stick", "Shoulder" };
+    Dictionary<string, Sprite> _gamepadButtonImage;
+
+    private void Awake()
+    {
+        _gamepadButtonImage = _gamepadButtonsNames.DictioraryFromTwoLists(_gamepadButtonsSprites);
+    }
     #region BUILDER
+    public KeysUI SetText(string text)
+    {
+        _text.text = text;
+        return this;
+    }
     public KeysUI SetPosition(Vector2 position)
     {
         transform.position = position;
         return this;
     }
-    public KeysUI SetButtonSprite(string inputName)
+    public KeysUI SetImage(string bindingPath)
     {
-        _sprites[0] = InputManager.Instance.GetKeySpriteByName(inputName);
-        _sprites[1] = InputManager.Instance.GetPressedKeySpriteByName(inputName);
-        if (active) StartCoroutine(PressedAnimation());
+        if (OnControlsChange.Instance.CurrentControl != "Gamepad") return this;
+
+        _keyImg.sprite = _gamepadButtonImage.FirstOrDefault(x => bindingPath.Contains(x.Key)).Value;
         return this;
     }
 
-    public KeysUI SetDelay(bool delay)
-    {
-        _delay = delay ? 1 : 0;
-        _keyImg.sprite = _sprites[_delay];
-        return this;
-    }
-    private void Reset()
-    {
-        active = false;
-        StopCoroutine(PressedAnimation());
-        _keyImg.sprite = null;
-    }
     #endregion
     public static void TurnOn(KeysUI k)
     {
-        k.active = true;
         k.gameObject.SetActive(true);
     }
     public static void TurnOff(KeysUI k)
     {
         if (k)
-        {
-            k.Reset();
             k.gameObject.SetActive(false);
-        }
     }
 
     public void ReturnObject()

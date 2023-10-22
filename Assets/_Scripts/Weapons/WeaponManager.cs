@@ -35,9 +35,11 @@ public class WeaponManager : MonoBehaviour
         _interact.Enable();
         _shoot.Enable();
 
-        EventManager.SubscribeToEvent(Contains.ON_CONTROLS_CHANGED, OnControlChanged);
-
         EventManager.TriggerEvent(Contains.ON_CONTROLS_CHANGED, OnControlsChange.Instance.CurrentControl);
+    }
+    private void OnEnable()
+    {
+        EventManager.SubscribeToEvent(Contains.ON_CONTROLS_CHANGED, OnControlChanged);     
     }
     private void Update()
     {
@@ -133,10 +135,7 @@ public class WeaponManager : MonoBehaviour
 
     void OnControlChanged(params object[] param)
     {
-        if ((string)param[0] == OnControlsChange.Instance.KEYBOARD_MOUSE)
-            _cursorPosition = GetMouseDirectionMain;
-        else
-            _cursorPosition = GamepadCursorPosition;
+        _cursorPosition = (string)param[0] == OnControlsChange.Instance.KEYBOARD_MOUSE ? (Func<Vector2>)GetMouseDirectionMain : (Func<Vector2>)GamepadCursorPosition;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

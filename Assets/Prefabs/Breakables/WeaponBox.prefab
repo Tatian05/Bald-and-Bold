@@ -252,8 +252,88 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _action
+      value: 
+      objectReference: {fileID: 9090257522705566741, guid: 87db302d52640824eba2063c7e6b37c4, type: 3}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
       propertyPath: _keyName
       value: Knife
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _selectedBinding
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _inputBinding.m_Id
+      value: 11c740b6-3cc7-459a-b042-254e8e74783b
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _inputBinding.m_Path
+      value: <Mouse>/rightButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _inputBinding.m_Action
+      value: Knife
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _inputBinding.m_Groups
+      value: Keyboard&Mouse
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[0].action
+      value: 
+      objectReference: {fileID: 9090257522705566741, guid: 87db302d52640824eba2063c7e6b37c4, type: 3}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].action
+      value: 
+      objectReference: {fileID: 9197273227250040756, guid: 87db302d52640824eba2063c7e6b37c4, type: 3}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].selectedBinding
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[0].inputBinding.m_Id
+      value: 11c740b6-3cc7-459a-b042-254e8e74783b
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].inputBinding.m_Id
+      value: 05f4d18a-12f6-42b1-bc9f-1f0d2703810e
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[0].inputBinding.m_Path
+      value: <Mouse>/rightButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].inputBinding.m_Name
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].inputBinding.m_Path
+      value: <Gamepad>/rightShoulder
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].inputBinding.m_Flags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[0].inputBinding.m_Action
+      value: Knife
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[0].inputBinding.m_Groups
+      value: Keyboard&Mouse
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].inputBinding.m_Action
+      value: Shoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].inputBinding.m_Groups
+      value: Gamepad
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}

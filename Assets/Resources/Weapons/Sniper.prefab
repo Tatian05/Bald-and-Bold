@@ -280,7 +280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaponData: {fileID: 11400000, guid: 8deb3d5dddb071d4ea187f037ebbe458, type: 2}
   _droppableWeapon: 1
-  _recoil: 0.05
+  _recoilForce: 0
 --- !u!114 &4088419304027367941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,8 +434,60 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _action
+      value: 
+      objectReference: {fileID: 7596853005386734705, guid: 87db302d52640824eba2063c7e6b37c4, type: 3}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
       propertyPath: _keyName
       value: Interact
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[0].action
+      value: 
+      objectReference: {fileID: 7596853005386734705, guid: 87db302d52640824eba2063c7e6b37c4, type: 3}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].action
+      value: 
+      objectReference: {fileID: 7596853005386734705, guid: 87db302d52640824eba2063c7e6b37c4, type: 3}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].selectedBinding
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[0].inputBinding.m_Id
+      value: 8a392e2b-f85e-4ddf-bdf8-b87b61722c8b
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].inputBinding.m_Id
+      value: 9fc1364f-5c6d-4b45-aa29-f9b3d1075a0c
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[0].inputBinding.m_Path
+      value: <Keyboard>/e
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].inputBinding.m_Path
+      value: <Gamepad>/buttonWest
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[0].inputBinding.m_Action
+      value: Interact
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[0].inputBinding.m_Groups
+      value: Keyboard&Mouse
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].inputBinding.m_Action
+      value: Interact
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actions.Array.data[1].inputBinding.m_Groups
+      value: Gamepad
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}

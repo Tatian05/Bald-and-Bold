@@ -85,7 +85,7 @@ public class NewInputManager : MonoBehaviour
     {
         var persistandDataSaved = Helpers.PersistantData.persistantDataSaved;
         for (int i = 0; i < action.bindings.Count; i++)
-            persistandDataSaved.AddBinding(action.actionMap + action.name + i, action.bindings[i].overridePath);
+            persistandDataSaved.AddBinding(action.name + i, action.bindings[i].overridePath);
     }
     public static void LoadUserBindings(string actionName)
     {
