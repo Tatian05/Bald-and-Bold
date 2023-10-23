@@ -318,7 +318,7 @@ MonoBehaviour:
   - {x: -0.5, y: 0.2, z: 0}
   m_ShapePathHash: -1906480883
   m_Mesh: {fileID: 0}
-  m_InstanceId: 70010
+  m_InstanceId: 125252
 --- !u!1 &859833147576569514
 GameObject:
   m_ObjectHideFlags: 0
@@ -3271,6 +3271,10 @@ PrefabInstance:
       propertyPath: _action
       value: 
       objectReference: {fileID: 7596853005386734705, guid: 87db302d52640824eba2063c7e6b37c4, type: 3}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actionName
+      value: Interact
+      objectReference: {fileID: 0}
     - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
       propertyPath: _inputBinding.m_Id
       value: 8a392e2b-f85e-4ddf-bdf8-b87b61722c8b

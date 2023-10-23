@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using TMPro;
 using System;
 using System.Linq;
-
+public enum DeviceType { Keyboard, Gamepad }
 public class NewInputManager : MonoBehaviour
 {
     public static PlayerInputs PlayerInputs;
@@ -12,9 +12,42 @@ public class NewInputManager : MonoBehaviour
     public static event Action RebindCanceled;
     public static event Action<InputAction, int> rebindStarted;
 
+    public static DeviceType activeDevice = DeviceType.Keyboard;
+
+    public static event Action ActiveDeviceChangeEvent;
     private void Awake()
     {
         if (PlayerInputs == null) PlayerInputs = new PlayerInputs();
+    }
+    private void OnEnable()
+    {
+        InputSystem.onActionChange += TrackActions;
+    }
+    private void OnDisable()
+    {
+        InputSystem.onActionChange -= TrackActions;      
+    }
+    public void TrackActions(object obj, InputActionChange change)
+    {
+        if (change == InputActionChange.ActionPerformed)
+        {
+            InputAction inputAction = (InputAction)obj;
+            InputControl activeControl = inputAction.activeControl;
+
+            var newDevice = DeviceType.Keyboard;
+
+            if (activeControl.device is Keyboard)
+                newDevice = DeviceType.Keyboard;
+
+            if (activeControl.device is Gamepad)
+                newDevice = DeviceType.Gamepad;
+
+            if(activeDevice != newDevice)
+            {
+                activeDevice = newDevice;
+                ActiveDeviceChangeEvent?.Invoke();
+            }
+        }
     }
 
     public static void StartRebind(string actionName, int bindingIndex, TextMeshProUGUI statusText, bool excludeMouse)
@@ -73,11 +106,16 @@ public class NewInputManager : MonoBehaviour
         rebindStarted?.Invoke(actionToRebind, bindingIndex);
         rebind.Start();
     }
+    public static InputBinding GetBinding(string actionName, DeviceType deviceType)
+    {
+        InputAction action = PlayerInputs.FindAction(actionName);
+        return action.bindings[(int)deviceType];
+    }
     public static string GetBindingName(string actionName, int bindingIndex)
     {
         if (PlayerInputs == null) PlayerInputs = new PlayerInputs();
 
-        InputAction action = PlayerInputs.asset.FindAction(actionName);
+        InputAction action = PlayerInputs.FindAction(actionName);
 
         return action.GetBindingDisplayString(bindingIndex);
     }

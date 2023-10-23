@@ -438,6 +438,10 @@ PrefabInstance:
       value: Interact
       objectReference: {fileID: 0}
     - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
+      propertyPath: _actionName
+      value: Interact
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906970581137218856, guid: 8bcf819cf8a69bf45a244b8f6d017756, type: 3}
       propertyPath: _inputBinding.m_Id
       value: 8a392e2b-f85e-4ddf-bdf8-b87b61722c8b
       objectReference: {fileID: 0}

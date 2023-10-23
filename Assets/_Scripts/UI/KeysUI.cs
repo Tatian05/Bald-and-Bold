@@ -1,41 +1,54 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using System.Collections.Generic;
 using System.Linq;
-
 public class KeysUI : MonoBehaviour
 {
-    [SerializeField] Image _keyImg;
-    [SerializeField] TextMeshProUGUI _text;
-    [SerializeField] Sprite[] _gamepadButtonsSprites;
-
-    string[] _gamepadButtonsNames = new string[3] { "button", "Stick", "Shoulder" };
-    Dictionary<string, Sprite> _gamepadButtonImage;
-
-    private void Awake()
+    [Tooltip("EL TEXTO DEBE SER SIEMPRE \"{PLAYER/+?}\" LA ACCION QUE QUERRAMOS")]
+    [SerializeField] string _actionAddress;
+    [SerializeField] ListOfTmpSpriteAssets _listOfTmpSpriteAssets;
+    [SerializeField] TextMeshProUGUI _textBox;
+    string _actionName;
+    private void OnEnable()
     {
-        _gamepadButtonImage = _gamepadButtonsNames.DictioraryFromTwoLists(_gamepadButtonsSprites);
+        NewInputManager.ActiveDeviceChangeEvent += UpdateText;
     }
+    private void OnDisable()
+    {
+        NewInputManager.ActiveDeviceChangeEvent -= UpdateText;
+    }
+
     #region BUILDER
-    public KeysUI SetText(string text)
-    {
-        _text.text = text;
-        return this;
-    }
     public KeysUI SetPosition(Vector2 position)
     {
         transform.position = position;
         return this;
     }
-    public KeysUI SetImage(string bindingPath)
+    public KeysUI SetAction(string actionName)
     {
-        if (OnControlsChange.Instance.CurrentControl != "Gamepad") return this;
-
-        _keyImg.sprite = _gamepadButtonImage.FirstOrDefault(x => bindingPath.Contains(x.Key)).Value;
+        _actionName = actionName;
+        _actionAddress = "{Player/" + actionName + "}";
         return this;
     }
+    public KeysUI SetText()
+    {
+        int currentDevice = (int)NewInputManager.activeDevice;
 
+        if (currentDevice > _listOfTmpSpriteAssets.spriteAssets.Count - 1)
+            Debug.Log($"Missing Sprite Asset for {NewInputManager.activeDevice}");
+
+        _textBox.text = ReadAndReplaceBinding.ReplaceActiveBindings(_actionAddress, _listOfTmpSpriteAssets);
+        return this;
+    }
+    void UpdateText()
+    {
+        if (string.IsNullOrEmpty(_actionName)) return;
+        int currentDevice = (int)NewInputManager.activeDevice;
+
+        if (currentDevice > _listOfTmpSpriteAssets.spriteAssets.Count - 1)
+            Debug.Log($"Missing Sprite Asset for {NewInputManager.activeDevice}");
+
+        _textBox.text = ReadAndReplaceBinding.ReplaceActiveBindings(_actionAddress, _listOfTmpSpriteAssets);
+    }
     #endregion
     public static void TurnOn(KeysUI k)
     {
