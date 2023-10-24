@@ -1,21 +1,25 @@
 using UnityEngine;
 using TMPro;
-using System.Linq;
 public class KeysUI : MonoBehaviour
 {
-    [Tooltip("EL TEXTO DEBE SER SIEMPRE \"{PLAYER/+?}\" LA ACCION QUE QUERRAMOS")]
-    [SerializeField] string _actionAddress;
     [SerializeField] ListOfTmpSpriteAssets _listOfTmpSpriteAssets;
     [SerializeField] TextMeshProUGUI _textBox;
+
+    SetTextToBoxText _setText;
     string _actionName;
+    private void Awake()
+    {
+        _setText = new SetTextToBoxText(_listOfTmpSpriteAssets, _textBox);
+    }
     private void OnEnable()
     {
-        NewInputManager.ActiveDeviceChangeEvent += UpdateText;
+        NewInputManager.ActiveDeviceChangeEvent += TriggerSetText;
     }
     private void OnDisable()
     {
-        NewInputManager.ActiveDeviceChangeEvent -= UpdateText;
+        NewInputManager.ActiveDeviceChangeEvent -= TriggerSetText;
     }
+    void TriggerSetText() { _setText.SetText(_actionName); }
 
     #region BUILDER
     public KeysUI SetPosition(Vector2 position)
@@ -26,28 +30,12 @@ public class KeysUI : MonoBehaviour
     public KeysUI SetAction(string actionName)
     {
         _actionName = actionName;
-        _actionAddress = "{Player/" + actionName + "}";
         return this;
     }
     public KeysUI SetText()
     {
-        int currentDevice = (int)NewInputManager.activeDevice;
-
-        if (currentDevice > _listOfTmpSpriteAssets.spriteAssets.Count - 1)
-            Debug.Log($"Missing Sprite Asset for {NewInputManager.activeDevice}");
-
-        _textBox.text = ReadAndReplaceBinding.ReplaceActiveBindings(_actionAddress, _listOfTmpSpriteAssets);
+        _setText.SetText(_actionName);
         return this;
-    }
-    void UpdateText()
-    {
-        if (string.IsNullOrEmpty(_actionName)) return;
-        int currentDevice = (int)NewInputManager.activeDevice;
-
-        if (currentDevice > _listOfTmpSpriteAssets.spriteAssets.Count - 1)
-            Debug.Log($"Missing Sprite Asset for {NewInputManager.activeDevice}");
-
-        _textBox.text = ReadAndReplaceBinding.ReplaceActiveBindings(_actionAddress, _listOfTmpSpriteAssets);
     }
     #endregion
     public static void TurnOn(KeysUI k)
@@ -56,8 +44,7 @@ public class KeysUI : MonoBehaviour
     }
     public static void TurnOff(KeysUI k)
     {
-        if (k)
-            k.gameObject.SetActive(false);
+        if (k) k.gameObject.SetActive(false);
     }
 
     public void ReturnObject()

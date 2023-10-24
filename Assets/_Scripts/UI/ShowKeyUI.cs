@@ -1,7 +1,7 @@
 using UnityEngine;
 public class ShowKeyUI : MonoBehaviour
 {
-    KeysUI _keyUI;
+    [SerializeField] KeysUI _keyUI;
     [SerializeField] string _actionName;
     private void OnTriggerEnter2D(Collider2D collision)
     {

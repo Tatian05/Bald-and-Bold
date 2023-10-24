@@ -1,8 +1,8 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 public class RebindButton : MonoBehaviour
 {
-    [SerializeField] Image _buttonIMG;
-    public void OnStartRebind() { _buttonIMG.color = Color.grey; }
-    public void OnStopRebind() { _buttonIMG.color = Color.white; }
+    [SerializeField] TextMeshProUGUI _buttonText;
+    public void OnStartRebind() { _buttonText.color = Color.grey; }
+    public void OnStopRebind() { _buttonText.color = Color.white; }
 }

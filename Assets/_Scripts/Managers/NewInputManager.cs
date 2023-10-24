@@ -25,7 +25,7 @@ public class NewInputManager : MonoBehaviour
     }
     private void OnDisable()
     {
-        InputSystem.onActionChange -= TrackActions;      
+        InputSystem.onActionChange -= TrackActions;
     }
     public void TrackActions(object obj, InputActionChange change)
     {
@@ -42,7 +42,7 @@ public class NewInputManager : MonoBehaviour
             if (activeControl.device is Gamepad)
                 newDevice = DeviceType.Gamepad;
 
-            if(activeDevice != newDevice)
+            if (activeDevice != newDevice)
             {
                 activeDevice = newDevice;
                 ActiveDeviceChangeEvent?.Invoke();
@@ -106,10 +106,11 @@ public class NewInputManager : MonoBehaviour
         rebindStarted?.Invoke(actionToRebind, bindingIndex);
         rebind.Start();
     }
-    public static InputBinding GetBinding(string actionName, DeviceType deviceType)
+    public static InputBinding GetBinding(string actionName, DeviceType deviceType, int compositeBind)
     {
         InputAction action = PlayerInputs.FindAction(actionName);
-        return action.bindings[(int)deviceType];
+        InputBinding toReturn = action.bindings[(int)deviceType].isComposite ? action.bindings[(int)deviceType + compositeBind] : action.bindings[(int)deviceType];
+        return toReturn;
     }
     public static string GetBindingName(string actionName, int bindingIndex)
     {

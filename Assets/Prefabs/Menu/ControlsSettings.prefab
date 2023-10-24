@@ -1695,6 +1695,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_text
+      value: <sprite="KeyboardButtons" name="Keyboard_space">
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_fontSize
+      value: 66.25
+      objectReference: {fileID: 0}
     - target: {fileID: 4101364343647152610, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
       value: Jump
@@ -1839,6 +1847,10 @@ PrefabInstance:
       propertyPath: m_Text
       value: Jump
       objectReference: {fileID: 0}
+    - target: {fileID: 8386609434156804226, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8492200154956715768, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: _inputBinding.m_Id
       value: 44a2c69e-d3f0-4a53-a94a-bd90e72455a7
@@ -1922,6 +1934,10 @@ PrefabInstance:
     - target: {fileID: 723199622616807248, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_text
+      value: <sprite="KeyboardButtons" name="Mouse_rightButton">
       objectReference: {fileID: 0}
     - target: {fileID: 4101364343647152610, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
@@ -2063,6 +2079,14 @@ PrefabInstance:
       propertyPath: m_Text
       value: Knife
       objectReference: {fileID: 0}
+    - target: {fileID: 8386609434156804226, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8492200154956715768, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: _excludeMouse
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8492200154956715768, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: _inputBinding.m_Id
       value: 11c740b6-3cc7-459a-b042-254e8e74783b
@@ -2146,6 +2170,14 @@ PrefabInstance:
     - target: {fileID: 723199622616807248, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 731473608444823109, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_text
+      value: <sprite="KeyboardButtons" name="Keyboard_w">
       objectReference: {fileID: 0}
     - target: {fileID: 3013263214328647629, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_Color.b
@@ -2295,6 +2327,10 @@ PrefabInstance:
       propertyPath: m_Text
       value: Movement
       objectReference: {fileID: 0}
+    - target: {fileID: 8386609434156804226, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8492200154956715768, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: _selectedBinding
       value: 1
@@ -2395,6 +2431,10 @@ PrefabInstance:
     - target: {fileID: 723199622616807248, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_text
+      value: <sprite="KeyboardButtons" name="Keyboard_e">
       objectReference: {fileID: 0}
     - target: {fileID: 4101364343647152610, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
@@ -2536,6 +2576,10 @@ PrefabInstance:
       propertyPath: m_Text
       value: Interact
       objectReference: {fileID: 0}
+    - target: {fileID: 8386609434156804226, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8492200154956715768, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: _inputBinding.m_Id
       value: 8a392e2b-f85e-4ddf-bdf8-b87b61722c8b
@@ -2619,6 +2663,10 @@ PrefabInstance:
     - target: {fileID: 723199622616807248, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_text
+      value: <sprite="KeyboardButtons" name="Keyboard_d">
       objectReference: {fileID: 0}
     - target: {fileID: 4101364343647152610, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
@@ -2760,6 +2808,10 @@ PrefabInstance:
       propertyPath: m_Text
       value: Movement
       objectReference: {fileID: 0}
+    - target: {fileID: 8386609434156804226, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8492200154956715768, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: _selectedBinding
       value: 4
@@ -2855,6 +2907,10 @@ PrefabInstance:
     - target: {fileID: 723199622616807248, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_text
+      value: <sprite="KeyboardButtons" name="Keyboard_leftShift">
       objectReference: {fileID: 0}
     - target: {fileID: 4101364343647152610, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
@@ -2996,6 +3052,10 @@ PrefabInstance:
       propertyPath: m_Text
       value: Dash
       objectReference: {fileID: 0}
+    - target: {fileID: 8386609434156804226, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8492200154956715768, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: _inputBinding.m_Id
       value: f06852b4-b504-4680-98cf-53a2f12ed2a7
@@ -3079,6 +3139,10 @@ PrefabInstance:
     - target: {fileID: 723199622616807248, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_text
+      value: <sprite="KeyboardButtons" name="Keyboard_a">
       objectReference: {fileID: 0}
     - target: {fileID: 4101364343647152610, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
@@ -3220,6 +3284,10 @@ PrefabInstance:
       propertyPath: m_Text
       value: Movement
       objectReference: {fileID: 0}
+    - target: {fileID: 8386609434156804226, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8492200154956715768, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: _selectedBinding
       value: 3
@@ -3315,6 +3383,10 @@ PrefabInstance:
     - target: {fileID: 723199622616807248, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_text
+      value: <sprite="KeyboardButtons" name="Keyboard_s">
       objectReference: {fileID: 0}
     - target: {fileID: 4101364343647152610, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
@@ -3456,6 +3528,10 @@ PrefabInstance:
       propertyPath: m_Text
       value: Movement
       objectReference: {fileID: 0}
+    - target: {fileID: 8386609434156804226, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8492200154956715768, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: _selectedBinding
       value: 2
@@ -3551,6 +3627,10 @@ PrefabInstance:
     - target: {fileID: 723199622616807248, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_text
+      value: <sprite="KeyboardButtons" name="Mouse_leftButton">
       objectReference: {fileID: 0}
     - target: {fileID: 4101364343647152610, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
@@ -3691,6 +3771,14 @@ PrefabInstance:
     - target: {fileID: 6680292650847612335, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_Text
       value: Shoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 8386609434156804226, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8492200154956715768, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: _excludeMouse
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8492200154956715768, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: _inputBinding.m_Id

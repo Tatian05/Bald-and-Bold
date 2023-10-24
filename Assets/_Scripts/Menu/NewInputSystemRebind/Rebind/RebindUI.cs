@@ -14,19 +14,20 @@ public class RebindUI : MonoBehaviour
 
     int _bindingIndex;
     string _actionName;
+    SetTextToBoxText _setText;
 
     [Header("UI Fields")]
     [SerializeField] Button _rebindButton;
     [SerializeField] TextMeshProUGUI _rebindText;
-
+    [SerializeField] ListOfTmpSpriteAssets _listOfTmpSpriteAssets;
     private void OnEnable()
     {
         _rebindButton.onClick.AddListener(() => DoRebind());
 
-        if(_inputActionReference != null)
+        if (_inputActionReference != null)
         {
-            NewInputManager.LoadUserBindings(_actionName);
             GetBindingInfo();
+            NewInputManager.LoadUserBindings(_actionName);
             UpdateUI();
         }
 
@@ -38,7 +39,10 @@ public class RebindUI : MonoBehaviour
         NewInputManager.RebindComplete -= UpdateUI;
         NewInputManager.RebindCanceled -= UpdateUI;
     }
-
+    private void Start()
+    {
+        _setText = new SetTextToBoxText(_listOfTmpSpriteAssets, _rebindText, _selectedBinding);
+    }
     private void DoRebind()
     {
         NewInputManager.StartRebind(_actionName, _bindingIndex, _rebindText, _excludeMouse);
@@ -49,14 +53,13 @@ public class RebindUI : MonoBehaviour
         if (_inputActionReference == null) return;
 
         GetBindingInfo();
-        UpdateUI();
     }
 
     void GetBindingInfo()
     {
-        if (_inputActionReference != null) _actionName = _inputActionReference.action.name;
+        _actionName = _inputActionReference.action.name;
 
-        if(_inputActionReference.action.bindings.Count > _selectedBinding)
+        if (_inputActionReference.action.bindings.Count > _selectedBinding)
         {
             _inputBinding = _inputActionReference.action.bindings[_selectedBinding];
             _bindingIndex = _selectedBinding;
@@ -64,12 +67,13 @@ public class RebindUI : MonoBehaviour
     }
     void UpdateUI()
     {
-        if(_rebindText != null)
+        if (_rebindText != null && _setText != null)
         {
-            if (Application.isPlaying)
-                _rebindText.text = NewInputManager.GetBindingName(_actionName, _bindingIndex);
-            else
-                _rebindText.text = _inputActionReference.action.GetBindingDisplayString(_bindingIndex);
+            _setText.SetText(_actionName);
+            //if (Application.isPlaying)
+            //    _rebindText.text = NewInputManager.GetBindingName(_actionName, _bindingIndex);
+            //else
+            //    _rebindText.text = _inputActionReference.action.GetBindingDisplayString(_bindingIndex);
         }
     }
     public void ResetBinding()
