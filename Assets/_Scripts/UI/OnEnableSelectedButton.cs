@@ -10,7 +10,7 @@ public class OnEnableSelectedButton : MonoBehaviour
     private void OnEnable()
     {
         _eventSystem.AddToStack(_onEnableSelectedButton);
-        if (OnControlsChange.Instance.CurrentControl != "Gamepad") return;
+        if (NewInputManager.activeDevice == DeviceType.Keyboard) return;
         _eventSystem.SetCurrentGameObjectSelected(_onEnableSelectedButton);
     }
     private void OnDisable()

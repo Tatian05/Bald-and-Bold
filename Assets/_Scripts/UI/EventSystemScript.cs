@@ -26,11 +26,11 @@ public class EventSystemScript : MonoBehaviour
     }
     private void OnEnable()
     {
-        EventManager.SubscribeToEvent(Contains.ON_CONTROLS_CHANGED, OnControlsChanged);
+        NewInputManager.ActiveDeviceChangeEvent += OnControlsChanged;
     }
     private void OnDisable()
     {
-        EventManager.UnSubscribeToEvent(Contains.ON_CONTROLS_CHANGED, OnControlsChanged);
+        NewInputManager.ActiveDeviceChangeEvent -= OnControlsChanged;
     }
     public void AddToStack(GameObject go)
     {
@@ -50,7 +50,7 @@ public class EventSystemScript : MonoBehaviour
         _eventSystem.SetSelectedGameObject(go);
     }
 
-    void OnControlsChanged(params object[] param)
+    void OnControlsChanged()
     {
         if (_eventSystem.currentSelectedGameObject) return;
         var go = _lastSelectedGO ? _lastSelectedGO : _eventSystem.firstSelectedGameObject;

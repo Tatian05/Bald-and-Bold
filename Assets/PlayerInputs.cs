@@ -80,15 +80,6 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""CursorPosition"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""80073be8-a973-429f-b311-4716ec2a1083"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -110,6 +101,17 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""60d6a8e5-1686-4e1e-b858-d3f4a6423390"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""xBoxController"",
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -237,6 +239,28 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""f74fa1ad-92a0-4277-8f84-e8dd33633c87"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""xBoxController"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""009abe61-c2d8-48b0-b8fe-6531b76d3a5c"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""xBoxController"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""f06852b4-b504-4680-98cf-53a2f12ed2a7"",
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
@@ -253,6 +277,17 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""37f962e4-add7-4732-8078-b4269b733602"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""xBoxController"",
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -281,6 +316,17 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""58bf0f45-1345-4fb6-960a-0e237d8c8e68"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""xBoxController"",
+                    ""action"": ""Knife"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""8a392e2b-f85e-4ddf-bdf8-b87b61722c8b"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
@@ -297,6 +343,17 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e031c1b9-4a55-4882-9687-073fc75f4dbc"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""xBoxController"",
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -325,23 +382,12 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""fe05117e-cc04-49aa-8bb5-ebd250d93f9f"",
-                    ""path"": ""<Gamepad>/rightStick"",
+                    ""id"": ""a83c2b61-4e15-4575-adf0-1e8e36dc1e98"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""CursorPosition"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""caa7a1b9-3170-467d-ba1b-f523a98da31c"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""CursorPosition"",
+                    ""groups"": ""xBoxController"",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -610,6 +656,17 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""isOR"": false
                 }
             ]
+        },
+        {
+            ""name"": ""xBoxController"",
+            ""bindingGroup"": ""xBoxController"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<XInputController>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
         }
     ]
 }");
@@ -621,7 +678,6 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Knife = m_Player.FindAction("Knife", throwIfNotFound: true);
-        m_Player_CursorPosition = m_Player.FindAction("CursorPosition", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -691,7 +747,6 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Knife;
-    private readonly InputAction m_Player_CursorPosition;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -702,7 +757,6 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Knife => m_Wrapper.m_Player_Knife;
-        public InputAction @CursorPosition => m_Wrapper.m_Player_CursorPosition;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -730,9 +784,6 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @Knife.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnKnife;
                 @Knife.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnKnife;
                 @Knife.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnKnife;
-                @CursorPosition.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCursorPosition;
-                @CursorPosition.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCursorPosition;
-                @CursorPosition.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCursorPosition;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -755,9 +806,6 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @Knife.started += instance.OnKnife;
                 @Knife.performed += instance.OnKnife;
                 @Knife.canceled += instance.OnKnife;
-                @CursorPosition.started += instance.OnCursorPosition;
-                @CursorPosition.performed += instance.OnCursorPosition;
-                @CursorPosition.canceled += instance.OnCursorPosition;
             }
         }
     }
@@ -821,6 +869,15 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_GamepadSchemeIndex];
         }
     }
+    private int m_xBoxControllerSchemeIndex = -1;
+    public InputControlScheme xBoxControllerScheme
+    {
+        get
+        {
+            if (m_xBoxControllerSchemeIndex == -1) m_xBoxControllerSchemeIndex = asset.FindControlSchemeIndex("xBoxController");
+            return asset.controlSchemes[m_xBoxControllerSchemeIndex];
+        }
+    }
     public interface IPlayerActions
     {
         void OnJump(InputAction.CallbackContext context);
@@ -829,7 +886,6 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
         void OnKnife(InputAction.CallbackContext context);
-        void OnCursorPosition(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

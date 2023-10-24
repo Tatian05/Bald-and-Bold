@@ -19,7 +19,7 @@ public class KeysUI : MonoBehaviour
     {
         NewInputManager.ActiveDeviceChangeEvent -= TriggerSetText;
     }
-    void TriggerSetText() { _setText.SetText(_actionName); }
+    void TriggerSetText() { _setText.SetText(_actionName, NewInputManager.activeDevice); }
 
     #region BUILDER
     public KeysUI SetPosition(Vector2 position)
@@ -34,7 +34,7 @@ public class KeysUI : MonoBehaviour
     }
     public KeysUI SetText()
     {
-        _setText.SetText(_actionName);
+        _setText.SetText(_actionName, NewInputManager.activeDevice);
         return this;
     }
     #endregion

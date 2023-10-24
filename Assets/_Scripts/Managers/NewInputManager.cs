@@ -3,7 +3,8 @@ using UnityEngine.InputSystem;
 using TMPro;
 using System;
 using System.Linq;
-public enum DeviceType { Keyboard, Gamepad }
+using UnityEngine.InputSystem.XInput;
+public enum DeviceType { Keyboard, GeneralGamepad, xBoxGamepad }
 public class NewInputManager : MonoBehaviour
 {
     public static PlayerInputs PlayerInputs;
@@ -27,6 +28,10 @@ public class NewInputManager : MonoBehaviour
     {
         InputSystem.onActionChange -= TrackActions;
     }
+    private void Start()
+    {
+        ActiveDeviceChangeEvent?.Invoke();
+    }
     public void TrackActions(object obj, InputActionChange change)
     {
         if (change == InputActionChange.ActionPerformed)
@@ -40,7 +45,7 @@ public class NewInputManager : MonoBehaviour
                 newDevice = DeviceType.Keyboard;
 
             if (activeControl.device is Gamepad)
-                newDevice = DeviceType.Gamepad;
+                newDevice = activeControl.device is XInputController ? DeviceType.xBoxGamepad : DeviceType.GeneralGamepad;
 
             if (activeDevice != newDevice)
             {
@@ -49,7 +54,6 @@ public class NewInputManager : MonoBehaviour
             }
         }
     }
-
     public static void StartRebind(string actionName, int bindingIndex, TextMeshProUGUI statusText, bool excludeMouse)
     {
         InputAction action = PlayerInputs.asset.FindAction(actionName);
@@ -102,6 +106,7 @@ public class NewInputManager : MonoBehaviour
         });
 
         rebind.WithCancelingThrough("<Keyboard/escape>");
+        if (excludeMouse) rebind.WithControlsExcluding("Mouse");
 
         rebindStarted?.Invoke(actionToRebind, bindingIndex);
         rebind.Start();
@@ -134,11 +139,11 @@ public class NewInputManager : MonoBehaviour
 
         if (PlayerInputs == null) PlayerInputs = new PlayerInputs();
 
-        InputAction action = PlayerInputs.asset.FindAction(actionName);
+        InputAction action = PlayerInputs.FindAction(actionName);
 
         for (int i = 0; i < action.bindings.Count; i++)
         {
-            var key = action.actionMap + action.name + i;
+            var key = action.name + i;
             var bind = persistandDataSaved.GetBind(key);
             if (!string.IsNullOrEmpty(bind))
                 action.ApplyBindingOverride(i, bind);

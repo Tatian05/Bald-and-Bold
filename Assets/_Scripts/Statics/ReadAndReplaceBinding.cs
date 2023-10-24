@@ -29,9 +29,9 @@ public static class ReadAndReplaceBinding
 
         return $"<sprite=\"{spriteAsset.name}\" name=\"{stringButtonName}\">";
     }
-    public static string ReplaceActiveBindings(string textWithActions, ListOfTmpSpriteAssets spritesAssets, int compositeBind)
+    public static string ReplaceActiveBindings(string textWithActions, DeviceType deviceType, ListOfTmpSpriteAssets spritesAssets, int compositeBind)
     {
-        return ReplaceBindings(textWithActions, NewInputManager.activeDevice, spritesAssets, compositeBind);
+        return ReplaceBindings(textWithActions, deviceType, spritesAssets, compositeBind);
     }
     public static string ReplaceBindings(string textWithActions, DeviceType deviceType, ListOfTmpSpriteAssets spriteAssets, int compositeBind)
     {

@@ -13,7 +13,7 @@ public class OnMouseOverButton : EventTrigger
     }
     public override void OnPointerExit(PointerEventData eventData)
     {
-        if (OnControlsChange.Instance.CurrentControl == "Gamepad") return;
+        if (NewInputManager.activeDevice != DeviceType.Keyboard) return;
         _eventSystem.SetCurrentGameObjectSelected(null);
     }
 }

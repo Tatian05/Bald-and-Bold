@@ -35,11 +35,11 @@ public class WeaponManager : MonoBehaviour
         _interact.Enable();
         _shoot.Enable();
 
-        EventManager.TriggerEvent(Contains.ON_CONTROLS_CHANGED, OnControlsChange.Instance.CurrentControl);
+        //OnControlChanged();
     }
     private void OnEnable()
     {
-        EventManager.SubscribeToEvent(Contains.ON_CONTROLS_CHANGED, OnControlChanged);     
+        NewInputManager.ActiveDeviceChangeEvent += OnControlChanged;
     }
     private void Update()
     {
@@ -133,9 +133,9 @@ public class WeaponManager : MonoBehaviour
     Vector2 GamepadCursorPosition() => Gamepad.current.rightStick.ReadValue();
     Vector2 MouseCursorPosition() => Mouse.current.position.ReadValue();
 
-    void OnControlChanged(params object[] param)
+    void OnControlChanged()
     {
-        _cursorPosition = (string)param[0] == OnControlsChange.Instance.KEYBOARD_MOUSE ? (Func<Vector2>)GetMouseDirectionMain : (Func<Vector2>)GamepadCursorPosition;
+        _cursorPosition = NewInputManager.activeDevice == DeviceType.Keyboard ? (Func<Vector2>)GetMouseDirectionMain : (Func<Vector2>)GamepadCursorPosition;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -156,6 +156,6 @@ public class WeaponManager : MonoBehaviour
         _interact.Disable();
         _shoot.Disable();
 
-        EventManager.UnSubscribeToEvent(Contains.ON_CONTROLS_CHANGED, OnControlChanged);
+        NewInputManager.ActiveDeviceChangeEvent -= OnControlChanged;
     }
 }

@@ -297,7 +297,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -200, y: 70}
+  m_AnchoredPosition: {x: -200, y: 80}
   m_SizeDelta: {x: 180, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8988750075659494770
@@ -984,7 +984,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 200, y: 70}
+  m_AnchoredPosition: {x: 200, y: 80}
   m_SizeDelta: {x: 180, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7363929486217634813
@@ -1701,8 +1701,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_fontSize
-      value: 66.25
+      value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -7370286497073703031, guid: 56c081df80e624848aff4354a25ce61a, type: 2}
     - target: {fileID: 4101364343647152610, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
       value: Jump
@@ -1939,6 +1943,14 @@ PrefabInstance:
       propertyPath: m_text
       value: <sprite="KeyboardButtons" name="Mouse_rightButton">
       objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_fontSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -7370286497073703031, guid: 56c081df80e624848aff4354a25ce61a, type: 2}
     - target: {fileID: 4101364343647152610, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
       value: Knife
@@ -2179,6 +2191,14 @@ PrefabInstance:
       propertyPath: m_text
       value: <sprite="KeyboardButtons" name="Keyboard_w">
       objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_fontSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -7370286497073703031, guid: 56c081df80e624848aff4354a25ce61a, type: 2}
     - target: {fileID: 3013263214328647629, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -2436,6 +2456,14 @@ PrefabInstance:
       propertyPath: m_text
       value: <sprite="KeyboardButtons" name="Keyboard_e">
       objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_fontSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -7370286497073703031, guid: 56c081df80e624848aff4354a25ce61a, type: 2}
     - target: {fileID: 4101364343647152610, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
       value: Interact
@@ -2668,6 +2696,14 @@ PrefabInstance:
       propertyPath: m_text
       value: <sprite="KeyboardButtons" name="Keyboard_d">
       objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_fontSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -7370286497073703031, guid: 56c081df80e624848aff4354a25ce61a, type: 2}
     - target: {fileID: 4101364343647152610, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
       value: Movement
@@ -2912,6 +2948,14 @@ PrefabInstance:
       propertyPath: m_text
       value: <sprite="KeyboardButtons" name="Keyboard_leftShift">
       objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_fontSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -7370286497073703031, guid: 56c081df80e624848aff4354a25ce61a, type: 2}
     - target: {fileID: 4101364343647152610, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
       value: Dash
@@ -3144,6 +3188,14 @@ PrefabInstance:
       propertyPath: m_text
       value: <sprite="KeyboardButtons" name="Keyboard_a">
       objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_fontSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -7370286497073703031, guid: 56c081df80e624848aff4354a25ce61a, type: 2}
     - target: {fileID: 4101364343647152610, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
       value: Movement
@@ -3388,6 +3440,14 @@ PrefabInstance:
       propertyPath: m_text
       value: <sprite="KeyboardButtons" name="Keyboard_s">
       objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_fontSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -7370286497073703031, guid: 56c081df80e624848aff4354a25ce61a, type: 2}
     - target: {fileID: 4101364343647152610, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
       value: Movement
@@ -3632,6 +3692,14 @@ PrefabInstance:
       propertyPath: m_text
       value: <sprite="KeyboardButtons" name="Mouse_leftButton">
       objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_fontSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532811250931466896, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -7370286497073703031, guid: 56c081df80e624848aff4354a25ce61a, type: 2}
     - target: {fileID: 4101364343647152610, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
       value: Shoot

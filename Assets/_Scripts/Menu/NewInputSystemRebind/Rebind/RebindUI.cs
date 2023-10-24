@@ -20,6 +20,11 @@ public class RebindUI : MonoBehaviour
     [SerializeField] Button _rebindButton;
     [SerializeField] TextMeshProUGUI _rebindText;
     [SerializeField] ListOfTmpSpriteAssets _listOfTmpSpriteAssets;
+    [SerializeField] DeviceType _deviceType;
+    private void Awake()
+    {
+        _setText = new SetTextToBoxText(_listOfTmpSpriteAssets, _rebindText, _selectedBinding);
+    }
     private void OnEnable()
     {
         _rebindButton.onClick.AddListener(() => DoRebind());
@@ -39,10 +44,6 @@ public class RebindUI : MonoBehaviour
         NewInputManager.RebindComplete -= UpdateUI;
         NewInputManager.RebindCanceled -= UpdateUI;
     }
-    private void Start()
-    {
-        _setText = new SetTextToBoxText(_listOfTmpSpriteAssets, _rebindText, _selectedBinding);
-    }
     private void DoRebind()
     {
         NewInputManager.StartRebind(_actionName, _bindingIndex, _rebindText, _excludeMouse);
@@ -53,6 +54,7 @@ public class RebindUI : MonoBehaviour
         if (_inputActionReference == null) return;
 
         GetBindingInfo();
+        //UpdateUI();
     }
 
     void GetBindingInfo()
@@ -69,7 +71,7 @@ public class RebindUI : MonoBehaviour
     {
         if (_rebindText != null && _setText != null)
         {
-            _setText.SetText(_actionName);
+            _setText.SetText(_actionName, _deviceType);
             //if (Application.isPlaying)
             //    _rebindText.text = NewInputManager.GetBindingName(_actionName, _bindingIndex);
             //else

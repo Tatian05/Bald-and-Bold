@@ -8,15 +8,15 @@ public class CursorLockState : MonoBehaviour
         Cursor.lockState = _lockMode;
         Cursor.visible = _visible;
 
-        EventManager.SubscribeToEvent(Contains.ON_CONTROLS_CHANGED, SetCursor);
+        NewInputManager.ActiveDeviceChangeEvent += SetCursor;
     }
     private void OnDisable()
     {
-        EventManager.UnSubscribeToEvent(Contains.ON_CONTROLS_CHANGED, SetCursor);     
+        NewInputManager.ActiveDeviceChangeEvent -= SetCursor;
     }
-    void SetCursor(params object[] param)
+    void SetCursor()
     {
-        if ((string)param[0] == "Gamepad")
+        if (NewInputManager.activeDevice != DeviceType.Keyboard)
         {
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
