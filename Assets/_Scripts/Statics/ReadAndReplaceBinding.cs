@@ -55,6 +55,8 @@ public static class ReadAndReplaceBinding
         stringButtonName = stringButtonName.Replace("[Keyboard&Mouse]", string.Empty);
         stringButtonName = stringButtonName.Replace("<Gamepad>/", "Gamepad_");
         stringButtonName = stringButtonName.Replace("[Gamepad]", string.Empty);
+        stringButtonName = stringButtonName.Replace("<XInputController>/", "XInputController_");
+        stringButtonName = stringButtonName.Replace("[xBoxController]", string.Empty);
         stringButtonName = stringButtonName.Replace("<Mouse>/", "Mouse_");
 
         return stringButtonName;
