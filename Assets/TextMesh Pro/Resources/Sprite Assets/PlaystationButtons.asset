@@ -63,13 +63,37 @@ MonoBehaviour:
     m_Scale: 1
     m_Name: Gamepad_buttonSouth
     m_HashCode: -2076013817
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 4
+    m_Scale: 1
+    m_Name: Gamepad_leftShoulder
+    m_HashCode: 462000641
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 5
+    m_Scale: 1
+    m_Name: Gamepad_leftTrigger
+    m_HashCode: 2049567399
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 6
+    m_Scale: 1
+    m_Name: Gamepad_rightShoulder
+    m_HashCode: -529202534
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 7
+    m_Scale: 1
+    m_Name: Gamepad_rightTrigger
+    m_HashCode: -12490148
   m_SpriteGlyphTable:
   - m_Index: 0
     m_Metrics:
       m_Width: 16
       m_Height: 16
-      m_HorizontalBearingX: -8
-      m_HorizontalBearingY: 8
+      m_HorizontalBearingX: 2.5
+      m_HorizontalBearingY: 15
       m_HorizontalAdvance: 16
     m_GlyphRect:
       m_X: 0
@@ -83,8 +107,8 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 16
       m_Height: 16
-      m_HorizontalBearingX: -8
-      m_HorizontalBearingY: 8
+      m_HorizontalBearingX: 2.5
+      m_HorizontalBearingY: 15
       m_HorizontalAdvance: 16
     m_GlyphRect:
       m_X: 16
@@ -98,8 +122,8 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 16
       m_Height: 16
-      m_HorizontalBearingX: -8
-      m_HorizontalBearingY: 8
+      m_HorizontalBearingX: 2.5
+      m_HorizontalBearingY: 15
       m_HorizontalAdvance: 16
     m_GlyphRect:
       m_X: 32
@@ -113,8 +137,8 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 16
       m_Height: 16
-      m_HorizontalBearingX: -8
-      m_HorizontalBearingY: 8
+      m_HorizontalBearingX: 2.5
+      m_HorizontalBearingY: 15
       m_HorizontalAdvance: 16
     m_GlyphRect:
       m_X: 48
@@ -124,6 +148,66 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     sprite: {fileID: 7828519010120675584, guid: f3cf337098918dc47a5390381d8a6be4, type: 3}
+  - m_Index: 4
+    m_Metrics:
+      m_Width: 16
+      m_Height: 16
+      m_HorizontalBearingX: 2.5
+      m_HorizontalBearingY: 15
+      m_HorizontalAdvance: 16
+    m_GlyphRect:
+      m_X: 64
+      m_Y: 0
+      m_Width: 16
+      m_Height: 16
+    m_Scale: 1
+    m_AtlasIndex: 0
+    sprite: {fileID: -1509507411794766304, guid: f3cf337098918dc47a5390381d8a6be4, type: 3}
+  - m_Index: 5
+    m_Metrics:
+      m_Width: 16
+      m_Height: 16
+      m_HorizontalBearingX: 2.5
+      m_HorizontalBearingY: 15
+      m_HorizontalAdvance: 16
+    m_GlyphRect:
+      m_X: 80
+      m_Y: 0
+      m_Width: 16
+      m_Height: 16
+    m_Scale: 1
+    m_AtlasIndex: 0
+    sprite: {fileID: 3199824334707870958, guid: f3cf337098918dc47a5390381d8a6be4, type: 3}
+  - m_Index: 6
+    m_Metrics:
+      m_Width: 16
+      m_Height: 16
+      m_HorizontalBearingX: 2.5
+      m_HorizontalBearingY: 15
+      m_HorizontalAdvance: 16
+    m_GlyphRect:
+      m_X: 96
+      m_Y: 0
+      m_Width: 16
+      m_Height: 16
+    m_Scale: 1
+    m_AtlasIndex: 0
+    sprite: {fileID: -2796644394268729644, guid: f3cf337098918dc47a5390381d8a6be4, type: 3}
+  - m_Index: 7
+    m_Metrics:
+      m_Width: 16
+      m_Height: 16
+      m_HorizontalBearingX: 2.5
+      m_HorizontalBearingY: 15
+      m_HorizontalAdvance: 16
+    m_GlyphRect:
+      m_X: 112
+      m_Y: 0
+      m_Width: 16
+      m_Height: 16
+    m_Scale: 1
+    m_AtlasIndex: 0
+    sprite: {fileID: -4562271878121643837, guid: f3cf337098918dc47a5390381d8a6be4, type: 3}
   spriteInfoList: []
   fallbackSpriteAssets: []
 --- !u!21 &8386651766530987659

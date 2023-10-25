@@ -14,6 +14,18 @@ TextureImporter:
   - first:
       213: 7828519010120675584
     second: PlaystationButtons_3
+  - first:
+      213: -1509507411794766304
+    second: PlaystationButtons_4
+  - first:
+      213: 3199824334707870958
+    second: PlaystationButtons_5
+  - first:
+      213: -2796644394268729644
+    second: PlaystationButtons_6
+  - first:
+      213: -4562271878121643837
+    second: PlaystationButtons_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -206,6 +218,90 @@ TextureImporter:
       bones: []
       spriteID: 001b2abff8c74ac60800000000000000
       internalID: 7828519010120675584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlaystationButtons_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0265726b1072d0be0800000000000000
+      internalID: -1509507411794766304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlaystationButtons_5
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eecc9ed674f086c20800000000000000
+      internalID: 3199824334707870958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlaystationButtons_6
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4de568c9db25039d0800000000000000
+      internalID: -2796644394268729644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlaystationButtons_7
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c02ec716ed8fa0c0800000000000000
+      internalID: -4562271878121643837
       vertices: []
       indices: 
       edges: []

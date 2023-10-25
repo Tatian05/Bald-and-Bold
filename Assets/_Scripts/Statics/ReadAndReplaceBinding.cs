@@ -1,8 +1,6 @@
-using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using System.Text.RegularExpressions;
-
 public static class ReadAndReplaceBinding
 {
     static string ACTION_PATTERN = @"\{(.*?)\}";
@@ -20,7 +18,6 @@ public static class ReadAndReplaceBinding
     public static string GetSpriteTag(string actionName, DeviceType deviceType, ListOfTmpSpriteAssets spriteAssets, int compositeBind)
     {
         InputBinding dynamicBinding = NewInputManager.GetBinding(actionName, deviceType, compositeBind);
-
         TMP_SpriteAsset spriteAsset = spriteAssets.spriteAssets[(int)deviceType];
 
         string stringButtonName = dynamicBinding.effectivePath;

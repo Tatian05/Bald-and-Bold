@@ -14,6 +14,18 @@ TextureImporter:
   - first:
       213: -4720369052284781087
     second: xBoxButtons_3
+  - first:
+      213: 1588897807410791953
+    second: xBoxButtons_4
+  - first:
+      213: 2171804165740368417
+    second: xBoxButtons_5
+  - first:
+      213: 2606966110108683166
+    second: xBoxButtons_6
+  - first:
+      213: 2478660205269008977
+    second: xBoxButtons_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -206,6 +218,90 @@ TextureImporter:
       bones: []
       spriteID: 1ed71d54b51ed7eb0800000000000000
       internalID: -4720369052284781087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: xBoxButtons_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1160e133326ec0610800000000000000
+      internalID: 1588897807410791953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: xBoxButtons_5
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1221bacc16cc32e10800000000000000
+      internalID: 2171804165740368417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: xBoxButtons_6
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9b82866dddcd2420800000000000000
+      internalID: 2606966110108683166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: xBoxButtons_7
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 152c4fdf258f56220800000000000000
+      internalID: 2478660205269008977
       vertices: []
       indices: 
       edges: []

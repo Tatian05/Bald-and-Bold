@@ -21,10 +21,6 @@ public class RebindUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI _rebindText;
     [SerializeField] ListOfTmpSpriteAssets _listOfTmpSpriteAssets;
     [SerializeField] DeviceType _deviceType;
-    private void Awake()
-    {
-        _setText = new SetTextToBoxText(_listOfTmpSpriteAssets, _rebindText, _selectedBinding);
-    }
     private void OnEnable()
     {
         _rebindButton.onClick.AddListener(() => DoRebind());
@@ -32,6 +28,7 @@ public class RebindUI : MonoBehaviour
         if (_inputActionReference != null)
         {
             GetBindingInfo();
+            _setText = new SetTextToBoxText(_listOfTmpSpriteAssets, _rebindText, _bindingIndex);
             NewInputManager.LoadUserBindings(_actionName);
             UpdateUI();
         }

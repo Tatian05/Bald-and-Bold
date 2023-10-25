@@ -10,11 +10,15 @@ public class OnEnableSelectedButton : MonoBehaviour
     private void OnEnable()
     {
         _eventSystem.AddToStack(_onEnableSelectedButton);
-        if (NewInputManager.activeDevice == DeviceType.Keyboard) return;
-        _eventSystem.SetCurrentGameObjectSelected(_onEnableSelectedButton);
+        SetCurrentButton();
     }
     private void OnDisable()
     {
         _eventSystem.RemoveToStack(_onEnableSelectedButton);
+    }
+    public void SetCurrentButton()
+    {
+        if (NewInputManager.activeDevice == DeviceType.Keyboard) return;
+        _eventSystem.SetCurrentGameObjectSelected(_onEnableSelectedButton);
     }
 }

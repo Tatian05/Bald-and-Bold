@@ -62,10 +62,10 @@ public class WeaponManager : MonoBehaviour
     #region Weapon Funcs
     public void SetWeapon()
     {
-        if (_currentMainWeapon) return;
-
         var col = Physics2D.OverlapCircle(transform.position, 2f, Helpers.GameManager.WeaponLayer);
         Weapon newWeapon = col ? col.GetComponent<Weapon>() : null;
+
+        if (_currentMainWeapon || newWeapon == null) return;
 
         if (!newWeapon.CanPickUp) return;
 
@@ -104,10 +104,10 @@ public class WeaponManager : MonoBehaviour
     Vector2 primaryWeaponRotation;
     void MainWeapon()
     {
-        if (Vector3.Dot(transform.right, _cursorPosition()) < Mathf.Cos(90) * Mathf.Deg2Rad) return;
-
+        if (Vector3.Dot(transform.right, _cursorPosition()) < Mathf.Cos(90) * Mathf.Deg2Rad || _cursorPosition() == Vector2.zero) return;
         _mainWeaponContainer.eulerAngles = new Vector3(0, 0, GetAngle());
-        primaryWeaponRotation = new Vector2(_currentMainWeapon.transform.localScale.x, Mathf.Sign(GetMouseDirectionMain().x));
+
+        primaryWeaponRotation = new Vector2(_currentMainWeapon.transform.localScale.x, Mathf.Sign(_cursorPosition().x));
         _currentMainWeapon.transform.localScale = primaryWeaponRotation;
     }
 
@@ -117,7 +117,7 @@ public class WeaponManager : MonoBehaviour
         if (Vector3.Dot(transform.right, _cursorPosition()) < Mathf.Cos(90) * Mathf.Deg2Rad) return;
 
         _secundaryWeaponContainer.eulerAngles = new Vector3(0, 0, GetAngle());
-        secondaryWeaponSize = new Vector2(_secundaryWeaponTransform.localScale.x, Mathf.Sign(GetMouseDirectionSecundary().x));
+        secondaryWeaponSize = new Vector2(_secundaryWeaponTransform.localScale.x, Mathf.Sign(_cursorPosition().x));
         _secundaryWeaponTransform.localScale = secondaryWeaponSize;
     }
 

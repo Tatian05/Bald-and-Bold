@@ -108,7 +108,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""60d6a8e5-1686-4e1e-b858-d3f4a6423390"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<XInputController>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""xBoxController"",
@@ -121,7 +121,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""id"": ""3cd8e9f6-9256-4857-a26b-602867f4086c"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""NormalizeVector2"",
                     ""groups"": """",
                     ""action"": ""Movement"",
                     ""isComposite"": true,
@@ -176,7 +176,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""id"": ""5a432dc5-613b-45dc-b4da-73fadeed04e6"",
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""NormalizeVector2"",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
@@ -240,9 +240,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f74fa1ad-92a0-4277-8f84-e8dd33633c87"",
-                    ""path"": ""<Gamepad>/leftStick"",
+                    ""path"": ""<XInputController>/leftStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""NormalizeVector2"",
                     ""groups"": ""xBoxController"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
@@ -251,7 +251,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""009abe61-c2d8-48b0-b8fe-6531b76d3a5c"",
-                    ""path"": ""<Gamepad>/dpad"",
+                    ""path"": ""<XInputController>/dpad"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""xBoxController"",
@@ -284,7 +284,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""37f962e4-add7-4732-8078-b4269b733602"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<XInputController>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""xBoxController"",
@@ -317,7 +317,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""58bf0f45-1345-4fb6-960a-0e237d8c8e68"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""path"": ""<XInputController>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""xBoxController"",
@@ -350,7 +350,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e031c1b9-4a55-4882-9687-073fc75f4dbc"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<XInputController>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""xBoxController"",
@@ -383,7 +383,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""a83c2b61-4e15-4575-adf0-1e8e36dc1e98"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<XInputController>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""xBoxController"",

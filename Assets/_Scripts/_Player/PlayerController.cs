@@ -5,9 +5,8 @@ public class PlayerController
     Player _player;
     PlayerModel _playerModel;
     PlayerInputs _playerInputs;
-    public float _xAxis { get; private set; }
-    public float _yAxis { get; private set; }
 
+    Vector2 _movementAxis;
     bool _fistInput = true;
     InputAction _movement, _jump, _dash;
     public PlayerController(Player player, PlayerModel playerModel)
@@ -41,15 +40,11 @@ public class PlayerController
             Helpers.LevelTimerManager.StartLevelTimer();
             _fistInput = false;
         }
-
         _playerModel.OnUpdate();
 
-        //_xAxis = _inputManager.GetAxisRaw("Horizontal");
-        //_yAxis = _inputManager.GetAxisRaw("Vertical");
-        _xAxis = _movement.ReadValue<Vector2>().x;
-        _yAxis = _movement.ReadValue<Vector2>().y;
+        _movementAxis = new Vector2 { x = Mathf.RoundToInt(_movement.ReadValue<Vector2>().x), y = Mathf.RoundToInt(_movement.ReadValue<Vector2>().y) };
 
-        _playerModel.LookAt(_xAxis);
+        _playerModel.LookAt(_movementAxis.x);
 
         //if (_inputManager.GetButtonDown("Jump") && (_playerModel.CanJump || _playerModel.InRope)) { _player.ExitClimb(); _player.OnJump(); };
 
@@ -57,13 +52,13 @@ public class PlayerController
     }
     public void OnFixedUpdate()
     {
-        _player.OnMove(_xAxis, _yAxis);
+        _player.OnMove(_movementAxis.x, _movementAxis.y);
     }
-    bool FirstInput() => (_xAxis != 0 || _jump.IsPressed() || _dash.IsPressed() || _playerInputs.Player.Knife.IsPressed()) && _fistInput;
+    bool FirstInput() => (_movementAxis.x != 0 || _jump.IsPressed() || _dash.IsPressed() || _playerInputs.Player.Knife.IsPressed()) && _fistInput;
 
-    public float YAxis() => _yAxis;
+    public float YAxis() => _movementAxis.y;
 
-    public float XAxis() => _xAxis;
+    public float XAxis() => _movementAxis.x;
 
     void OnJump(InputAction.CallbackContext obj) { if (_playerModel.CanJump || _playerModel.InRope) { _player.ExitClimb(); _player.OnJump(); } }
     void OnDash(InputAction.CallbackContext obj) { if (_playerModel.CanDash) { _player.ExitClimb(); _player.SendInput(PlayerStates.Dash); } }
