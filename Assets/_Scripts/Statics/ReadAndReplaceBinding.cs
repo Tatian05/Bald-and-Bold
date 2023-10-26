@@ -1,6 +1,7 @@
 using UnityEngine.InputSystem;
 using TMPro;
 using System.Text.RegularExpressions;
+using UnityEngine;
 public static class ReadAndReplaceBinding
 {
     static string ACTION_PATTERN = @"\{(.*?)\}";
@@ -15,22 +16,28 @@ public static class ReadAndReplaceBinding
 
 
     //ESTA FUNCION ES MEJOR QUE LA DE ARRIBA
-    public static string GetSpriteTag(string actionName, DeviceType deviceType, ListOfTmpSpriteAssets spriteAssets, int compositeBind)
+    public static string GetSpriteTag(string actionName, DeviceType deviceType, ListOfTmpSpriteAssets spriteAssets, int compositeBind, int extraFrames, string message = "")
     {
         InputBinding dynamicBinding = NewInputManager.GetBinding(actionName, deviceType, compositeBind);
         TMP_SpriteAsset spriteAsset = spriteAssets.spriteAssets[(int)deviceType];
 
         string stringButtonName = dynamicBinding.effectivePath;
-
         stringButtonName = RenameInput(stringButtonName, dynamicBinding.action);
 
-        return $"<sprite=\"{spriteAsset.name}\" name=\"{stringButtonName}\">";
+        if (spriteAsset == null)
+        {
+            Debug.Log($"SpriteSheet for {stringButtonName} not found!");
+            return message;
+        }
+
+        int startFrameIndex = spriteAsset.GetSpriteIndexFromName(stringButtonName + "0");
+        return $"<sprite=\"{spriteAsset.name}\" anim=\"{startFrameIndex}, {startFrameIndex + extraFrames}, {3}\">";
     }
-    public static string ReplaceActiveBindings(string textWithActions, DeviceType deviceType, ListOfTmpSpriteAssets spritesAssets, int compositeBind)
+    public static string ReplaceActiveBindings(string textWithActions, DeviceType deviceType, ListOfTmpSpriteAssets spritesAssets, int compositeBind, int extraFrames, string message = "")
     {
-        return ReplaceBindings(textWithActions, deviceType, spritesAssets, compositeBind);
+        return ReplaceBindings(textWithActions, deviceType, spritesAssets, compositeBind, extraFrames, message);
     }
-    public static string ReplaceBindings(string textWithActions, DeviceType deviceType, ListOfTmpSpriteAssets spriteAssets, int compositeBind)
+    public static string ReplaceBindings(string textWithActions, DeviceType deviceType, ListOfTmpSpriteAssets spriteAssets, int compositeBind, int extraFrames, string message = "")
     {
         MatchCollection matches = REGEX.Matches(textWithActions);
 
@@ -41,7 +48,7 @@ public static class ReadAndReplaceBinding
             var withBraces = match.Groups[0].Captures[0].Value;
             var innerPart = match.Groups[1].Captures[0].Value;
 
-            var tagText = GetSpriteTag(innerPart, deviceType, spriteAssets, compositeBind);
+            var tagText = GetSpriteTag(innerPart, deviceType, spriteAssets, compositeBind, extraFrames, message);
 
             replacedText = replacedText.Replace(withBraces, tagText);
         }

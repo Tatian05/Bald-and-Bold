@@ -21,6 +21,8 @@ public class RebindUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI _rebindText;
     [SerializeField] ListOfTmpSpriteAssets _listOfTmpSpriteAssets;
     [SerializeField] DeviceType _deviceType;
+    [SerializeField] int _frames;
+    [SerializeField, Tooltip("OPTIONAL, SI DESEA USARLO DEBE CONTENER EL NOMBRE DEL TMP_SPRITE CORRESPONDIENTE EN EL MENSAJE")] string _message;
     private void OnEnable()
     {
         _rebindButton.onClick.AddListener(() => DoRebind());
@@ -28,7 +30,7 @@ public class RebindUI : MonoBehaviour
         if (_inputActionReference != null)
         {
             GetBindingInfo();
-            _setText = new SetTextToBoxText(_listOfTmpSpriteAssets, _rebindText, _bindingIndex);
+            _setText = new SetTextToBoxText(_listOfTmpSpriteAssets);
             NewInputManager.LoadUserBindings(_actionName);
             UpdateUI();
         }
@@ -51,7 +53,7 @@ public class RebindUI : MonoBehaviour
         if (_inputActionReference == null) return;
 
         GetBindingInfo();
-        //UpdateUI();
+        UpdateUI();
     }
 
     void GetBindingInfo()
@@ -68,9 +70,9 @@ public class RebindUI : MonoBehaviour
     {
         if (_rebindText != null && _setText != null)
         {
-            _setText.SetText(_actionName, _deviceType);
+            _rebindText.text = _setText.SetText(_actionName, _deviceType, _frames, _bindingIndex);
             //if (Application.isPlaying)
-            //    _rebindText.text = NewInputManager.GetBindingName(_actionName, _bindingIndex);
+            // _rebindText.text = NewInputManager.GetBindingName(_actionName, _bindingIndex);
             //else
             //    _rebindText.text = _inputActionReference.action.GetBindingDisplayString(_bindingIndex);
         }

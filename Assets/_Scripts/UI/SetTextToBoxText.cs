@@ -1,23 +1,17 @@
-using TMPro;
 using UnityEngine;
 public class SetTextToBoxText
 {
     [SerializeField] ListOfTmpSpriteAssets _listOfTmpSpriteAssets;
-    [SerializeField] TextMeshProUGUI _textBox;
-    int _actionCompositeIndex;
-    public SetTextToBoxText(ListOfTmpSpriteAssets listOfTmpSpriteAssets, TextMeshProUGUI textBox, int actionCompositeIndex = 0)
+    public SetTextToBoxText(ListOfTmpSpriteAssets listOfTmpSpriteAssets)
     {
         _listOfTmpSpriteAssets = listOfTmpSpriteAssets;
-        _textBox = textBox;
-        _actionCompositeIndex = actionCompositeIndex;
     }
-    public void SetText(string actionName, DeviceType deviceType)
+    public string SetText(string actionName, DeviceType deviceType, int frames, int actionCompositeIndex = 0, string message = "")
     {
-        int currentDevice = (int)NewInputManager.activeDevice;
-
+        int currentDevice = (int)deviceType;
         if (currentDevice > _listOfTmpSpriteAssets.spriteAssets.Count - 1)
-            Debug.Log($"Missing Sprite Asset for {NewInputManager.activeDevice}");
+            Debug.Log($"Missing Sprite Asset for {deviceType}");
 
-        _textBox.text = ReadAndReplaceBinding.ReplaceActiveBindings("{Player/" + actionName + "}", deviceType, _listOfTmpSpriteAssets, _actionCompositeIndex);
+        return ReadAndReplaceBinding.ReplaceActiveBindings("{Player/" + actionName + "}", deviceType, _listOfTmpSpriteAssets, actionCompositeIndex, frames, message);
     }
 }

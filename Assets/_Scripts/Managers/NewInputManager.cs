@@ -19,6 +19,9 @@ public class NewInputManager : MonoBehaviour
     private void Awake()
     {
         if (PlayerInputs == null) PlayerInputs = new PlayerInputs();
+
+        foreach (var action in PlayerInputs)
+            LoadUserBindings(action.name);
     }
     private void OnEnable()
     {

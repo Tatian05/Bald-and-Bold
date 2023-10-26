@@ -6,10 +6,11 @@ public class KeysUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI _textBox;
 
     SetTextToBoxText _setText;
-    string _actionName;
+    string _actionName, _message = string.Empty;
+    int _extraFrames;
     private void Awake()
     {
-        _setText = new SetTextToBoxText(_listOfTmpSpriteAssets, _textBox);
+        _setText = new SetTextToBoxText(_listOfTmpSpriteAssets);
     }
     private void OnEnable()
     {
@@ -19,7 +20,7 @@ public class KeysUI : MonoBehaviour
     {
         NewInputManager.ActiveDeviceChangeEvent -= TriggerSetText;
     }
-    void TriggerSetText() { _setText.SetText(_actionName, NewInputManager.activeDevice); }
+    void TriggerSetText() { _textBox.text = _setText.SetText(_actionName, NewInputManager.activeDevice, _extraFrames); }
 
     #region BUILDER
     public KeysUI SetPosition(Vector2 position)
@@ -32,9 +33,15 @@ public class KeysUI : MonoBehaviour
         _actionName = actionName;
         return this;
     }
+    public KeysUI SetExtraFramesAndMessage(int frames, string message = "")
+    {
+        _extraFrames = frames;
+        _message = message;
+        return this;
+    }
     public KeysUI SetText()
     {
-        _setText.SetText(_actionName, NewInputManager.activeDevice);
+        _textBox.text = _setText.SetText(_actionName, NewInputManager.activeDevice, _extraFrames);
         return this;
     }
     #endregion

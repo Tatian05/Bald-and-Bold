@@ -70,22 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d7ad6b5e22d124a8fe22e5a4dd30db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyName: Interact
-  _action:
-    m_Name: Action
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 59451e00-473c-4f4e-9e47-82e11ced120d
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  _inputBinding:
-    m_Name: 
-    m_Id: 
-    m_Path: 
-    m_Interactions: 
-    m_Processors: 
-    m_Groups: 
-    m_Action: 
-    m_Flags: 0
+  _keyUI: {fileID: 0}
+  _actionName: 
+  _message: 
+  _spriteAnimationFrames: 2
