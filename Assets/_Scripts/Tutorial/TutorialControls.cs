@@ -12,7 +12,7 @@ public class TutorialControls : MonoBehaviour
     SetTextToBoxText _setText;
     private void Awake()
     {
-        _setText = new SetTextToBoxText(_listOfTmpSpriteAssets);     
+        _setText = new SetTextToBoxText(_listOfTmpSpriteAssets);
     }
     private void OnEnable()
     {
@@ -20,7 +20,7 @@ public class TutorialControls : MonoBehaviour
     }
     private void OnDisable()
     {
-        NewInputManager.ActiveDeviceChangeEvent -= OnControlChange;      
+        NewInputManager.ActiveDeviceChangeEvent -= OnControlChange;
     }
     void OnControlChange()
     {
@@ -52,7 +52,7 @@ public class TutorialControl
     public void SetTexts(SetTextToBoxText setText, int spritesSize)
     {
         for (int i = 0; i < tutorialInputs.Length; i++)
-            tutorialInputs[i].spriteText = $"<size={spritesSize}em>{setText.SetText(tutorialInputs[i].inputBinding.action, deviceType, tutorialInputs[i].extraFrames, tutorialInputs[i].selectedBind)}</size>";
+            tutorialInputs[i].spriteText = setText.SetText(tutorialInputs[i].inputBinding.action, deviceType, tutorialInputs[i].extraFrames, tutorialInputs[i].selectedBind, spritesSize);
 
         if (tutorialTextENG.Contains("-"))
         {

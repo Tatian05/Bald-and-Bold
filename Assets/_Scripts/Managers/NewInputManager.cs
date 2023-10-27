@@ -16,6 +16,8 @@ public class NewInputManager : MonoBehaviour
     public static DeviceType activeDevice = DeviceType.Keyboard;
 
     public static event Action ActiveDeviceChangeEvent;
+
+    static InputActionRebindingExtensions.RebindingOperation rebindingOperation;
     private void Awake()
     {
         if (PlayerInputs == null) PlayerInputs = new PlayerInputs();
@@ -83,9 +85,9 @@ public class NewInputManager : MonoBehaviour
 
         actionToRebind.Disable();
 
-        var rebind = actionToRebind.PerformInteractiveRebinding(bindingIndex);
+        rebindingOperation = actionToRebind.PerformInteractiveRebinding(bindingIndex);
 
-        rebind.OnComplete(operation =>
+        rebindingOperation.OnComplete(operation =>
         {
             actionToRebind.Enable();
             operation.Dispose();
@@ -100,24 +102,31 @@ public class NewInputManager : MonoBehaviour
             RebindComplete?.Invoke();
         });
 
-        rebind.OnCancel(operation =>
+        rebindingOperation.OnCancel(operation =>
         {
             actionToRebind.Enable();
             operation.Dispose();
 
             RebindCanceled?.Invoke();
         });
+        rebindingOperation.WithCancelingThrough("/Keyboard/escape").
+               WithControlsExcluding("/Gamepad/Start").
+               WithCancelingThrough("/Keyboard/escape").
+               WithCancelingThrough("/Gamepad/Start");
+               //OnPotentialMatch(operation => { Debug.Log(operation.selectedControl.path); if (operation.selectedControl.path is "/Keyboard/escape") rebindingOperation.Cancel(); });
 
-        rebind.WithCancelingThrough("<Keyboard/escape>");
-        if (excludeMouse) rebind.WithControlsExcluding("Mouse");
+        if (excludeMouse) rebindingOperation.WithControlsExcluding("Mouse");
 
         rebindStarted?.Invoke(actionToRebind, bindingIndex);
-        rebind.Start();
+        rebindingOperation.Start();
     }
+    public static void DisablePlayer() { PlayerInputs.Disable(); }
+    public static void EnablePlayer() { PlayerInputs.Enable(); }
     public static InputBinding GetBinding(string actionName, DeviceType deviceType, int compositeBind)
     {
         InputAction action = PlayerInputs.FindAction(actionName);
-        InputBinding toReturn = action.bindings[(int)deviceType].isComposite ? action.bindings[(int)deviceType + compositeBind] : action.bindings[(int)deviceType];
+        bool isCompositeOrPartOfComposite = action.bindings[(int)deviceType].isComposite || action.bindings[(int)deviceType].isPartOfComposite;
+        InputBinding toReturn = isCompositeOrPartOfComposite ? action.bindings[compositeBind] : action.bindings[(int)deviceType];
         return toReturn;
     }
     public static string GetBindingName(string actionName, int bindingIndex)

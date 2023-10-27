@@ -150,9 +150,9 @@ public class Player : GeneralPlayer
         {
             if (!_playerModel.InGrounded) return;
 
-            if (_controller.YAxis() >= 1 || _rb.velocity.y >= 1)
+            if (_controller.YAxis >= 1 || _rb.velocity.y >= 1)
                 EnterRope(collision.gameObject);
-            else if (_controller.XAxis() != 0)
+            else if (_controller.XAxis != 0)
                 ExitClimb();
         }
     }

@@ -1,35 +1,52 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 public class PauseManager : MonoBehaviour
 {
     bool _paused = false;
     bool _tutorialPause;
     Stack<IScreen> _stack;
     CinematicManager _cinematicManager;
-    InputManager _inputManager;
+    InputAction _pauseAction;
 
     [SerializeField] Transform _mainGame;
     [SerializeField] ScreenPause _pauseGO;
     public bool Paused { get { return _paused; } }
+    public bool TurnPause => _paused = !_paused;
     private void Awake()
     {
         _stack = new Stack<IScreen>();
-        _inputManager = InputManager.Instance;
+        _pauseAction = NewInputManager.PlayerInputs.Player.Pause;
         Push(new PauseGO(_mainGame));
+    }
+    private void OnEnable()
+    {
+        _pauseAction.Enable();
+        _pauseAction.performed += Pause;
+        EventManager.SubscribeToEvent(Contains.PAUSE_GAME, PauseGame);
+    }
+    private void OnDisable()
+    {
+        _pauseAction.Disable();
+        _pauseAction.performed -= Pause;
+        EventManager.UnSubscribeToEvent(Contains.PAUSE_GAME, PauseGame);
     }
     private void Start()
     {
         _cinematicManager = Helpers.GameManager.CinematicManager;
         Helpers.LevelTimerManager.OnLevelDefeat += PauseObjectsInCinematic;
     }
-    private void Update()
+    void Pause(InputAction.CallbackContext obj)
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !_cinematicManager.playingCinematic && !_tutorialPause)
+        EventManager.TriggerEvent(Contains.PAUSE_GAME, TurnPause);
+    }
+    void PauseGame(params object[] param)
+    {
+        if (!_cinematicManager.playingCinematic && !_tutorialPause)
         {
-            if (_paused) Pop();
-            else Push(Instantiate(_pauseGO));
-
-            TurnPause();
+            if((bool)param[0]) Push(Instantiate(_pauseGO));
+            else Pop();
         }
     }
     public void Pop()
@@ -44,9 +61,6 @@ public class PauseManager : MonoBehaviour
         _stack.Push(screen);
         screen.Activate();
     }
-
-    public void TurnPause() => _paused = !_paused;
-
     public void PauseObjectsInCinematic()
     {
         _stack.Peek().PauseObjectsInCinematic();

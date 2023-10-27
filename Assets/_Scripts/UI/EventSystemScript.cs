@@ -2,6 +2,8 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+
 public class EventSystemScript : MonoBehaviour
 {
     public static EventSystemScript Instance { get; private set; }
@@ -9,7 +11,7 @@ public class EventSystemScript : MonoBehaviour
     Stack<GameObject> _stack = new Stack<GameObject>();
     EventSystem _eventSystem;
     GameObject _lastSelectedGO;
-
+    [SerializeField] InputActionAsset _uiNavigateActions;
     public GameObject CurrentSelectedGO
     {
         get
@@ -49,11 +51,16 @@ public class EventSystemScript : MonoBehaviour
         if (!go) _lastSelectedGO = _eventSystem.currentSelectedGameObject;
         _eventSystem.SetSelectedGameObject(go);
     }
-
     void OnControlsChanged()
     {
         if (_eventSystem.currentSelectedGameObject) return;
         var go = _lastSelectedGO ? _lastSelectedGO : _eventSystem.firstSelectedGameObject;
         _eventSystem.SetSelectedGameObject(go);
+    }
+
+    public void CancelUINavigate()
+    {
+        _uiNavigateActions.Disable();
+        _eventSystem.SetSelectedGameObject(null);
     }
 }

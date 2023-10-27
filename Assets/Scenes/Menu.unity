@@ -1651,6 +1651,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1023502932}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 970227996}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: Play
@@ -1663,10 +1675,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1023502932}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1859658619}
+        m_TargetAssemblyTypeName: EventSystemScript, Assembly-CSharp
+        m_MethodName: CancelUINavigate
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8750,6 +8762,18 @@ MonoBehaviour:
           m_StringArgument: LevelsMap
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1859658619}
+        m_TargetAssemblyTypeName: EventSystemScript, Assembly-CSharp
+        m_MethodName: CancelUINavigate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1317919800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12368,6 +12392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0875fb225e05b245868ee94ea5bc622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _uiNavigateActions: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
 --- !u!1 &1877074204
 GameObject:
   m_ObjectHideFlags: 0

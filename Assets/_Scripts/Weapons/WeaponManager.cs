@@ -40,20 +40,11 @@ public class WeaponManager : MonoBehaviour
     private void OnEnable()
     {
         NewInputManager.ActiveDeviceChangeEvent += OnControlChanged;
+        EventManager.SubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
     }
     private void Update()
     {
         _lookAtMouse?.Invoke();
-
-        //if (_inputManager.GetButton("Knife") && _currentSecundaryWeapon)
-        //    _currentSecundaryWeapon.Attack();
-
-        //if (_inputManager.GetButtonDown("Throw Weapon")) ThrowWeapon();
-
-        //if (_inputManager.GetButtonDown("Interact") && _onWeaponTrigger) SetWeapon();
-
-        //if (_inputManager.GetButton("Shoot") && _currentMainWeapon) _currentMainWeapon.Attack();
-
         if (_shoot.ReadValue<float>() > .1f && _currentMainWeapon) _currentMainWeapon.Attack();
         if (_knife.ReadValue<float>() > .1f && _currentSecundaryWeapon) _currentSecundaryWeapon.Attack();
     }
@@ -145,6 +136,21 @@ public class WeaponManager : MonoBehaviour
     {
         if (collision.GetComponent<ShowKeyUI>()) _onWeaponTrigger = false;
     }
+    void PauseActions(params object[] param)
+    {
+        if ((bool)param[0])
+        {
+            _interact.Disable();
+            _knife.Disable();
+            _shoot.Disable();
+        }
+        else
+        {
+            _interact.Enable();
+            _knife.Enable();
+            _shoot.Enable();
+        }
+    }
     private void OnDestroy()
     {
         _lookAtMouse -= SecundaryWeapon;
@@ -157,5 +163,6 @@ public class WeaponManager : MonoBehaviour
         _shoot.Disable();
 
         NewInputManager.ActiveDeviceChangeEvent -= OnControlChanged;
+        EventManager.UnSubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
     }
 }
