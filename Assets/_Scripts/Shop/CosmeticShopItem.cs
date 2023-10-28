@@ -3,40 +3,19 @@ using UnityEngine.UI;
 using TMPro;
 public class CosmeticShopItem : MonoBehaviour
 {
-    public CosmeticData CosmeticData { get { return _cosmeticData; } }
+    public ShoppableSO ShoppableSO { get { return _shoppableSO; } }
 
-    [SerializeField] CosmeticData _cosmeticData;
+    [SerializeField] ShoppableSO _shoppableSO;
     [SerializeField] Image _cosmeticImg;
-    [SerializeField] TextMeshProUGUI _cosmeticNameTxt;
+    [SerializeField] TextMeshProUGUI _shoppableSONameTxt;
     [SerializeField] TextMeshProUGUI _inCollectionTxt;
-    public void SetCosmeticData(CosmeticData cosmeticData, Sprite headSprite)
+    public void SetCosmeticData(ShoppableSO shoppableSO, Sprite headSprite)
     {
-        _cosmeticData = cosmeticData;
-
+        _shoppableSO = shoppableSO;
+        _shoppableSO.OnStart();
         _cosmeticImg.sprite = headSprite;
-        _cosmeticNameTxt.text = _cosmeticData.cosmeticName;
+        _shoppableSONameTxt.text = _shoppableSO.shoppableData.shoppableName;
     }
-
-    public void SetCosmetics(ref Image headSprite, ref Image torsoSprite, ref Image rightLegSprite, ref Image leftLegSprite, ref Image rightHandSprite, ref Image leftHandSprite, ref Image tailSprite)
-    {
-        headSprite.sprite = _cosmeticData.headSprite;
-        torsoSprite.sprite = _cosmeticData.torsoSprite;
-        rightLegSprite.sprite = _cosmeticData.rightLegSprite;
-        leftLegSprite.sprite = _cosmeticData.leftLegSprite;
-        rightHandSprite.sprite = _cosmeticData.rightHandSprite;
-        leftHandSprite.sprite = _cosmeticData.leftHandSprite;
-        if (_cosmeticData.tailSprite)
-        {
-            tailSprite.gameObject.SetActive(true);
-            tailSprite.sprite = _cosmeticData.tailSprite;
-        }
-        else
-        {
-            tailSprite.sprite = null;
-            tailSprite.gameObject.SetActive(false);
-        }
-    }
-
     public void SetInCollection()
     {
         GetComponent<Button>().interactable = false;

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class CollectionEquipment : MonoBehaviour
 {
-    [Header("Buttons")]
+    [Header("Inspector Variables")]
     [SerializeField] Button _playerButton, _presidentButton;
     [SerializeField] Button _playerNextCosmetic, _playerPreviousCosmetic;
     [SerializeField] Button _presidentNextCosmetic, _presidentrPreviousCosmetic;
@@ -33,19 +33,19 @@ public class CollectionEquipment : MonoBehaviour
     }
     void OnEnable()
     {
-        foreach (var item in _playerCosmeticsList) item.SetName();
-        foreach (var item in _presidentCosmeticsList) item.SetName();
+        foreach (var item in _playerCosmeticsList) item.OnStart();
+        foreach (var item in _presidentCosmeticsList) item.OnStart();
 
-        _playerCosmeticName.text = _playerCosmeticsList[_playerIndex].cosmeticName;
-        _presidentCosmeticName.text = _presidentCosmeticsList[_presidentIndex].cosmeticName;
+        _playerCosmeticName.text = _playerCosmeticsList[_playerIndex].shoppableData.shoppableName;
+        _presidentCosmeticName.text = _presidentCosmeticsList[_presidentIndex].shoppableData.shoppableName;
     }
     void Start()
     {
         _buttonsColor = _playerButton.image.color;
         PersistantDataSaved persistantDataSaved = Helpers.PersistantData.persistantDataSaved;
 
-        persistantDataSaved.AddPlayerCosmetic(Resources.Load<CosmeticData>("Cosmetics/Player/Player Default"));
-        persistantDataSaved.AddPresidentCosmetic(Resources.Load<CosmeticData>("Cosmetics/President/Presi Default"));
+        persistantDataSaved.AddCosmetic(CosmeticType.Player, Resources.Load<CosmeticData>("Cosmetics/Player/Player Default"));
+        persistantDataSaved.AddCosmetic(CosmeticType.President, Resources.Load<CosmeticData>("Cosmetics/President/Presi Default"));
 
         if (persistantDataSaved.playerCosmeticEquiped) EquipPlayer(persistantDataSaved.playerCosmeticEquiped);
         if (persistantDataSaved.presidentCosmeticEquiped) EquipPresident(persistantDataSaved.playerCosmeticEquiped);
@@ -55,7 +55,7 @@ public class CollectionEquipment : MonoBehaviour
             if (!_playerCosmeticsList.Any()) return;
             _playerIndex = (_playerIndex + 1) % _playerCosmeticsList.Count;
             EquipPlayer(_playerCosmeticsList[_playerIndex]);
-            _playerCosmeticName.text = _playerCosmeticsList[_playerIndex].cosmeticName;
+            _playerCosmeticName.text = _playerCosmeticsList[_playerIndex].shoppableData.shoppableName;
             _playerEquipButton.interactable = _playerCosmeticsList[_playerIndex] == persistantDataSaved.playerCosmeticEquiped ? false : true;
         });
         _playerPreviousCosmetic.onClick.AddListener(() =>
@@ -71,7 +71,7 @@ public class CollectionEquipment : MonoBehaviour
             if (!_presidentCosmeticsList.Any()) return;
             _presidentIndex = (_presidentIndex + 1) % _presidentCosmeticsList.Count;
             EquipPresident(_presidentCosmeticsList[_presidentIndex]);
-            _presidentCosmeticName.text = _presidentCosmeticsList[_presidentIndex].cosmeticName;
+            _presidentCosmeticName.text = _presidentCosmeticsList[_presidentIndex].shoppableData.shoppableName;
             _presidentEquipButton.interactable = _presidentCosmeticsList[_presidentIndex] == persistantDataSaved.presidentCosmeticEquiped ? false : true;
         });
         _presidentrPreviousCosmetic.onClick.AddListener(() =>

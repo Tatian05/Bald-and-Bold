@@ -71,9 +71,11 @@ public class PersistantDataSaved
             if (!presidentCosmeticCollection[i]) presidentCosmeticCollection.Remove(presidentCosmeticCollection[i]);
     }
     public void Buy(int amount) { coins -= amount; }
-    public void AddPlayerCosmetic(CosmeticData cosmetic) { if (!playerCosmeticCollection.Contains(cosmetic)) playerCosmeticCollection.Add(cosmetic); }
-    public void AddPresidentCosmetic(CosmeticData cosmetic) { if (!presidentCosmeticCollection.Contains(cosmetic)) presidentCosmeticCollection.Add(cosmetic); }
-
+    public void AddCosmetic(CosmeticType cosmeticType, CosmeticData cosmetic)
+    {
+        if(cosmeticType is CosmeticType.Player && !playerCosmeticCollection.Contains(cosmetic)) playerCosmeticCollection.Add(cosmetic);
+        else if (!presidentCosmeticCollection.Contains(cosmetic)) presidentCosmeticCollection.Add(cosmetic);
+    }
     public void AddBinding(string key, string value)
     {
         if (userBindings.ContainsKey(key))

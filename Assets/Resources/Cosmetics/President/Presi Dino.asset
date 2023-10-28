@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a52bc19e8500d2b4885dde9bbe02d1e8, type: 3}
   m_Name: Presi Dino
   m_EditorClassIdentifier: 
-  cosmeticName: Dino
-  ID: ID_SkinDino
-  cost: 10
+  shoppableData:
+    shoppableType: 0
+    shoppableQuality: 2
+    cost: 10
+    localizationID: ID_SkinDino
+    shoppableName: Dino
+  cosmeticType: 1
   headSprite: {fileID: 21300000, guid: 7c1965af7633f6943bea09460b898fed, type: 3}
   torsoSprite: {fileID: 21300000, guid: 351645b2f1896644baa5c4afbc13cde5, type: 3}
   rightLegSprite: {fileID: 21300000, guid: 2a52b8d74f688be40aec42cbd0c97b91, type: 3}
