@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 public enum CosmeticType { Player, President }
-[CreateAssetMenu(fileName = "New CosmeticData", menuName = "New Cosmetic")]
+[CreateAssetMenu(fileName = "New Cosmetic", menuName = "New Cosmetic")]
 public class CosmeticData : ShoppableSO
 {
     public CosmeticType cosmeticType;

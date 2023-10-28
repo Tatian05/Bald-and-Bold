@@ -33,8 +33,8 @@ public class CollectionEquipment : MonoBehaviour
     }
     void OnEnable()
     {
-        foreach (var item in _playerCosmeticsList) item.OnStart();
-        foreach (var item in _presidentCosmeticsList) item.OnStart();
+        foreach (var item in _playerCosmeticsList) item.SetName();
+        foreach (var item in _presidentCosmeticsList) item.SetName();
 
         _playerCosmeticName.text = _playerCosmeticsList[_playerIndex].shoppableData.shoppableName;
         _presidentCosmeticName.text = _presidentCosmeticsList[_presidentIndex].shoppableData.shoppableName;
@@ -44,8 +44,8 @@ public class CollectionEquipment : MonoBehaviour
         _buttonsColor = _playerButton.image.color;
         PersistantDataSaved persistantDataSaved = Helpers.PersistantData.persistantDataSaved;
 
-        persistantDataSaved.AddCosmetic(CosmeticType.Player, Resources.Load<CosmeticData>("Cosmetics/Player/Player Default"));
-        persistantDataSaved.AddCosmetic(CosmeticType.President, Resources.Load<CosmeticData>("Cosmetics/President/Presi Default"));
+        persistantDataSaved.AddCosmetic(CosmeticType.Player, Resources.Load<CosmeticData>("Shop/Cosmetics/Player/Player Default"));
+        persistantDataSaved.AddCosmetic(CosmeticType.President, Resources.Load<CosmeticData>("Shop/Cosmetics/President/Presi Default"));
 
         if (persistantDataSaved.playerCosmeticEquiped) EquipPlayer(persistantDataSaved.playerCosmeticEquiped);
         if (persistantDataSaved.presidentCosmeticEquiped) EquipPresident(persistantDataSaved.playerCosmeticEquiped);

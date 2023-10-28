@@ -10,19 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a52bc19e8500d2b4885dde9bbe02d1e8, type: 3}
-  m_Name: Presi Princesa
+  m_Name: Player Astronauta
   m_EditorClassIdentifier: 
   shoppableData:
     shoppableType: 0
-    shoppableQuality: 0
-    cost: 10
-    localizationID: ID_SkinPrincess
-    shoppableName: Princesa
-  cosmeticType: 1
-  headSprite: {fileID: 21300000, guid: a6f87c90f5ecedc4e89da53b8dcf989f, type: 3}
-  torsoSprite: {fileID: 21300000, guid: a6122faacabf8314d96051d2674188fd, type: 3}
-  rightLegSprite: {fileID: 21300000, guid: c912a3226539b3c4bad4e459fb1a90a1, type: 3}
-  leftLegSprite: {fileID: 21300000, guid: c912a3226539b3c4bad4e459fb1a90a1, type: 3}
+    shoppableQuality: 1
+    cost: 5
+    localizationID: ID_SkinAstronaut
+    shoppableName: Astronauta
+    shopImage: {fileID: 21300000, guid: 74f4930616268be4ab14a6e3dff35c11, type: 3}
+  cosmeticType: 0
+  headSprite: {fileID: 21300000, guid: 74f4930616268be4ab14a6e3dff35c11, type: 3}
+  torsoSprite: {fileID: 21300000, guid: 25ac5ac3dc9016d42ad9b7cc253c0a3d, type: 3}
+  rightLegSprite: {fileID: 21300000, guid: 16184576a9e1c0141a73d01b8e60b8bb, type: 3}
+  leftLegSprite: {fileID: 21300000, guid: 16184576a9e1c0141a73d01b8e60b8bb, type: 3}
   rightHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
   leftHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
   tailSprite: {fileID: 0}

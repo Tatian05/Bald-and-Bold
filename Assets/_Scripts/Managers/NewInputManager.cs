@@ -61,7 +61,7 @@ public class NewInputManager : MonoBehaviour
     }
     public static void StartRebind(string actionName, int bindingIndex, TextMeshProUGUI statusText, bool excludeMouse)
     {
-        InputAction action = PlayerInputs.asset.FindAction(actionName);
+        InputAction action = PlayerInputs.FindAction(actionName);
 
         if (action == null || action.bindings.Count <= bindingIndex)
         {
@@ -109,11 +109,8 @@ public class NewInputManager : MonoBehaviour
 
             RebindCanceled?.Invoke();
         });
-        rebindingOperation.WithCancelingThrough("/Keyboard/escape").
-               WithControlsExcluding("/Gamepad/Start").
-               WithCancelingThrough("/Keyboard/escape").
-               WithCancelingThrough("/Gamepad/Start");
-               //OnPotentialMatch(operation => { Debug.Log(operation.selectedControl.path); if (operation.selectedControl.path is "/Keyboard/escape") rebindingOperation.Cancel(); });
+
+        rebindingOperation.OnPotentialMatch(operation => { Debug.Log(operation.selectedControl.path); if (operation.selectedControl.path is "/Keyboard/escape" || operation.selectedControl.path is "/Gamepad/Start") rebindingOperation.Cancel(); });
 
         if (excludeMouse) rebindingOperation.WithControlsExcluding("Mouse");
 

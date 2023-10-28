@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 2884864550332727300}
   - component: {fileID: 4297839011221406865}
   - component: {fileID: 3502987611091081627}
-  - component: {fileID: 7432394658876629438}
+  - component: {fileID: 484138644102322489}
   m_Layer: 5
-  m_Name: CosmeticShopItem
+  m_Name: ShopItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &7432394658876629438
+--- !u!114 &484138644102322489
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 522236381005690118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c31e4ddda076034a9514a202bbfddc1, type: 3}
+  m_Script: {fileID: 11500000, guid: 83237bc2d3b1a704ba1c94c64fbab3da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _shoppableSO: {fileID: 0}

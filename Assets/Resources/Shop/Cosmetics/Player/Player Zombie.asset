@@ -10,19 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a52bc19e8500d2b4885dde9bbe02d1e8, type: 3}
-  m_Name: Presi Mariachi
+  m_Name: Player Zombie
   m_EditorClassIdentifier: 
   shoppableData:
     shoppableType: 0
     shoppableQuality: 1
     cost: 5
-    localizationID: ID_SkinMariachi
-    shoppableName: Mariachi
-  cosmeticType: 1
-  headSprite: {fileID: 21300000, guid: 4628b48100d01cc4b8f92e9ecb8bdb0a, type: 3}
-  torsoSprite: {fileID: 21300000, guid: d636f76d90264b548a5edc87f90eb913, type: 3}
-  rightLegSprite: {fileID: 21300000, guid: db1ecd3c13d6b95448c1830ebc816e4b, type: 3}
-  leftLegSprite: {fileID: 21300000, guid: db1ecd3c13d6b95448c1830ebc816e4b, type: 3}
+    localizationID: ID_SkinZombie
+    shoppableName: Zombie
+    shopImage: {fileID: 21300000, guid: 62cf53a1cd9a5764da3af95c2dc51746, type: 3}
+  cosmeticType: 0
+  headSprite: {fileID: 21300000, guid: 62cf53a1cd9a5764da3af95c2dc51746, type: 3}
+  torsoSprite: {fileID: 21300000, guid: 214a2a263b5867a40a433f859d7a818b, type: 3}
+  rightLegSprite: {fileID: 21300000, guid: 955a558d0fdad2b4c8da6782a44dd07d, type: 3}
+  leftLegSprite: {fileID: 21300000, guid: 955a558d0fdad2b4c8da6782a44dd07d, type: 3}
   rightHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
   leftHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
   tailSprite: {fileID: 0}
