@@ -5,7 +5,6 @@ public enum PlayerStates { Empty, Dash }
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
-
 public class Player : GeneralPlayer
 {
     bool _dead;
@@ -48,6 +47,7 @@ public class Player : GeneralPlayer
     public Action<float> OnClimb;
 
     EventFSM<PlayerStates> _myFsm;
+    GoldenBald _goldenBald;
     private void Start()
     {
         _weaponManager = GetComponent<WeaponManager>();
@@ -113,6 +113,7 @@ public class Player : GeneralPlayer
     {
         _controller?.OnUpdate();
         _myFsm.Update();
+        _goldenBald?.SetPosition(transform.position + Vector3.up * 2.25f);
     }
 
     private void FixedUpdate()
@@ -135,6 +136,8 @@ public class Player : GeneralPlayer
     public void SendInput(PlayerStates PlayerState) { _myFsm.SendInput(PlayerState); }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.TryGetComponent(out GoldenBald goldenBald)) _goldenBald = goldenBald.KillTween();
+
         if (collision.CompareTag("Rope") && !_dead)
         {
             _playerModel.InRope = true;

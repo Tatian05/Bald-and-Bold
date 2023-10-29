@@ -23,7 +23,7 @@ public class EnemyManager : BaseEnemyManager
     {
         yield return new WaitForSeconds(.1f);
         _maxEnemies = _allEnemies.Count;
-        if (_maxEnemies == 0) EventManager.TriggerEvent(Contains.ON_ROOM_WON);
+        if (_maxEnemies == 0) EventManager.TriggerEvent(Contains.ON_ENEMIES_KILLED);
     }
 
     public override void RemoveEnemy(Enemy enemy)
@@ -35,7 +35,7 @@ public class EnemyManager : BaseEnemyManager
 
         Helpers.AudioManager.PlaySFX("Enemy_Dead");
 
-        if (_allEnemies.Count == 0) EventManager.TriggerEvent(Contains.ON_ROOM_WON);
+        if (_allEnemies.Count == 0) EventManager.TriggerEvent(Contains.ON_ENEMIES_KILLED);
     }
 
     public override string EnemyCountString()

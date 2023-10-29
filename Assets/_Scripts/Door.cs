@@ -6,14 +6,14 @@ public class Door : MonoBehaviour
     [SerializeField] Animator _anim;
     private void Start()
     {
-        EventManager.SubscribeToEvent(Contains.ON_ROOM_WON, ShowExit);
+        EventManager.SubscribeToEvent(Contains.ON_ENEMIES_KILLED, ShowExit);
         EventManager.SubscribeToEvent(Contains.WAIT_PLAYER_DEAD, StartHideExit);
 
         StartCoroutine(HideExit());
     }
     private void OnDisable()
     {
-        EventManager.UnSubscribeToEvent(Contains.ON_ROOM_WON, ShowExit);
+        EventManager.UnSubscribeToEvent(Contains.ON_ENEMIES_KILLED, ShowExit);
         EventManager.UnSubscribeToEvent(Contains.WAIT_PLAYER_DEAD, StartHideExit);
     }
     void StartHideExit(params object[] param) { StartCoroutine(HideExit()); }

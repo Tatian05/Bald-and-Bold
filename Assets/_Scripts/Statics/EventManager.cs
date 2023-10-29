@@ -49,7 +49,8 @@ public class Contains
     public const string DUMMY_SPAWN = "Spawn Dummy";
     public const string PLAYER_DEAD = "Player Dead";
     public const string WAIT_PLAYER_DEAD = "Wait Player Dead";
-    public const string ON_ROOM_WON = "On Room Won";
+    public const string ON_ENEMIES_KILLED = "On Enemies Killed";
     public const string ON_LEVEL_START = "On level start";
     public const string PAUSE_GAME = "Pause_Game";
+    public const string ON_ROOM_WON = "On Room Won";
 }

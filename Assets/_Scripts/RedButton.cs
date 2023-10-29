@@ -7,7 +7,6 @@ public class RedButton : MonoBehaviour
     Collider2D _collider;
     Animator _anim;
     bool _isPlayerOnTrigger;
-    InputManager _inputManager;
     ShowKeyUI _showKeyUI;
     PlayerInputs _playerInputs;
     InputAction _interact;
@@ -18,7 +17,7 @@ public class RedButton : MonoBehaviour
     {
         _playerInputs = NewInputManager.PlayerInputs;
         _interact = _playerInputs.Player.Interact;
-        EventManager.SubscribeToEvent(Contains.ON_ROOM_WON, ShowExit);
+        EventManager.SubscribeToEvent(Contains.ON_ENEMIES_KILLED, ShowExit);
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDead);
         Helpers.LevelTimerManager.RedButton += () => _anim.SetTrigger("Off");
 
@@ -26,17 +25,16 @@ public class RedButton : MonoBehaviour
 
         _showKeyUI = GetComponentInChildren<ShowKeyUI>();
         _showKeyUI.gameObject.SetActive(false);
-        _inputManager = InputManager.Instance;
         _collider = GetComponent<Collider2D>();
         _anim = GetComponentInChildren<Animator>();
         StartCoroutine(HideExit());
     }
     private void OnDisable()
     {
-        EventManager.UnSubscribeToEvent(Contains.ON_ROOM_WON, ShowExit);
+        EventManager.UnSubscribeToEvent(Contains.ON_ENEMIES_KILLED, ShowExit);
         EventManager.UnSubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDead);
     }
-    void OnPlayRedButton(InputAction.CallbackContext obj) { if (_isPlayerOnTrigger) PlayRedButton(); }
+    void OnPlayRedButton(InputAction.CallbackContext obj) { if (_isPlayerOnTrigger) EventManager.TriggerEvent(Contains.ON_ROOM_WON); }
     void OnPlayerDead(params object[] param) { StartCoroutine(HideExit()); }
     void ShowExit(params object[] param)
     {
@@ -66,10 +64,5 @@ public class RedButton : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.GetComponent<WeaponManager>()) _isPlayerOnTrigger = false;
-    }
-    void PlayRedButton()
-    {
-        Helpers.LevelTimerManager.RedButton();
-        Helpers.GameManager.CinematicManager.PlayVictoryCinematic();
     }
 }

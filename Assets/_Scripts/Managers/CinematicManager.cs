@@ -41,6 +41,11 @@ public class CinematicManager : MonoBehaviour
             };
         }
         PlayerPrefs.SetString(currentScene, currentScene);
+        EventManager.SubscribeToEvent(Contains.ON_ROOM_WON, PlayVictoryCinematic);
+    }
+    private void OnDestroy()
+    {
+        EventManager.UnSubscribeToEvent(Contains.ON_ROOM_WON, PlayVictoryCinematic);     
     }
     public void PlayDefeatCinematic()
     {
@@ -60,7 +65,7 @@ public class CinematicManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         _skipCinematicUI.SetActive(true);
     }
-    public void PlayVictoryCinematic()
+    public void PlayVictoryCinematic(params object[] param)
     {
         _cinemacticCamera.SetActive(true);
         Helpers.GameManager.PauseManager.PauseObjectsInCinematic();

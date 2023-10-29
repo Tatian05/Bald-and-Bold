@@ -16,13 +16,19 @@ public class LevelTimerManager : MonoBehaviour
     bool _stopTrap;
     bool _firstTime;
 
-    public Action RedButton;
+    public event Action RedButton;
     public event Action OnLevelDefeat;
     void Start()
     {
         Helpers.GameManager.EnemyManager.OnEnemyKilled += StopTrap;
         RedButton += WinLevel;
+        EventManager.SubscribeToEvent(Contains.ON_ROOM_WON, PlayRedButton);
     }
+    private void OnDestroy()
+    {
+        EventManager.UnSubscribeToEvent(Contains.ON_ROOM_WON, PlayRedButton);        
+    }
+    void PlayRedButton(params object[] param) { RedButton(); }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F2))
@@ -31,10 +37,7 @@ public class LevelTimerManager : MonoBehaviour
             _timer = _levelMaxTime;
         }
         else if (Input.GetKeyDown(KeyCode.F1))
-        {
-            Helpers.LevelTimerManager.RedButton();
-            Helpers.GameManager.CinematicManager.PlayVictoryCinematic();
-        }
+            EventManager.TriggerEvent(Contains.ON_ROOM_WON);
     }
     private void OnDisable()
     {
