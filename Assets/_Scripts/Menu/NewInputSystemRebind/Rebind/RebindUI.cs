@@ -80,6 +80,7 @@ public class RebindUI : MonoBehaviour
     public void ResetBinding()
     {
         NewInputManager.ResetBinding(_actionName, _bindingIndex);
+        NewInputManager.SaveUserBindings(_inputActionReference);
         UpdateUI();
     }
 }

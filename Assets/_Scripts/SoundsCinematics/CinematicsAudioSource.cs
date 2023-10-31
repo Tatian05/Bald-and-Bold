@@ -12,4 +12,8 @@ public class CinematicsAudioSource : MonoBehaviour
     {
         foreach (var item in _audioSources) item.volume = Helpers.AudioManager.sfxSource.volume;
     }
+    private void OnDestroy()
+    {
+        Helpers.AudioManager.setCinematicSound -= SetSounds;   
+    }
 }

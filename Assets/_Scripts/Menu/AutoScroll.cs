@@ -13,6 +13,12 @@ public class AutoScroll : MonoBehaviour
     EventSystemScript _eventSystemScript;
     void Awake()
     {
+        if(NewInputManager.activeDevice == DeviceType.Keyboard)
+        {
+            enabled = false;
+            return;
+        }
+
         m_ScrollRect = GetComponent<ScrollRect>();
         m_RectTransform = GetComponent<RectTransform>();
         m_ContentRectTransform = m_ScrollRect.content;

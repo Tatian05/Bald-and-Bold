@@ -11,11 +11,13 @@ public class EventSystemScript : MonoBehaviour
     Stack<GameObject> _stack = new Stack<GameObject>();
     EventSystem _eventSystem;
     GameObject _lastSelectedGO;
-    [SerializeField] InputActionAsset _uiNavigateActions;
+    DefaultInputActions _uiNavigateActions;
+    public DefaultInputActions UIInputs { get { return _uiNavigateActions; } private set { } }
     public GameObject CurrentSelectedGO
     {
         get
         {
+            Debug.Log(_eventSystem.currentSelectedGameObject == null);
             if (!_eventSystem.currentSelectedGameObject) return null;
 
             return _eventSystem.currentSelectedGameObject;
@@ -24,6 +26,7 @@ public class EventSystemScript : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        _uiNavigateActions = new DefaultInputActions();
         _eventSystem = FindObjectOfType<EventSystem>();
     }
     private void OnEnable()
@@ -34,17 +37,13 @@ public class EventSystemScript : MonoBehaviour
     {
         NewInputManager.ActiveDeviceChangeEvent -= OnControlsChanged;
     }
-    public void AddToStack(GameObject go)
+    public void AddToStack()
     {
-        if (_stack.Contains(go)) return;
         _stack.Push(_eventSystem.currentSelectedGameObject);
-        _stack.Push(go);
     }
-    public void RemoveToStack(GameObject go = null)
+    public void RemoveToStack()
     {
-        if (!_stack.Contains(go)) return;
-        _stack.Peek();
-        _eventSystem.SetSelectedGameObject(_stack.Last());
+        _eventSystem.SetSelectedGameObject(_stack.Pop());
     }
     public void SetCurrentGameObjectSelected(GameObject go)
     {

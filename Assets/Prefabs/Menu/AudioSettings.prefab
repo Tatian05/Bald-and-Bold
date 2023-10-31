@@ -662,6 +662,7 @@ GameObject:
   - component: {fileID: 5409445959227094869}
   - component: {fileID: 2169064202675677585}
   - component: {fileID: 2232580786213705358}
+  - component: {fileID: 220763086966433605}
   m_Layer: 5
   m_Name: AudioSettings
   m_TagString: Untagged
@@ -678,7 +679,7 @@ RectTransform:
   m_GameObject: {fileID: 2233763887741021770}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4451809226702673326}
   m_Father: {fileID: 0}
@@ -717,6 +718,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _onEnableSelectedButton: {fileID: 542562893927860922}
+  _backButton: {fileID: 6436136690264322792}
+--- !u!114 &220763086966433605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2233763887741021770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dd59a974c454d7459cf99f94526763b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2456609729940365698
 GameObject:
   m_ObjectHideFlags: 0
@@ -1139,10 +1153,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2233763887741021770}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 220763086966433605}
+        m_TargetAssemblyTypeName: WindowsAnimation, Assembly-CSharp
+        m_MethodName: OnWindowClose
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

@@ -134,7 +134,7 @@ public class NewInputManager : MonoBehaviour
 
         return action.GetBindingDisplayString(bindingIndex);
     }
-    static void SaveUserBindings(InputAction action)
+    public static void SaveUserBindings(InputAction action)
     {
         var persistandDataSaved = Helpers.PersistantData.persistantDataSaved;
         for (int i = 0; i < action.bindings.Count; i++)
