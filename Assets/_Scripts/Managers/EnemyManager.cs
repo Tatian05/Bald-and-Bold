@@ -7,12 +7,14 @@ public class EnemyManager : BaseEnemyManager
         _gameManager = Helpers.GameManager;
         LevelTimerManager levelTimer = Helpers.LevelTimerManager;
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDead);
+        EventManager.SubscribeToEvent(Contains.ON_ROOM_WON, SetProgressEnemyMision);
 
         StartCoroutine(CheckForEmptyLevel());
     }
     private void OnDestroy()
     {
         EventManager.UnSubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDead);
+        EventManager.UnSubscribeToEvent(Contains.ON_ROOM_WON, SetProgressEnemyMision);
     }
     void OnPlayerDead(params object[] param)
     {
@@ -46,5 +48,9 @@ public class EnemyManager : BaseEnemyManager
     void ResetLevel()
     {
         _allEnemies.Clear();
+    }
+    void SetProgressEnemyMision(params object[] param)
+    {
+        Helpers.GameManager.QuestManager.SetProgressInMision("Kill Enemies", ref _enemiesInLevel);
     }
 }

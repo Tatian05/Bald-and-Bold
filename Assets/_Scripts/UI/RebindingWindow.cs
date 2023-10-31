@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -12,22 +11,22 @@ public class RebindingWindow : MonoBehaviour
     private void Awake()
     {
         _resetDefaultButton.onClick.AddListener(ResetDefault);
-        OpenCurrentGamepadWindow();
+        OpenCurrentWindow();
         _cancelUI = EventSystemScript.Instance.UIInputs.UI.Cancel;
     }
     private void OnEnable()
     {
-        NewInputManager.ActiveDeviceChangeEvent += OpenCurrentGamepadWindow;
+        NewInputManager.ActiveDeviceChangeEvent += OpenCurrentWindow;
         EventSystemScript.Instance.UIInputs.UI.Cancel.performed += CancelBinding;
         _cancelUI.Enable();
     }
     private void OnDisable()
     {
-        NewInputManager.ActiveDeviceChangeEvent += OpenCurrentGamepadWindow;
+        NewInputManager.ActiveDeviceChangeEvent += OpenCurrentWindow;
         EventSystemScript.Instance.UIInputs.UI.Cancel.performed -= CancelBinding;
-        _cancelUI.Disable();
+        _cancelUI?.Disable();
     }
-    void OpenCurrentGamepadWindow()
+    void OpenCurrentWindow()
     {
         foreach (var item in _devicesWindows) item.SetActive(false);
 

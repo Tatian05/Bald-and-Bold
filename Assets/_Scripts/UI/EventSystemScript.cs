@@ -1,14 +1,10 @@
-using System.Linq;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-
 public class EventSystemScript : MonoBehaviour
 {
     public static EventSystemScript Instance { get; private set; }
 
-    Stack<GameObject> _stack = new Stack<GameObject>();
     EventSystem _eventSystem;
     GameObject _lastSelectedGO;
     DefaultInputActions _uiNavigateActions;
@@ -17,7 +13,6 @@ public class EventSystemScript : MonoBehaviour
     {
         get
         {
-            Debug.Log(_eventSystem.currentSelectedGameObject == null);
             if (!_eventSystem.currentSelectedGameObject) return null;
 
             return _eventSystem.currentSelectedGameObject;
@@ -36,14 +31,6 @@ public class EventSystemScript : MonoBehaviour
     private void OnDisable()
     {
         NewInputManager.ActiveDeviceChangeEvent -= OnControlsChanged;
-    }
-    public void AddToStack()
-    {
-        _stack.Push(_eventSystem.currentSelectedGameObject);
-    }
-    public void RemoveToStack()
-    {
-        _eventSystem.SetSelectedGameObject(_stack.Pop());
     }
     public void SetCurrentGameObjectSelected(GameObject go)
     {

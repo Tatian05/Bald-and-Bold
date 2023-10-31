@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -12,7 +11,7 @@ public abstract class BaseEnemyManager : MonoBehaviour
     public event Action OnHeavyAttack;
 
     protected int _maxEnemies;
-
+    protected int _enemiesInLevel;
     public abstract void Start();
 
     public virtual void AddEnemy(Enemy enemy)
@@ -20,6 +19,7 @@ public abstract class BaseEnemyManager : MonoBehaviour
         if (_allEnemies.Contains(enemy)) return;
 
         _allEnemies.Add(enemy);
+        _enemiesInLevel++;
     }
 
     public abstract void RemoveEnemy(Enemy enemy);

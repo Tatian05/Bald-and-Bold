@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour
     Action _cameraBehaviour;
     Camera _camera;
 
+    [SerializeField] float _shakeDuration = 0.2f, _speed = 0.2f;
     [SerializeField] AnimationCurve _curve;
     [SerializeField] float[] _clampX = new float[2];
     [SerializeField] float[] _clampY = new float[2];
@@ -67,10 +68,10 @@ public class CameraController : MonoBehaviour
         Vector3 startPosition = _myTransform.localPosition;
         float elapsedTime = 0f;
 
-        while (elapsedTime < _gameManager.CameraShakeDuration)
+        while (elapsedTime < _shakeDuration)
         {
             elapsedTime += Time.deltaTime;
-            float strenght = _curve.Evaluate(elapsedTime / _gameManager.CameraShakeDuration);
+            float strenght = _curve.Evaluate(elapsedTime / _shakeDuration);
             _myTransform.localPosition = startPosition + UnityEngine.Random.insideUnitSphere * strenght;
             yield return null;
         }

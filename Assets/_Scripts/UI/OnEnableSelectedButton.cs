@@ -7,35 +7,34 @@ public class OnEnableSelectedButton : MonoBehaviour
     EventSystemScript _eventSystem;
     [SerializeField] GameObject _lastSelectedObject;
     bool _exit;
+    private void Awake()
+    {
+        _eventSystem = EventSystemScript.Instance;     
+    }
     private void OnEnable()
     {
         if (_eventSystem) SetCurrentButton();
-        _exit = false;
     }
 
     private void Start()
     {
-        _eventSystem = EventSystemScript.Instance;
         SetCurrentButton();
-        if (_backButton) _backButton.onClick.AddListener(BackButton);
+        if (_backButton) _backButton.onClick.AddListener(() => { _lastSelectedObject = null; _exit = true; });
     }
     private void OnDisable()
     {
         if (NewInputManager.activeDevice != DeviceType.Keyboard && !_exit)
         {
+            if (!_eventSystem) _eventSystem = EventSystemScript.Instance;
             _lastSelectedObject = _eventSystem.CurrentSelectedGO;
-            _eventSystem.AddToStack();
         }
     }
     public void SetCurrentButton()
     {
         if (NewInputManager.activeDevice != DeviceType.Keyboard)
-            _eventSystem.SetCurrentGameObjectSelected(_exit ? _onEnableSelectedButton : _lastSelectedObject);
-    }
-    void BackButton()
-    {
-        _lastSelectedObject = null;
-        _eventSystem.RemoveToStack();
-        _exit = true;
+        {
+            _eventSystem.SetCurrentGameObjectSelected(_lastSelectedObject ? _lastSelectedObject : _onEnableSelectedButton);
+            _exit = false;
+        }
     }
 }

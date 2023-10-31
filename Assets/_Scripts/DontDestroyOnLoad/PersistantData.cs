@@ -52,16 +52,30 @@ public class PersistantData : MonoBehaviour
 [Serializable]
 public class PersistantDataSaved
 {
-    public int coins, currentLanguageIndex;
+    public int currentLanguageIndex;
+
+    [Header("Coins")]
+    public int presiCoins, baldCoins;
+
+    #region Cosmetics
+    [Header("Cosmetics")]
     public CosmeticData playerCosmeticEquiped;
     public CosmeticData presidentCosmeticEquiped;
+    public List<CosmeticData> playerCosmeticCollection = new List<CosmeticData>();
+    public List<CosmeticData> presidentCosmeticCollection = new List<CosmeticData>();
+    #endregion 
 
+    #region Bindings
+    [Header("Bindings")]
     public List<string> userBindingKeys = new List<string>();
     public List<string> userBindingValues = new List<string>();
     public Dictionary<string, string> userBindings = new Dictionary<string, string>();
+    #endregion
 
-    public List<CosmeticData> playerCosmeticCollection = new List<CosmeticData>();
-    public List<CosmeticData> presidentCosmeticCollection = new List<CosmeticData>();
+    #region Quests
+    public Mission[] misions;
+    #endregion
+
     public void RemoveEmptySlot()
     {
         for (int i = 0; i < playerCosmeticCollection.Count; i++)
@@ -70,10 +84,14 @@ public class PersistantDataSaved
         for (int i = 0; i < presidentCosmeticCollection.Count; i++)
             if (!presidentCosmeticCollection[i]) presidentCosmeticCollection.Remove(presidentCosmeticCollection[i]);
     }
-    public void Buy(int amount) { coins -= amount; }
+
+    public void AddPresiCoins(int amount) { presiCoins += amount; }
+    public void AddBaldCoins(int amount) { baldCoins += amount; }
+    public void Buy(int amount) { presiCoins -= amount; }
+    public void Gacha(int amount) { baldCoins -= amount; }
     public void AddCosmetic(CosmeticType cosmeticType, CosmeticData cosmetic)
     {
-        if(cosmeticType is CosmeticType.Player && !playerCosmeticCollection.Contains(cosmetic)) playerCosmeticCollection.Add(cosmetic);
+        if (cosmeticType is CosmeticType.Player && !playerCosmeticCollection.Contains(cosmetic)) playerCosmeticCollection.Add(cosmetic);
         else if (!presidentCosmeticCollection.Contains(cosmetic)) presidentCosmeticCollection.Add(cosmetic);
     }
     public void AddBinding(string key, string value)

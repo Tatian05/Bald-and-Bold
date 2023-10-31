@@ -318,7 +318,7 @@ MonoBehaviour:
   - {x: -0.5, y: 0.2, z: 0}
   m_ShapePathHash: -1906480883
   m_Mesh: {fileID: 0}
-  m_InstanceId: 125252
+  m_InstanceId: 128426
 --- !u!1 &859833147576569514
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,6 +676,7 @@ GameObject:
   - component: {fileID: 4930561249023294987}
   - component: {fileID: 3024769526267495665}
   - component: {fileID: 8509274745155489555}
+  - component: {fileID: 390200863657267304}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -870,6 +871,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ba56089c26feb449cbd05e218f5572, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &390200863657267304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707881769362260627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ca38b43fa260d745af8b7490d4fb4c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _misions:
+  - questName: Kill Enemies
+    progress: 0
+    stages: 0a0000001e00000032000000
+    presiCoinsAward: 0a000000140000001e000000
+    goldenBaldCoinsAward: 010000000200000003000000
+    currentStageIndex: 0
 --- !u!1 &2566736729711227540
 GameObject:
   m_ObjectHideFlags: 0

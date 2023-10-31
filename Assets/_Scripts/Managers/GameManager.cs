@@ -17,14 +17,6 @@ public class GameManager : MonoBehaviour
     public LayerMask DynamicBodiesLayer { get { return _dynamicBodies; } private set { } }
     public LayerMask EnemyBulletLayer { get { return _enemyBulletLayer; } private set { } }
 
-
-    [Header("Camera")]
-    [SerializeField] float _cameraShakeDuration;
-    public float CameraShakeDuration { get { return _cameraShakeDuration; } private set { } }
-
-    [SerializeField] float _cameraSpeed;
-    public float CameraSpeed { get { return _cameraSpeed; } private set { } }
-
     GeneralPlayer _player;
     public GeneralPlayer Player { get { return _player; } private set { } }
 
@@ -54,6 +46,9 @@ public class GameManager : MonoBehaviour
     CinematicManager _cinematicManager;
     public CinematicManager CinematicManager { get { return _cinematicManager; } }
 
+    QuestManager _questManager;
+    public QuestManager QuestManager { get { return _questManager; } }
+
     private void Awake()
     {
         instance = this;
@@ -66,6 +61,7 @@ public class GameManager : MonoBehaviour
         _pauseManager = GetComponent<PauseManager>();
         _dropManager = GetComponent<DropManager>();
         _cinematicManager = GetComponent<CinematicManager>();
+        _questManager = GetComponent<QuestManager>();
         Cursor.lockState = CursorLockMode.Confined;
     }
 }

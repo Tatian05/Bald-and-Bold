@@ -37,7 +37,7 @@ public class ShopWindow : MonoBehaviour
     {
         _buttonsColor = _playerButton.image.color;
         PersistantDataSaved persistantDataSaved = Helpers.PersistantData.persistantDataSaved;
-        _coins.text = persistantDataSaved.coins.ToString();
+        _coins.text = persistantDataSaved.presiCoins.ToString();
 
         List<Button> playerCosmeticsButton = new List<Button>();
         List<Button> presidentCosmeticsButton = new List<Button>();
@@ -67,7 +67,7 @@ public class ShopWindow : MonoBehaviour
 
                 button.image.color = _selectedColor;
                 _coinsTextBuyButton.text = _shoppableSelected.shoppableData.cost.ToString();
-                _buyButton.interactable = persistantDataSaved.coins >= _shoppableSelected.shoppableData.cost ? true : false;
+                _buyButton.interactable = persistantDataSaved.presiCoins >= _shoppableSelected.shoppableData.cost ? true : false;
             });
         }
 
@@ -94,7 +94,7 @@ public class ShopWindow : MonoBehaviour
 
                 button.image.color = _selectedColor;
                 _coinsTextBuyButton.text = _shoppableSelected.shoppableData.cost.ToString();
-                _buyButton.interactable = persistantDataSaved.coins >= _shoppableSelected.shoppableData.cost ? true : false;
+                _buyButton.interactable = persistantDataSaved.presiCoins >= _shoppableSelected.shoppableData.cost ? true : false;
             });
         }
 
@@ -119,7 +119,7 @@ public class ShopWindow : MonoBehaviour
         _buyButton.onClick.AddListener(() =>
         {
             _itemSelected.SetInCollection();
-            _coins.text = persistantDataSaved.coins.ToString();
+            _coins.text = persistantDataSaved.presiCoins.ToString();
             _shoppableSelected = null;
             _itemSelected = null;
             _buyButton.interactable = false;

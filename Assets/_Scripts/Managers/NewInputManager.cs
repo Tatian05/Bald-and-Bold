@@ -110,7 +110,8 @@ public class NewInputManager : MonoBehaviour
             RebindCanceled?.Invoke();
         });
 
-        rebindingOperation.OnPotentialMatch(operation => { Debug.Log(operation.selectedControl.path); if (operation.selectedControl.path is "/Keyboard/escape" || operation.selectedControl.path is "/Gamepad/Start") rebindingOperation.Cancel(); });
+        rebindingOperation.WithControlsExcluding("")
+                          .OnPotentialMatch(operation => { Debug.Log(operation.selectedControl.path); if (operation.selectedControl.path is "/Keyboard/escape" || operation.selectedControl.path is "/Gamepad/Start") rebindingOperation.Cancel(); });
 
         if (excludeMouse) rebindingOperation.WithControlsExcluding("Mouse");
 

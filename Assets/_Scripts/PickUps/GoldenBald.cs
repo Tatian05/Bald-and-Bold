@@ -19,7 +19,7 @@ public class GoldenBald : MonoBehaviour
         EventManager.UnSubscribeToEvent(Contains.ON_ROOM_WON, BoldenBaldAction);     
     }
     void RestartTween(params object[] param) { _tween.Play(); }
-    public void BoldenBaldAction(params object[] param) { Helpers.PersistantData.persistantDataSaved.coins += _coinsAward; }
+    public void BoldenBaldAction(params object[] param) { Helpers.PersistantData.persistantDataSaved.baldCoins += _coinsAward; }
     public GoldenBald SetPosition(Vector3 position)
     {
         transform.position = position;
