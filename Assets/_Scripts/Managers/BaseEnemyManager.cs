@@ -6,12 +6,12 @@ public abstract class BaseEnemyManager : MonoBehaviour
 {
     protected GameManager _gameManager;
     protected List<Enemy> _allEnemies = new List<Enemy>();
+    protected int _maxEnemies;
+    protected int _enemiesInLevel;
 
     public event Action OnEnemyKilled;
     public event Action OnHeavyAttack;
 
-    protected int _maxEnemies;
-    protected int _enemiesInLevel;
     public abstract void Start();
 
     public virtual void AddEnemy(Enemy enemy)
@@ -19,7 +19,7 @@ public abstract class BaseEnemyManager : MonoBehaviour
         if (_allEnemies.Contains(enemy)) return;
 
         _allEnemies.Add(enemy);
-        _enemiesInLevel++;
+        _enemiesInLevel = _allEnemies.Count;
     }
 
     public abstract void RemoveEnemy(Enemy enemy);

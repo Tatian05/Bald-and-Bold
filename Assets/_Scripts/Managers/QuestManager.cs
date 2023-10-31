@@ -1,21 +1,23 @@
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
 public class QuestManager : MonoBehaviour
 {
     [SerializeField] Mission[] _misions;
 
-    Dictionary<string, Mission> _questsCollection = new Dictionary<string, Mission>();
     PersistantDataSaved _persistantDataSaved;
-    private void Start()
+    private void OnEnable()
     {
         _persistantDataSaved = Helpers.PersistantData.persistantDataSaved;
         if (_persistantDataSaved.misions.Any()) _misions = _persistantDataSaved.misions;
 
-        foreach (var item in _misions)
-            _questsCollection.Add(item.questName, item);
+        EventManager.SubscribeToEvent(Contains.MISSION_PROGRESS, SetProgressInMision);
     }
-    public void SetProgressInMision(string questName, ref int amount) { _misions.First(x => x.questName.Equals(questName)).AddProgress(ref amount); Debug.Log(_questsCollection[questName].questName); }
+    public void SetProgressInMision(params object[] param)
+    {
+        var quest = _misions.FirstOrDefault(x => x.questName.Equals((string)param[0]));
+        _misions[Array.IndexOf(_misions, quest)].AddProgress((int)param[1]);
+    }
     void SetMisions()
     {
         Helpers.PersistantData.persistantDataSaved.misions = _misions;
@@ -23,6 +25,7 @@ public class QuestManager : MonoBehaviour
     private void OnDestroy()
     {
         SetMisions();
+        EventManager.UnSubscribeToEvent(Contains.MISSION_PROGRESS, SetProgressInMision);
     }
 }
 
@@ -35,12 +38,12 @@ public struct Mission
     public int[] presiCoinsAward;
     public int[] goldenBaldCoinsAward;
     [HideInInspector] public int currentStageIndex;
-    public void AddProgress(ref int amount) { progress += amount; Debug.Log(progress); }
+    public void AddProgress(int amount) { progress += amount; }
     public bool CanReclaimMision() => progress >= stages[currentStageIndex];
     public void ReclaimMision()
     {
         Helpers.PersistantData.persistantDataSaved.presiCoins += presiCoinsAward[currentStageIndex];
-        Helpers.PersistantData.persistantDataSaved.baldCoins += goldenBaldCoinsAward[currentStageIndex];
+        Helpers.PersistantData.persistantDataSaved.goldenBaldCoins += goldenBaldCoinsAward[currentStageIndex];
         currentStageIndex++;
     }
 }

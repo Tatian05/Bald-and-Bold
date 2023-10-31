@@ -11,7 +11,7 @@ public class LevelsMap : MonoBehaviour
         foreach (var item in _zonesButtons) item.interactable = false;
 
         ZonesManager zonesManager = ZonesManager.Instance;
-        GameData persistantDataSaved = Helpers.PersistantData.gameData;
+        GameData gameData = Helpers.PersistantData.gameData;
 
         //for (int i = 0; i < _zones[_currentUnlockedZone].levelsZone.Length; i++)
         //{
@@ -19,21 +19,25 @@ public class LevelsMap : MonoBehaviour
         //    deathsAmount += Helpers.PersistantData.persistantDataSaved.deaths[i + (_zones[i].levelsZone.Length * _zones[_currentUnlockedZone].ID)];
         //}
 
-        var coll = zonesManager.zones.Select(x => x.levelsZone).Take(persistantDataSaved.unlockedZones + 1);
+        var coll = zonesManager.zones.Select(x => x.levelsZone).Take(gameData.unlockedZones + 1);
         int actualLevelsZone = 0;
 
         foreach (var item in coll)
             actualLevelsZone += item.Count();
 
-        bool canUnlockNewZone = persistantDataSaved.levels.Any()  //Chequeo si jugo todos los niveles de la zona
-            && persistantDataSaved.currentDeaths <= zonesManager.zones[persistantDataSaved.unlockedZones].deathsNeeded  //Chequeo si murio menos veces que lo requerido
-            && persistantDataSaved.levels.Count >= actualLevelsZone   //Chequeo si jugo mas niveles que los que hay en las zonas desbloqueadas
-            && persistantDataSaved.unlockedZones < zonesManager.zones.Length - 1;
+        bool canUnlockNewZone = gameData.levels.Any()  //Chequeo si jugo todos los niveles de la zona
+            && gameData.currentDeaths <= zonesManager.zones[gameData.unlockedZones].deathsNeeded  //Chequeo si murio menos veces que lo requerido
+            && gameData.levels.Count >= actualLevelsZone   //Chequeo si jugo mas niveles que los que hay en las zonas desbloqueadas
+            && gameData.unlockedZones < zonesManager.zones.Length - 1;
 
-        if (canUnlockNewZone) persistantDataSaved.unlockedZones++;
+        if (canUnlockNewZone)
+        {
+            gameData.unlockedZones++;
+            EventManager.TriggerEvent(Contains.MISSION_PROGRESS, "Get Over Zones", gameData.unlockedZones);
+        }
 
         int deathsAmount = 0;
-        for (int i = 0; i <= persistantDataSaved.unlockedZones; i++)            //UPDATE DE MUERTES Y ZONAS
+        for (int i = 0; i <= gameData.unlockedZones; i++)            //UPDATE DE MUERTES Y ZONAS
         {
             zonesManager.zones[i].SetCurrentDeaths();
             deathsAmount += zonesManager.zones[i].currentDeathsInZone;

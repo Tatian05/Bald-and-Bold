@@ -136,7 +136,7 @@ public class Player : GeneralPlayer
     public void SendInput(PlayerStates PlayerState) { _myFsm.SendInput(PlayerState); }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out GoldenBald goldenBald)) _goldenBald = goldenBald.KillTween();
+        if (collision.TryGetComponent(out GoldenBald goldenBald)) _goldenBald = goldenBald.SetOwner(true);
 
         if (collision.CompareTag("Rope") && !_dead)
         {

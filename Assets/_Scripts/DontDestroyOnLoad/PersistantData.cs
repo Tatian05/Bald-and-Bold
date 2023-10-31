@@ -55,7 +55,7 @@ public class PersistantDataSaved
     public int currentLanguageIndex;
 
     [Header("Coins")]
-    public int presiCoins, baldCoins;
+    public int presiCoins, goldenBaldCoins;
 
     #region Cosmetics
     [Header("Cosmetics")]
@@ -73,7 +73,7 @@ public class PersistantDataSaved
     #endregion
 
     #region Quests
-    public Mission[] misions;
+    public Mission[] misions = new Mission[0];
     #endregion
 
     public void RemoveEmptySlot()
@@ -86,9 +86,9 @@ public class PersistantDataSaved
     }
 
     public void AddPresiCoins(int amount) { presiCoins += amount; }
-    public void AddBaldCoins(int amount) { baldCoins += amount; }
+    public void AddGoldenBaldCoins(int amount) { goldenBaldCoins += amount; }
     public void Buy(int amount) { presiCoins -= amount; }
-    public void Gacha(int amount) { baldCoins -= amount; }
+    public void Gacha(int amount) { goldenBaldCoins -= amount; }
     public void AddCosmetic(CosmeticType cosmeticType, CosmeticData cosmetic)
     {
         if (cosmeticType is CosmeticType.Player && !playerCosmeticCollection.Contains(cosmetic)) playerCosmeticCollection.Add(cosmetic);

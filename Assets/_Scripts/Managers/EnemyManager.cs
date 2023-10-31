@@ -49,8 +49,6 @@ public class EnemyManager : BaseEnemyManager
     {
         _allEnemies.Clear();
     }
-    void SetProgressEnemyMision(params object[] param)
-    {
-        Helpers.GameManager.QuestManager.SetProgressInMision("Kill Enemies", ref _enemiesInLevel);
-    }
+
+    void SetProgressEnemyMision(params object[] param) { EventManager.TriggerEvent(Contains.MISSION_PROGRESS, "Kill Enemies", _enemiesInLevel); }
 }

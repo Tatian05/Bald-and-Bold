@@ -29,7 +29,8 @@ public class Enemy_FollowDrone : Enemy
         follow.OnEnter += x => AgroSign(true);
         follow.OnUpdate += delegate { _navMeshAgent.SetDestination(playerTransform.position); };
 
-        EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
+        if (Helpers.LevelTimerManager.LevelStarted) _myFsm = new EventFSM<DroneStates>(idle);
+        else EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
     }
     void StartFSM(params object[] param) { _myFsm = new EventFSM<DroneStates>(idle); }
     protected override void OnDestroy()
