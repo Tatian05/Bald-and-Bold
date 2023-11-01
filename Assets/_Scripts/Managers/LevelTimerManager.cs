@@ -23,6 +23,7 @@ public class LevelTimerManager : MonoBehaviour
         Helpers.GameManager.EnemyManager.OnEnemyKilled += StopTrap;
         RedButton += WinLevel;
         EventManager.SubscribeToEvent(Contains.ON_ROOM_WON, PlayRedButton);
+        Helpers.AudioManager.PlayMusic("Levels Music");
     }
     private void OnDestroy()
     {

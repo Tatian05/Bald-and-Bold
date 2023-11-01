@@ -175,6 +175,8 @@ MonoBehaviour:
   musicSounds:
   - soundName: Music
     clip: {fileID: 8300000, guid: 13d827fc0b8f4ae439a3be0e932834de, type: 3}
+  - soundName: Levels Music
+    clip: {fileID: 8300000, guid: a3024c5c1829dde479fb741790105681, type: 3}
   sfxSounds:
   - soundName: Player_Jump
     clip: {fileID: 8300000, guid: 3f2d06697612c8d47ba891435db5a1b5, type: 3}
