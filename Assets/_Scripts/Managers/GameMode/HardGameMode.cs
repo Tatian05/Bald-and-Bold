@@ -17,7 +17,7 @@ public class HardGameMode : GameModeManager
         if (_currentLives <= 0)
         {
             Helpers.GameManager.SaveDataManager.SaveInt(_currentLivesName, Helpers.GameManager.DefaultHardLives);
-            Helpers.GameManager.LoadSceneManager.LoadLevel("Level 0.3");
+            Helpers.GameManager.LoadSceneManager.LoadLevelAsync("Level 0.3", false);
         }
         else
         {

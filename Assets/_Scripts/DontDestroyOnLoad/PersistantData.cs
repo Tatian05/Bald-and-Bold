@@ -52,7 +52,9 @@ public class PersistantData : MonoBehaviour
 [Serializable]
 public class PersistantDataSaved
 {
+    [Header("Settings")]
     public int currentLanguageIndex;
+    public float generalVolume = 1, musicVolume = 1, sfxVolume = 1;
 
     [Header("Coins")]
     public int presiCoins, goldenBaldCoins;

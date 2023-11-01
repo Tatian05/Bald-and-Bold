@@ -6,7 +6,7 @@ public class SkipCinematic : MonoBehaviour
     {
         if (Input.anyKey)
         {
-            if (_principalCinematic) Helpers.GameManager.LoadSceneManager.LoadLevel("Level 0 Tutorial");
+            if (_principalCinematic) Helpers.GameManager.LoadSceneManager.LoadLevelAsync("Level 0 Tutorial", true);
             else Helpers.GameManager.CinematicManager.SkipDefeatCinematic();
             gameObject.SetActive(false);
         }

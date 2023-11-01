@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using DG.Tweening;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
@@ -19,6 +20,10 @@ public class AudioManager : MonoBehaviour
     }
     private void Start()
     {
+        PersistantDataSaved persistantDataSaved = Helpers.PersistantData.persistantDataSaved;
+        AudioListener.volume = persistantDataSaved.generalVolume;
+        musicSource.volume = persistantDataSaved.musicVolume;
+        sfxSource.volume = persistantDataSaved.sfxVolume;
         PlayMusic("Music");
     }
     public void PlayMusic(string name)
@@ -34,6 +39,7 @@ public class AudioManager : MonoBehaviour
         {
             musicSource.clip = s.clip;
             musicSource.Play();
+            FadeInOutVolume(0, Helpers.PersistantData.persistantDataSaved.generalVolume);
         }
     }
     public void PlaySFX(string name)
@@ -43,5 +49,10 @@ public class AudioManager : MonoBehaviour
             Debug.Log("Sound Not Found");
         else
             sfxSource.PlayOneShot(s.clip);
+    }
+    public void FadeInOutVolume(float initialValue, float endValue)
+    {
+        float value = initialValue;
+        DOTween.To(() => value, x => x = value = x, endValue, 1).OnUpdate(() => AudioListener.volume = value);
     }
 }

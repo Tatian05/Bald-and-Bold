@@ -8,6 +8,7 @@ public class LevelsMap : MonoBehaviour
     [SerializeField] TextMeshProUGUI[] _deathsZoneTxt;
     private void Start()
     {
+        Helpers.AudioManager.PlayMusic("Elevator Music");
         foreach (var item in _zonesButtons) item.interactable = false;
 
         ZonesManager zonesManager = ZonesManager.Instance;
@@ -54,6 +55,6 @@ public class LevelsMap : MonoBehaviour
         deathsZoneTxt.text = $"{deathsAmount} / {deathsNeeded}";
         deathsZoneTxt.color = deathsAmount <= deathsNeeded ? Color.green : Color.red;
 
-        buttonZone.onClick.AddListener(() => Helpers.GameManager.LoadSceneManager.LoadLevel(sceneToLoad));
+        buttonZone.onClick.AddListener(() => Helpers.GameManager.LoadSceneManager.LoadLevelAsync(sceneToLoad, true));
     }
 }

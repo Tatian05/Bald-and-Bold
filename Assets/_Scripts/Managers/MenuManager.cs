@@ -33,11 +33,11 @@ public class MenuManager : MonoBehaviour
 
     public void BTN_GoToMenu()
     {
-        Helpers.GameManager.LoadSceneManager.LoadLevel("Menu");
+        Helpers.GameManager.LoadSceneManager.LoadLevelAsync("Menu", true);
     }
     public void BTN_Tutorial()
     {
-        Helpers.GameManager.LoadSceneManager.LoadLevel("Tutorial1");
+        Helpers.GameManager.LoadSceneManager.LoadLevelAsync("Tutorial1", false);
         Helpers.GameManager.SaveDataManager.Reset();
     }
 }

@@ -11,10 +11,9 @@ public class LoadSceneManager : MonoBehaviour
     {
         _anim = GetComponent<Animator>();
     }
-    public void ReloadLevel() => StartCoroutine(ChangeScene(SceneManager.GetActiveScene().buildIndex));
-    public void LoadLevel(int levelIndex) => StartCoroutine(ChangeScene(levelIndex));
-    public void LoadLevel(string levelName) => StartCoroutine(ChangeScene(levelName));
-    public void LoadLevelAsync(string levelName) => StartCoroutine(LoadAsync(levelName));
+    public void ReloadLevel() => StartCoroutine(LoadAsync(SceneManager.GetActiveScene().buildIndex, false));
+    public void LoadLevelAsync(int levelIndex, bool fadeOut) => StartCoroutine(LoadAsync(levelIndex, fadeOut));
+    public void LoadLevelAsync(string levelName, bool fadeOut) => StartCoroutine(LoadAsync(levelName, fadeOut));
     public void SaveCurrentLevel()
     {
         var levelName = string.Empty;
@@ -31,25 +30,24 @@ public class LoadSceneManager : MonoBehaviour
             lastLevel && Helpers.PersistantData.gameData.currentDeaths <= ZonesManager.Instance.zones.Last().deathsNeeded ? "WinScreen"
             : $"Level {currentLevel + 1}";
 
-        LoadLevel(nextScene);
-    }
-    IEnumerator ChangeScene(int levelIndex = default)
-    {
-        _anim.Play("Close");
-        yield return _wait;
-        SceneManager.LoadScene(levelIndex);
-    }
-    IEnumerator ChangeScene(string levelName)
-    {
-        _anim.Play("Close");
-        yield return _wait;
-        SceneManager.LoadScene(levelName);
+        LoadLevelAsync(nextScene, nextScene.Equals("LevelsMap"));
     }
 
-    IEnumerator LoadAsync(string sceneName)
+    IEnumerator LoadAsync(string sceneName, bool fadeOut)
     {
+        if (fadeOut) Helpers.AudioManager.FadeInOutVolume(Helpers.PersistantData.persistantDataSaved.generalVolume, 0);
         _anim.Play("Close");
         yield return _wait;
         SceneManager.LoadSceneAsync(sceneName);
     }
+    IEnumerator LoadAsync(int sceneIndex, bool fadeOut)
+    {
+        if (fadeOut) Helpers.AudioManager.FadeInOutVolume(Helpers.PersistantData.persistantDataSaved.generalVolume, 0);
+        _anim.Play("Close");
+        yield return _wait;
+        SceneManager.LoadSceneAsync(sceneIndex);
+    }
+
+    //LAS LLAMO POR EVENTO EN BOTONES
+    public void LoadAsyncFadeOut(string sceneName) { LoadLevelAsync(sceneName, true); }
 }

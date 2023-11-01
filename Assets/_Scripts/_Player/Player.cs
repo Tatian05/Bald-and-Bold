@@ -192,7 +192,7 @@ public class Player : GeneralPlayer
     void OnPlayerDeath(params object[] param)
     {
         _playerModel.FreezeVelocity();
-        _goldenBald.ResetGoldenBald();
+        _goldenBald?.ResetGoldenBald();
         _goldenBald = null;
         StartCoroutine(Death());
         _playerModel.ResetStats();

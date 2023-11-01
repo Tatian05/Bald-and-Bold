@@ -5,5 +5,5 @@ public class OutroScene : MonoBehaviour
     {
         Invoke(nameof(Outro), 3f);
     }
-    void Outro() { Helpers.GameManager.LoadSceneManager.LoadLevel("Menu"); }
+    void Outro() { Helpers.GameManager.LoadSceneManager.LoadLevelAsync("Menu", true); }
 }
