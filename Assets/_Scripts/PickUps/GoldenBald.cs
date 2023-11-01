@@ -13,19 +13,11 @@ public class GoldenBald : MonoBehaviour
     }
     private void OnEnable()
     {
-        EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, RestartTween);
         EventManager.SubscribeToEvent(Contains.ON_ROOM_WON, BoldenBaldAction);
     }
     private void OnDisable()
     {
-        EventManager.UnSubscribeToEvent(Contains.PLAYER_DEAD, RestartTween);
         EventManager.UnSubscribeToEvent(Contains.ON_ROOM_WON, BoldenBaldAction);
-    }
-    void RestartTween(params object[] param)
-    {
-        transform.position = _initialPos;
-        SetOwner(false);
-        _tween.Play();
     }
     public void BoldenBaldAction(params object[] param)
     {
@@ -42,7 +34,14 @@ public class GoldenBald : MonoBehaviour
     public GoldenBald SetOwner(bool player)
     {
         _playerHasIt = player;
-        _tween.Kill();
+        if (player) _tween.Pause();
+        else _tween.Restart();
+        return this;
+    }
+    public GoldenBald ResetGoldenBald()
+    {
+        SetPosition(_initialPos);
+        SetOwner(false);
         return this;
     }
 }

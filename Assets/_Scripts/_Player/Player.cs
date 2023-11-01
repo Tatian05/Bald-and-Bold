@@ -95,8 +95,6 @@ public class Player : GeneralPlayer
 
         #endregion
 
-
-
         _controller = new PlayerController(this, _playerModel);
 
         _myFsm = new EventFSM<PlayerStates>(Empty);
@@ -194,6 +192,8 @@ public class Player : GeneralPlayer
     void OnPlayerDeath(params object[] param)
     {
         _playerModel.FreezeVelocity();
+        _goldenBald.ResetGoldenBald();
+        _goldenBald = null;
         StartCoroutine(Death());
         _playerModel.ResetStats();
         _myFsm.SendInput(PlayerStates.Empty);
