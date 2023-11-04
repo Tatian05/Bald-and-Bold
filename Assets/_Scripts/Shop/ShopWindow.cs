@@ -6,9 +6,9 @@ using TMPro;
 public class ShopWindow : MonoBehaviour
 {
     [Header("Inspector Variables")]
-    [SerializeField] Button _playerButton, _presidentButton;
+    [SerializeField, Tooltip("PlayerCosmetic, PresidentCosmetic, Consumables")] Button[] _windowsButtons;
     [SerializeField] Button _buyButton;
-    [SerializeField] TextMeshProUGUI _coinsTextBuyButton;
+    [SerializeField] TextMeshProUGUI _coinsTextBuyButton, _shoppableSelectedTxt;
     [SerializeField] ShopItem _shopItemPrefab;
 
     [Header("Player Settings")]
@@ -19,11 +19,16 @@ public class ShopWindow : MonoBehaviour
     [SerializeField] Transform _presidentGridParent;
     [SerializeField] Image _presidentHeadSprite, _presidentTorsoSprite, _presidentRightLegSprite, _presidentLeftLegSprite, _presidentRightHandSprite, _presidentLeftHandSprite, _presidentTailSprite;
 
+    [Header("Consumables Settings")]
+    [SerializeField] Transform _consumablesGridParent;
+    [SerializeField] TextMeshProUGUI _consumableDescription;
+
     [Space(20)]
     [SerializeField] Color _selectedColor;
     [SerializeField] TextMeshProUGUI _coins;
     [SerializeField] CosmeticData[] _playerCosmetics;
     [SerializeField] CosmeticData[] _presidentCosmetics;
+    [SerializeField] ConsumableData[] _consumables;
     ShoppableSO _shoppableSelected;
     ShopItem _itemSelected;
 
@@ -32,25 +37,26 @@ public class ShopWindow : MonoBehaviour
     {
         _playerCosmetics = Resources.LoadAll<CosmeticData>("Shop/Cosmetics/Player").Where(x => x.shoppableData.cost > 0).OrderBy(x => x.shoppableData.shoppableQuality).ToArray();
         _presidentCosmetics = Resources.LoadAll<CosmeticData>("Shop/Cosmetics/President").Where(x => x.shoppableData.cost > 0).OrderBy(x => x.shoppableData.shoppableQuality).ToArray();
+        _consumables = Resources.LoadAll<ConsumableData>("Shop/Consumables").Where(x => x.shoppableData.cost > 0).OrderBy(x => x.shoppableData.shoppableQuality).ToArray();
     }
     void Start()
     {
-        _buttonsColor = _playerButton.image.color;
+        _buttonsColor = _windowsButtons[0].image.color;
         PersistantDataSaved persistantDataSaved = Helpers.PersistantData.persistantDataSaved;
         _coins.text = persistantDataSaved.presiCoins.ToString();
 
-        List<Button> playerCosmeticsButton = new List<Button>();
-        List<Button> presidentCosmeticsButton = new List<Button>();
+        List<Button> allButtons = new List<Button>();
 
         #region Instanceo de Cosmetics
 
         for (int i = 0; i < _playerCosmetics.Length; i++)
         {
-            var cosmeticItem = Instantiate(_shopItemPrefab);
-            cosmeticItem.transform.SetParent(_playerGridParent, true);
-            cosmeticItem.SetCosmeticData(_playerCosmetics[i]);
+            var cosmeticItem = Instantiate(_shopItemPrefab).
+                               SetParent(_playerGridParent).
+                               SetCosmeticData(_playerCosmetics[i]);
+
             var button = cosmeticItem.GetComponent<Button>();
-            playerCosmeticsButton.Add(button);
+            allButtons.Add(button);
             if (persistantDataSaved.playerCosmeticCollection.Contains(cosmeticItem.ShoppableSO))
             {
                 cosmeticItem.SetInCollection();
@@ -60,24 +66,19 @@ public class ShopWindow : MonoBehaviour
             button.onClick.AddListener(() =>
             {
                 _shoppableSelected = cosmeticItem.ShoppableSO;
-                ShowSelectedPlayerCosmetic();
                 _itemSelected = cosmeticItem;
-                for (int i = 0; i < playerCosmeticsButton.Count; i++)
-                    playerCosmeticsButton[i].image.color = Color.clear;
-
-                button.image.color = _selectedColor;
-                _coinsTextBuyButton.text = _shoppableSelected.shoppableData.cost.ToString();
-                _buyButton.interactable = persistantDataSaved.presiCoins >= _shoppableSelected.shoppableData.cost ? true : false;
+                ShowSelectedPlayerCosmetic();
             });
         }
 
         for (int i = 0; i < _presidentCosmetics.Length; i++)
         {
-            var cosmeticItem = Instantiate(_shopItemPrefab);
-            cosmeticItem.transform.SetParent(_presidentGridParent, true);
-            cosmeticItem.SetCosmeticData(_presidentCosmetics[i]);
+            var cosmeticItem = Instantiate(_shopItemPrefab).
+                               SetParent(_presidentGridParent).
+                               SetCosmeticData(_presidentCosmetics[i]);
+
             var button = cosmeticItem.GetComponent<Button>();
-            presidentCosmeticsButton.Add(button);
+            allButtons.Add(button);
             if (persistantDataSaved.presidentCosmeticCollection.Contains(cosmeticItem.ShoppableSO))
             {
                 cosmeticItem.SetInCollection();
@@ -89,30 +90,51 @@ public class ShopWindow : MonoBehaviour
                 _shoppableSelected = cosmeticItem.ShoppableSO;
                 ShowSelectedPresidentCosmetic();
                 _itemSelected = cosmeticItem;
-                for (int i = 0; i < presidentCosmeticsButton.Count; i++)
-                    presidentCosmeticsButton[i].image.color = Color.clear;
+            });
+        }
 
-                button.image.color = _selectedColor;
-                _coinsTextBuyButton.text = _shoppableSelected.shoppableData.cost.ToString();
-                _buyButton.interactable = persistantDataSaved.presiCoins >= _shoppableSelected.shoppableData.cost ? true : false;
+        for (int i = 0; i < _consumables.Length; i++)
+        {
+            var consumable = Instantiate(_shopItemPrefab).
+                               SetParent(_consumablesGridParent).
+                               SetCosmeticData(_consumables[i]);
+
+            var button = consumable.GetComponent<Button>();
+            allButtons.Add(button);
+
+            button.onClick.AddListener(() =>
+            {
+                _shoppableSelected = consumable.ShoppableSO;
+                _itemSelected = consumable;
+                ShowConsumableSelected();
             });
         }
 
         #endregion
 
+        foreach (var item in allButtons)
+        {
+            item.onClick.AddListener(() =>
+            {
+                allButtons.ForEach(x => x.image.color = Color.clear);
+                item.image.color = _selectedColor;
+                _shoppableSelectedTxt.text = _shoppableSelected.shoppableData.shoppableName;
+                _coinsTextBuyButton.text = _shoppableSelected.shoppableData.cost.ToString();
+                _buyButton.interactable = persistantDataSaved.presiCoins >= _shoppableSelected.shoppableData.cost ? true : false;
+            });
+        }
+
         #region botones
 
-        _playerButton.onClick.AddListener(() =>
+        var buttons = _windowsButtons.ToList();
+        foreach (var item in buttons)
         {
-            _playerButton.image.color = _buttonsColor * .5f;
-            _presidentButton.image.color = _buttonsColor;
-        });
-
-        _presidentButton.onClick.AddListener(() =>
-        {
-            _presidentButton.image.color = _buttonsColor * .5f;
-            _playerButton.image.color = _buttonsColor;
-        });
+            item.onClick.AddListener(() =>
+            {
+                buttons.ForEach(x => x.image.color = _buttonsColor);
+                item.image.color = Color.black * .5f;
+            });
+        }
 
         #endregion
 
@@ -125,7 +147,7 @@ public class ShopWindow : MonoBehaviour
             _buyButton.interactable = false;
         });
 
-        _playerButton.onClick.Invoke();
+        _windowsButtons[0].onClick.Invoke();
     }
 
     void ShowSelectedPlayerCosmetic()
@@ -139,5 +161,12 @@ public class ShopWindow : MonoBehaviour
         var cosmeticData = (CosmeticData)_shoppableSelected;
         cosmeticData.SetCosmetic(_presidentHeadSprite, _presidentTorsoSprite, _presidentRightLegSprite,
                   _presidentLeftLegSprite, _presidentRightHandSprite, _presidentLeftHandSprite, _presidentTailSprite);
+    }
+
+    void ShowConsumableSelected()
+    {
+        var consumable = (ConsumableData)_shoppableSelected;
+
+        consumable.SetConsumable(_consumableDescription);
     }
 }

@@ -33,8 +33,8 @@ public class CollectionEquipment : MonoBehaviour
     }
     void OnEnable()
     {
-        foreach (var item in _playerCosmeticsList) item.SetName();
-        foreach (var item in _presidentCosmeticsList) item.SetName();
+        foreach (var item in _playerCosmeticsList) item.OnStart();
+        foreach (var item in _presidentCosmeticsList) item.OnStart();
 
         _playerCosmeticName.text = _playerCosmeticsList[_playerIndex].shoppableData.shoppableName;
         _presidentCosmeticName.text = _presidentCosmeticsList[_presidentIndex].shoppableData.shoppableName;

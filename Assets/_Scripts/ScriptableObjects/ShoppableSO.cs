@@ -4,7 +4,7 @@ public enum ShoppableQuality { Normal, Rare, Epic}
 public abstract class ShoppableSO : ScriptableObject, IShoppable
 {
     public ShoppableData shoppableData;
-    public void SetName() { shoppableData.shoppableName = LanguageManager.Instance.GetTranslate(shoppableData.localizationID); }
+    public virtual void OnStart() { shoppableData.shoppableName = LanguageManager.Instance.GetTranslate(shoppableData.localizationID); }
     public virtual void Buy()
     {
         Helpers.PersistantData.persistantDataSaved.Buy(shoppableData.cost);

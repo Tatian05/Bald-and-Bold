@@ -67,6 +67,12 @@ public class PersistantDataSaved
     public List<CosmeticData> presidentCosmeticCollection = new List<CosmeticData>();
     #endregion 
 
+    #region Consumables 
+
+    public List<ConsumableData> consumablesEquiped = new List<ConsumableData>();
+
+    #endregion
+
     #region Bindings
     [Header("Bindings")]
     public List<string> userBindingKeys = new List<string>();
@@ -96,6 +102,7 @@ public class PersistantDataSaved
         if (cosmeticType is CosmeticType.Player && !playerCosmeticCollection.Contains(cosmetic)) playerCosmeticCollection.Add(cosmetic);
         else if (!presidentCosmeticCollection.Contains(cosmetic)) presidentCosmeticCollection.Add(cosmetic);
     }
+    public void AddConsumable(ConsumableData consumable) { if (!consumablesEquiped.Contains(consumable)) consumablesEquiped.Add(consumable); }
     public void AddBinding(string key, string value)
     {
         if (userBindings.ContainsKey(key))
