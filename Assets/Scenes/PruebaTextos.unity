@@ -311,8 +311,9 @@ MonoBehaviour:
   _invisibleWallLayer:
     serializedVersion: 2
     m_Bits: 0
-  _cameraShakeDuration: 0
-  _cameraSpeed: 0
+  _enemyBulletLayer:
+    serializedVersion: 2
+    m_Bits: 0
   _defaultHardLives: 3
   _loadSceneManager: {fileID: 996193624}
 --- !u!4 &753655245
@@ -538,7 +539,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1601533995
 RectTransform:
   m_ObjectHideFlags: 0
