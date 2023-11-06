@@ -318,7 +318,7 @@ MonoBehaviour:
   - {x: -0.5, y: 0.2, z: 0}
   m_ShapePathHash: -1906480883
   m_Mesh: {fileID: 0}
-  m_InstanceId: 406720
+  m_InstanceId: 143674
 --- !u!1 &859833147576569514
 GameObject:
   m_ObjectHideFlags: 0
@@ -745,6 +745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1e63923a90338e40a49e31ff16061f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyDataSO: {fileID: 11400000, guid: 3849563205829cd4bb2b9ff16a3e7599, type: 2}
 --- !u!114 &1707881769362260655
 MonoBehaviour:
   m_ObjectHideFlags: 0

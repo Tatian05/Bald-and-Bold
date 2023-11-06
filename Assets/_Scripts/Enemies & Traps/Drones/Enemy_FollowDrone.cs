@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 public class Enemy_FollowDrone : Enemy
 {
-    protected enum DroneStates { Idle, Follow};
+    protected enum DroneStates { Idle, Lost, Follow };
     [SerializeField] protected float _speed = 1f;
 
     protected EventFSM<DroneStates> _myFsm;
@@ -19,15 +19,43 @@ public class Enemy_FollowDrone : Enemy
         var playerTransform = Helpers.GameManager.Player.transform;
 
         idle = new State<DroneStates>("Idle");
+        var lost = new State<DroneStates>("Lost");
         var follow = new State<DroneStates>("Follow");
 
         StateConfigurer.Create(idle).SetTransition(DroneStates.Follow, follow).Done();
-        StateConfigurer.Create(follow).SetTransition(DroneStates.Idle, idle).Done();
+        StateConfigurer.Create(follow).SetTransition(DroneStates.Idle, idle).SetTransition(DroneStates.Lost, lost).Done();
+        StateConfigurer.Create(lost).SetTransition(DroneStates.Idle, idle).Done();
 
-        idle.OnEnter += x => AgroSign(false);
-        idle.OnUpdate += delegate { if (CanSeePlayer()) _myFsm.SendInput(DroneStates.Follow); };
-        follow.OnEnter += x => AgroSign(true);
+        #region IDLE
+
+        idle.OnUpdate += delegate
+        {
+            if (!_enemyDataSO.playerPivot) return;
+            if (CanSeePlayer()) _myFsm.SendInput(DroneStates.Follow);
+        };
+
+        #endregion
+
+        #region LOST
+
+        float lostTimer = 0;
+        lost.OnEnter += x => SetSign(true, _lostSign);
+        lost.OnUpdate += delegate
+        {
+            lostTimer += Time.deltaTime;
+            if (lostTimer >= _enemyDataSO.lostTime) _myFsm.SendInput(DroneStates.Idle);
+        };
+        lost.OnExit += x => SetSign(false);
+
+        #endregion
+
+        #region FOLLOW
+
+        follow.OnEnter += x => SetSign(true, _agroSign);
         follow.OnUpdate += delegate { _navMeshAgent.SetDestination(playerTransform.position); };
+        follow.OnExit += x => SetSign(false);
+
+        #endregion
 
         if (Helpers.LevelTimerManager.LevelStarted) _myFsm = new EventFSM<DroneStates>(idle);
         else EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
@@ -38,15 +66,20 @@ public class Enemy_FollowDrone : Enemy
         EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
         base.OnDestroy();
     }
-    public override void Update()
+    void Update()
     {
         _myFsm?.Update();
     }
-
+    protected override void PlayerInvisibleConsumable(params object[] param)
+    {
+        base.PlayerInvisibleConsumable(param);
+        _myFsm.SendInput((bool)param[0] ? DroneStates.Lost : DroneStates.Idle);
+        _navMeshAgent.SetDestination(transform.position);
+    }
     public override void ReturnObject()
     {
         base.ReturnObject();
-        _myFsm.SendInput(DroneStates.Idle);
+        _myFsm?.SendInput(DroneStates.Idle);
         FRY_Enemy_FollowDrone.Instance.pool.ReturnObject(this);
     }
 }

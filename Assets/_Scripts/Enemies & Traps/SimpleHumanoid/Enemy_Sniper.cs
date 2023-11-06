@@ -4,7 +4,7 @@ public class Enemy_Sniper : Enemy_Shooters
 {
     [SerializeField] Vector2 _laserSpeed;
     [SerializeField] LineRenderer _sniperLaser;
-    enum SniperStates { Idle, LoadShoot, Shoot };
+    enum SniperStates { Idle, LoadShoot, Shoot, Lost };
     enum LaserStates { Off, On };
     EventFSM<SniperStates> _myFSM;
     EventFSM<LaserStates> _laserFSM;
@@ -51,24 +51,32 @@ public class Enemy_Sniper : Enemy_Shooters
         IDLE = new State<SniperStates>("IDLE");
         var LOAD_SHOOT = new State<SniperStates>("LOAD_SHOOT");
         var SHOOT = new State<SniperStates>("SHOOT");
+        var LOST = new State<SniperStates>("LOST");
 
         StateConfigurer.Create(IDLE).SetTransition(SniperStates.LoadShoot, LOAD_SHOOT).Done();
-        StateConfigurer.Create(LOAD_SHOOT).SetTransition(SniperStates.Shoot, SHOOT).SetTransition(SniperStates.Idle, IDLE).Done();
-        StateConfigurer.Create(SHOOT).SetTransition(SniperStates.LoadShoot, LOAD_SHOOT).Done();
+        StateConfigurer.Create(LOAD_SHOOT).SetTransition(SniperStates.Shoot, SHOOT).
+                                           SetTransition(SniperStates.Lost, LOST).
+                                           SetTransition(SniperStates.Idle, IDLE).Done();
+        StateConfigurer.Create(SHOOT).SetTransition(SniperStates.LoadShoot, LOAD_SHOOT).SetTransition(SniperStates.Lost, LOST).Done();
+        StateConfigurer.Create(LOST).SetTransition(SniperStates.Idle, IDLE).Done();
 
         sniperMat.SetColor("MainColor", _rayColors[0] * 5);
 
 
         #region IDLE 
 
-        IDLE.OnEnter += x => AgroSign(false);
-        IDLE.OnUpdate += delegate { if (CanSeePlayer()) _myFSM.SendInput(SniperStates.LoadShoot); };
+        IDLE.OnEnter += x => SetSign(false);
+        IDLE.OnUpdate += delegate
+        {
+            if (!_enemyDataSO.playerPivot) return;
+            if (CanSeePlayer()) _myFSM.SendInput(SniperStates.LoadShoot);
+        };
 
         #endregion
 
         #region LOAD_SHOOT
 
-        LOAD_SHOOT.OnEnter += x => AgroSign(true);
+        LOAD_SHOOT.OnEnter += x => SetSign(true, _agroSign);
         float loadingAmmoTimer = 0;
         LOAD_SHOOT.OnUpdate += delegate
         {
@@ -103,6 +111,19 @@ public class Enemy_Sniper : Enemy_Shooters
 
         #endregion
 
+        #region LOST
+
+        float lostTimer = 0;
+        LOST.OnEnter += x => SetSign(true, _lostSign);
+        LOST.OnUpdate += delegate
+        {
+            lostTimer += Time.deltaTime;
+            if (lostTimer >= _enemyDataSO.lostTime) _myFSM.SendInput(SniperStates.Idle);
+        };
+        LOST.OnExit += x => SetSign(false);
+
+        #endregion
+
         if (Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<SniperStates>(IDLE);
         else EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
 
@@ -115,7 +136,7 @@ public class Enemy_Sniper : Enemy_Shooters
         base.OnDestroy();
     }
     RaycastHit2D _ray;
-    public override void Update()
+    void Update()
     {
         _myFSM?.Update();
         _laserFSM?.Update();
@@ -129,7 +150,11 @@ public class Enemy_Sniper : Enemy_Shooters
                                             .SetDmg(_bulletDamage)
                                             .SetSpeed(_bulletSpeed);
     }
-
+    protected override void PlayerInvisibleConsumable(params object[] param)
+    {
+        base.PlayerInvisibleConsumable(param);
+        _myFSM.SendInput((bool)param[0] ? SniperStates.Lost : SniperStates.Idle);
+    }
     public override void ReturnObject()
     {
         _myFSM.SendInput(SniperStates.Idle);

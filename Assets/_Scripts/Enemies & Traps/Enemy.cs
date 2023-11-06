@@ -1,15 +1,13 @@
 using System.Collections;
 using UnityEngine;
-using System;
 public abstract class Enemy : MonoBehaviour, IDamageable
 {
     protected GameManager gameManager;
-    protected Transform _playerCenterPivot;
+    protected LayerMask _groundLayer;
+    [SerializeField] protected EnemyData _enemyDataSO;
     [SerializeField] protected Animator anim;
-    [SerializeField] protected GameObject _agroSign;
-
-    public event Action OnUpdate;
-
+    [SerializeField] protected GameObject _signGO;
+    [SerializeField] protected Sprite _agroSign, _lostSign;
     [SerializeField] protected Transform sprite, _eyes;
     [SerializeField] protected bool _isRobot = false;
     private SpriteRenderer _renderer;
@@ -22,23 +20,30 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public virtual void Start()
     {
         gameManager = Helpers.GameManager;
-
+        _groundLayer = gameManager.BorderLayer;
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, ActionOnPlayerDead);
+        EventManager.SubscribeToEvent(Contains.CONSUMABLE_INVISIBLE, PlayerInvisibleConsumable);
         gameManager.EnemyManager.AddEnemy(this);
 
         _currentHp = _maxHp;
         _renderer = sprite.GetComponent<SpriteRenderer>();
         if (!_renderer) _renderer = sprite.GetChild(0).GetComponent<SpriteRenderer>();
-
-        _playerCenterPivot = gameManager.Player.CenterPivot;
     }
     protected virtual void OnDestroy()
     {
         EventManager.UnSubscribeToEvent(Contains.PLAYER_DEAD, ActionOnPlayerDead);
+        EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_INVISIBLE, PlayerInvisibleConsumable);
     }
     public virtual void ActionOnPlayerDead(params object[] param) { ReturnObject(); }
-    public virtual void Update() { OnUpdate?.Invoke(); }
-    protected void AgroSign(bool enabled) => _agroSign.SetActive(enabled);
+    protected virtual void PlayerInvisibleConsumable(params object[] param)
+    {
+        _enemyDataSO.playerPivot = (bool)param[0] ? null : gameManager.Player.CenterPivot;
+    }
+    protected void SetSign(bool enabled, Sprite sign = null)
+    {
+        _signGO.SetActive(enabled);
+        if (enabled) _signGO.GetComponent<SpriteRenderer>().sprite = sign;
+    }
     public virtual void TakeDamage(float dmg)
     {
         _currentHp -= dmg;
@@ -66,9 +71,9 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         _renderer.color = Color.white;
     }
 
-    protected Vector3 DistanceToPlayer() => _playerCenterPivot.position - _eyes.position;
+    protected Vector3 DistanceToPlayer() => _enemyDataSO.playerPivot.position - _eyes.position;
 
-    public virtual bool CanSeePlayer() => !Physics2D.Raycast(_eyes.position, DistanceToPlayer().normalized, DistanceToPlayer().magnitude, gameManager.BorderLayer);
+    public virtual bool CanSeePlayer() => !Physics2D.Raycast(_eyes.position, DistanceToPlayer().normalized, DistanceToPlayer().magnitude, _groundLayer);
 
     protected void ResetHp()
     {
@@ -80,12 +85,6 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         transform.position = pos;
         return this;
     }
-    public Enemy Flip()
-    {
-        transform.localScale = new Vector3(1, -1, 1);
-        return this;
-    }
-
     public virtual void Reset()
     {
         transform.localScale = new Vector3(1, 1, 1);

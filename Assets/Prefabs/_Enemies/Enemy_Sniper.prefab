@@ -134,8 +134,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 031fedff922800c4bb01962a0dc8fbc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyDataSO: {fileID: 11400000, guid: 3849563205829cd4bb2b9ff16a3e7599, type: 2}
   anim: {fileID: 3794534730561632854}
-  _agroSign: {fileID: 6643527985921195329}
+  _signGO: {fileID: 6643527985921195329}
+  _agroSign: {fileID: 21300000, guid: 3f2771c7942799246953815d2d38b5b5, type: 3}
+  _lostSign: {fileID: 21300000, guid: 75d60bc99b7fbd240a839eef4ac6a18b, type: 3}
   sprite: {fileID: 1568787525670866302}
   _eyes: {fileID: 1568787525670866302}
   _isRobot: 0
@@ -445,7 +448,7 @@ MonoBehaviour:
   - {x: -0.47685814, y: 0.44836223, z: 0}
   m_ShapePathHash: -2122044811
   m_Mesh: {fileID: 0}
-  m_InstanceId: 490148
+  m_InstanceId: 139250
 --- !u!114 &5408961830197213280
 MonoBehaviour:
   m_ObjectHideFlags: 0

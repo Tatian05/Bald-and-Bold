@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using UnityEngine.UI;
+
 public static class Extensions
 {
     public static void AddExplosionForce(this Rigidbody2D body, float explosionForce, Vector3 explosionPosition, float explosionRadius)
@@ -19,5 +21,12 @@ public static class Extensions
     public static Dictionary<K, V> DictioraryFromTwoLists<K, V>(this IEnumerable<K> keys, IEnumerable<V> values)
     {
         return keys.Zip(values, (k, v) => new { k, v }).ToDictionary(x => x.k, x => x.v);
+    }
+
+    public static void ChangeAlpha(this SpriteRenderer sprite, float newAlpha) 
+    {
+        var color = sprite.color;
+        color.a = newAlpha;
+        sprite.color = color;
     }
 }

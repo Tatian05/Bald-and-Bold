@@ -236,7 +236,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1266088774287247118}
-  - component: {fileID: 1266088774287247117}
   - component: {fileID: 1266088774287247121}
   - component: {fileID: 1266088774287247120}
   - component: {fileID: 1266088774287247123}
@@ -271,23 +270,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1266088774287247117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1266088774287247122}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c50cb9c19d7a4e409fba3165c9f7a5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _allPlayerSprites:
-  - {fileID: 1266088774438158972}
-  - {fileID: 1266088774822671309}
-  - {fileID: 1266088775024654866}
-  - {fileID: 1266088773419284710}
 --- !u!114 &1266088774287247121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,6 +286,11 @@ MonoBehaviour:
   _anim: {fileID: 1266088773945994461}
   _playerSprite: {fileID: 1266088773945994460}
   _groundCheckTransform: {fileID: 1266088773520511965}
+  _playerSprites:
+  - {fileID: 1266088774438158972}
+  - {fileID: 1266088774822671309}
+  - {fileID: 1266088775024654866}
+  - {fileID: 1266088773419284710}
   _speed: 400
   _jumpForce: 20
   _maxJumps: 1
@@ -524,7 +511,7 @@ MonoBehaviour:
   - {x: -0.32084942, y: 0.014481306, z: 0}
   m_ShapePathHash: -460105547
   m_Mesh: {fileID: 0}
-  m_InstanceId: 140916
+  m_InstanceId: 47464
 --- !u!1 &1266088774822671311
 GameObject:
   m_ObjectHideFlags: 0

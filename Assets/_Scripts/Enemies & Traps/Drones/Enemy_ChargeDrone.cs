@@ -6,7 +6,7 @@ public class Enemy_ChargeDrone : Enemy
     [SerializeField] float _chargeSpeed;
     [SerializeField] float _chargeDistance;
     [SerializeField] GameObject _particles;
-    enum ChargeDroneStates { Idle, Wait_To_Charge, LoadCharge, Charge }
+    enum ChargeDroneStates { Idle, Wait_To_Charge, LoadCharge, Charge, Lost }
     EventFSM<ChargeDroneStates> _myFSM;
     State<ChargeDroneStates> IDLE;
     Transform _spriteParentTransform;
@@ -18,11 +18,17 @@ public class Enemy_ChargeDrone : Enemy
         var WAIT_TO_CHARGE = new State<ChargeDroneStates>("WAIT_TO_CHARGE");
         var LOADCHARGE = new State<ChargeDroneStates>("LOAD_CHARGE");
         var CHARGE = new State<ChargeDroneStates>("CHARGE");
+        var LOST = new State<ChargeDroneStates>("LOST");
 
         StateConfigurer.Create(IDLE).SetTransition(ChargeDroneStates.Wait_To_Charge, WAIT_TO_CHARGE).Done();
-        StateConfigurer.Create(WAIT_TO_CHARGE).SetTransition(ChargeDroneStates.Idle, IDLE).SetTransition(ChargeDroneStates.LoadCharge, LOADCHARGE).Done();
-        StateConfigurer.Create(LOADCHARGE).SetTransition(ChargeDroneStates.Idle, IDLE).SetTransition(ChargeDroneStates.Charge, CHARGE).Done();
-        StateConfigurer.Create(CHARGE).SetTransition(ChargeDroneStates.Idle, IDLE).Done();
+        StateConfigurer.Create(WAIT_TO_CHARGE).SetTransition(ChargeDroneStates.Idle, IDLE).
+                                               SetTransition(ChargeDroneStates.LoadCharge, LOADCHARGE).
+                                               SetTransition(ChargeDroneStates.Lost, LOST).Done();
+        StateConfigurer.Create(LOADCHARGE).SetTransition(ChargeDroneStates.Idle, IDLE).
+                                           SetTransition(ChargeDroneStates.Charge, CHARGE).
+                                           SetTransition(ChargeDroneStates.Lost, LOST).Done();
+        StateConfigurer.Create(CHARGE).SetTransition(ChargeDroneStates.Idle, IDLE).SetTransition(ChargeDroneStates.Lost, LOST).Done();
+        StateConfigurer.Create(LOST).SetTransition(ChargeDroneStates.Idle, IDLE).Done();
 
         #region IDLE
 
@@ -30,11 +36,14 @@ public class Enemy_ChargeDrone : Enemy
         IDLE.OnEnter += x =>
         {
             _particles.SetActive(false);
-            AgroSign(false);
+            SetSign(false);
             anim.Play("ChargeDrone_Idle");
         };
 
-        IDLE.OnUpdate += delegate { if (CanSeePlayer()) _myFSM.SendInput(ChargeDroneStates.Wait_To_Charge);};
+        IDLE.OnUpdate += delegate {
+            if (!_enemyDataSO.playerPivot) return;
+            if (CanSeePlayer()) _myFSM.SendInput(ChargeDroneStates.Wait_To_Charge);
+        };
 
 
         #endregion
@@ -42,8 +51,8 @@ public class Enemy_ChargeDrone : Enemy
         #region WAIT_TO_CHARGE 
 
         WAIT_TO_CHARGE.OnEnter += x => {
-            currentIdleTime = 0; 
-            AgroSign(true);
+            currentIdleTime = 0;
+            SetSign(true, _agroSign);
             transform.DOScale(new Vector2(1.25f, 1.25f), .1f).SetLoops(2, LoopType.Yoyo);
         };
         WAIT_TO_CHARGE.OnUpdate += delegate
@@ -53,7 +62,7 @@ public class Enemy_ChargeDrone : Enemy
 
             if (currentIdleTime > _idleWaitTime) _myFSM.SendInput(ChargeDroneStates.LoadCharge);
         };
-
+        WAIT_TO_CHARGE.OnExit += x => currentIdleTime = 0;
         #endregion
 
         #region LOADCHARGE
@@ -86,6 +95,19 @@ public class Enemy_ChargeDrone : Enemy
 
             transform.position += _spriteParentTransform.right * _chargeSpeed * Time.deltaTime;
         };
+        CHARGE.OnExit += x => currentChargeDistance = 0;
+
+        #endregion
+
+        #region LOST
+        float lostTimer = 0;
+        LOST.OnEnter += x => SetSign(true, _lostSign);
+        LOST.OnUpdate += delegate
+        {
+            lostTimer += Time.deltaTime;
+            if (lostTimer >= _enemyDataSO.lostTime) _myFSM.SendInput(ChargeDroneStates.Idle);
+        };
+        LOST.OnExit += x => SetSign(false);
 
         #endregion
 
@@ -98,9 +120,14 @@ public class Enemy_ChargeDrone : Enemy
         EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
         base.OnDestroy();
     }
-    public override void Update()
+    void Update()
     {
         _myFSM?.Update();
+    }
+    protected override void PlayerInvisibleConsumable(params object[] param)
+    {
+        base.PlayerInvisibleConsumable(param);
+        _myFSM.SendInput((bool)param[0] ? ChargeDroneStates.Lost : ChargeDroneStates.Idle);
     }
     void LookAtPlayer() { _spriteParentTransform.right = DistanceToPlayer().normalized; }
     public override void ReturnObject()

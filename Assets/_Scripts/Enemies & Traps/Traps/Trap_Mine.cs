@@ -31,4 +31,10 @@ public class Trap_Mine : Enemy
         yield return new WaitForEndOfFrame();
         Die();
     }
+
+    protected override void PlayerInvisibleConsumable(params object[] param)
+    {
+        base.PlayerInvisibleConsumable(param);
+        enabled = !(bool)param[0];
+    }
 }

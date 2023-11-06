@@ -5,13 +5,14 @@ public enum PlayerStates { Empty, Dash }
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
-public class Player : GeneralPlayer
+public class Player : GeneralPlayer, IDamageable
 {
     bool _dead;
 
     #region Components
     [SerializeField] Animator _anim;
     [SerializeField] Transform _playerSprite, _groundCheckTransform;
+    [SerializeField] SpriteRenderer[] _playerSprites;
 
     PlayerController _controller;
     PlayerModel _playerModel;
@@ -55,7 +56,7 @@ public class Player : GeneralPlayer
         float defaultGravity = _rb.gravityScale;
 
         _playerModel = new PlayerModel(_rb, transform, _playerSprite, _groundCheckTransform, _speed, _jumpForce, _maxJumps, _dashSpeed, defaultGravity, _coyotaTime, _weaponManager);
-        _playerView = new PlayerView(_anim, _dashParticle);
+        _playerView = new PlayerView(transform, _anim, _dashParticle, _playerSprites);
 
         OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, y); };
 
@@ -105,6 +106,7 @@ public class Player : GeneralPlayer
     private void OnDestroy()
     {
         EventManager.UnSubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDeath);
+        _playerView.OnDestroy();
         _controller.OnDisable();
     }
     private void Update()
@@ -119,6 +121,13 @@ public class Player : GeneralPlayer
         _controller?.OnFixedUpdate();
         _myFsm.FixedUpdate();
     }
+    public void TakeDamage(float dmg)
+    {
+        EventManager.TriggerEvent(Contains.PLAYER_DEAD);
+        EventManager.TriggerEvent(Contains.WAIT_PLAYER_DEAD);
+    }
+
+    public void Die() { }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -191,11 +200,11 @@ public class Player : GeneralPlayer
     }
     void OnPlayerDeath(params object[] param)
     {
-        _playerModel.FreezeVelocity();
+        _playerView.OnDeath();
+        _playerModel.OnPlayerDeath();
         _goldenBald?.ResetGoldenBald();
         _goldenBald = null;
         StartCoroutine(Death());
-        _playerModel.ResetStats();
         _myFsm.SendInput(PlayerStates.Empty);
         OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, y); };
     }

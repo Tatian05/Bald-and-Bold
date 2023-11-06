@@ -24,9 +24,5 @@ public class HardGameMode : GameModeManager
             Helpers.GameManager.SaveDataManager.SaveInt(_currentLivesName, _currentLives);
             Debug.Log("currentLives " + _currentLives);
         }
-
-        playerHealth.EffectsOnDeath();
-        playerHealth.RestartPosition();
-
     }
 }

@@ -8,7 +8,7 @@ public class Enemy_Ground_Ak : Enemy_Shooters
     [SerializeField] int _bulletsAmountToShoot = 3;
     [SerializeField] float _bulletsDelay = .05f;
     float _currentAttackSpeed;
-    enum AK_States { Patrol, Attack }
+    enum AK_States { Patrol, Attack, Lost }
     EventFSM<AK_States> _myFSM;
     State<AK_States> PATROL;
     Vector3 _dir = Vector3.right;
@@ -16,13 +16,14 @@ public class Enemy_Ground_Ak : Enemy_Shooters
     public override void Start()
     {
         base.Start();
-        LayerMask invisibleWall = gameManager.InvisibleWallLayer;
 
         PATROL = new State<AK_States>("PATROL");
         var ATTACK = new State<AK_States>("ATTACK");
+        var LOST = new State<AK_States>("LOST");
 
         StateConfigurer.Create(PATROL).SetTransition(AK_States.Attack, ATTACK).Done();
-        StateConfigurer.Create(ATTACK).SetTransition(AK_States.Patrol, PATROL).Done();
+        StateConfigurer.Create(ATTACK).SetTransition(AK_States.Patrol, PATROL).SetTransition(AK_States.Lost, LOST).Done();
+        StateConfigurer.Create(LOST).SetTransition(AK_States.Patrol, PATROL).Done();
 
         Vector3 actualRot = Vector3.zero;
         Action OnPatrolStart = () =>
@@ -38,7 +39,7 @@ public class Enemy_Ground_Ak : Enemy_Shooters
         PATROL.OnUpdate += () =>
         {
             transform.position += _dir * _speed * Time.deltaTime;
-            if (Physics2D.Raycast(transform.position, transform.right, 1f, invisibleWall)) FlipEnemy();
+            if (Physics2D.Raycast(transform.position, transform.right, 1f, _groundLayer)) FlipEnemy();
             if (GetCanSeePlayer())
                 _myFSM.SendInput(AK_States.Attack);
         };
@@ -48,12 +49,12 @@ public class Enemy_Ground_Ak : Enemy_Shooters
 
         #region ATTACK
 
-         ATTACK.OnEnter += x =>
+        ATTACK.OnEnter += x =>
         {
             anim.SetBool("IsRunning", false);
             //Si no lo seteas a uno se rompe el brazo y apunta para atras por como esta seteado el flip del patrol
             transform.localScale = Vector3.one;
-            AgroSign(true);
+            SetSign(true, _agroSign);
         };
 
         ATTACK.OnUpdate += delegate
@@ -64,7 +65,20 @@ public class Enemy_Ground_Ak : Enemy_Shooters
                 _myFSM.SendInput(AK_States.Patrol);
         };
 
-        ATTACK.OnExit += x => AgroSign(false);
+        ATTACK.OnExit += x => SetSign(false);
+
+        #endregion
+
+        #region LOST
+
+        float lostTimer = 0;
+        LOST.OnEnter += x => SetSign(true, _lostSign);
+        LOST.OnUpdate += delegate
+        {
+            lostTimer += Time.deltaTime;
+            if (lostTimer >= _enemyDataSO.lostTime) _myFSM.SendInput(AK_States.Patrol);
+        };
+        LOST.OnExit += x => SetSign(false);
 
         #endregion
 
@@ -77,9 +91,14 @@ public class Enemy_Ground_Ak : Enemy_Shooters
         EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
         base.OnDestroy();
     }
-    public override void Update()
+    void Update()
     {
         _myFSM?.Update();
+    }
+    protected override void PlayerInvisibleConsumable(params object[] param)
+    {
+        base.PlayerInvisibleConsumable(param);
+        _myFSM.SendInput((bool)param[0] ? AK_States.Lost : AK_States.Patrol);
     }
     bool GetCanSeePlayer()
     {

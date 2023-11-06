@@ -8,6 +8,7 @@ public class PlayerModel
     float _coyotaTime;
     bool _secondJump;
     bool _inRope;
+    Vector3 _initialPos;
     public bool InRope { get { return _inRope; } set { _inRope = value; } }
 
     #region Constructor 
@@ -41,6 +42,7 @@ public class PlayerModel
         _rb.gravityScale = defaultGravity;
         _dashTimer = _dashCooldown;
         _groundLayer = LayerMask.GetMask("Border") + LayerMask.GetMask("Ground");
+        _initialPos = _myTransform.position;
     }
     public void OnUpdate()
     {
@@ -91,5 +93,12 @@ public class PlayerModel
         _coyotaTimer = _coyotaTime;
         _secondJump = false;
         NormalGravity();
+    }
+
+    public void OnPlayerDeath()
+    {
+        FreezeVelocity();
+        ResetStats();
+        _myTransform.position = _initialPos;
     }
 }

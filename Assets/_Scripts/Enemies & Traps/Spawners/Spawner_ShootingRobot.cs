@@ -5,7 +5,8 @@ public class Spawner_ShootingRobot : Spawner_Enemy
 
     public override void SpawnEnemy(params object[] param)
     {
-        if(_flip) FRY_Enemy_ShootingRobot.Instance.pool.GetObject().SetPosition(transform.position).Flip();
+        var shootingRobot = (Enemy_ShootingRobot)FRY_Enemy_ShootingRobot.Instance.pool.GetObject().SetPosition(transform.position);
+        if (_flip) shootingRobot.Flip(_flip);
         else FRY_Enemy_ShootingRobot.Instance.pool.GetObject().SetPosition(transform.position);
     }
 }

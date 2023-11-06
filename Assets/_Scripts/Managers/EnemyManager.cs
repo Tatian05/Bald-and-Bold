@@ -2,12 +2,14 @@ using System.Collections;
 using UnityEngine;
 public class EnemyManager : BaseEnemyManager
 {
+    [SerializeField] EnemyData _enemyDataSO;
     public override void Start()
     {
         _gameManager = Helpers.GameManager;
         LevelTimerManager levelTimer = Helpers.LevelTimerManager;
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDead);
         EventManager.SubscribeToEvent(Contains.ON_ROOM_WON, SetProgressEnemyMision);
+        _enemyDataSO.playerPivot = _gameManager.Player.CenterPivot;
 
         StartCoroutine(CheckForEmptyLevel());
     }

@@ -7,37 +7,51 @@ public class Enemy_KamikazeRobot : Enemy
     [SerializeField] float _dmg;
 
     bool _isDropping;
-
+    enum KamikazeStates { Idle, Drop }
+    EventFSM<KamikazeStates> _myFSM;
+    State<KamikazeStates> IDLE;
     public override void Start()
     {
         base.Start();
-        OnUpdate += Attack;
-    }
+        IDLE = new State<KamikazeStates>("IDLE");
+        var DROP = new State<KamikazeStates>("DROP");
 
-    void Drop()
-    {
-        transform.position += -transform.up * _dropSpeed * Time.deltaTime;
-    }
+        StateConfigurer.Create(IDLE).SetTransition(KamikazeStates.Drop, DROP).Done();
+        StateConfigurer.Create(DROP).SetTransition(KamikazeStates.Idle, IDLE).Done();
 
-    public void Attack()
-    {
-        OnUpdate -= Drop;
-        if (Physics2D.CircleCast(transform.position, 1, -Vector3.up, 10f, gameManager.PlayerLayer))
+        IDLE.OnUpdate += delegate
         {
-            if (!Physics2D.Raycast(transform.position, -Vector3.up, (transform.position - Helpers.GameManager.Player.transform.position).magnitude, gameManager.GroundLayer))
+            if (Physics2D.CircleCast(transform.position, 1, -Vector3.up, 10f, gameManager.PlayerLayer))
             {
-                _isDropping = true;
-                OnUpdate += Drop;
-                OnUpdate -= Attack;
+                if (!Physics2D.Raycast(transform.position, -Vector3.up, (transform.position - Helpers.GameManager.Player.transform.position).magnitude, gameManager.GroundLayer))
+                {
+                    _isDropping = true;
+                    _myFSM.SendInput(KamikazeStates.Drop);
+                }
             }
-        }
+        };
+
+        DROP.OnUpdate += () => transform.position += -transform.up * _dropSpeed * Time.deltaTime;
+
+        if (Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<KamikazeStates>(IDLE);
+        else EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
     }
+
+    private void Update()
+    {
+        _myFSM?.Update();
+    }
+    void StartFSM(params object[] param) { _myFSM = new EventFSM<KamikazeStates>(IDLE); }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(sprite.position, _overlapCircleRadius);
     }
-
+    protected override void PlayerInvisibleConsumable(params object[] param)
+    {
+        base.PlayerInvisibleConsumable(param);
+        _myFSM = (bool)param[0] ? null : new EventFSM<KamikazeStates>(IDLE);
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!_isDropping || collision.CompareTag("Bullet") || collision.gameObject.layer == 25) return;
@@ -65,7 +79,7 @@ public class Enemy_KamikazeRobot : Enemy
 
     public override void Reset()
     {
-        OnUpdate += Attack;
+        _myFSM?.SendInput(KamikazeStates.Idle);
 
         if (_isDropping)
         {
