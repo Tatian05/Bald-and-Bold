@@ -26,16 +26,20 @@ public class Enemy_ShootingRobot : Enemy_Shooters
         IDLE.OnUpdate += delegate
         {
             idleTimer += Time.deltaTime;
-            if(idleTimer >= 3)
+            if (idleTimer >= 3)
             {
-                _armPivot.DOLocalRotate(new Vector3(0,0, Random.Range(0, -180)), .1f).SetEase(Ease.Linear);
+                _armPivot.DOLocalRotate(new Vector3(0, 0, Random.Range(0, -180)), .1f).SetEase(Ease.Linear);
                 idleTimer = 0;
             }
 
             if (CanSeePlayer()) _myFSM.SendInput(ShootingRobot.Shoot);
         };
 
-        SHOOT.OnEnter += x => AgroSign(true);
+        SHOOT.OnEnter += x =>
+        {
+            AgroSign(true);
+            transform.DOScale(new Vector2(1.25f, 1.25f), .1f).SetLoops(2, LoopType.Yoyo);
+        };
         SHOOT.OnUpdate += delegate
         {
             if (!CanSeePlayer()) _myFSM.SendInput(ShootingRobot.Idle);

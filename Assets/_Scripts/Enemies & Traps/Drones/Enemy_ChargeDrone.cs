@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 public class Enemy_ChargeDrone : Enemy
 {
     [SerializeField] float _idleWaitTime;
@@ -19,8 +20,8 @@ public class Enemy_ChargeDrone : Enemy
         var CHARGE = new State<ChargeDroneStates>("CHARGE");
 
         StateConfigurer.Create(IDLE).SetTransition(ChargeDroneStates.Wait_To_Charge, WAIT_TO_CHARGE).Done();
-        StateConfigurer.Create(WAIT_TO_CHARGE).SetTransition(ChargeDroneStates.LoadCharge, LOADCHARGE).Done();
-        StateConfigurer.Create(LOADCHARGE).SetTransition(ChargeDroneStates.Charge, CHARGE).Done();
+        StateConfigurer.Create(WAIT_TO_CHARGE).SetTransition(ChargeDroneStates.Idle, IDLE).SetTransition(ChargeDroneStates.LoadCharge, LOADCHARGE).Done();
+        StateConfigurer.Create(LOADCHARGE).SetTransition(ChargeDroneStates.Idle, IDLE).SetTransition(ChargeDroneStates.Charge, CHARGE).Done();
         StateConfigurer.Create(CHARGE).SetTransition(ChargeDroneStates.Idle, IDLE).Done();
 
         #region IDLE
@@ -40,7 +41,11 @@ public class Enemy_ChargeDrone : Enemy
 
         #region WAIT_TO_CHARGE 
 
-        WAIT_TO_CHARGE.OnEnter += x => { currentIdleTime = 0; AgroSign(true); };
+        WAIT_TO_CHARGE.OnEnter += x => {
+            currentIdleTime = 0; 
+            AgroSign(true);
+            transform.DOScale(new Vector2(1.25f, 1.25f), .1f).SetLoops(2, LoopType.Yoyo);
+        };
         WAIT_TO_CHARGE.OnUpdate += delegate
         {
             currentIdleTime += Time.deltaTime;

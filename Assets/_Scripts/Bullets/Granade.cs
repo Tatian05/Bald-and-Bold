@@ -8,7 +8,6 @@ public class Granade : MonoBehaviour
 
     float _gravityScale = 1.5f;
     float _fallGravityMultiplier = 3;
-
     public float ThrowForce { get { return _throwForce; } }
 
     TrailRenderer _trail;
@@ -16,7 +15,7 @@ public class Granade : MonoBehaviour
     Vector2 _direction;
     float _damage;
     LayerMask _groundLayer;
-
+    Vector3 _initialScale = Vector3.one;
     bool _falling => _rb.velocity.y < 0;
     private void Awake()
     {
@@ -51,7 +50,7 @@ public class Granade : MonoBehaviour
         {
             Explosion();
             Helpers.AudioManager.PlaySFX("Grenade_Destroy");
-            FRY_GrenadeExplosion.Instance.pool.GetObject().SetPosition(transform.position);
+            FRY_GrenadeExplosion.Instance.pool.GetObject().SetPosition(transform.position).SetScale(transform.localScale.x);
             ReturnGrenade();
         }
     }
@@ -61,7 +60,7 @@ public class Granade : MonoBehaviour
         {
             Explosion();
             Helpers.AudioManager.PlaySFX("Grenade_Destroy");
-            FRY_GrenadeExplosion.Instance.pool.GetObject().SetPosition(transform.position);
+            FRY_GrenadeExplosion.Instance.pool.GetObject().SetPosition(transform.position).SetScale(transform.localScale.x);
             ReturnGrenade();
         }
     }
@@ -72,7 +71,7 @@ public class Granade : MonoBehaviour
     }
     void Explosion()
     {
-        var collisions = Physics2D.OverlapCircleAll(transform.position, _explosionRadius, GameManager.instance.DynamicBodiesLayer).
+        var collisions = Physics2D.OverlapCircleAll(transform.position, _explosionRadius * transform.localScale.x, GameManager.instance.DynamicBodiesLayer).
                                                                                                                                    Where(x => x.GetComponent<IDamageable>() != null && x.GetComponent<Rigidbody2D>() != null && !x.GetComponent<Player>()).
                                                                                                                                    Select(x => x.GetComponent<Rigidbody2D>());
         if (collisions.Count() <= 0) return;
@@ -114,12 +113,19 @@ public class Granade : MonoBehaviour
         return this;
     }
 
+    public Granade SetScale(float scale)
+    {
+        transform.localScale = _initialScale * scale;
+        return this;
+    }
+
     #endregion
 
     #region FACTORY
     private void Reset()
     {
         _rb.velocity = Vector2.zero;
+        transform.localScale = _initialScale;
     }
     public static void TurnOn(Granade g)
     {

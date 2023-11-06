@@ -102,7 +102,7 @@ public class PersistantDataSaved
         if (cosmeticType is CosmeticType.Player && !playerCosmeticCollection.Contains(cosmetic)) playerCosmeticCollection.Add(cosmetic);
         else if (!presidentCosmeticCollection.Contains(cosmetic)) presidentCosmeticCollection.Add(cosmetic);
     }
-    public void AddConsumable(ConsumableData consumable) { if (!consumablesEquiped.Contains(consumable)) consumablesEquiped.Add(consumable); }
+    public void AddConsumable(ConsumableData consumable) { consumablesEquiped.Add(consumable); }
     public void AddBinding(string key, string value)
     {
         if (userBindings.ContainsKey(key))

@@ -3,6 +3,8 @@ using UnityEngine;
 public class GrenadeExplosion : MonoBehaviour
 {
     [SerializeField] float _timeToReturn;
+
+    Vector2 _initialScale = new Vector2 { x = 2, y = 2 };
     void OnEnable()
     {
         StartCoroutine(DisableObject());
@@ -14,7 +16,7 @@ public class GrenadeExplosion : MonoBehaviour
     IEnumerator DisableObject()
     {
         float timer = 0;
-        while(timer <= _timeToReturn)
+        while (timer <= _timeToReturn)
         {
             timer += Time.deltaTime;
             yield return null;
@@ -27,6 +29,7 @@ public class GrenadeExplosion : MonoBehaviour
     }
     public static void TurnOff(GrenadeExplosion g)
     {
+        g.transform.localScale = g._initialScale;
         g.gameObject.SetActive(false);
     }
 
@@ -34,6 +37,11 @@ public class GrenadeExplosion : MonoBehaviour
     public GrenadeExplosion SetPosition(Vector3 position)
     {
         transform.position = position;
+        return this;
+    }
+    public GrenadeExplosion SetScale(float scale)
+    {
+        transform.localScale = _initialScale * scale;
         return this;
     }
 

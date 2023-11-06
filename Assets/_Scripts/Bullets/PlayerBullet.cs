@@ -3,14 +3,19 @@ public class PlayerBullet : Bullet
 {
     [SerializeField] protected LayerMask _bulletLayer;
 
-    Vector3 _lastPosition, _dir;
-
+    Vector3 _lastPosition, _dir, _initialScale = Vector3.one;
+    float _checkRadius;
+    protected override void Start()
+    {
+        base.Start();
+        _checkRadius = transform.localScale.x * .12f;
+    }
     private void Update()
     {
         transform.position += _direction.normalized * _speed * Time.deltaTime;
 
         _dir = _lastPosition - transform.position;
-        var raycast = Physics2D.Raycast(transform.position, _dir, _dir.magnitude, _bulletLayer);
+        var raycast = Physics2D.CircleCast(transform.position, _checkRadius, _dir, _dir.magnitude, _bulletLayer);
 
         if (raycast)
         {
@@ -21,7 +26,11 @@ public class PlayerBullet : Bullet
 
         _lastPosition = transform.position;
     }
-
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _checkRadius);
+    }
     #region BUILDER
     public PlayerBullet SetDirection(Vector2 direction)
     {
@@ -45,6 +54,12 @@ public class PlayerBullet : Bullet
         _speed = speed;
         return this;
     }
+    public PlayerBullet SetScale(float scale)
+    {
+        transform.localScale = _initialScale * scale;
+        _checkRadius = transform.localScale.x * .12f;
+        return this;
+    }
 
     #endregion
     public static void TurnOn(PlayerBullet b)
@@ -60,6 +75,7 @@ public class PlayerBullet : Bullet
     }
     protected override void ReturnBullet(params object[] param)
     {
+        transform.localScale = _initialScale;
         base.ReturnBullet();
         FRY_PlayerBullet.Instance.ReturnBullet(this);
     }

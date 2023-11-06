@@ -89,6 +89,15 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TriggerConsumable"",
+                    ""type"": ""Button"",
+                    ""id"": ""5942d8b5-079a-44ce-9bef-a7c8bb27816a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -432,6 +441,39 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""87adec75-f0ee-4d7a-ae0e-a2b07226f641"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""TriggerConsumable"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0b51d9f9-d705-47d3-8600-af54c9f3446a"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""TriggerConsumable"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""303d757e-feca-4f3d-a111-ec4d0754c81b"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""xBoxController"",
+                    ""action"": ""TriggerConsumable"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -721,6 +763,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Knife = m_Player.FindAction("Knife", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_TriggerConsumable = m_Player.FindAction("TriggerConsumable", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -791,6 +834,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Knife;
     private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_TriggerConsumable;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -802,6 +846,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Knife => m_Wrapper.m_Player_Knife;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @TriggerConsumable => m_Wrapper.m_Player_TriggerConsumable;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -832,6 +877,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @TriggerConsumable.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTriggerConsumable;
+                @TriggerConsumable.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTriggerConsumable;
+                @TriggerConsumable.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTriggerConsumable;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -857,6 +905,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @TriggerConsumable.started += instance.OnTriggerConsumable;
+                @TriggerConsumable.performed += instance.OnTriggerConsumable;
+                @TriggerConsumable.canceled += instance.OnTriggerConsumable;
             }
         }
     }
@@ -938,6 +989,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnKnife(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnTriggerConsumable(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

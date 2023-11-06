@@ -11,11 +11,13 @@ public class ShopItem : MonoBehaviour
     [SerializeField] TextMeshProUGUI _inCollectionTxt;
     public void SetInCollection()
     {
+        _shoppableSO.Buy();
+        if (_shoppableSO is ConsumableData) return;
+
         GetComponent<Button>().interactable = false;
         GetComponent<Button>().image.color = Color.clear;
         _inCollectionTxt.gameObject.SetActive(true);
         _inCollectionTxt.rectTransform.eulerAngles = new Vector3(0, 0, Random.Range(-45, 46));
-        _shoppableSO.Buy();
     }
     public ShopItem SetCosmeticData(ShoppableSO shoppableSO)
     {

@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TriggerConsumable",
+                    "type": "Button",
+                    "id": "5942d8b5-079a-44ce-9bef-a7c8bb27816a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -408,6 +417,39 @@
                     "processors": "",
                     "groups": "xBoxController",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "87adec75-f0ee-4d7a-ae0e-a2b07226f641",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "TriggerConsumable",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0b51d9f9-d705-47d3-8600-af54c9f3446a",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "TriggerConsumable",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "303d757e-feca-4f3d-a111-ec4d0754c81b",
+                    "path": "<XInputController>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "xBoxController",
+                    "action": "TriggerConsumable",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
