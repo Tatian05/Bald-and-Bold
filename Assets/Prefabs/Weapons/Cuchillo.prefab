@@ -156,8 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponData: {fileID: 11400000, guid: b16a9d2919b191d4a9b97c042a211d89, type: 2}
-  _uiSignPosition: {fileID: 4529175346394162994}
-  _capsuleSize: {x: 1.6, y: 1.1}
+  _droppableWeapon: 0
 --- !u!1 &6669921834188008370
 GameObject:
   m_ObjectHideFlags: 0

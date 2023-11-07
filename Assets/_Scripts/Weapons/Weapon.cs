@@ -31,7 +31,14 @@ namespace Weapons
             _weaponManager = FindObjectOfType<WeaponManager>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _spriteRenderer.sprite = _weaponData.mainSprite;
+            EventManager.SubscribeToEvent(Contains.CONSUMABLE_CADENCE, CadenceConsumable);
         }
+
+        private void OnDestroy()
+        {
+            EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_CADENCE, CadenceConsumable);
+        }
+
         //private void OnMouseEnter()
         //{
         //    if (!CanPickUp) return;
@@ -53,7 +60,7 @@ namespace Weapons
         {
             if (Time.time >= _weaponTimer)
             {
-                _weaponTimer = Time.time + 1 / _weaponData.fireRate;
+                _weaponTimer = Time.time + 1 / _weaponData.currentCadence;
                 WeaponAction();
             }
         }
@@ -64,6 +71,11 @@ namespace Weapons
             while (GameManager.instance == null) yield return null;
 
             _gameManager = GameManager.instance;
+        }
+
+        void CadenceConsumable(params object[] param)
+        {
+            _weaponData.currentCadence = (bool)param[0] ? _weaponData.fireRate * (float)param[1] : _weaponData.fireRate;
         }
 
         #region BUILDER

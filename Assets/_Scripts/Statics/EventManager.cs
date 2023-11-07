@@ -60,6 +60,8 @@ public class Contains
     public const string CONSUMABLE_NO_RECOIL = "No recoil";
     public const string CONSUMABLE_BIG_BULLET = "Big Bullet";
     public const string CONSUMABLE_INVISIBLE = "Invisible";
+    public const string CONSUMABLE_CADENCE = "Cadence";
+    public const string CONSUMABLE_MELEE = "Melee";
 
     #endregion
 }

@@ -11,6 +11,7 @@ public class WeaponData : ScriptableObject
     [HideInInspector] public float recoilWeaponRot;
     [HideInInspector] public float recoilWeaponRotDuration;
     [HideInInspector] public float damage;
+    [HideInInspector] public float currentCadence;
     [HideInInspector] public int initialAmmo;
     [HideInInspector] public Sprite mainSprite;
     [HideInInspector] public Sprite selectedSprite;
@@ -25,4 +26,9 @@ public class WeaponData : ScriptableObject
     //Knifes
     [HideInInspector] public float attackRange;
     [HideInInspector] public float knifeSpeed;
+
+    private void OnEnable()
+    {
+        currentCadence = fireRate;
+    }
 }
