@@ -35,14 +35,14 @@ public class LoadSceneManager : MonoBehaviour
 
     IEnumerator LoadAsync(string sceneName, bool fadeOut)
     {
-        if (fadeOut) Helpers.AudioManager.FadeInOutVolume(Helpers.PersistantData.persistantDataSaved.generalVolume, 0);
+        if (fadeOut) Helpers.AudioManager.FadeInOutVolume(Helpers.PersistantData.settingsData.generalVolume, 0);
         _anim.Play("Close");
         yield return _wait;
         SceneManager.LoadSceneAsync(sceneName);
     }
     IEnumerator LoadAsync(int sceneIndex, bool fadeOut)
     {
-        if (fadeOut) Helpers.AudioManager.FadeInOutVolume(Helpers.PersistantData.persistantDataSaved.generalVolume, 0);
+        if (fadeOut) Helpers.AudioManager.FadeInOutVolume(Helpers.PersistantData.settingsData.generalVolume, 0);
         _anim.Play("Close");
         yield return _wait;
         SceneManager.LoadSceneAsync(sceneIndex);

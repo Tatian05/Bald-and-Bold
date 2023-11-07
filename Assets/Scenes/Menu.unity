@@ -5033,6 +5033,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1263392920443657838, guid: aceba71c2c1d70341a47e6d802577b54, type: 3}
+      propertyPath: m_Events.m_Events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadAsyncFadeOut
+      objectReference: {fileID: 0}
+    - target: {fileID: 1263392920443657838, guid: aceba71c2c1d70341a47e6d802577b54, type: 3}
       propertyPath: m_Events.m_Events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: Animation
       objectReference: {fileID: 0}

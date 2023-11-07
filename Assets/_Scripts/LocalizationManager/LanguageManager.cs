@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Globalization;
 using UnityEngine.Networking;
 using System.Threading;
-using Microsoft.Win32;
 public enum Languages
 {
     eng,
@@ -30,8 +28,6 @@ public class LanguageManager : MonoBehaviour
         }
         else
             Destroy(gameObject);
-
-        selectedLanguage = Thread.CurrentThread.CurrentCulture.Name == "en-US" ? Languages.eng : Languages.spa;
     }
     private void Start()
     {
@@ -45,6 +41,9 @@ public class LanguageManager : MonoBehaviour
     }
     IEnumerator DownloadCSV(string url)
     {
+        //selectedLanguage = Thread.CurrentThread.CurrentCulture.Name == "en-US" ? Languages.eng : Languages.spa;
+        selectedLanguage = (Languages)Helpers.PersistantData.settingsData.currentLanguage;
+
         var www = new UnityWebRequest(url);
         www.downloadHandler = new DownloadHandlerBuffer();
 

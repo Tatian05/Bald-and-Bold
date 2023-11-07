@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using UnityEngine;
 public class PersistantData : MonoBehaviour
 {
-    public event Action savePersistantData = delegate { };
     public GameData gameData;
     public PersistantDataSaved persistantDataSaved;
+    public Settings settingsData = new Settings { generalVolume = 1, musicVolume = 1, sfxVolume = 1 };
 
     public const string GAME_DATA = "Game data";
     public const string PERSISTANT_DATA = "Persistant data";
@@ -23,15 +21,11 @@ public class PersistantData : MonoBehaviour
 
         LoadPersistantData();
     }
-    public void SavePersistantData()
-    {
-        savePersistantData();
-        SaveLoadSystem.SaveData(gameData, GAME_DATA);
-    }
     public void LoadPersistantData()
     {
-        gameData = File.Exists(Application.persistentDataPath + $"/{GAME_DATA}.json") ? SaveLoadSystem.LoadData<GameData>(GAME_DATA) : new GameData();
-        persistantDataSaved = File.Exists(Application.persistentDataPath + $"/{PERSISTANT_DATA}.json") ? SaveLoadSystem.LoadData<PersistantDataSaved>(PERSISTANT_DATA) : new PersistantDataSaved();
+        gameData = SaveLoadSystem.FileExist(GAME_DATA) ? SaveLoadSystem.LoadData<GameData>(GAME_DATA, true) : new GameData();
+        settingsData = SaveLoadSystem.LoadData<Settings>("SETTINGS", true);
+        persistantDataSaved = SaveLoadSystem.FileExist(PERSISTANT_DATA) ? SaveLoadSystem.LoadData<PersistantDataSaved>(PERSISTANT_DATA, true) : new PersistantDataSaved();
         persistantDataSaved.RemoveEmptySlot();
         persistantDataSaved.LoadUserBindingsDictionary();
     }
@@ -43,19 +37,27 @@ public class PersistantData : MonoBehaviour
     public void ResetCoins() { PlayerPrefs.DeleteKey("Coins"); }
     private void OnDestroy()
     {
-        SavePersistantData();
-        SaveLoadSystem.SaveData(persistantDataSaved, PERSISTANT_DATA);
+        SaveLoadSystem.SaveData(GAME_DATA, gameData, true);
+        SaveLoadSystem.SaveData("SETTINGS", settingsData, true);
+        SaveLoadSystem.SaveData(PERSISTANT_DATA, persistantDataSaved, true);
         ResetCoins();
     }
 }
 
 [Serializable]
+public struct Settings
+{
+    public int currentLanguage;
+    public float generalVolume, musicVolume, sfxVolume;
+    public void SetLanguage(int languageIndex) { currentLanguage = languageIndex; }
+    public void SetGeneralVolume(float volume) { generalVolume = volume; }
+    public void SetMusicVolume(float volume) { musicVolume = volume; }
+    public void SetSFXVolume(float volume) { sfxVolume = volume; }
+}
+
+[Serializable]
 public class PersistantDataSaved
 {
-    [Header("Settings")]
-    public int currentLanguageIndex;
-    public float generalVolume = 1, musicVolume = 1, sfxVolume = 1;
-
     [Header("Coins")]
     public int presiCoins, goldenBaldCoins;
 

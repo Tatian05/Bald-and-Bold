@@ -9,6 +9,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource musicSource, sfxSource;
     public Action setCinematicSound;
     Sound _currentMusic;
+    PersistantData persistantData;
     private void Awake()
     {
         if (Instance == null)
@@ -20,10 +21,10 @@ public class AudioManager : MonoBehaviour
     }
     private void Start()
     {
-        PersistantDataSaved persistantDataSaved = Helpers.PersistantData.persistantDataSaved;
-        AudioListener.volume = persistantDataSaved.generalVolume;
-        musicSource.volume = persistantDataSaved.musicVolume;
-        sfxSource.volume = persistantDataSaved.sfxVolume;
+        persistantData = Helpers.PersistantData;
+        AudioListener.volume = persistantData.settingsData.generalVolume;
+        musicSource.volume = persistantData.settingsData.musicVolume;
+        sfxSource.volume = persistantData.settingsData.sfxVolume;
         PlayMusic("Music");
     }
     public void PlayMusic(string name)
@@ -39,7 +40,7 @@ public class AudioManager : MonoBehaviour
         {
             musicSource.clip = s.clip;
             musicSource.Play();
-            FadeInOutVolume(0, Helpers.PersistantData.persistantDataSaved.generalVolume);
+            FadeInOutVolume(0, persistantData.settingsData.generalVolume);
         }
     }
     public void PlaySFX(string name)

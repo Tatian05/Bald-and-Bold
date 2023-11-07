@@ -54,12 +54,21 @@ MonoBehaviour:
     levels: []
     deaths: 
   persistantDataSaved:
-    coins: 0
     currentLanguageIndex: 0
+    generalVolume: 1
+    musicVolume: 1
+    sfxVolume: 1
+    presiCoins: 0
+    goldenBaldCoins: 0
     playerCosmeticEquiped: {fileID: 0}
     presidentCosmeticEquiped: {fileID: 0}
     playerCosmeticCollection: []
     presidentCosmeticCollection: []
+    consumablesEquiped: []
+    userBindingKeys: []
+    userBindingValues: []
+    misions: []
+  settingsData: {fileID: 11400000, guid: 04333cbd9ff918149936bec84acef18b, type: 2}
 --- !u!114 &6986544610262690710
 MonoBehaviour:
   m_ObjectHideFlags: 0
