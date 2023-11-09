@@ -53,6 +53,7 @@ public class PauseManager : MonoBehaviour
     {
         if (_stack.Count <= 1) return;
         _stack.Pop().Free();
+        CustomTime.SetTimeScale(1);
         if (_stack.Count > 0) _stack.Peek().Activate();
     }
     public void Push(IScreen screen)
@@ -60,6 +61,7 @@ public class PauseManager : MonoBehaviour
         if (_stack.Count > 0) _stack.Peek().Deactivate();
         _stack.Push(screen);
         screen.Activate();
+        CustomTime.SetTimeScale(0);
     }
     public void PauseObjectsInCinematic()
     {

@@ -13,6 +13,7 @@ public class Player : GeneralPlayer, IDamageable
     [SerializeField] Animator _anim;
     [SerializeField] Transform _playerSprite, _groundCheckTransform;
     [SerializeField] SpriteRenderer[] _playerSprites;
+    [SerializeField] BoxCollider2D _bootsCollider;
 
     PlayerController _controller;
     PlayerModel _playerModel;
@@ -56,7 +57,7 @@ public class Player : GeneralPlayer, IDamageable
         float defaultGravity = _rb.gravityScale;
 
         _playerModel = new PlayerModel(_rb, transform, _playerSprite, _groundCheckTransform, _speed, _jumpForce, _maxJumps, _dashSpeed, defaultGravity, _coyotaTime, _weaponManager);
-        _playerView = new PlayerView(transform, _anim, _dashParticle, _playerSprites);
+        _playerView = new PlayerView(transform, _anim, _dashParticle, _playerSprites, _bootsCollider);
 
         OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, y); };
 
@@ -107,7 +108,8 @@ public class Player : GeneralPlayer, IDamageable
     {
         EventManager.UnSubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDeath);
         _playerView.OnDestroy();
-        _controller.OnDisable();
+        _playerModel.OnDestroy();
+        _controller.OnDestroy();
     }
     private void Update()
     {
@@ -135,7 +137,7 @@ public class Player : GeneralPlayer, IDamageable
     }
     public override void PausePlayer()
     {
-        _controller.OnDisable();
+        _controller.OnDestroy();
         _myFsm.SendInput(PlayerStates.Empty);
         _playerModel.FreezeVelocity();
         _anim.SetInteger("xAxis", 0);

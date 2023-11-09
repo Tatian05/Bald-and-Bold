@@ -15,6 +15,7 @@ public class WeaponManager : MonoBehaviour
     Camera _mainCamera;
     bool _onWeaponTrigger;
     Func<Vector2> _cursorPosition;
+    [SerializeField] Weapon _weaponBeforeMinigun;
     private void Start()
     {
         _mainCamera = Helpers.MainCamera;
@@ -41,6 +42,7 @@ public class WeaponManager : MonoBehaviour
     {
         NewInputManager.ActiveDeviceChangeEvent += OnControlChanged;
         EventManager.SubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
+        EventManager.SubscribeToEvent(Contains.CONSUMABLE_MINIGUN, MinigunConsumable);
     }
     private void Update()
     {
@@ -50,18 +52,37 @@ public class WeaponManager : MonoBehaviour
     }
     void OnInteract(InputAction.CallbackContext obj) { if (_onWeaponTrigger) SetWeapon(); }
 
-    #region Weapon Funcs
-    public void SetWeapon()
+    Minigun _minigun;
+    void MinigunConsumable(params object[] param)
     {
-        var col = Physics2D.OverlapCircle(transform.position, 2f, Helpers.GameManager.WeaponLayer);
-        Weapon newWeapon = col ? col.GetComponent<Weapon>() : null;
+        if ((bool)param[0])
+        {
+            _minigun = Instantiate((Minigun)param[1]);
+            _weaponBeforeMinigun = _currentMainWeapon;
+            SetWeapon(true, _minigun);
+        }
+        else
+        {
+            SetWeapon(false, _weaponBeforeMinigun);
+            Destroy(_minigun.gameObject);
+        }
+    }
 
-        if (_currentMainWeapon || newWeapon == null) return;
-
-        if (!newWeapon.CanPickUp) return;
-
+    #region Weapon Funcs
+    public void SetWeapon(bool minigun = false, Weapon newWeapon = null)
+    {
         if (_currentMainWeapon)
-            ThrowWeapon();
+            ThrowWeapon(minigun);
+
+        if (newWeapon == null)
+        {
+            var col = Physics2D.OverlapCircle(transform.position, 2f, Helpers.GameManager.WeaponLayer);
+            newWeapon = col ? col.GetComponent<Weapon>() : null;
+        }
+
+        if (newWeapon == null) return;
+
+        //if (!newWeapon.CanPickUp) return;
 
         EquipWeapon(newWeapon);
     }
@@ -73,21 +94,28 @@ public class WeaponManager : MonoBehaviour
         _currentMainWeapon.PickUp().SetParent(_mainWeaponContainer).SetPosition(_mainWeaponContainer.position);
         _rightHand.SetActive(false);
         _leftHand.SetActive(false);
-    }
-    private void ThrowWeapon()
-    {
-        RaycastHit2D raycast = Physics2D.Raycast(_mainWeaponContainer.position, GetMousePosition(), 1f, LayerMask.GetMask("Border"));
-        if (raycast)
-        {
-            _currentMainWeapon.transform.position += (Vector3)raycast.normal / 2;
-            _currentMainWeapon?.ThrowOut(raycast.normal).SetParent(null);
-        }
-        else
-            _currentMainWeapon?.ThrowOut(GetMouseDirectionMain()).SetParent(null);
 
+        _shoot.performed += (_currentMainWeapon as FireWeapon).OnStartShoot;
+        _shoot.canceled += (_currentMainWeapon as FireWeapon).OnCanceledShoot;
+    }
+    private void ThrowWeapon(bool minigun)
+    {
+        //RaycastHit2D raycast = Physics2D.Raycast(_mainWeaponContainer.position, GetMousePosition(), 1f, LayerMask.GetMask("Border"));
+        //if (raycast)
+        //{
+        //    _currentMainWeapon.transform.position += (Vector3)raycast.normal / 2;
+        //    _currentMainWeapon?.ThrowOut(raycast.normal).SetParent(null);
+        //}
+        //else
+        //    _currentMainWeapon?.ThrowOut(GetMouseDirectionMain()).SetParent(null);
+
+        _shoot.performed -= (_currentMainWeapon as FireWeapon).OnStartShoot;
+        _shoot.canceled -= (_currentMainWeapon as FireWeapon).OnCanceledShoot;
+        _lookAtMouse -= MainWeapon;
+
+        _weaponBeforeMinigun?.gameObject.SetActive(!minigun);
         _currentMainWeapon = null;
         _mainWeaponContainer.eulerAngles = Vector2.zero;
-        _lookAtMouse -= MainWeapon;
         _rightHand.SetActive(true);
         _leftHand.SetActive(true);
     }
@@ -158,11 +186,18 @@ public class WeaponManager : MonoBehaviour
 
         _interact.performed -= OnInteract;
 
+        if (_currentMainWeapon)
+        {
+            _shoot.performed -= (_currentMainWeapon as FireWeapon).OnStartShoot;
+            _shoot.canceled -= (_currentMainWeapon as FireWeapon).OnCanceledShoot;
+        }
+
         _knife.Disable();
         _interact.Disable();
         _shoot.Disable();
 
         NewInputManager.ActiveDeviceChangeEvent -= OnControlChanged;
         EventManager.UnSubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
+        EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_MINIGUN, MinigunConsumable);
     }
 }

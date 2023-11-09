@@ -7,7 +7,7 @@ namespace Weapons
     public abstract class Weapon : MonoBehaviour
     {
         [SerializeField] protected WeaponData _weaponData;
-        [SerializeField] protected bool _droppableWeapon;
+        [SerializeField] protected bool _droppableWeapon, _animated;
 
         protected float _weaponTimer;
         protected Rigidbody2D _rb;
@@ -20,6 +20,7 @@ namespace Weapons
         protected virtual void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
             if (_droppableWeapon) _animator = GetComponent<Animator>();
         }
         private void OnEnable()
@@ -29,7 +30,6 @@ namespace Weapons
         protected virtual void Start()
         {
             _weaponManager = FindObjectOfType<WeaponManager>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
             _spriteRenderer.sprite = _weaponData.mainSprite;
             EventManager.SubscribeToEvent(Contains.CONSUMABLE_CADENCE, CadenceConsumable);
         }
@@ -97,7 +97,7 @@ namespace Weapons
             _rb.simulated = knife;
             _rb.velocity = Vector2.zero;
             transform.eulerAngles = Vector3.zero;
-            if (_animator) _animator.enabled = false;
+            if (_animator && !_animated) _animator.enabled = false;
             if (_droppableWeapon) _spriteRenderer.sprite = _weaponData.handWeapon;
             return this;
         }

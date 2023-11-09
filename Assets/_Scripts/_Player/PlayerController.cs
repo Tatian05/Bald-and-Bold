@@ -47,7 +47,7 @@ public class PlayerController
         _playerInputs.Enable();
         EventManager.SubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
     }
-    public void OnDisable()
+    public void OnDestroy()
     {
         _jump.performed -= OnJump;
         _dash.performed -= OnDash;

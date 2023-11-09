@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e2a8436a29c5b845885a39f6a92b240, type: 3}
-  m_Name: Rifle
+  m_Name: Minigun
   m_EditorClassIdentifier: 
   weaponType: 0
-  fireRate: 8
-  recoilDuration: 0.1
-  recoilForce: 0.2
-  recoilWeaponRot: 5
-  recoilWeaponRotDuration: 0.5
-  damage: 1
-  currentCadence: 8
+  fireRate: 12
+  recoilDuration: 0
+  recoilForce: 0
+  recoilWeaponRot: 0
+  recoilWeaponRotDuration: 0
+  damage: 0.25
+  currentCadence: 12
   initialAmmo: 30
-  mainSprite: {fileID: 21300000, guid: 14947fa32cd245e48b783ea98cd0ed09, type: 3}
-  selectedSprite: {fileID: 21300000, guid: 735f3efaaca344343bdc45116649fc70, type: 3}
-  handWeapon: {fileID: 21300000, guid: 3d0233f22664cc14b8efa9e44ce33348, type: 3}
+  mainSprite: {fileID: 21300000, guid: 9b7d53fe74b655b4ca7e5f96cfd61339, type: 3}
+  selectedSprite: {fileID: 21300000, guid: 57fc3f108745a9d4db97eea9e5c8fc17, type: 3}
+  handWeapon: {fileID: 21300000, guid: 9b7d53fe74b655b4ca7e5f96cfd61339, type: 3}
   weaponSoundName: Weapon_Rifle
   bulletExplosion: {fileID: 0}
-  bulletSpeed: 20
+  bulletSpeed: 30
   attackRange: 0
   knifeSpeed: 0

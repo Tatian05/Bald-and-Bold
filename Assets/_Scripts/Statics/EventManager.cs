@@ -62,6 +62,9 @@ public class Contains
     public const string CONSUMABLE_INVISIBLE = "Invisible";
     public const string CONSUMABLE_CADENCE = "Cadence";
     public const string CONSUMABLE_MELEE = "Melee";
+    public const string CONSUMABLE_BOOTS = "Boots";
+    public const string CONSUMABLE_MINIGUN = "Minigun";
+    public const string CONSUMABLE_GLASSES = "Glasses";
 
     #endregion
 }

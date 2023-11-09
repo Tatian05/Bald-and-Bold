@@ -43,6 +43,8 @@ public class PlayerModel
         _dashTimer = _dashCooldown;
         _groundLayer = LayerMask.GetMask("Border") + LayerMask.GetMask("Ground");
         _initialPos = _myTransform.position;
+
+        EventManager.SubscribeToEvent(Contains.CONSUMABLE_BOOTS, BootsConsumable);
     }
     public void OnUpdate()
     {
@@ -94,11 +96,16 @@ public class PlayerModel
         _secondJump = false;
         NormalGravity();
     }
-
+    void BootsConsumable(params object[] param) { _groundLayer += (bool)param[0] ? LayerMask.GetMask("OnlyPlayerInteractuable") : -LayerMask.GetMask("OnlyPlayerInteractuable"); }
     public void OnPlayerDeath()
     {
         FreezeVelocity();
         ResetStats();
         _myTransform.position = _initialPos;
+    }
+
+    public void OnDestroy()
+    {
+        EventManager.SubscribeToEvent(Contains.CONSUMABLE_BOOTS, BootsConsumable);
     }
 }

@@ -3,13 +3,12 @@ using UnityEngine.InputSystem;
 
 namespace BaldAndBold.Consumables
 {
-
     public abstract class Consumables : MonoBehaviour
     {
         [SerializeField] protected float _consumableDuration;
         protected System.Action _countDown;
-        protected float _countdownTimer;
 
+        protected float _countdownTimer;
         PlayerInputs _playerInputs;
         InputAction _triggerConsumableAction;
         protected virtual void Start()
@@ -33,8 +32,8 @@ namespace BaldAndBold.Consumables
 
         void CountDown()
         {
-            _countdownTimer -= Time.deltaTime;
-            if(_countdownTimer <= 0)
+            _countdownTimer -= CustomTime.DeltaTime;
+            if (_countdownTimer <= 0)
             {
                 ConsumableAction(false);
                 Destroy(gameObject);

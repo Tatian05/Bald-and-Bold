@@ -2,10 +2,10 @@ using UnityEngine;
 using Weapons;
 using DG.Tweening;
 using System;
+using UnityEngine.InputSystem;
+
 public class FireWeapon : Weapon
 {
-    [SerializeField, Range(0, 0.1f)] protected float _recoilForce;
-
     protected Transform _bulletSpawn;
     protected int _currentAmmo;
     protected float _bulletScale = 1;
@@ -84,4 +84,6 @@ public class FireWeapon : Weapon
                                             SetDirection(transform.right).
                                             SetScale(_bulletScale);
     }
+    public virtual void OnCanceledShoot(InputAction.CallbackContext obj) { }
+    public virtual void OnStartShoot(InputAction.CallbackContext obj) { }
 }
