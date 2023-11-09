@@ -28,7 +28,7 @@ public class FireWeapon : Weapon
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, ResetRecoil);
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_NO_RECOIL, NoRecoilConsumable);
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_BIG_BULLET, BigBulletConsumable);
-        _recoilAction = FireWeaponRecoil;
+        if (_weaponData.recoilForce > 0) _recoilAction = FireWeaponRecoil;
     }
     private void OnDestroy()
     {
@@ -48,7 +48,7 @@ public class FireWeapon : Weapon
         //_currentAmmo--;
         //UpdateAmmoAmount();
         bool raycast = Physics2D.OverlapCircle(_bulletSpawn.position, .1f, _borderMask);
-        
+
         if (!raycast)
         {
             FireWeaponShoot();
@@ -68,7 +68,7 @@ public class FireWeapon : Weapon
         if (_currentTween != null) _currentTween.Kill();
         DOTween.Rewind(transform);
         float recoilBack = _weaponData.recoilDuration * 3f;
-        transform.DOLocalMove(-Vector2.right * _weaponData.recoilForce, _weaponData.recoilDuration).OnComplete(() => transform.DOLocalMove(Vector3.zero, recoilBack));
+        transform.DOLocalMove(-Vector2.right * _weaponData.recoilForce, _weaponData.recoilDuration).OnComplete(() => transform.DOLocalMove(_equipedWeaponOffset, recoilBack));
         transform.DOLocalRotate(new Vector3(0, 0, z + (_weaponData.recoilWeaponRot * transform.localScale.y)), _weaponData.recoilDuration).SetLoops(1, LoopType.Yoyo).SetEase(Ease.Linear).
         OnComplete(() => _currentTween = transform.DOLocalRotate(Vector2.zero, _weaponData.recoilWeaponRotDuration));
     }

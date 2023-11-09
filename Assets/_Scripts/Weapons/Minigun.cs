@@ -8,10 +8,12 @@ public class Minigun : FireWeapon
 
     float _minFireRate = 5;
     System.Action _overheating;
+    [SerializeField] Material _minigunMaterial;
     protected override void Start()
     {
         base.Start();
         _weaponData.currentCadence = _minFireRate;
+        _minigunMaterial = GetComponent<SpriteRenderer>().material;
     }
     private void Update()
     {
@@ -34,6 +36,9 @@ public class Minigun : FireWeapon
 
         _overheatingValue += CustomTime.DeltaTime;
         _animator.SetFloat("Overheating", _overheatingValue);
+
+        if (_overheatingValue >= _minOverheating)
+            _minigunMaterial.SetFloat("_ChangeColor", (_overheatingValue - _minOverheating) / _maxOverheating);
     }
     void LessOverheating()
     {
@@ -42,6 +47,10 @@ public class Minigun : FireWeapon
 
         _overheatingValue -= CustomTime.DeltaTime * 1.5f;
         _animator.SetFloat("Overheating", _overheatingValue);
+
+        if (_overheatingValue >= _minOverheating)
+            _minigunMaterial.SetFloat("_ChangeColor", (_overheatingValue - _minOverheating) / _maxOverheating);
+
         if (_overheatingValue <= 0) _overheating = null;
     }
 

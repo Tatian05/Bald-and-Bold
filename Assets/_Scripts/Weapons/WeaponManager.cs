@@ -91,7 +91,7 @@ public class WeaponManager : MonoBehaviour
         _currentMainWeapon = newWeapon;
         _mainWeaponContainer.localEulerAngles = transform.eulerAngles;
         _lookAtMouse += MainWeapon;
-        _currentMainWeapon.PickUp().SetParent(_mainWeaponContainer).SetPosition(_mainWeaponContainer.position);
+        _currentMainWeapon.PickUp().SetParent(_mainWeaponContainer).SetPosition(_mainWeaponContainer.position).SetOffset();
         _rightHand.SetActive(false);
         _leftHand.SetActive(false);
 

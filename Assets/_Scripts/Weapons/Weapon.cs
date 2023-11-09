@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using System.Linq;
 
 namespace Weapons
 {
@@ -8,6 +7,7 @@ namespace Weapons
     {
         [SerializeField] protected WeaponData _weaponData;
         [SerializeField] protected bool _droppableWeapon, _animated;
+        [SerializeField] protected Vector2 _equipedWeaponOffset = Vector2.zero;
 
         protected float _weaponTimer;
         protected Rigidbody2D _rb;
@@ -91,7 +91,11 @@ namespace Weapons
             transform.position = position;
             return this;
         }
-
+        public Weapon SetOffset()
+        {
+            transform.localPosition = _equipedWeaponOffset;
+            return this;
+        }
         public Weapon PickUp(bool knife = false)
         {
             _rb.simulated = knife;
