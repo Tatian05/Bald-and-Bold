@@ -19,6 +19,7 @@ MonoBehaviour:
   recoilWeaponRot: 25
   recoilWeaponRotDuration: 3
   damage: 4
+  currentCadence: 1.5
   initialAmmo: 6
   mainSprite: {fileID: 21300000, guid: dec5f96edda42f84cab3468cf5112f67, type: 3}
   selectedSprite: {fileID: 21300000, guid: b6bfa58617d68ba4cace441d4c732c08, type: 3}

@@ -27,6 +27,8 @@ namespace BaldAndBold.Consumables
         {
             ConsumableAction(true);
             _countDown = CountDown;
+            _triggerConsumableAction.performed -= TriggerConsumable;
+            _triggerConsumableAction.Disable();
         }
         protected abstract void ConsumableAction(bool activate);
 
@@ -41,7 +43,7 @@ namespace BaldAndBold.Consumables
         }
         private void OnDestroy()
         {
-            _countDown = delegate { };
+            _countDown = null;
             _triggerConsumableAction.performed -= TriggerConsumable;
             _triggerConsumableAction.Disable();
         }

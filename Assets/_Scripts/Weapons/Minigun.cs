@@ -3,15 +3,23 @@ using UnityEngine.InputSystem;
 public class Minigun : FireWeapon
 {
     [SerializeField] float _maxOverheating = 10;
+    [SerializeField] float _minOverheating = 1;
     float _overheatingValue;
+
+    float _minFireRate = 5;
     System.Action _overheating;
+    protected override void Start()
+    {
+        base.Start();
+        _weaponData.currentCadence = _minFireRate;
+    }
     private void Update()
     {
         _overheating?.Invoke();
     }
     public override void WeaponAction()
     {
-        if (_overheatingValue >= _maxOverheating || _overheating.Method.Name.Equals("LessOverheating")) return;
+        if (_overheating.Method.Name.Equals("LessOverheating") || _overheatingValue < _minOverheating) return;
         base.WeaponAction();
     }
     void AddOverheating()
@@ -21,12 +29,17 @@ public class Minigun : FireWeapon
             _overheating = LessOverheating;
             return;
         }
+        _weaponData.currentCadence += CustomTime.DeltaTime;
+        if (_weaponData.currentCadence >= _weaponData.fireRate) _weaponData.currentCadence = _weaponData.fireRate;
 
         _overheatingValue += CustomTime.DeltaTime;
         _animator.SetFloat("Overheating", _overheatingValue);
     }
     void LessOverheating()
     {
+        _weaponData.currentCadence -= CustomTime.DeltaTime;
+        if (_weaponData.currentCadence <= _minFireRate) _weaponData.currentCadence = _minFireRate;
+
         _overheatingValue -= CustomTime.DeltaTime * 1.5f;
         _animator.SetFloat("Overheating", _overheatingValue);
         if (_overheatingValue <= 0) _overheating = null;

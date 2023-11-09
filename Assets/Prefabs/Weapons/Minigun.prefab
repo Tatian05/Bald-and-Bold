@@ -281,7 +281,8 @@ MonoBehaviour:
   _weaponData: {fileID: 11400000, guid: 04343d690cdf8204b9af1ac41954d732, type: 2}
   _droppableWeapon: 1
   _animated: 1
-  _maxOverheating: 7
+  _maxOverheating: 10
+  _minOverheating: 1
 --- !u!114 &4088419304027367941
 MonoBehaviour:
   m_ObjectHideFlags: 0
