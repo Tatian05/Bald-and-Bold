@@ -65,13 +65,13 @@ public class PauseGO : IScreen
     }
     public void UnpauseObjectsInCinematic()
     {
-        foreach (var b in _root.GetComponentsInChildren<Behaviour>())
+        foreach (var b in _before)
         {
-            if (b.CompareTag("Cinematica") || b.CompareTag("SetSkin")) continue;
-            _before[b] = b.enabled;
-            var rb = b.GetComponent<Rigidbody2D>();
+            if (b.Key.CompareTag("Cinematica") || b.Key.CompareTag("SetSkin")) continue;
+            b.Key.enabled = b.Value;
+            var rb = b.Key.GetComponent<Rigidbody2D>();
             if (rb) rb.simulated = true;
-            b.enabled = true;
+           // b.enabled = ;
         }
     }
     public void Free()

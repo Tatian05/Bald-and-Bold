@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 using Weapons;
 public class WeaponManager : MonoBehaviour
 {
-    [SerializeField] Weapon _currentMainWeapon, _currentSecundaryWeapon;
+    [SerializeField] Weapon _currentMainWeapon = null, _currentSecundaryWeapon = null;
     [SerializeField] GameObject _rightHand, _leftHand;
 
     Transform _mainWeaponContainer, _secundaryWeaponContainer;
@@ -35,14 +35,17 @@ public class WeaponManager : MonoBehaviour
         _knife.Enable();
         _interact.Enable();
         _shoot.Enable();
-
-        //OnControlChanged();
     }
     private void OnEnable()
     {
         NewInputManager.ActiveDeviceChangeEvent += OnControlChanged;
         EventManager.SubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_MINIGUN, MinigunConsumable);
+    }
+    private void OnDisable()
+    {
+        EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_MINIGUN, MinigunConsumable);
+        EventManager.UnSubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
     }
     private void Update()
     {
@@ -52,27 +55,37 @@ public class WeaponManager : MonoBehaviour
     }
     void OnInteract(InputAction.CallbackContext obj) { if (_onWeaponTrigger) SetWeapon(); }
 
-    Minigun _minigun;
+    [SerializeField] Minigun _minigun;
     void MinigunConsumable(params object[] param)
     {
         if ((bool)param[0])
         {
             _minigun = Instantiate((Minigun)param[1]);
-            _weaponBeforeMinigun = _currentMainWeapon;
-            SetWeapon(true, _minigun);
+            if (_currentMainWeapon)
+            {
+                _weaponBeforeMinigun = _currentMainWeapon;
+                ThrowWeapon(true);
+            }
+
+            SetWeapon(_minigun);
         }
         else
         {
-            SetWeapon(false, _weaponBeforeMinigun);
-            Destroy(_minigun.gameObject);
+            if (_minigun)
+            {
+                ThrowWeapon(false);
+                Destroy(_minigun.gameObject);
+            }
+
+            if (_weaponBeforeMinigun) SetWeapon(_weaponBeforeMinigun);
         }
     }
 
     #region Weapon Funcs
-    public void SetWeapon(bool minigun = false, Weapon newWeapon = null)
+    public void SetWeapon(Weapon newWeapon = null)
     {
-        if (_currentMainWeapon)
-            ThrowWeapon(minigun);
+        if (_currentMainWeapon && _currentMainWeapon == _minigun)
+            return;
 
         if (newWeapon == null)
         {
@@ -197,7 +210,5 @@ public class WeaponManager : MonoBehaviour
         _shoot.Disable();
 
         NewInputManager.ActiveDeviceChangeEvent -= OnControlChanged;
-        EventManager.UnSubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
-        EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_MINIGUN, MinigunConsumable);
     }
 }
