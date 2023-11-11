@@ -4,6 +4,7 @@ using TMPro;
 public class ConsumableData : ShoppableSO
 {
     [HideInInspector] public string description;
+    public float consumableDuration;
     public string descriptionLocalizationID;
     public override void OnStart()
     {

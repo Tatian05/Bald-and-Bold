@@ -1,51 +1,30 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-
+using UnityEngine.UI;
 namespace BaldAndBold.Consumables
 {
     public abstract class Consumables : MonoBehaviour
     {
-        [SerializeField] protected float _consumableDuration;
-        protected System.Action _countDown;
-
-        protected float _countdownTimer;
-        PlayerInputs _playerInputs;
-        InputAction _triggerConsumableAction;
+        [SerializeField] ConsumableData _consumableData;
+        [SerializeField] Button _triggerButton;
+        public Sprite GetSprite => _consumableData.shoppableData.shopSprite;
+        public float GetDuration => _consumableData.consumableDuration;
+        private void Awake()
+        {
+            _triggerButton.interactable = false;
+        }
         protected virtual void Start()
         {
-            _countdownTimer = _consumableDuration;
-            _playerInputs = NewInputManager.PlayerInputs;
-            _triggerConsumableAction = _playerInputs.Player.TriggerConsumable;
-            _triggerConsumableAction.performed += TriggerConsumable;
-            _triggerConsumableAction.Enable();
+            GetComponent<Image>().sprite = _consumableData.shoppableData.shopSprite;
+            _triggerButton.onClick.AddListener(TriggerConsumable);
         }
-        protected virtual void Update()
-        {
-            _countDown?.Invoke();
-        }
-        protected void TriggerConsumable(InputAction.CallbackContext obj)
+        public void TriggerConsumable()
         {
             ConsumableAction(true);
-            _countDown = CountDown;
-            _triggerConsumableAction.performed -= TriggerConsumable;
-            _triggerConsumableAction.Disable();
+            EventManager.TriggerEvent(Contains.CONSUMABLE, this);
+            Destroy(gameObject);
         }
-        protected abstract void ConsumableAction(bool activate);
+        public void SetInteractableButton(bool interactable) { _triggerButton.interactable = interactable; }
+        public abstract void ConsumableAction(bool activate);
 
-        void CountDown()
-        {
-            _countdownTimer -= CustomTime.DeltaTime;
-            if (_countdownTimer <= 0)
-            {
-                ConsumableAction(false);
-                Destroy(gameObject);
-            }
-        }
-        private void OnDestroy()
-        {
-            _countDown = null;
-            _triggerConsumableAction.performed -= TriggerConsumable;
-            _triggerConsumableAction.Disable();
-        }
     }
 }

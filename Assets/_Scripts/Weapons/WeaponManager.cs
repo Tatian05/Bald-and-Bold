@@ -40,12 +40,14 @@ public class WeaponManager : MonoBehaviour
     {
         NewInputManager.ActiveDeviceChangeEvent += OnControlChanged;
         EventManager.SubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
+        EventManager.SubscribeToEvent(Contains.CONSUMABLE_PAUSE, PauseActions);
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_MINIGUN, MinigunConsumable);
     }
     private void OnDisable()
     {
         EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_MINIGUN, MinigunConsumable);
         EventManager.UnSubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
+        EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_PAUSE, PauseActions);
     }
     private void Update()
     {

@@ -3,7 +3,7 @@ using BaldAndBold.Consumables;
 public class Consumable_KnifeOP : Consumables
 {
     [SerializeField] float _knifeScaleMultiplier = 3;
-    protected override void ConsumableAction(bool activate)
+    public override void ConsumableAction(bool activate)
     {
         EventManager.TriggerEvent(Contains.CONSUMABLE_MELEE, activate, _knifeScaleMultiplier);
     }

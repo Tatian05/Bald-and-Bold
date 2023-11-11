@@ -6,5 +6,5 @@ public static class CustomTime
     public static float TimeScale { get { return Time.timeScale * LocalTimeScale; } }
     public static bool IsPaused { get { return LocalTimeScale <= 0; } }
 
-    public static void SetTimeScale(int newTimeScale) { LocalTimeScale = newTimeScale; }
+    public static void SetTimeScale(float newTimeScale) { LocalTimeScale = newTimeScale; }
 }

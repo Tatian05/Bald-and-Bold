@@ -69,7 +69,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "TriggerConsumable",
+                    "name": "OpenConsumableCollection",
                     "type": "Button",
                     "id": "5942d8b5-079a-44ce-9bef-a7c8bb27816a",
                     "expectedControlType": "Button",
@@ -427,7 +427,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "TriggerConsumable",
+                    "action": "OpenConsumableCollection",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -438,7 +438,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "TriggerConsumable",
+                    "action": "OpenConsumableCollection",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -449,7 +449,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "xBoxController",
-                    "action": "TriggerConsumable",
+                    "action": "OpenConsumableCollection",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

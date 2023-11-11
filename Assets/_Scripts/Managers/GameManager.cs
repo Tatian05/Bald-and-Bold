@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
     QuestManager _questManager;
     public QuestManager QuestManager { get { return _questManager; } }
 
+    ConsumablesCanvasContainer _consumableCanvasContainer;
+    public ConsumablesCanvasContainer ConsumableCanvas { get { return _consumableCanvasContainer; } }
     private void Awake()
     {
         instance = this;
@@ -62,6 +64,7 @@ public class GameManager : MonoBehaviour
         _dropManager = GetComponent<DropManager>();
         _cinematicManager = GetComponent<CinematicManager>();
         _questManager = GetComponent<QuestManager>();
+        _consumableCanvasContainer = GetComponent<ConsumablesCanvasContainer>();
         Cursor.lockState = CursorLockMode.Confined;
     }
 }

@@ -46,6 +46,7 @@ public class PlayerController
 
         _playerInputs.Enable();
         EventManager.SubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
+        EventManager.SubscribeToEvent(Contains.CONSUMABLE_PAUSE, PauseActions);
     }
     public void OnDestroy()
     {
@@ -54,6 +55,7 @@ public class PlayerController
 
         _playerInputs.Disable();
         EventManager.UnSubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
+        EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_PAUSE, PauseActions);
     }
     void OnJump(InputAction.CallbackContext obj) { if (_playerModel.CanJump || _playerModel.InRope) { _player.ExitClimb(); _player.OnJump(); } }
     void OnDash(InputAction.CallbackContext obj) { if (_playerModel.CanDash) { _player.ExitClimb(); _player.SendInput(PlayerStates.Dash); } }
