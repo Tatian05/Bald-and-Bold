@@ -6,6 +6,7 @@ public class WeaponManager : MonoBehaviour
 {
     [SerializeField] Weapon _currentMainWeapon = null, _currentSecundaryWeapon = null;
     [SerializeField] GameObject _rightHand, _leftHand;
+    [SerializeField] Minigun _minigunPrefab;
 
     Transform _mainWeaponContainer, _secundaryWeaponContainer;
     Transform _secundaryWeaponTransform;
@@ -15,7 +16,16 @@ public class WeaponManager : MonoBehaviour
     Camera _mainCamera;
     bool _onWeaponTrigger;
     Func<Vector2> _cursorPosition;
-    [SerializeField] Weapon _weaponBeforeMinigun;
+    Weapon _weaponBeforeMinigun;
+    Minigun _minigun;
+    PersistantData _persistantData;
+
+    #region ConsumablesVariables
+
+    float _currentBulletScale, _cadenceBoost;
+    bool _recoil, _hasMinigun;
+
+    #endregion
     private void Start()
     {
         _mainCamera = Helpers.MainCamera;
@@ -35,6 +45,14 @@ public class WeaponManager : MonoBehaviour
         _knife.Enable();
         _interact.Enable();
         _shoot.Enable();
+
+        _persistantData = Helpers.PersistantData;
+        _currentBulletScale = _persistantData.consumablesData.bulletScaleBoost;
+        _cadenceBoost = _persistantData.consumablesData.cadenceBoost;
+        _recoil = _persistantData.consumablesData.recoil;
+        _hasMinigun = _persistantData.consumablesData.hasMinigun;
+
+        if (_hasMinigun) MinigunConsumable(true);
     }
     private void OnEnable()
     {
@@ -42,46 +60,26 @@ public class WeaponManager : MonoBehaviour
         EventManager.SubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_PAUSE, PauseActions);
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_MINIGUN, MinigunConsumable);
+        EventManager.SubscribeToEvent(Contains.CONSUMABLE_BIG_BULLET, BigBulletsConsumable);
+        EventManager.SubscribeToEvent(Contains.CONSUMABLE_NO_RECOIL, NoRecoilConsumable);
+        EventManager.SubscribeToEvent(Contains.CONSUMABLE_CADENCE, CadenceConsumable);
     }
     private void OnDisable()
     {
         EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_MINIGUN, MinigunConsumable);
         EventManager.UnSubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
         EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_PAUSE, PauseActions);
+        EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_BIG_BULLET, BigBulletsConsumable);
+        EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_NO_RECOIL, NoRecoilConsumable);
+        EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_CADENCE, CadenceConsumable);
     }
     private void Update()
     {
         _lookAtMouse?.Invoke();
-        if (_shoot.ReadValue<float>() > .1f && _currentMainWeapon) _currentMainWeapon.Attack();
+        if (_shoot.ReadValue<float>() > .1f && _currentMainWeapon) _currentMainWeapon.Attack(_currentBulletScale, _cadenceBoost, _recoil);
         if (_knife.ReadValue<float>() > .1f && _currentSecundaryWeapon) _currentSecundaryWeapon.Attack();
     }
     void OnInteract(InputAction.CallbackContext obj) { if (_onWeaponTrigger) SetWeapon(); }
-
-    [SerializeField] Minigun _minigun;
-    void MinigunConsumable(params object[] param)
-    {
-        if ((bool)param[0])
-        {
-            _minigun = Instantiate((Minigun)param[1]);
-            if (_currentMainWeapon)
-            {
-                _weaponBeforeMinigun = _currentMainWeapon;
-                ThrowWeapon(true);
-            }
-
-            SetWeapon(_minigun);
-        }
-        else
-        {
-            if (_minigun)
-            {
-                ThrowWeapon(false);
-                Destroy(_minigun.gameObject);
-            }
-
-            if (_weaponBeforeMinigun) SetWeapon(_weaponBeforeMinigun);
-        }
-    }
 
     #region Weapon Funcs
     public void SetWeapon(Weapon newWeapon = null)
@@ -166,11 +164,8 @@ public class WeaponManager : MonoBehaviour
     #endregion
     Vector2 GamepadCursorPosition() => Gamepad.current.rightStick.ReadValue();
     Vector2 MouseCursorPosition() => Mouse.current.position.ReadValue();
+    void OnControlChanged() { _cursorPosition = NewInputManager.activeDevice == DeviceType.Keyboard ? (Func<Vector2>)GetMouseDirectionMain : (Func<Vector2>)GamepadCursorPosition; }
 
-    void OnControlChanged()
-    {
-        _cursorPosition = NewInputManager.activeDevice == DeviceType.Keyboard ? (Func<Vector2>)GetMouseDirectionMain : (Func<Vector2>)GamepadCursorPosition;
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.GetComponent<ShowKeyUI>()) _onWeaponTrigger = true;
@@ -178,21 +173,6 @@ public class WeaponManager : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.GetComponent<ShowKeyUI>()) _onWeaponTrigger = false;
-    }
-    void PauseActions(params object[] param)
-    {
-        if ((bool)param[0])
-        {
-            _interact.Disable();
-            _knife.Disable();
-            _shoot.Disable();
-        }
-        else
-        {
-            _interact.Enable();
-            _knife.Enable();
-            _shoot.Enable();
-        }
     }
     private void OnDestroy()
     {
@@ -213,4 +193,55 @@ public class WeaponManager : MonoBehaviour
 
         NewInputManager.ActiveDeviceChangeEvent -= OnControlChanged;
     }
+
+    #region EVENT FUNCTIONS
+    void PauseActions(params object[] param)
+    {
+        if ((bool)param[0])
+        {
+            _interact.Disable();
+            _knife.Disable();
+            _shoot.Disable();
+        }
+        else
+        {
+            _interact.Enable();
+            _knife.Enable();
+            _shoot.Enable();
+        }
+    }
+
+    #region CONSUMABLES 
+    void MinigunConsumable(params object[] param)
+    {
+        _persistantData.consumablesData.hasMinigun = _hasMinigun = (bool)param[0];
+        if (_hasMinigun)
+        {
+            _minigun = Instantiate(_minigunPrefab);
+            if (_currentMainWeapon)
+            {
+                _weaponBeforeMinigun = _currentMainWeapon;
+                ThrowWeapon(true);
+            }
+
+            SetWeapon(_minigun);
+        }
+        else
+        {
+            if (_minigun)
+            {
+                ThrowWeapon(false);
+                Destroy(_minigun.gameObject);
+            }
+
+            if (_weaponBeforeMinigun) SetWeapon(_weaponBeforeMinigun);
+        }
+    }
+    void BigBulletsConsumable(params object[] param) => _persistantData.consumablesData.bulletScaleBoost = _currentBulletScale = (bool)param[0] ? (float)param[1] : 1;
+    void NoRecoilConsumable(params object[] param) => _persistantData.consumablesData.recoil = _recoil = (bool)param[0];
+    void CadenceConsumable(params object[] param) => _persistantData.consumablesData.cadenceBoost = _cadenceBoost = (bool)param[0] ? (float)param[1] : 1;
+
+    #endregion
+
+    #endregion
 }

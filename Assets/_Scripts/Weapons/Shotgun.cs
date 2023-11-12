@@ -2,7 +2,7 @@ using UnityEngine;
 public class Shotgun : FireWeapon
 {
     [SerializeField] Transform[] _directions;
-    protected override void FireWeaponShoot()
+    protected override void FireWeaponShoot(float bulletScale)
     {
         for (int i = 0; i <= _directions.Length - 1; i++)
         {
@@ -10,7 +10,8 @@ public class Shotgun : FireWeapon
                                                 SetDirection(_directions[i].position - _bulletSpawn.position).
                                                 SetDmg(_weaponData.damage).
                                                 SetPosition(_bulletSpawn.position).
-                                                SetSpeed(_weaponData.bulletSpeed);
+                                                SetSpeed(_weaponData.bulletSpeed).
+                                                SetScale(bulletScale);
         }
     }
 }

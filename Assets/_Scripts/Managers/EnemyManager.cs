@@ -9,6 +9,7 @@ public class EnemyManager : BaseEnemyManager
         LevelTimerManager levelTimer = Helpers.LevelTimerManager;
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDead);
         EventManager.SubscribeToEvent(Contains.ON_ROOM_WON, SetProgressEnemyMision);
+        EventManager.SubscribeToEvent(Contains.CONSUMABLE_INVISIBLE, InvisibleConsumable);
         _enemyDataSO.playerPivot = _gameManager.Player.CenterPivot;
 
         StartCoroutine(CheckForEmptyLevel());
@@ -17,6 +18,7 @@ public class EnemyManager : BaseEnemyManager
     {
         EventManager.UnSubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDead);
         EventManager.UnSubscribeToEvent(Contains.ON_ROOM_WON, SetProgressEnemyMision);
+        EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_INVISIBLE, InvisibleConsumable);
     }
     void OnPlayerDead(params object[] param)
     {
@@ -53,4 +55,5 @@ public class EnemyManager : BaseEnemyManager
     }
 
     void SetProgressEnemyMision(params object[] param) { EventManager.TriggerEvent(Contains.MISSION_PROGRESS, "Kill Enemies", _enemiesInLevel); }
+    void InvisibleConsumable(params object[] param) { _enemyDataSO.playerPivot = (bool)param[0] ? null : _gameManager.Player.CenterPivot; }
 }

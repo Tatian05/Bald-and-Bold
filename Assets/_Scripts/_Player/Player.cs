@@ -7,7 +7,7 @@ public enum PlayerStates { Empty, Dash }
 [RequireComponent(typeof(BoxCollider2D))]
 public class Player : GeneralPlayer, IDamageable
 {
-    bool _dead;
+    bool _dead, _boots;
 
     #region Components
     [SerializeField] Animator _anim;
@@ -103,6 +103,9 @@ public class Player : GeneralPlayer, IDamageable
 
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDeath);
         _controller.OnEnable();
+
+        _boots = Helpers.PersistantData.consumablesData.boots;
+        if (_boots) EventManager.TriggerEvent(Contains.CONSUMABLE_BOOTS, true);
     }
     private void OnDestroy()
     {

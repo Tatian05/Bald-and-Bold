@@ -6,12 +6,7 @@ public class WeaponData : ScriptableObject
     //All Weapons
     public WeaponType weaponType;
     [HideInInspector] public float fireRate;
-    [HideInInspector] public float recoilDuration;
-    [HideInInspector] public float recoilForce;
-    [HideInInspector] public float recoilWeaponRot;
-    [HideInInspector] public float recoilWeaponRotDuration;
     [HideInInspector] public float damage;
-    [HideInInspector] public float currentCadence;
     [HideInInspector] public int initialAmmo;
     [HideInInspector] public Sprite mainSprite;
     [HideInInspector] public Sprite selectedSprite;
@@ -22,6 +17,11 @@ public class WeaponData : ScriptableObject
 
     //FireWeapons
     [HideInInspector] public float bulletSpeed;
+    [HideInInspector] public float recoilDuration;
+    [HideInInspector] public float recoilForce;
+    [HideInInspector] public float recoilWeaponRot;
+    [HideInInspector] public float recoilWeaponRotDuration;
+    [HideInInspector] public float currentCadence;
 
     //Knifes
     [HideInInspector] public float attackRange;

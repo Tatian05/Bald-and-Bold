@@ -34,7 +34,6 @@ public class Trap_Mine : Enemy
 
     protected override void PlayerInvisibleConsumable(params object[] param)
     {
-        base.PlayerInvisibleConsumable(param);
         enabled = !(bool)param[0];
     }
 }

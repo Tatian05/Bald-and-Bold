@@ -126,7 +126,6 @@ public class Enemy_ChargeDrone : Enemy
     }
     protected override void PlayerInvisibleConsumable(params object[] param)
     {
-        base.PlayerInvisibleConsumable(param);
         _myFSM.SendInput((bool)param[0] ? ChargeDroneStates.Lost : ChargeDroneStates.Idle);
     }
     void LookAtPlayer() { _spriteParentTransform.right = DistanceToPlayer().normalized; }

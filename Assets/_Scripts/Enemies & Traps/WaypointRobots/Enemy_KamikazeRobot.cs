@@ -49,7 +49,6 @@ public class Enemy_KamikazeRobot : Enemy
     }
     protected override void PlayerInvisibleConsumable(params object[] param)
     {
-        base.PlayerInvisibleConsumable(param);
         _myFSM = (bool)param[0] ? null : new EventFSM<KamikazeStates>(IDLE);
     }
     private void OnTriggerEnter2D(Collider2D collision)

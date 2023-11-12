@@ -6,9 +6,13 @@ public class PersistantData : MonoBehaviour
     public GameData gameData;
     public PersistantDataSaved persistantDataSaved;
     public Settings settingsData = new Settings { generalVolume = 1, musicVolume = 1, sfxVolume = 1 };
+    public ConsumablesData consumablesData = new ConsumablesData { cadenceBoost = 1, bulletScaleBoost = 1, knifeBoost = 1, recoil = true, boots = false, invisible = false, hasMinigun = false };
 
-    public const string GAME_DATA = "Game data";
-    public const string PERSISTANT_DATA = "Persistant data";
+    public const string GAME_DATA = "Mu9BoZZfUB";
+    public const string PERSISTANT_DATA = "jM8SuzEYoW";
+    public const string SETTINGS_DATA = "pZasipgofy";
+    public const string CONSUMABLES_DATA = "ygWPKikIvb";
+
     public static PersistantData Instance;
     private void Awake()
     {
@@ -23,9 +27,10 @@ public class PersistantData : MonoBehaviour
     }
     public void LoadPersistantData()
     {
-        gameData = SaveLoadSystem.FileExist(GAME_DATA) ? SaveLoadSystem.LoadData<GameData>(GAME_DATA, true) : new GameData();
-        settingsData = SaveLoadSystem.LoadData<Settings>("SETTINGS", true);
-        persistantDataSaved = SaveLoadSystem.FileExist(PERSISTANT_DATA) ? SaveLoadSystem.LoadData<PersistantDataSaved>(PERSISTANT_DATA, true) : new PersistantDataSaved();
+        gameData = SaveLoadSystem.LoadData(GAME_DATA, true, () => new GameData());
+        settingsData = SaveLoadSystem.LoadData(SETTINGS_DATA, true, () => settingsData);
+        consumablesData = SaveLoadSystem.LoadData(CONSUMABLES_DATA, true, () => consumablesData);
+        persistantDataSaved = SaveLoadSystem.LoadData(PERSISTANT_DATA, true, () => new PersistantDataSaved());
         persistantDataSaved.RemoveEmptySlot();
         persistantDataSaved.LoadUserBindingsDictionary();
     }
@@ -38,8 +43,9 @@ public class PersistantData : MonoBehaviour
     private void OnDestroy()
     {
         SaveLoadSystem.SaveData(GAME_DATA, gameData, true);
-        SaveLoadSystem.SaveData("SETTINGS", settingsData, true);
+        SaveLoadSystem.SaveData(SETTINGS_DATA, settingsData, true);
         SaveLoadSystem.SaveData(PERSISTANT_DATA, persistantDataSaved, true);
+        SaveLoadSystem.SaveData(CONSUMABLES_DATA, consumablesData, true);
         ResetCoins();
     }
 }
@@ -53,6 +59,13 @@ public struct Settings
     public void SetGeneralVolume(float volume) { generalVolume = volume; }
     public void SetMusicVolume(float volume) { musicVolume = volume; }
     public void SetSFXVolume(float volume) { sfxVolume = volume; }
+}
+
+[Serializable]
+public struct ConsumablesData
+{
+    public float cadenceBoost, bulletScaleBoost, knifeBoost;
+    public bool recoil, boots, invisible, hasMinigun;
 }
 
 [Serializable]

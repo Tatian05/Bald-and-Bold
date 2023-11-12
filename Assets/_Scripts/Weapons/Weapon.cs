@@ -31,26 +31,7 @@ namespace Weapons
         {
             _weaponManager = FindObjectOfType<WeaponManager>();
             _spriteRenderer.sprite = _weaponData.mainSprite;
-            EventManager.SubscribeToEvent(Contains.CONSUMABLE_CADENCE, CadenceConsumable);
         }
-
-        private void OnDestroy()
-        {
-            EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_CADENCE, CadenceConsumable);
-        }
-
-        //private void OnMouseEnter()
-        //{
-        //    if (!CanPickUp) return;
-        //    _spriteRenderer.sprite = _weaponData.selectedSprite;
-        //    transform.position = new Vector3(transform.position.x, transform.position.y, -1);
-        //}
-        //private void OnMouseExit()
-        //{
-        //    if (!CanPickUp) return;
-        //    _spriteRenderer.sprite = _weaponData.mainSprite;
-        //    transform.position = new Vector3(transform.position.x, transform.position.y, 0);
-        //}
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
@@ -60,22 +41,25 @@ namespace Weapons
         {
             if (Time.time >= _weaponTimer)
             {
-                _weaponTimer = Time.time + 1 / _weaponData.currentCadence;
+                _weaponTimer = Time.time + 1 / _weaponData.fireRate;
                 WeaponAction();
             }
         }
-
+        public void Attack(float bulletScale, float cadenceBoost, bool recoil)
+        {
+            if (Time.time >= _weaponTimer)
+            {
+                _weaponTimer = Time.time + 1 / _weaponData.fireRate * cadenceBoost;
+                WeaponAction(bulletScale, cadenceBoost, recoil);
+            }
+        }
+        public abstract void WeaponAction(float bulletScale, float cadenceBoost, bool recoil);
         public abstract void WeaponAction();
         IEnumerator FindGameManager()
         {
             while (GameManager.instance == null) yield return null;
 
             _gameManager = GameManager.instance;
-        }
-
-        void CadenceConsumable(params object[] param)
-        {
-            _weaponData.currentCadence = (bool)param[0] ? _weaponData.fireRate * (float)param[1] : _weaponData.fireRate;
         }
 
         #region BUILDER

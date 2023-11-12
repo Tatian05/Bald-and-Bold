@@ -11,6 +11,8 @@ public class PlayerView
     float _stepsTimer;
     int _stepsIndex;
     GameManager _gameManager;
+    PersistantData _persistantData;
+    bool _invisible;
     public PlayerView(Transform transform, Animator anim, ParticleSystem dashParticle, SpriteRenderer[] playerSprites, BoxCollider2D bootsCollider)
     {
         _transform = transform;
@@ -20,9 +22,13 @@ public class PlayerView
         _bootsCollider = bootsCollider;
 
         _gameManager = Helpers.GameManager;
+        _persistantData = Helpers.PersistantData;
         _bootsCollider.enabled = false;
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_INVISIBLE, InvisibleConsumable);
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_BOOTS, BootConsumable);
+
+        _invisible = _persistantData.consumablesData.invisible;
+        if (_invisible) EventManager.TriggerEvent(Contains.CONSUMABLE_INVISIBLE, true);//InvisibleConsumable(true);
     }
     public void Run(float xAxis, float yAxis = 0)
     {
@@ -60,6 +66,7 @@ public class PlayerView
     }
     void InvisibleConsumable(params object[] param)
     {
+        _persistantData.consumablesData.invisible = _invisible = (bool)param[0];
         foreach (var item in _playerSprites)
         {
             if ((bool)param[0]) item.ChangeAlpha(.5f);

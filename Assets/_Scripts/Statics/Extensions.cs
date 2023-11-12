@@ -24,10 +24,20 @@ public static class Extensions
         return keys.Zip(values, (k, v) => new { k, v }).ToDictionary(x => x.k, x => x.v);
     }
 
-    public static void ChangeAlpha(this SpriteRenderer sprite, float newAlpha) 
+    public static void ChangeAlpha(this SpriteRenderer sprite, float newAlpha)
     {
         var color = sprite.color;
         color.a = newAlpha;
         sprite.color = color;
+    }
+    public static T GetComponentInChildren<T>(this GameObject obj, bool includeInactive = false, bool excludeParent = false) where T : Component
+    {
+        var components = obj.GetComponentsInChildren<T>(includeInactive);
+
+        if (!excludeParent)
+            return components.FirstOrDefault();
+
+        return components.FirstOrDefault(childComponent =>
+            childComponent.transform != obj.transform);
     }
 }

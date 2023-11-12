@@ -72,8 +72,7 @@ public class Enemy_FollowDrone : Enemy
     }
     protected override void PlayerInvisibleConsumable(params object[] param)
     {
-        base.PlayerInvisibleConsumable(param);
-        _myFsm.SendInput((bool)param[0] ? DroneStates.Lost : DroneStates.Idle);
+        _myFsm?.SendInput((bool)param[0] ? DroneStates.Lost : DroneStates.Idle);
         _navMeshAgent.SetDestination(transform.position);
     }
     public override void ReturnObject()

@@ -90,7 +90,6 @@ public class Enemy_ShootingRobot : Enemy_Shooters
     }
     protected override void PlayerInvisibleConsumable(params object[] param)
     {
-        base.PlayerInvisibleConsumable(param);
         _myFSM.SendInput((bool)param[0] ? ShootingRobot.Lost : ShootingRobot.Idle);
     }
     void CalculateAttack()

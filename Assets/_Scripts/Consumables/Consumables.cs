@@ -6,6 +6,7 @@ namespace BaldAndBold.Consumables
     {
         [SerializeField] ConsumableData _consumableData;
         [SerializeField] Button _triggerButton;
+        protected PersistantData _persistantData;
         public Sprite GetSprite => _consumableData.shoppableData.shopSprite;
         public float GetDuration => _consumableData.consumableDuration;
         private void Awake()
@@ -14,13 +15,15 @@ namespace BaldAndBold.Consumables
         }
         protected virtual void Start()
         {
-            GetComponent<Image>().sprite = _consumableData.shoppableData.shopSprite;
+            gameObject.GetComponentInChildren<Image>(false, true).sprite = _consumableData.shoppableData.shopSprite;
             _triggerButton.onClick.AddListener(TriggerConsumable);
+            _persistantData = Helpers.PersistantData;
         }
         public void TriggerConsumable()
         {
             ConsumableAction(true);
             EventManager.TriggerEvent(Contains.CONSUMABLE, this);
+            _triggerButton.interactable = false;
             Destroy(gameObject);
         }
         public void SetInteractableButton(bool interactable) { _triggerButton.interactable = interactable; }

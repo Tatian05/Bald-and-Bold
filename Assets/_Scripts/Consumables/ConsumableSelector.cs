@@ -58,6 +58,8 @@ public class ConsumableSelector : MonoBehaviour
     void Before()
     {
         var newArray = new Consumables[_consumablesInventory.Count];
+        var count = _consumablesInventory.Count;
+
         _leftArrow.interactable = false;
         _rightArrow.interactable = false;
         _consumablesInventory.ForEach(x =>
@@ -66,7 +68,11 @@ public class ConsumableSelector : MonoBehaviour
             if (index % 2 == 0)
                 index += index == 0 ? 1 : -2;
             else
-                index += index + 2 > _consumablesInventory.Count - 1 ? 1 : 2;
+            {
+                if (index >= count - 2)
+                    index += index + 1 >= count ? -1 : 1;
+                else index += 2;
+            }
 
             newArray[index] = x;
         });
@@ -77,13 +83,19 @@ public class ConsumableSelector : MonoBehaviour
     void Next()
     {
         var newArray = new Consumables[_consumablesInventory.Count];
+        var count = _consumablesInventory.Count;
+
         _rightArrow.interactable = false;
         _leftArrow.interactable = false;
         _consumablesInventory.ForEach(x =>
         {
             int index = _consumablesInventory.IndexOf(x);
             if (index % 2 == 0)
-                index += index >= _consumablesInventory.Count - 1 ? -1 : 2;
+            {
+                if (index >= count - 2)
+                    index += index + 1 >= count ? -1 : 1;
+                else index += 2;
+            }
             else
                 index += index - 1 == 0 ? -1 : -2;
 

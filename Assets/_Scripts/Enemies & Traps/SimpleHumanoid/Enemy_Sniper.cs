@@ -152,7 +152,6 @@ public class Enemy_Sniper : Enemy_Shooters
     }
     protected override void PlayerInvisibleConsumable(params object[] param)
     {
-        base.PlayerInvisibleConsumable(param);
         _myFSM.SendInput((bool)param[0] ? SniperStates.Lost : SniperStates.Idle);
     }
     public override void ReturnObject()

@@ -24,16 +24,15 @@ public class SaveLoadSystem
             File.WriteAllText(path, json);
     }
 
-    public static T LoadData<T>(string fileName, bool encrypted)
+    public static T LoadData<T>(string fileName, bool encrypted, System.Func<T> action = null)
     {
         string path = Application.persistentDataPath + DIRECTORY + $"{fileName}.json";
 
         if (!FileExist(fileName))
         {
-            Debug.Log("JAJA");
             //Debug.LogError($"Cannot load file at {path}. File does not exist!");
             //throw new FileNotFoundException($"{path} does not exist!");
-            return default(T);
+            return action != null ? action() : default(T);
         }
         string json = File.ReadAllText(path);
         var obj = JsonUtility.FromJson<T>(encrypted ? EncryptDecrypt(json) : json);

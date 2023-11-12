@@ -19,10 +19,10 @@ public class Minigun : FireWeapon
     {
         _overheating?.Invoke();
     }
-    public override void WeaponAction()
+    public override void WeaponAction(float bulletScale, float cadenceBoost, bool recoil)
     {
         if (_overheating.Method.Name.Equals("LessOverheating") || _overheatingValue < _minOverheating) return;
-        base.WeaponAction();
+        base.WeaponAction(bulletScale, cadenceBoost, recoil);
     }
     void AddOverheating()
     {

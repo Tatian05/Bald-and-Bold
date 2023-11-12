@@ -97,7 +97,6 @@ public class Enemy_Ground_Ak : Enemy_Shooters
     }
     protected override void PlayerInvisibleConsumable(params object[] param)
     {
-        base.PlayerInvisibleConsumable(param);
         _myFSM.SendInput((bool)param[0] ? AK_States.Lost : AK_States.Patrol);
     }
     bool GetCanSeePlayer()
