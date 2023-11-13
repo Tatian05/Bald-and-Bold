@@ -16,9 +16,10 @@ MonoBehaviour:
     shoppableType: 1
     shoppableQuality: 0
     cost: 5
-    localizationID: 
-    shoppableName: 
+    localizationID: ID_Boots
+    shoppableName: Reinforced boots
     shopSprite: {fileID: 21300000, guid: 5e692c92aaa98654f8e3b2412c7a0cf6, type: 3}
-  description: 
+  description: Not Found
+  consumablePrefab: {fileID: 4870124190114539066, guid: 5b7bad33ea25eb04ba1eeae01d2aff8a, type: 3}
   consumableDuration: 60
   descriptionLocalizationID: 

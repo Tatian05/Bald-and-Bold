@@ -7,32 +7,42 @@ public class ConsumablesUI : MonoBehaviour
     [SerializeField] Image _img;
     [SerializeField] TextMeshProUGUI _countdownTxt;
 
-    float _countDownTimer;
+    float _countDown;
     float _minutes, _seconds;
     Consumables _consumable;
     private void Update()
     {
-        _countDownTimer -= CustomTime.DeltaTime;
-        _minutes = (int)(_countDownTimer / 60f);
-        _seconds = (int)(_countDownTimer - (int)(_countDownTimer / 60f) * 60f);
+        _countDown -= CustomTime.DeltaTime;
+        _minutes = (int)(_countDown / 60f);
+        _seconds = (int)(_countDown - (int)(_countDown / 60f) * 60f);
         _countdownTxt.text = string.Format("{0:00}:{1:00}", _minutes, _seconds);
 
-        if (_countDownTimer <= 0)
+        if (_countDown <= 0)
         {
             _consumable.ConsumableAction(false);
+            Helpers.PersistantData.consumablesData.RemoveConsumable(_consumable.ConsumableData);
             Destroy(gameObject);
         }
     }
     public ConsumablesUI SetConsumable(Consumables consumable)
     {
         _consumable = consumable;
-        _countDownTimer = consumable.GetDuration;
-        _img.sprite = consumable.GetSprite;
+        _img.sprite = _consumable.ConsumableData.shoppableData.shopSprite;
+        return this;
+    } 
+    public ConsumablesUI SetTime(float time)
+    {
+        _countDown = time;
         return this;
     }
     public ConsumablesUI SetParent(Transform parent)
     {
         transform.SetParent(parent, true);
         return this;
+    }
+
+    private void OnDestroy()
+    {
+        if (_countDown > 0) Helpers.PersistantData.consumablesData.SaveConsumable(_consumable.ConsumableData, _countDown);
     }
 }

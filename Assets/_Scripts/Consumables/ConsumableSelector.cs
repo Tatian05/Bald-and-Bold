@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using System.Linq;
-
 public class ConsumableSelector : MonoBehaviour
 {
     [SerializeField] Button _leftArrow, _rightArrow;
@@ -18,9 +17,15 @@ public class ConsumableSelector : MonoBehaviour
     private void Start()
     {
         GetComponent<Canvas>().worldCamera = Helpers.MainCamera;
-        _consumablesInventory = _content.GetComponentsInChildren<Consumables>().ToList();
         SetInputs();
 
+        var coll = Helpers.PersistantData.persistantDataSaved.consumablesInCollection;
+        if (!coll.Any()) return;
+
+        foreach (var item in coll)
+            Instantiate(item.consumablePrefab).SetParent(_content);
+
+        _consumablesInventory = _content.GetComponentsInChildren<Consumables>().ToList();
         SetPositions();
     }
     private void OnEnable()
@@ -33,12 +38,15 @@ public class ConsumableSelector : MonoBehaviour
     }
     public void SetPositions()
     {
-        _consumablesInventory[0].transform.DOScale(1.5f, .1f);
-        _consumablesInventory[0].transform.DOMove(transform.position + Vector3.zero, .2f).OnComplete(() => { _leftArrow.interactable = true; _rightArrow.interactable = true; }); _consumablesInventory[0].SetInteractableButton(true);
+        if (!_consumablesInventory.Any()) return;
 
+        _consumablesInventory[0].transform.DOScale(1.5f, .1f);
+        _consumablesInventory[0].transform.DOMove(transform.position + Vector3.zero, .2f).OnComplete(() => { _leftArrow.interactable = true; _rightArrow.interactable = true; });
+        _consumablesInventory[0].SetInteractableButton(true);
         _consumablesInventory.ForEach(x =>
         {
             int index = _consumablesInventory.IndexOf(x);
+
             if (index > 0)
             {
                 if (index % 2 == 1) _currentOffset += _offset;
@@ -50,6 +58,7 @@ public class ConsumableSelector : MonoBehaviour
                     x.transform.DOMove(transform.position + new Vector3(_currentOffset, 0), .2f);
 
                 if (transform.localScale.magnitude != 1) x.transform.DOScale(Vector3.one, .2f);
+
                 x.SetInteractableButton(false);
             }
         });
@@ -57,6 +66,7 @@ public class ConsumableSelector : MonoBehaviour
     }
     void Before()
     {
+        if (_consumablesInventory.Count <= 1) return;
         var newArray = new Consumables[_consumablesInventory.Count];
         var count = _consumablesInventory.Count;
 
@@ -82,6 +92,7 @@ public class ConsumableSelector : MonoBehaviour
     }
     void Next()
     {
+        if (_consumablesInventory.Count <= 1) return;
         var newArray = new Consumables[_consumablesInventory.Count];
         var count = _consumablesInventory.Count;
 

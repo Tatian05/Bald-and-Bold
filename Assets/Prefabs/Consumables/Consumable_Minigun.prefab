@@ -29,7 +29,7 @@ RectTransform:
   m_GameObject: {fileID: 3318521271668525592}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 6127421988847330168}
   - {fileID: 1710978098788847455}
@@ -38,7 +38,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -11.949999, y: 1.0150266}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &567040706011294502
@@ -129,7 +129,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _consumableData: {fileID: 11400000, guid: db2429bf86518734cb9947e7f8d68d72, type: 2}
   _triggerButton: {fileID: 8224732678915029200}
-  _minigunPrefab: {fileID: 3296997526928809676, guid: 0022ca753a25863459ade4d65fafe96c, type: 3}
 --- !u!222 &4677028406903207185
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ public class PersistantData : MonoBehaviour
     public GameData gameData;
     public PersistantDataSaved persistantDataSaved;
     public Settings settingsData = new Settings { generalVolume = 1, musicVolume = 1, sfxVolume = 1 };
-    public ConsumablesData consumablesData = new ConsumablesData { cadenceBoost = 1, bulletScaleBoost = 1, knifeBoost = 1, recoil = true, boots = false, invisible = false, hasMinigun = false };
+    public ConsumablesValues consumablesData;
 
     public const string GAME_DATA = "Mu9BoZZfUB";
     public const string PERSISTANT_DATA = "jM8SuzEYoW";
@@ -29,24 +29,24 @@ public class PersistantData : MonoBehaviour
     {
         gameData = SaveLoadSystem.LoadData(GAME_DATA, true, () => new GameData());
         settingsData = SaveLoadSystem.LoadData(SETTINGS_DATA, true, () => settingsData);
-        consumablesData = SaveLoadSystem.LoadData(CONSUMABLES_DATA, true, () => consumablesData);
+        consumablesData = SaveLoadSystem.LoadData(CONSUMABLES_DATA, true, () => new ConsumablesValues());
         persistantDataSaved = SaveLoadSystem.LoadData(PERSISTANT_DATA, true, () => new PersistantDataSaved());
+
         persistantDataSaved.RemoveEmptySlot();
         persistantDataSaved.LoadUserBindingsDictionary();
+        consumablesData.LoadActivesConsumables();
     }
     public void DeletePersistantData()
     {
         SaveLoadSystem.Delete(GAME_DATA);
         gameData = new GameData();
     }
-    public void ResetCoins() { PlayerPrefs.DeleteKey("Coins"); }
     private void OnDestroy()
     {
         SaveLoadSystem.SaveData(GAME_DATA, gameData, true);
         SaveLoadSystem.SaveData(SETTINGS_DATA, settingsData, true);
         SaveLoadSystem.SaveData(PERSISTANT_DATA, persistantDataSaved, true);
         SaveLoadSystem.SaveData(CONSUMABLES_DATA, consumablesData, true);
-        ResetCoins();
     }
 }
 
@@ -62,10 +62,29 @@ public struct Settings
 }
 
 [Serializable]
-public struct ConsumablesData
+public class ConsumablesValues
 {
-    public float cadenceBoost, bulletScaleBoost, knifeBoost;
-    public bool recoil, boots, invisible, hasMinigun;
+    public float cadenceBoost = 1, bulletScaleBoost = 1, knifeBoost = 1;
+    public bool recoil = true, boots, invisible, hasMinigun;
+    public List<ConsumableData> consumablesActivated = new List<ConsumableData>();
+    public List<float> consumablesActivatedTime = new List<float>();
+    public Dictionary<ConsumableData, float> consumablesWithTime;
+    public void SaveConsumable(ConsumableData consumableData, float time)
+    {
+        if (consumablesActivated.Contains(consumableData)) return;
+        Debug.Log($"Save {consumableData.name}");
+        consumablesActivated.Add(consumableData);
+        consumablesActivatedTime.Add(time);
+    }
+    public void RemoveConsumable(ConsumableData consumableData)
+    {
+        if (!consumablesActivated.Contains(consumableData)) return;
+
+        var index = consumablesActivated.IndexOf(consumableData);
+        consumablesActivated.RemoveAt(index);
+        consumablesActivatedTime.RemoveAt(index);
+    }
+    public void LoadActivesConsumables() { consumablesWithTime = consumablesActivated.DictioraryFromTwoLists(consumablesActivatedTime); }
 }
 
 [Serializable]
@@ -84,7 +103,7 @@ public class PersistantDataSaved
 
     #region Consumables 
 
-    public List<ConsumableData> consumablesEquiped = new List<ConsumableData>();
+    public List<ConsumableData> consumablesInCollection = new List<ConsumableData>();
 
     #endregion
 
@@ -117,7 +136,8 @@ public class PersistantDataSaved
         if (cosmeticType is CosmeticType.Player && !playerCosmeticCollection.Contains(cosmetic)) playerCosmeticCollection.Add(cosmetic);
         else if (!presidentCosmeticCollection.Contains(cosmetic)) presidentCosmeticCollection.Add(cosmetic);
     }
-    public void AddConsumable(ConsumableData consumable) { consumablesEquiped.Add(consumable); }
+    public void AddConsumable(ConsumableData consumableData) { consumablesInCollection.Add(consumableData); }
+    public void RemoveConsumable(ConsumableData consumableData) { consumablesInCollection.Remove(consumableData); }
     public void AddBinding(string key, string value)
     {
         if (userBindings.ContainsKey(key))

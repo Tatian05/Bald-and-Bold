@@ -3,6 +3,7 @@ public enum ShoppableType { Cosmetic, Consumable, BulletTrail}
 public enum ShoppableQuality { Normal, Rare, Epic}
 public abstract class ShoppableSO : ScriptableObject, IShoppable
 {
+    [Header("Base Shoppable Variables")]
     public ShoppableData shoppableData;
     public virtual void OnStart() { shoppableData.shoppableName = LanguageManager.Instance.GetTranslate(shoppableData.localizationID); }
     public virtual void Buy()

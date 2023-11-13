@@ -1,68 +1,76 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 public class PlayerShop : MonoBehaviour
 {
     [SerializeField] float _speedMovement;
     [SerializeField] GameObject _shopCanvas, _collectionCanvas;
 
     Animator _animator;
-    System.Action _currentState;
-    InputManager _inputManager;
     bool _onShopTrigger, _onProbadorTrigger;
+    InputAction _interact, _movement;
+    Vector3 _movementInputs;
     void Start()
     {
         _animator = GetComponentInChildren<Animator>();
-        _inputManager = InputManager.Instance;
-        _currentState = DefaultState;
+        _interact = NewInputManager.PlayerInputs.Player.Interact;
+        _movement = NewInputManager.PlayerInputs.Player.Movement;
+
+        _interact.performed += OpenShop;
+        _interact.performed += OpenProbador;
+
+        _interact.Enable();
+        _movement.Enable();
     }
     void Update()
     {
-        _currentState();
         if (Input.GetKeyDown(KeyCode.F3)) Helpers.PersistantData.persistantDataSaved.AddPresiCoins(200);
+        Move();
     }
-    void DefaultState()
+    void Move()
     {
-        Vector3 inputs = new Vector3(_inputManager.GetAxisRaw("Horizontal"), 0, 0);
+        _movementInputs = new Vector3 { x = Mathf.RoundToInt(_movement.ReadValue<Vector2>().x), y = Mathf.RoundToInt(_movement.ReadValue<Vector2>().y) };
+        transform.position += _movementInputs * _speedMovement * Time.deltaTime;
 
-        transform.position += inputs * _speedMovement * Time.deltaTime;
+        PlayAnimation(_movementInputs.x);
 
-        PlayAnimation(inputs.x);
-
-        if (inputs.magnitude != 0)
-            transform.eulerAngles = inputs.x < 0 ? new Vector3(0, 180, 0) : Vector3.zero;
-
-        if (_inputManager.GetButtonDown("Interact") && _onShopTrigger)
-        {
-            _shopCanvas.SetActive(true);
-            _currentState = delegate
-            {
-                PlayAnimation(inputs.x);
-                Cursor.lockState = CursorLockMode.Confined;
-                Cursor.visible = true;
-            };
-        }
-
-        if (_inputManager.GetButtonDown("Interact") && _onProbadorTrigger)
-        {
-            _collectionCanvas.SetActive(true);
-            _currentState = delegate
-            {
-                PlayAnimation(inputs.x);
-                Cursor.lockState = CursorLockMode.Confined;
-                Cursor.visible = true;
-            };
-        }
+        if (_movementInputs.magnitude != 0)
+            transform.eulerAngles = _movementInputs.x < 0 ? new Vector3(0, 180, 0) : Vector3.zero;
     }
-    void PlayAnimation(float xAxis) => _animator.SetInteger("xAxis", (int)Mathf.Abs(xAxis));
-
-    public void SetDefaultState()
+    void OpenShop(InputAction.CallbackContext obj)
     {
-        _currentState = DefaultState;
-        Cursor.lockState = CursorLockMode.Locked;
+        if (!_onShopTrigger) return;
+
+        _shopCanvas.SetActive(true);
+        _interact.Disable();
+        _movement.Disable();
+
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
+    }
+    void OpenProbador(InputAction.CallbackContext obj)
+    {
+        if (!_onProbadorTrigger) return;
+
+        _collectionCanvas.SetActive(true);
+        _interact.Disable();
+        _movement.Disable();
+
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
+    }
+    public void ResetState()
+    {
+        _interact.Enable();
+        _movement.Enable();
+
+        Cursor.lockState = CursorLockMode.None;
         Cursor.visible = false;
     }
+    void PlayAnimation(float xAxis) => _animator.SetInteger("xAxis", (int)Mathf.Abs(xAxis));
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<NextSceneOnTrigger>()) _currentState = delegate { PlayAnimation(0); };
+        if (collision.GetComponent<NextSceneOnTrigger>()) PlayAnimation(0);
     }
     private void OnTriggerStay2D(Collider2D collision)
     {

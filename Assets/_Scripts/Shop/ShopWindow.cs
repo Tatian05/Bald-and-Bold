@@ -22,6 +22,7 @@ public class ShopWindow : MonoBehaviour
     [Header("Consumables Settings")]
     [SerializeField] Transform _consumablesGridParent;
     [SerializeField] TextMeshProUGUI _consumableDescription;
+    [SerializeField] Image _consumableImage;
 
     [Space(20)]
     [SerializeField] Color _selectedColor;
@@ -44,6 +45,7 @@ public class ShopWindow : MonoBehaviour
         _buttonsColor = _windowsButtons[0].image.color;
         PersistantDataSaved persistantDataSaved = Helpers.PersistantData.persistantDataSaved;
         _coins.text = persistantDataSaved.presiCoins.ToString();
+        _consumableImage.enabled = false;
 
         List<Button> allButtons = new List<Button>();
 
@@ -166,7 +168,7 @@ public class ShopWindow : MonoBehaviour
     void ShowConsumableSelected()
     {
         var consumable = (ConsumableData)_shoppableSelected;
-
-        consumable.SetConsumable(_consumableDescription);
+        _consumableImage.enabled = true;
+        consumable.SetConsumable(_consumableDescription, _consumableImage);
     }
 }
