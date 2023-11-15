@@ -31,17 +31,16 @@ public class PersistantData : MonoBehaviour
         settingsData = SaveLoadSystem.LoadData(SETTINGS_DATA, true, settingsData);
         consumablesData = SaveLoadSystem.LoadData(CONSUMABLES_DATA, true, new ConsumablesValues());
         persistantDataSaved = SaveLoadSystem.LoadData(PERSISTANT_DATA, true, new PersistantDataSaved());
-        Debug.Log("Load");
+
         persistantDataSaved.RemoveEmptySlot();
         persistantDataSaved.LoadUserBindingsDictionary();
-        consumablesData.LoadActivesConsumables();
     }
     public void DeletePersistantData()
     {
         SaveLoadSystem.Delete(GAME_DATA);
         gameData = new GameData();
     }
-    public void SaveConsumablesData() { SaveLoadSystem.SaveData(CONSUMABLES_DATA, consumablesData, true); Debug.Log("save"); }
+    public void SaveConsumablesData() => SaveLoadSystem.SaveData(CONSUMABLES_DATA, consumablesData, true);
     private void OnDestroy()
     {
         SaveLoadSystem.SaveData(GAME_DATA, gameData, true);
@@ -90,7 +89,7 @@ public class ConsumablesValues
         consumablesActivated.RemoveAt(index);
         consumablesActivatedTime.RemoveAt(index);
     }
-    public void LoadActivesConsumables() { consumablesWithTime = consumablesActivated.DictioraryFromTwoLists(consumablesActivatedTime); }
+    public Dictionary<ConsumableData, float> LoadActivesConsumables() => consumablesActivated.DictioraryFromTwoLists(consumablesActivatedTime);
 }
 
 [Serializable]

@@ -1,4 +1,5 @@
 using BaldAndBold.Consumables;
+using System.Collections;
 using UnityEngine;
 public class ConsumablesCanvasContainer : MonoBehaviour
 {
@@ -8,17 +9,13 @@ public class ConsumablesCanvasContainer : MonoBehaviour
     {
         EventManager.SubscribeToEvent(Contains.CONSUMABLE, ActivateConsumableUI);        
     }
-    private void Start()
+    void Start()
     {
-        Debug.Log("LPM");
-        var consumablesActive = Helpers.PersistantData.consumablesData.consumablesWithTime;
+        var consumablesActive = Helpers.PersistantData.consumablesData.LoadActivesConsumables();
 
         if (consumablesActive.Count > 0)
             foreach (var item in consumablesActive)
-            {
                 ActivateConsumableUI(item.Key.consumablePrefab, item.Value);
-                Debug.Log(item.Value);
-            }
     }
     public void ActivateConsumableUI(params object[] param)
     {
