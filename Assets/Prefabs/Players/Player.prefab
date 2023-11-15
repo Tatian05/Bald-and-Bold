@@ -549,6 +549,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _consumableCollectionGO: {fileID: 6387173300827379576}
+  _buffParticle: {fileID: 245865186226866622, guid: 4f029b382da59f94b8bb091ae0bcabeb, type: 3}
+  _debuffParticle: {fileID: 2005736922097396170, guid: 3b83cc4a7d210ae4997c67291d964e8f, type: 3}
 --- !u!114 &505499263328215027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,7 +702,7 @@ MonoBehaviour:
   - {x: -0.32084942, y: 0.014481306, z: 0}
   m_ShapePathHash: -460105547
   m_Mesh: {fileID: 0}
-  m_InstanceId: 52658
+  m_InstanceId: 345860
 --- !u!1 &1266088774822671311
 GameObject:
   m_ObjectHideFlags: 0

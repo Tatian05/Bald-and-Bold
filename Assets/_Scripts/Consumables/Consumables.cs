@@ -26,7 +26,10 @@ namespace BaldAndBold.Consumables
             Destroy(gameObject);
         }
         public void SetInteractableButton(bool interactable) { _triggerButton.interactable = interactable; }
-        public abstract void ConsumableAction(bool activate);
+        public virtual void ConsumableAction(bool activate)
+        {
+            EventManager.TriggerEvent(Contains.CONSUMABLE_VISUAL_EFFECTS, activate);
+        }
         public Consumables SetParent(Transform parent)
         {
             transform.SetParent(parent);

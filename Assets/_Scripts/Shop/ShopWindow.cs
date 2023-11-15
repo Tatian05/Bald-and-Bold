@@ -144,6 +144,7 @@ public class ShopWindow : MonoBehaviour
         {
             _itemSelected.SetInCollection();
             _coins.text = persistantDataSaved.presiCoins.ToString();
+            if (_shoppableSelected is ConsumableData) return;
             _shoppableSelected = null;
             _itemSelected = null;
             _buyButton.interactable = false;

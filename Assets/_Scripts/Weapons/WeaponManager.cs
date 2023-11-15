@@ -41,6 +41,7 @@ public class WeaponManager : MonoBehaviour
         _shoot = _playerInputs.Player.Shoot;
 
         _interact.performed += OnInteract;
+        EventManager.SubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
 
         _knife.Enable();
         _interact.Enable();
@@ -57,7 +58,6 @@ public class WeaponManager : MonoBehaviour
     private void OnEnable()
     {
         NewInputManager.ActiveDeviceChangeEvent += OnControlChanged;
-        EventManager.SubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_PAUSE, PauseActions);
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_MINIGUN, MinigunConsumable);
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_BIG_BULLET, BigBulletsConsumable);
@@ -67,7 +67,6 @@ public class WeaponManager : MonoBehaviour
     private void OnDisable()
     {
         EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_MINIGUN, MinigunConsumable);
-        EventManager.UnSubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
         EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_PAUSE, PauseActions);
         EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_BIG_BULLET, BigBulletsConsumable);
         EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_NO_RECOIL, NoRecoilConsumable);
@@ -192,6 +191,7 @@ public class WeaponManager : MonoBehaviour
         _shoot.Disable();
 
         NewInputManager.ActiveDeviceChangeEvent -= OnControlChanged;
+        EventManager.UnSubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
     }
 
     #region EVENT FUNCTIONS

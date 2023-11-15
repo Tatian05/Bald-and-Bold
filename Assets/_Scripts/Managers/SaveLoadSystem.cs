@@ -24,7 +24,7 @@ public class SaveLoadSystem
             File.WriteAllText(path, json);
     }
 
-    public static T LoadData<T>(string fileName, bool encrypted, System.Func<T> action = null)
+    public static T LoadData<T>(string fileName, bool encrypted, T data)
     {
         string path = Application.persistentDataPath + DIRECTORY + $"{fileName}.json";
 
@@ -32,7 +32,7 @@ public class SaveLoadSystem
         {
             //Debug.LogError($"Cannot load file at {path}. File does not exist!");
             //throw new FileNotFoundException($"{path} does not exist!");
-            return action != null ? action() : default(T);
+            return data;
         }
         string json = File.ReadAllText(path);
         var obj = JsonUtility.FromJson<T>(encrypted ? EncryptDecrypt(json) : json);

@@ -27,11 +27,11 @@ public class PersistantData : MonoBehaviour
     }
     public void LoadPersistantData()
     {
-        gameData = SaveLoadSystem.LoadData(GAME_DATA, true, () => new GameData());
-        settingsData = SaveLoadSystem.LoadData(SETTINGS_DATA, true, () => settingsData);
-        consumablesData = SaveLoadSystem.LoadData(CONSUMABLES_DATA, true, () => new ConsumablesValues());
-        persistantDataSaved = SaveLoadSystem.LoadData(PERSISTANT_DATA, true, () => new PersistantDataSaved());
-
+        gameData = SaveLoadSystem.LoadData(GAME_DATA, true, new GameData());
+        settingsData = SaveLoadSystem.LoadData(SETTINGS_DATA, true, settingsData);
+        consumablesData = SaveLoadSystem.LoadData(CONSUMABLES_DATA, true, new ConsumablesValues());
+        persistantDataSaved = SaveLoadSystem.LoadData(PERSISTANT_DATA, true, new PersistantDataSaved());
+        Debug.Log("Load");
         persistantDataSaved.RemoveEmptySlot();
         persistantDataSaved.LoadUserBindingsDictionary();
         consumablesData.LoadActivesConsumables();
@@ -41,12 +41,12 @@ public class PersistantData : MonoBehaviour
         SaveLoadSystem.Delete(GAME_DATA);
         gameData = new GameData();
     }
+    public void SaveConsumablesData() { SaveLoadSystem.SaveData(CONSUMABLES_DATA, consumablesData, true); Debug.Log("save"); }
     private void OnDestroy()
     {
         SaveLoadSystem.SaveData(GAME_DATA, gameData, true);
         SaveLoadSystem.SaveData(SETTINGS_DATA, settingsData, true);
         SaveLoadSystem.SaveData(PERSISTANT_DATA, persistantDataSaved, true);
-        SaveLoadSystem.SaveData(CONSUMABLES_DATA, consumablesData, true);
     }
 }
 
@@ -71,8 +71,14 @@ public class ConsumablesValues
     public Dictionary<ConsumableData, float> consumablesWithTime;
     public void SaveConsumable(ConsumableData consumableData, float time)
     {
-        if (consumablesActivated.Contains(consumableData)) return;
-        Debug.Log($"Save {consumableData.name}");
+        if (consumablesActivated.Contains(consumableData))
+        {
+            var index = consumablesActivated.IndexOf(consumableData);
+            if (index != -1)
+                consumablesActivatedTime[index] = time;
+            return;
+        }
+
         consumablesActivated.Add(consumableData);
         consumablesActivatedTime.Add(time);
     }
@@ -134,7 +140,7 @@ public class PersistantDataSaved
     public void AddCosmetic(CosmeticType cosmeticType, CosmeticData cosmetic)
     {
         if (cosmeticType is CosmeticType.Player && !playerCosmeticCollection.Contains(cosmetic)) playerCosmeticCollection.Add(cosmetic);
-        else if (!presidentCosmeticCollection.Contains(cosmetic)) presidentCosmeticCollection.Add(cosmetic);
+        else if (cosmeticType is CosmeticType.President && !presidentCosmeticCollection.Contains(cosmetic)) presidentCosmeticCollection.Add(cosmetic);
     }
     public void AddConsumable(ConsumableData consumableData) { consumablesInCollection.Add(consumableData); }
     public void RemoveConsumable(ConsumableData consumableData) { consumablesInCollection.Remove(consumableData); }

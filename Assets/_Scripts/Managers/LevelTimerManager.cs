@@ -12,7 +12,6 @@ public class LevelTimerManager : MonoBehaviour
     public bool TrapStopped { get { return _stopTrap; } }
     public bool LevelStarted { get { return _timer > 0; } }
 
-    bool _stopTimer;
     bool _stopTrap;
     bool _firstTime;
 
@@ -20,7 +19,6 @@ public class LevelTimerManager : MonoBehaviour
     public event Action OnLevelDefeat;
     void Start()
     {
-        CustomTime.SetTimeScale(1);
         Helpers.GameManager.EnemyManager.OnEnemyKilled += StopTrap;
         RedButton += WinLevel;
         EventManager.SubscribeToEvent(Contains.ON_ROOM_WON, PlayRedButton);
@@ -51,10 +49,11 @@ public class LevelTimerManager : MonoBehaviour
         if (_firstTime) yield break;
         _firstTime = true;
         EventManager.TriggerEvent(Contains.ON_LEVEL_START);
+        CustomTime.SetTimeScale(1f);
         WaitForSeconds wait = new WaitForSeconds(_timeToDiscount);
         while (_timer <= _levelMaxTime)
         {
-            if (_stopTimer) yield break;                            //Cuando pongo pausa
+            if (CustomTime.TimeScale <= 0) yield break;                            //Cuando pongo pausa
             if (_stopTrap) yield return wait;                                  //Cuando muere un enemigo
             _stopTrap = false;
             _timer += CustomTime.DeltaTime;
@@ -64,7 +63,7 @@ public class LevelTimerManager : MonoBehaviour
     }
     public void WinLevel()
     {
-        _stopTimer = true;
+        CustomTime.SetTimeScale(0f);
         Helpers.GameManager.EnemyManager.OnEnemyKilled -= StopTrap;
     }
     void StopTrap()

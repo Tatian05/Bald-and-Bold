@@ -10,6 +10,10 @@ public class ConsumablesUI : MonoBehaviour
     float _countDown;
     float _minutes, _seconds;
     Consumables _consumable;
+    private void Start()
+    {
+        EventManager.SubscribeToEvent(Contains.SAVE_GAME, SaveConsumableTime);
+    }
     private void Update()
     {
         _countDown -= CustomTime.DeltaTime;
@@ -24,12 +28,18 @@ public class ConsumablesUI : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    void SaveConsumableTime(params object[] param)
+    {
+        if (_countDown > 0) Helpers.PersistantData.consumablesData.SaveConsumable(_consumable.ConsumableData, _countDown);
+        EventManager.UnSubscribeToEvent(Contains.SAVE_GAME, SaveConsumableTime);
+    }
+
     public ConsumablesUI SetConsumable(Consumables consumable)
     {
         _consumable = consumable;
         _img.sprite = _consumable.ConsumableData.shoppableData.shopSprite;
         return this;
-    } 
+    }
     public ConsumablesUI SetTime(float time)
     {
         _countDown = time;
@@ -39,10 +49,5 @@ public class ConsumablesUI : MonoBehaviour
     {
         transform.SetParent(parent, true);
         return this;
-    }
-
-    private void OnDestroy()
-    {
-        if (_countDown > 0) Helpers.PersistantData.consumablesData.SaveConsumable(_consumable.ConsumableData, _countDown);
     }
 }

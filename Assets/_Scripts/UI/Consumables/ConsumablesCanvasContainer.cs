@@ -10,11 +10,15 @@ public class ConsumablesCanvasContainer : MonoBehaviour
     }
     private void Start()
     {
+        Debug.Log("LPM");
         var consumablesActive = Helpers.PersistantData.consumablesData.consumablesWithTime;
 
         if (consumablesActive.Count > 0)
             foreach (var item in consumablesActive)
+            {
                 ActivateConsumableUI(item.Key.consumablePrefab, item.Value);
+                Debug.Log(item.Value);
+            }
     }
     public void ActivateConsumableUI(params object[] param)
     {

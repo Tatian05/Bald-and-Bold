@@ -55,9 +55,11 @@ public class Contains
     public const string ON_ROOM_WON = "On Room Won";
     public const string MISSION_PROGRESS = "Mission Progress";
     public const string CONSUMABLE_PAUSE = "Consumable fake pause";
+    public const string SAVE_GAME = "Save game";
 
     #region CONSUMABLES
 
+    public const string CONSUMABLE_VISUAL_EFFECTS = "CONSUMABLE VISUAL_EFFECTS";
     public const string CONSUMABLE = "CONSUMABLE";
     public const string CONSUMABLE_NO_RECOIL = "No recoil";
     public const string CONSUMABLE_BIG_BULLET = "Big Bullet";

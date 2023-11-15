@@ -19,7 +19,7 @@ public class ConsumableSelector : MonoBehaviour
         GetComponent<Canvas>().worldCamera = Helpers.MainCamera;
         SetInputs();
 
-        var coll = Helpers.PersistantData.persistantDataSaved.consumablesInCollection;
+        var coll = Helpers.PersistantData.persistantDataSaved.consumablesInCollection.Distinct().Where(x => !Helpers.PersistantData.consumablesData.consumablesActivated.Contains(x));
         if (!coll.Any()) return;
 
         foreach (var item in coll)

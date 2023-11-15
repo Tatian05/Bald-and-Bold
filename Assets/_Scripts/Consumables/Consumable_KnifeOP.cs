@@ -5,6 +5,7 @@ public class Consumable_KnifeOP : Consumables
     [SerializeField] float _knifeScaleMultiplier = 3;
     public override void ConsumableAction(bool activate)
     {
+        base.ConsumableAction(activate);
         EventManager.TriggerEvent(Contains.CONSUMABLE_MELEE, activate, _knifeScaleMultiplier);
     }
 }

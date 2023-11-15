@@ -49,7 +49,7 @@ namespace Weapons
         {
             if (Time.time >= _weaponTimer)
             {
-                _weaponTimer = Time.time + 1 / _weaponData.fireRate * cadenceBoost;
+                _weaponTimer = Time.time + 1 / (_weaponData.fireRate * cadenceBoost);
                 WeaponAction(bulletScale, cadenceBoost, recoil);
             }
         }
