@@ -27,10 +27,10 @@ public class PersistantData : MonoBehaviour
     }
     public void LoadPersistantData()
     {
-        gameData = SaveLoadSystem.LoadData(GAME_DATA, true, new GameData());
-        settingsData = SaveLoadSystem.LoadData(SETTINGS_DATA, true, settingsData);
-        consumablesData = SaveLoadSystem.LoadData(CONSUMABLES_DATA, true, new ConsumablesValues());
-        persistantDataSaved = SaveLoadSystem.LoadData(PERSISTANT_DATA, true, new PersistantDataSaved());
+        gameData = SaveLoadSystem.LoadData(GAME_DATA, false, new GameData());
+        settingsData = SaveLoadSystem.LoadData(SETTINGS_DATA, false, settingsData);
+        consumablesData = SaveLoadSystem.LoadData(CONSUMABLES_DATA, false, new ConsumablesValues());
+        persistantDataSaved = SaveLoadSystem.LoadData(PERSISTANT_DATA, false, new PersistantDataSaved());
 
         persistantDataSaved.RemoveEmptySlot();
         persistantDataSaved.LoadUserBindingsDictionary();
@@ -40,12 +40,12 @@ public class PersistantData : MonoBehaviour
         SaveLoadSystem.Delete(GAME_DATA);
         gameData = new GameData();
     }
-    public void SaveConsumablesData() => SaveLoadSystem.SaveData(CONSUMABLES_DATA, consumablesData, true);
+    public void SaveConsumablesData() => SaveLoadSystem.SaveData(CONSUMABLES_DATA, consumablesData, false);
     private void OnDestroy()
     {
-        SaveLoadSystem.SaveData(GAME_DATA, gameData, true);
-        SaveLoadSystem.SaveData(SETTINGS_DATA, settingsData, true);
-        SaveLoadSystem.SaveData(PERSISTANT_DATA, persistantDataSaved, true);
+        SaveLoadSystem.SaveData(GAME_DATA, gameData, false);
+        SaveLoadSystem.SaveData(SETTINGS_DATA, settingsData, false);
+        SaveLoadSystem.SaveData(PERSISTANT_DATA, persistantDataSaved, false);
     }
 }
 

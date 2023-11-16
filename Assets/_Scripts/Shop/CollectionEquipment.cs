@@ -57,7 +57,7 @@ public class CollectionEquipment : MonoBehaviour
         Func<bool> isEquiped = () => currentCollection[_index] == persistantDataSaved.playerCosmeticEquiped || currentCollection[_index] == persistantDataSaved.presidentCosmeticEquiped;
 
         foreach (var item in _consumablesCollectionList.Distinct())
-            Instantiate(_consumableCollectionPrefab).SetParent(_consumableContent).SetImage(item.shoppableData.shopSprite).SetCount(_consumablesCollectionList.GroupBy(x => x).First(x => x.Key == item).Count());
+            Instantiate(_consumableCollectionPrefab).SetParent(_consumableContent).SetImage(item.shopSprite).SetCount(_consumablesCollectionList.GroupBy(x => x).First(x => x.Key == item).Count());
 
         _nextCosmetic.onClick.AddListener(() =>
         {
@@ -147,16 +147,16 @@ public class CollectionEquipment : MonoBehaviour
     {
         if (!cosmeticData) return;
 
-        _playerHead.sprite = cosmeticData.headSprite;
-        _playerTorso.sprite = cosmeticData.torsoSprite;
-        _playerRightLeg.sprite = cosmeticData.rightLegSprite;
-        _playerLeftLeg.sprite = cosmeticData.leftLegSprite;
-        _playerRightHand.sprite = cosmeticData.rightHandSprite;
-        _playerLeftHand.sprite = cosmeticData.leftHandSprite;
-        if (cosmeticData.tailSprite)
+        _playerHead.sprite = cosmeticData.HeadSprite;
+        _playerTorso.sprite = cosmeticData.TorsoSprite;
+        _playerRightLeg.sprite = cosmeticData.RightLegSprite;
+        _playerLeftLeg.sprite = cosmeticData.LeftLegSprite;
+        _playerRightHand.sprite = cosmeticData.RightHandSprite;
+        _playerLeftHand.sprite = cosmeticData.LeftHandSprite;
+        if (cosmeticData.TailSprite)
         {
             _playerTail.gameObject.SetActive(true);
-            _playerTail.sprite = cosmeticData.tailSprite;
+            _playerTail.sprite = cosmeticData.TailSprite;
         }
         else
         {
@@ -168,16 +168,16 @@ public class CollectionEquipment : MonoBehaviour
     {
         if (!cosmeticData) return;
 
-        _presidentHead.sprite = cosmeticData.headSprite;
-        _presidentTorso.sprite = cosmeticData.torsoSprite;
-        _presidentRightLeg.sprite = cosmeticData.rightLegSprite;
-        _presidentLeftLeg.sprite = cosmeticData.leftLegSprite;
-        _presidentRightHand.sprite = cosmeticData.rightHandSprite;
-        _presidentLeftHand.sprite = cosmeticData.leftHandSprite;
-        if (cosmeticData.tailSprite)
+        _presidentHead.sprite = cosmeticData.HeadSprite;
+        _presidentTorso.sprite = cosmeticData.TorsoSprite;
+        _presidentRightLeg.sprite = cosmeticData.RightLegSprite;
+        _presidentLeftLeg.sprite = cosmeticData.LeftLegSprite;
+        _presidentRightHand.sprite = cosmeticData.RightHandSprite;
+        _presidentLeftHand.sprite = cosmeticData.LeftHandSprite;
+        if (cosmeticData.TailSprite)
         {
             _presidentTail.gameObject.SetActive(true);
-            _presidentTail.sprite = cosmeticData.tailSprite;
+            _presidentTail.sprite = cosmeticData.TailSprite;
         }
         else
         {

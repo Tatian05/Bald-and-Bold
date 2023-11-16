@@ -16,7 +16,7 @@ public class ConsumableData : ShoppableSO
         base.OnStart();
         description = LanguageManager.Instance.GetTranslate(descriptionLocalizationID);
     }
-    public void SetConsumable(TextMeshProUGUI text, Image image) { text.text = description; image.sprite = shoppableData.shopSprite; }
+    public void SetConsumable(TextMeshProUGUI text, Image image) { text.text = description; image.sprite = shopSprite; }
     public override void Buy()
     {
         base.Buy();
