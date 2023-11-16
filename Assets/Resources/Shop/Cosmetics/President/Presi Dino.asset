@@ -17,13 +17,9 @@ MonoBehaviour:
     shoppableQuality: 2
     cost: 10
     localizationID: ID_SkinDino
-    shoppableName: Dino
-    shopSprite: {fileID: 21300000, guid: 7c1965af7633f6943bea09460b898fed, type: 3}
+    shopSpriteName: DisfrazPresidenteDino
   cosmeticType: 1
-  headSprite: {fileID: 21300000, guid: 7c1965af7633f6943bea09460b898fed, type: 3}
-  torsoSprite: {fileID: 21300000, guid: 351645b2f1896644baa5c4afbc13cde5, type: 3}
-  rightLegSprite: {fileID: 21300000, guid: 2a52b8d74f688be40aec42cbd0c97b91, type: 3}
-  leftLegSprite: {fileID: 21300000, guid: 2a52b8d74f688be40aec42cbd0c97b91, type: 3}
-  rightHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
-  leftHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
-  tailSprite: {fileID: 21300000, guid: 1f05a0c8827285b45af8d98e323d433d, type: 3}
+  torsoSpriteName: DisfrazPresidenteDinoTorso
+  rightLegSpriteName: DisfrazPresidenteDinoPie
+  leftLegSpriteName: DisfrazPresidenteDinoPie
+  tailSpriteName: DisfrazPresidenteDinoTorsoCola

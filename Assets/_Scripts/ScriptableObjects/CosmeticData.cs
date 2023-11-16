@@ -5,19 +5,38 @@ public enum CosmeticType { Player, President }
 public class CosmeticData : ShoppableSO
 {
     public CosmeticType cosmeticType;
-    public Sprite headSprite, torsoSprite, rightLegSprite, leftLegSprite, rightHandSprite, leftHandSprite, tailSprite;
-    public void SetCosmetic (Image headSprite, Image torsoSprite, Image rightLegSprite, Image leftLegSprite, Image rightHandSprite, Image leftHandSprite, Image tailSprite)
+    public string torsoSpriteName, rightLegSpriteName, leftLegSpriteName, tailSpriteName;
+    [System.NonSerialized] public string rightHandSpriteName = "Mano", leftHandSpriteName = "Mano";
+    Sprite _torsoSprite, _rightLegSprite, _leftLegSprite, _rightHandSprite, _leftHandSprite, _tailSprite;
+    public Sprite HeadSprite => shopSprite;
+    public Sprite TorsoSprite => _torsoSprite;
+    public Sprite RightLegSprite => _rightLegSprite;
+    public Sprite LeftLegSprite => _leftLegSprite;
+    public Sprite RightHandSprite => _rightHandSprite;
+    public Sprite LeftHandSprite => _leftHandSprite;
+    public Sprite TailSprite => _tailSprite;
+    public override void OnStart()
     {
-        headSprite.sprite = this.headSprite;
-        torsoSprite.sprite = this.torsoSprite;
-        rightLegSprite.sprite = this.rightLegSprite;
-        leftLegSprite.sprite = this.leftLegSprite;
-        rightHandSprite.sprite = this.rightHandSprite;
-        leftHandSprite.sprite = this.leftHandSprite;
-        if (this.tailSprite)
+        base.OnStart();
+        _torsoSprite = Resources.Load<Sprite>($"ShopSprites/Cosmetics/{torsoSpriteName}");
+        _rightLegSprite = Resources.Load<Sprite>($"ShopSprites/Cosmetics/{rightLegSpriteName}");
+        _leftLegSprite = Resources.Load<Sprite>($"ShopSprites/Cosmetics/{leftLegSpriteName}");
+        _rightHandSprite = Resources.Load<Sprite>($"ShopSprites/Cosmetics/{rightHandSpriteName}");
+        _leftHandSprite = Resources.Load<Sprite>($"ShopSprites/Cosmetics/{leftHandSpriteName}");
+        if (tailSpriteName != string.Empty) _tailSprite = Resources.Load<Sprite>($"ShopSprites/Cosmetics/{tailSpriteName}");
+    }
+    public void SetCosmetic(Image headSprite, Image torsoSprite, Image rightLegSprite, Image leftLegSprite, Image rightHandSprite, Image leftHandSprite, Image tailSprite)
+    {
+        headSprite.sprite = HeadSprite;
+        torsoSprite.sprite = _torsoSprite;
+        rightLegSprite.sprite = _rightLegSprite;
+        leftLegSprite.sprite = _leftLegSprite;
+        rightHandSprite.sprite = _rightHandSprite;
+        leftHandSprite.sprite = _leftHandSprite;
+        if (_tailSprite)
         {
             tailSprite.gameObject.SetActive(true);
-            tailSprite.sprite = this.tailSprite;
+            tailSprite.sprite = _tailSprite;
         }
         else
         {
