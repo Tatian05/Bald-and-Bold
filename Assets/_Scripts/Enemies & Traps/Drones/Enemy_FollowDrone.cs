@@ -16,7 +16,6 @@ public class Enemy_FollowDrone : Enemy
         _navMeshAgent.updateRotation = false;
         _navMeshAgent.updateUpAxis = false;
         _navMeshAgent.speed = _speed;
-        var playerTransform = Helpers.GameManager.Player.transform;
 
         idle = new State<DroneStates>("Idle");
         var lost = new State<DroneStates>("Lost");
@@ -42,7 +41,7 @@ public class Enemy_FollowDrone : Enemy
         lost.OnEnter += x => SetSign(true, _lostSign);
         lost.OnUpdate += delegate
         {
-            lostTimer += Time.deltaTime;
+            lostTimer += CustomTime.DeltaTime;
             if (lostTimer >= _enemyDataSO.lostTime) _myFsm.SendInput(DroneStates.Idle);
         };
         lost.OnExit += x => SetSign(false);
@@ -52,7 +51,7 @@ public class Enemy_FollowDrone : Enemy
         #region FOLLOW
 
         follow.OnEnter += x => SetSign(true, _agroSign);
-        follow.OnUpdate += delegate { _navMeshAgent.SetDestination(playerTransform.position); };
+        follow.OnUpdate += delegate { _navMeshAgent.speed = _speed * CustomTime.LocalTimeScale; _navMeshAgent.SetDestination(_enemyDataSO.playerPivot.position); };
         follow.OnExit += x => SetSign(false);
 
         #endregion
@@ -73,7 +72,7 @@ public class Enemy_FollowDrone : Enemy
     protected override void PlayerInvisibleConsumable(params object[] param)
     {
         _myFsm?.SendInput((bool)param[0] ? DroneStates.Lost : DroneStates.Idle);
-        _navMeshAgent.SetDestination(transform.position);
+        _navMeshAgent.ResetPath();
     }
     public override void ReturnObject()
     {

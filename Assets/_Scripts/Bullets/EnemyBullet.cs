@@ -3,7 +3,7 @@ public class EnemyBullet : Bullet
 {
     private void Update()
     {
-        transform.position += _direction.normalized * _speed * Time.deltaTime;
+        transform.position += _direction.normalized * _speed * CustomTime.DeltaTime;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

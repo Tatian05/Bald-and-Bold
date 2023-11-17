@@ -3,24 +3,29 @@ using UnityEngine;
 using System;
 public class QuestManager : MonoBehaviour
 {
-    [SerializeField] Mission[] _misions;
+    [SerializeField] QuestUINotificationManager _questUINotificationManager;
 
-    PersistantDataSaved _persistantDataSaved;
+    PersistantData _persistantData;
+    Task[] _tasks;
     private void OnEnable()
     {
-        _persistantDataSaved = Helpers.PersistantData.persistantDataSaved;
-        if (_persistantDataSaved.misions.Any()) _misions = _persistantDataSaved.misions;
+        _persistantData = Helpers.PersistantData;
+        if (_persistantData.tasks.tasks.Any()) _tasks = _persistantData.tasks.tasks;
 
         EventManager.SubscribeToEvent(Contains.MISSION_PROGRESS, SetProgressInMision);
     }
     public void SetProgressInMision(params object[] param)
     {
-        var quest = _misions.FirstOrDefault(x => x.questName.Equals((string)param[0]));
-        _misions[Array.IndexOf(_misions, quest)].AddProgress((int)param[1]);
+        var index = Array.IndexOf(_tasks, _tasks.FirstOrDefault(x => x.taskName.Equals((string)param[0])));
+        _tasks[index].AddProgress((int)param[1]);
+        if (_tasks[index].StageCompleted()) _questUINotificationManager.GetNotification().
+                                                      SetQuestName(_tasks[index].taskName).
+                                                      SetQuestStage(_tasks[index].currentStageIndex, _tasks[index].stages.Length).
+                                                      Init();
     }
     void SetMisions()
     {
-        Helpers.PersistantData.persistantDataSaved.misions = _misions;
+        Helpers.PersistantData.tasks.tasks = _tasks;
     }
     private void OnDestroy()
     {
@@ -29,16 +34,17 @@ public class QuestManager : MonoBehaviour
     }
 }
 
-[System.Serializable]
-public struct Mission
+[Serializable]
+public struct Task
 {
-    public string questName;
+    public string taskName, taskDescription;
     public int progress;
     public int[] stages;
     public int[] presiCoinsAward;
     public int[] goldenBaldCoinsAward;
     [HideInInspector] public int currentStageIndex;
     public void AddProgress(int amount) { progress += amount; }
+    public bool StageCompleted() => progress == stages[currentStageIndex];
     public bool CanReclaimMision() => progress >= stages[currentStageIndex];
     public void ReclaimMision()
     {
@@ -46,4 +52,5 @@ public struct Mission
         Helpers.PersistantData.persistantDataSaved.goldenBaldCoins += goldenBaldCoinsAward[currentStageIndex];
         currentStageIndex++;
     }
+    public float GetStageProgress() => progress / stages[currentStageIndex];
 }

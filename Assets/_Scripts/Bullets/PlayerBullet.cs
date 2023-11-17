@@ -12,7 +12,7 @@ public class PlayerBullet : Bullet
     }
     private void Update()
     {
-        transform.position += _direction.normalized * _speed * Time.deltaTime;
+        transform.position += _direction.normalized * _speed * CustomTime.DeltaTime;
 
         _dir = _lastPosition - transform.position;
         var raycast = Physics2D.CircleCast(transform.position, _checkRadius, _dir, _dir.magnitude, _bulletLayer);

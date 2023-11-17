@@ -38,7 +38,7 @@ public class Enemy_Ground_Ak : Enemy_Shooters
         PATROL.OnEnter += x => OnPatrolStart();
         PATROL.OnUpdate += () =>
         {
-            transform.position += _dir * _speed * Time.deltaTime;
+            transform.position += _dir * _speed * CustomTime.DeltaTime;
             if (Physics2D.Raycast(transform.position, transform.right, 1f, _groundLayer)) FlipEnemy();
             if (GetCanSeePlayer())
                 _myFSM.SendInput(AK_States.Attack);
@@ -75,7 +75,7 @@ public class Enemy_Ground_Ak : Enemy_Shooters
         LOST.OnEnter += x => SetSign(true, _lostSign);
         LOST.OnUpdate += delegate
         {
-            lostTimer += Time.deltaTime;
+            lostTimer += CustomTime.DeltaTime;
             if (lostTimer >= _enemyDataSO.lostTime) _myFSM.SendInput(AK_States.Patrol);
         };
         LOST.OnExit += x => SetSign(false);
@@ -116,7 +116,7 @@ public class Enemy_Ground_Ak : Enemy_Shooters
     {
         WeaponRot();
 
-        _currentAttackSpeed += Time.deltaTime;
+        _currentAttackSpeed += CustomTime.DeltaTime;
 
         if (_currentAttackSpeed > _attackSpeed)
         {

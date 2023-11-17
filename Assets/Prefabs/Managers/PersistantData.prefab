@@ -54,21 +54,53 @@ MonoBehaviour:
     levels: []
     deaths: 
   persistantDataSaved:
-    currentLanguageIndex: 0
-    generalVolume: 1
-    musicVolume: 1
-    sfxVolume: 1
     presiCoins: 0
     goldenBaldCoins: 0
     playerCosmeticEquiped: {fileID: 0}
     presidentCosmeticEquiped: {fileID: 0}
     playerCosmeticCollection: []
     presidentCosmeticCollection: []
-    consumablesEquiped: []
+    consumablesInCollection: []
     userBindingKeys: []
     userBindingValues: []
-    misions: []
-  settingsData: {fileID: 11400000, guid: 04333cbd9ff918149936bec84acef18b, type: 2}
+  settingsData:
+    currentLanguage: 0
+    generalVolume: 1
+    musicVolume: 1
+    sfxVolume: 1
+  tasks:
+    tasks:
+    - taskName: Kill Enemies
+      taskDescription: Mata enemigos
+      progress: 0
+      stages: 050000000f00000028000000
+      presiCoinsAward: 050000000f0000001e000000
+      goldenBaldCoinsAward: 010000000100000002000000
+      currentStageIndex: 0
+    - taskName: Golden Balds
+      taskDescription: Consigue todos los pelados de oro
+      progress: 0
+      stages: 08000000
+      presiCoinsAward: 0f000000
+      goldenBaldCoinsAward: 05000000
+      currentStageIndex: 0
+    - taskName: Get Over Zones
+      taskDescription: Desbloquea todas las zonas
+      progress: 0
+      stages: 08000000
+      presiCoinsAward: 28000000
+      goldenBaldCoinsAward: 04000000
+      currentStageIndex: 0
+  consumablesData:
+    cadenceBoost: 1
+    bulletScaleBoost: 1
+    knifeBoost: 1
+    recoil: 1
+    boots: 0
+    invisible: 0
+    hasMinigun: 0
+    consumablesActivated: []
+    consumablesActivatedTime: []
 --- !u!114 &6986544610262690710
 MonoBehaviour:
   m_ObjectHideFlags: 0

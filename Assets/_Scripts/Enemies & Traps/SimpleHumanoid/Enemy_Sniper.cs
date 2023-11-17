@@ -81,7 +81,7 @@ public class Enemy_Sniper : Enemy_Shooters
         LOAD_SHOOT.OnUpdate += delegate
         {
             sniperMat.SetColor("MainColor", MultiLerp(loadingAmmoTimer / _attackSpeed, _rayColors) * 5);
-            loadingAmmoTimer += Time.deltaTime;
+            loadingAmmoTimer += CustomTime.DeltaTime;
             WeaponRot();
             LookAtPlayer();
             if (!CanSeePlayer()) _myFSM.SendInput(SniperStates.Idle);
@@ -117,7 +117,7 @@ public class Enemy_Sniper : Enemy_Shooters
         LOST.OnEnter += x => SetSign(true, _lostSign);
         LOST.OnUpdate += delegate
         {
-            lostTimer += Time.deltaTime;
+            lostTimer += CustomTime.DeltaTime;
             if (lostTimer >= _enemyDataSO.lostTime) _myFSM.SendInput(SniperStates.Idle);
         };
         LOST.OnExit += x => SetSign(false);

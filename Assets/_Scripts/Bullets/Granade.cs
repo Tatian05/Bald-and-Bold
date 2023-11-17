@@ -8,6 +8,7 @@ public class Granade : MonoBehaviour
 
     float _gravityScale = 1.5f;
     float _fallGravityMultiplier = 3;
+    float _startMass, _startGravityScale;
     public float ThrowForce { get { return _throwForce; } }
 
     TrailRenderer _trail;
@@ -26,10 +27,12 @@ public class Granade : MonoBehaviour
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, ReturnGrenade);
         _trail = GetComponent<TrailRenderer>();
         _groundLayer = GameManager.instance.GroundLayer;
+        _startGravityScale = _rb.gravityScale;
+        _startMass = _rb.mass;
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
-        EventManager.UnSubscribeToEvent(Contains.PLAYER_DEAD, ReturnGrenade);   
+        EventManager.UnSubscribeToEvent(Contains.PLAYER_DEAD, ReturnGrenade);
     }
     private void Update()
     {

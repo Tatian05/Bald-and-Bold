@@ -22,7 +22,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         gameManager = Helpers.GameManager;
         _groundLayer = gameManager.BorderLayer;
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, ActionOnPlayerDead);
-        EventManager.SubscribeToEvent(Contains.CONSUMABLE_INVISIBLE, PlayerInvisibleConsumable);
+        EventManager.SubscribeToEvent(Contains.CONSUMABLE_INVISIBLE, PlayerInvisibleConsumable);      
 
         gameManager.EnemyManager.AddEnemy(this);
 
@@ -31,6 +31,12 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         if (!_renderer) _renderer = sprite.GetChild(0).GetComponent<SpriteRenderer>();
 
         if (Helpers.PersistantData.consumablesData.invisible) _enemyDataSO.playerPivot = null;
+    }
+    private void OnEnable()
+    {
+    }
+    private void OnDisable()
+    {      
     }
     protected virtual void OnDestroy()
     {

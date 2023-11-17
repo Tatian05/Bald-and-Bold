@@ -18,7 +18,7 @@ public class GrenadeExplosion : MonoBehaviour
         float timer = 0;
         while (timer <= _timeToReturn)
         {
-            timer += Time.deltaTime;
+            timer += CustomTime.DeltaTime;
             yield return null;
         }
         FRY_GrenadeExplosion.Instance.ReturnObject(this);

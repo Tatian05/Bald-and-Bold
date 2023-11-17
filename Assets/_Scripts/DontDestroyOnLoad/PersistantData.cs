@@ -6,12 +6,14 @@ public class PersistantData : MonoBehaviour
     public GameData gameData;
     public PersistantDataSaved persistantDataSaved;
     public Settings settingsData = new Settings { generalVolume = 1, musicVolume = 1, sfxVolume = 1 };
+    public Tasks tasks;
     public ConsumablesValues consumablesData;
 
     public const string GAME_DATA = "Mu9BoZZfUB";
     public const string PERSISTANT_DATA = "jM8SuzEYoW";
     public const string SETTINGS_DATA = "pZasipgofy";
     public const string CONSUMABLES_DATA = "ygWPKikIvb";
+    public const string TASKS = "EYeLxnrVvi";
 
     public static PersistantData Instance;
     private void Awake()
@@ -27,10 +29,11 @@ public class PersistantData : MonoBehaviour
     }
     public void LoadPersistantData()
     {
-        gameData = SaveLoadSystem.LoadData(GAME_DATA, false, new GameData());
-        settingsData = SaveLoadSystem.LoadData(SETTINGS_DATA, false, settingsData);
-        consumablesData = SaveLoadSystem.LoadData(CONSUMABLES_DATA, false, new ConsumablesValues());
-        persistantDataSaved = SaveLoadSystem.LoadData(PERSISTANT_DATA, false, new PersistantDataSaved());
+        gameData = SaveLoadSystem.LoadData(GAME_DATA, true, new GameData());
+        settingsData = SaveLoadSystem.LoadData(SETTINGS_DATA, true, settingsData);
+        consumablesData = SaveLoadSystem.LoadData(CONSUMABLES_DATA, true, new ConsumablesValues());
+        persistantDataSaved = SaveLoadSystem.LoadData(PERSISTANT_DATA, true, new PersistantDataSaved());
+        tasks = SaveLoadSystem.LoadData(TASKS, true, tasks);
 
         persistantDataSaved.RemoveEmptySlot();
         persistantDataSaved.LoadUserBindingsDictionary();
@@ -40,12 +43,13 @@ public class PersistantData : MonoBehaviour
         SaveLoadSystem.Delete(GAME_DATA);
         gameData = new GameData();
     }
-    public void SaveConsumablesData() => SaveLoadSystem.SaveData(CONSUMABLES_DATA, consumablesData, false);
+    public void SaveConsumablesData() => SaveLoadSystem.SaveData(CONSUMABLES_DATA, consumablesData, true);
     private void OnDestroy()
     {
-        SaveLoadSystem.SaveData(GAME_DATA, gameData, false);
-        SaveLoadSystem.SaveData(SETTINGS_DATA, settingsData, false);
-        SaveLoadSystem.SaveData(PERSISTANT_DATA, persistantDataSaved, false);
+        SaveLoadSystem.SaveData(GAME_DATA, gameData, true);
+        SaveLoadSystem.SaveData(SETTINGS_DATA, settingsData, true);
+        SaveLoadSystem.SaveData(PERSISTANT_DATA, persistantDataSaved, true);
+        SaveLoadSystem.SaveData(TASKS, tasks, true);
     }
 }
 
@@ -58,6 +62,14 @@ public struct Settings
     public void SetGeneralVolume(float volume) { generalVolume = volume; }
     public void SetMusicVolume(float volume) { musicVolume = volume; }
     public void SetSFXVolume(float volume) { sfxVolume = volume; }
+}
+
+[System.Serializable]
+public struct Tasks
+{
+    #region Quests
+    public Task[] tasks;
+    #endregion
 }
 
 [Serializable]
@@ -117,10 +129,6 @@ public class PersistantDataSaved
     public List<string> userBindingKeys = new List<string>();
     public List<string> userBindingValues = new List<string>();
     public Dictionary<string, string> userBindings = new Dictionary<string, string>();
-    #endregion
-
-    #region Quests
-    public Mission[] misions = new Mission[0];
     #endregion
 
     public void RemoveEmptySlot()

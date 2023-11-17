@@ -31,7 +31,7 @@ public class Enemy_KamikazeRobot : Enemy
             }
         };
 
-        DROP.OnUpdate += () => transform.position += -transform.up * _dropSpeed * Time.deltaTime;
+        DROP.OnUpdate += () => transform.position += -transform.up * _dropSpeed * CustomTime.DeltaTime;
 
         if (Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<KamikazeStates>(IDLE);
         else EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);

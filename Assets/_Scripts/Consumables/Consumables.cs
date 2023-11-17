@@ -14,7 +14,6 @@ namespace BaldAndBold.Consumables
         }
         protected virtual void Start()
         {
-            gameObject.GetComponentInChildren<Image>(false, true).sprite = _consumableData.shopSprite;
             _triggerButton.onClick.AddListener(TriggerConsumable);
             _persistantData = Helpers.PersistantData;
         }

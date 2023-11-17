@@ -30,7 +30,7 @@ public class Enemy_ShootingRobot : Enemy_Shooters
         IDLE.OnEnter += x => SetSign(false);
         IDLE.OnUpdate += delegate
         {
-            idleTimer += Time.deltaTime;
+            idleTimer += CustomTime.DeltaTime;
             if (idleTimer >= 3)
             {
                 _armPivot.DOLocalRotate(new Vector3(0, 0, Random.Range(0, -180)), .1f).SetEase(Ease.Linear);
@@ -66,7 +66,7 @@ public class Enemy_ShootingRobot : Enemy_Shooters
         LOST.OnEnter += x => SetSign(true, _lostSign);
         LOST.OnUpdate += delegate
         {
-            lostTimer += Time.deltaTime;
+            lostTimer += CustomTime.DeltaTime;
             if (lostTimer >= _enemyDataSO.lostTime) _myFSM.SendInput(ShootingRobot.Idle);
         };
         LOST.OnExit += x => SetSign(false);
@@ -85,7 +85,7 @@ public class Enemy_ShootingRobot : Enemy_Shooters
     void Update()
     {
         _myFSM?.Update();
-        transform.position += _dir * _speed * Time.deltaTime;
+        transform.position += _dir * _speed * CustomTime.DeltaTime;
         if (Physics2D.OverlapCircle(transform.position, .5f, _invisibleWallMask)) _dir *= -1;
     }
     protected override void PlayerInvisibleConsumable(params object[] param)
@@ -94,7 +94,7 @@ public class Enemy_ShootingRobot : Enemy_Shooters
     }
     void CalculateAttack()
     {
-        _currentAttackSpeed += Time.deltaTime;
+        _currentAttackSpeed += CustomTime.DeltaTime;
 
         if (_currentAttackSpeed > _attackSpeed)
         {

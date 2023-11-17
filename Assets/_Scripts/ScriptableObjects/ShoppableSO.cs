@@ -7,11 +7,11 @@ public abstract class ShoppableSO : ScriptableObject, IShoppable
     public ShoppableData shoppableData;
     Sprite _shopSprite;
     public Sprite shopSprite => _shopSprite;
-    public virtual void OnStart()
+    protected virtual void OnEnable()
     {
-        shoppableData.shoppableName = LanguageManager.Instance.GetTranslate(shoppableData.localizationID);
         _shopSprite = Resources.Load<Sprite>($"ShopSprites/{shoppableData.shopSpriteName}");
     }
+    public virtual void OnStart() { shoppableData.shoppableName = LanguageManager.Instance.GetTranslate(shoppableData.localizationID); }
     public virtual void Buy()
     {
         Helpers.PersistantData.persistantDataSaved.Buy(shoppableData.cost);

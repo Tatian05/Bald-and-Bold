@@ -57,7 +57,7 @@ public class Enemy_ChargeDrone : Enemy
         };
         WAIT_TO_CHARGE.OnUpdate += delegate
         {
-            currentIdleTime += Time.deltaTime;
+            currentIdleTime += CustomTime.DeltaTime;
             LookAtPlayer();
 
             if (currentIdleTime > _idleWaitTime) _myFSM.SendInput(ChargeDroneStates.LoadCharge);
@@ -86,14 +86,13 @@ public class Enemy_ChargeDrone : Enemy
             anim.Play("ChargeDrone_Charge");
             currentChargeDistance = 0;
         };
-
         CHARGE.OnUpdate += delegate
         {
-            currentChargeDistance += Time.deltaTime;
+            currentChargeDistance += CustomTime.DeltaTime;
             if (currentChargeDistance > _chargeDistance || Physics2D.Raycast(_spriteParentTransform.position, _spriteParentTransform.right, .6f, borderLayer))
                 _myFSM.SendInput(ChargeDroneStates.Idle);
 
-            transform.position += _spriteParentTransform.right * _chargeSpeed * Time.deltaTime;
+            transform.position += _spriteParentTransform.right * _chargeSpeed * CustomTime.DeltaTime;
         };
         CHARGE.OnExit += x => currentChargeDistance = 0;
 
@@ -104,7 +103,7 @@ public class Enemy_ChargeDrone : Enemy
         LOST.OnEnter += x => SetSign(true, _lostSign);
         LOST.OnUpdate += delegate
         {
-            lostTimer += Time.deltaTime;
+            lostTimer += CustomTime.DeltaTime;
             if (lostTimer >= _enemyDataSO.lostTime) _myFSM.SendInput(ChargeDroneStates.Idle);
         };
         LOST.OnExit += x => SetSign(false);

@@ -12,8 +12,7 @@ public class LevelTimerManager : MonoBehaviour
     public bool TrapStopped { get { return _stopTrap; } }
     public bool LevelStarted { get { return _timer > 0; } }
 
-    bool _stopTrap;
-    bool _firstTime;
+    bool _stopTrap, _firstTime, _wonLevel;
 
     public event Action RedButton;
     public event Action OnLevelDefeat;
@@ -53,16 +52,18 @@ public class LevelTimerManager : MonoBehaviour
         WaitForSeconds wait = new WaitForSeconds(_timeToDiscount);
         while (_timer <= _levelMaxTime)
         {
-            if (CustomTime.TimeScale <= 0) yield break;                            //Cuando pongo pausa
-            if (_stopTrap) yield return wait;                                  //Cuando muere un enemigo
+            if (_wonLevel) yield break;                                                                     //Cuando termina el nivel
+            if (_stopTrap || CustomTime.TimeScale <= 0) yield return wait;                                  //Cuando muere un enemigo
             _stopTrap = false;
             _timer += CustomTime.DeltaTime;
             yield return null;
         }
+        CustomTime.SetTimeScale(0f);
         OnLevelDefeat();
     }
     public void WinLevel()
     {
+        _wonLevel = true;
         CustomTime.SetTimeScale(0f);
         Helpers.GameManager.EnemyManager.OnEnemyKilled -= StopTrap;
     }

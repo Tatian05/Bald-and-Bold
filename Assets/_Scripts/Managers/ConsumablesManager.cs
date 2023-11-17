@@ -17,7 +17,7 @@ public class ConsumablesManager : MonoBehaviour
     {
         bool active = _consumableCollectionGO.activeSelf;
         _consumableCollectionGO.SetActive(active = !active);
-        CustomTime.SetTimeScale(_consumableCollectionGO ? 1f : 0f);
+        CustomTime.SetSlowDown(active ? .25f : 1f);
         EventManager.TriggerEvent(Contains.CONSUMABLE_PAUSE, active);
     }
     void ConsumableEffect(params object[] param)

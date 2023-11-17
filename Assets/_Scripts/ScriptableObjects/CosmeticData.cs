@@ -15,9 +15,9 @@ public class CosmeticData : ShoppableSO
     public Sprite RightHandSprite => _rightHandSprite;
     public Sprite LeftHandSprite => _leftHandSprite;
     public Sprite TailSprite => _tailSprite;
-    public override void OnStart()
+    override protected void OnEnable()
     {
-        base.OnStart();
+        base.OnEnable();
         _torsoSprite = Resources.Load<Sprite>($"ShopSprites/Cosmetics/{torsoSpriteName}");
         _rightLegSprite = Resources.Load<Sprite>($"ShopSprites/Cosmetics/{rightLegSpriteName}");
         _leftLegSprite = Resources.Load<Sprite>($"ShopSprites/Cosmetics/{leftLegSpriteName}");
