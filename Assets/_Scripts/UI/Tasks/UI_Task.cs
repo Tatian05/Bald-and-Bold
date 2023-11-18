@@ -4,11 +4,12 @@ using TMPro;
 public class UI_Task : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI _taskName, _taskDescription, _taskStage, _taskCurrentProgress, _taskGoldenBaldAward, _taskPresiCoinAward;
-    [SerializeField] Image _progressBar;
+    [SerializeField] Image _backgroundImg, _progressBar;
     [SerializeField] Button _reclaimButton;
 
     [SerializeField] Task _task;
     TaskUIManager _taskUIManager;
+    Color _noteColor;
     private void Start()
     {
         _reclaimButton.onClick.AddListener(ReclaimButton);
@@ -18,6 +19,7 @@ public class UI_Task : MonoBehaviour
     {
         _task = task;
         _reclaimButton.interactable = _task.CanReclaimMision();
+        if (_noteColor == default) _noteColor = Random.ColorHSV();
         return this;
     }
     public UI_Task SetTaskStats()
@@ -30,7 +32,7 @@ public class UI_Task : MonoBehaviour
         _taskPresiCoinAward.text = _task.presiCoinsAward[_task.currentStageIndex].ToString();
 
         _progressBar.fillAmount = (float)(_task.progress / (float)_task.stages[_task.currentStageIndex]);
-
+        _backgroundImg.color = _noteColor;
         return this;
     }
     void ReclaimButton()
