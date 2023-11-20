@@ -42,7 +42,8 @@ public struct Task
     public int[] stages;
     public int[] presiCoinsAward;
     public int[] goldenBaldCoinsAward;
-    [HideInInspector] public int currentStageIndex;
+    public int currentStageIndex;
+    public Color noteColor;
     public void AddProgress(int amount) { progress += amount; }
     public bool StageCompleted() => progress == stages[currentStageIndex];
     public bool CanReclaimMision() => progress >= stages[currentStageIndex];

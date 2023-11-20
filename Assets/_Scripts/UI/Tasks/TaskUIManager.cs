@@ -2,7 +2,6 @@ using UnityEngine;
 using TMPro;
 public class TaskUIManager : MonoBehaviour
 {
-    Task[] _totalTasks;
     [SerializeField] UI_Task _uiTaskPrefab;
     [SerializeField] Transform _tasksContainer;
     [SerializeField] TextMeshProUGUI _goldenBaldTxt, _presiCoinTxt;
@@ -10,9 +9,9 @@ public class TaskUIManager : MonoBehaviour
     private void Start()
     {
         _persistantData = Helpers.PersistantData;
-        _totalTasks = _persistantData.tasks.tasks;
         UpdateCoins();
-        foreach (var item in _totalTasks)
+
+        foreach (var item in _persistantData.tasks.tasks)
             Instantiate(_uiTaskPrefab, _tasksContainer).SetTask(item).SetTaskStats();
     }
 
@@ -21,4 +20,11 @@ public class TaskUIManager : MonoBehaviour
         _goldenBaldTxt.text = _persistantData.persistantDataSaved.goldenBaldCoins.ToString();
         _presiCoinTxt.text = _persistantData.persistantDataSaved.presiCoins.ToString();
     }
+}
+
+[System.Serializable]
+public struct UI_TaskVariables
+{
+    public int currentProgress, currentStageGoal, currentStage, ID;
+    [HideInInspector] public Vector3 randomRotation;
 }

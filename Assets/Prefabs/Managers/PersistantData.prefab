@@ -77,6 +77,7 @@ MonoBehaviour:
       presiCoinsAward: 050000000f0000001e000000
       goldenBaldCoinsAward: 010000000100000002000000
       currentStageIndex: 0
+      noteColor: {r: 0.764151, g: 0.32079923, b: 0.32079923, a: 1}
     - taskName: Golden Balds
       taskDescription: Consigue todos los pelados de oro
       progress: 0
@@ -84,6 +85,7 @@ MonoBehaviour:
       presiCoinsAward: 0f000000
       goldenBaldCoinsAward: 05000000
       currentStageIndex: 0
+      noteColor: {r: 0.19588822, g: 0.5849056, b: 0.30563438, a: 1}
     - taskName: Get Over Zones
       taskDescription: Desbloquea todas las zonas
       progress: 0
@@ -91,6 +93,20 @@ MonoBehaviour:
       presiCoinsAward: 28000000
       goldenBaldCoinsAward: 04000000
       currentStageIndex: 0
+      noteColor: {r: 0.20741367, g: 0.31856963, b: 0.5566038, a: 1}
+    UI_Task_Progress:
+    - currentProgress: 0
+      currentStageGoal: 0
+      currentStage: 0
+      ID: 0
+    - currentProgress: 0
+      currentStageGoal: 0
+      currentStage: 0
+      ID: 1
+    - currentProgress: 0
+      currentStageGoal: 0
+      currentStage: 0
+      ID: 2
   consumablesData:
     cadenceBoost: 1
     bulletScaleBoost: 1

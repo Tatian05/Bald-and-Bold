@@ -6,14 +6,14 @@ public class PersistantData : MonoBehaviour
     public GameData gameData;
     public PersistantDataSaved persistantDataSaved;
     public Settings settingsData = new Settings { generalVolume = 1, musicVolume = 1, sfxVolume = 1 };
-    public Tasks tasks;
+    public Tasks tasks = new Tasks { taskDictionary = new Dictionary<Task, UI_TaskVariables>() };
     public ConsumablesValues consumablesData;
 
-    public const string GAME_DATA = "Mu9BoZZfUB";
-    public const string PERSISTANT_DATA = "jM8SuzEYoW";
-    public const string SETTINGS_DATA = "pZasipgofy";
-    public const string CONSUMABLES_DATA = "ygWPKikIvb";
-    public const string TASKS = "EYeLxnrVvi";
+    const string GAME_DATA = "Mu9BoZZfUB";
+    const string PERSISTANT_DATA = "jM8SuzEYoW";
+    const string SETTINGS_DATA = "pZasipgofy";
+    const string CONSUMABLES_DATA = "ygWPKikIvb";
+    const string TASKS = "EYeLxnrVvi";
 
     public static PersistantData Instance;
     private void Awake()
@@ -37,6 +37,7 @@ public class PersistantData : MonoBehaviour
 
         persistantDataSaved.RemoveEmptySlot();
         persistantDataSaved.LoadUserBindingsDictionary();
+        tasks.LoadTaskDict();
     }
     public void DeletePersistantData()
     {
@@ -69,7 +70,18 @@ public struct Tasks
 {
     #region Quests
     public Task[] tasks;
+    public UI_TaskVariables[] UI_Task_Progress;
     #endregion
+
+    public Dictionary<Task, UI_TaskVariables> taskDictionary;
+    public void LoadTaskDict() => taskDictionary = tasks.DictioraryFromTwoLists(UI_Task_Progress);
+    public UI_TaskVariables GetTaskProgress(Task task) => taskDictionary[task];
+    public void SetTaskProgress(int index, Task task, UI_TaskVariables progress)
+    {
+        UI_Task_Progress[index] = progress;
+
+        taskDictionary[task] = progress;
+    }
 }
 
 [Serializable]
