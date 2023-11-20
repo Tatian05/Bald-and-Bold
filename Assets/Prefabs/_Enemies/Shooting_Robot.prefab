@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 5250010625951261869}
   - component: {fileID: 2216149675522220774}
   - component: {fileID: 6393687718619621660}
+  - component: {fileID: 18832154262148424}
   m_Layer: 10
   m_Name: Arm_Pivot
   m_TagString: Untagged
@@ -259,6 +260,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cursor: {fileID: 11400000, guid: 000df3e2938c74a409e2e0b58b4f38e0, type: 2}
+--- !u!114 &18832154262148424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 952616658770633415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20e9635a6943889419a755a4f10601b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyHealthData: {fileID: 11400000, guid: 0c97eb809a062624591c5f3aeb7fc627, type: 2}
+  _enemy: {fileID: 8099621557824360359}
+  _renderer: {fileID: 6241080711983746313}
 --- !u!1 &3855202971984020995
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,7 +472,6 @@ MonoBehaviour:
   sprite: {fileID: 3831697323236295537}
   _eyes: {fileID: 8707219334286018513}
   _isRobot: 1
-  _maxHp: 3
   _bulletSpawnPosition: {fileID: 2968109452215325368}
   _armPivot: {fileID: 8707219334286018513}
   _gunTransform: {fileID: 0}

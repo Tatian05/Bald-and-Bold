@@ -305,7 +305,7 @@ MonoBehaviour:
   - {x: -0.4508499, y: 0.44186878, z: 0}
   m_ShapePathHash: 1484441434
   m_Mesh: {fileID: 0}
-  m_InstanceId: 139128
+  m_InstanceId: 143814
 --- !u!114 &3811069208634687853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -549,6 +549,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1729968459251276775}
   - component: {fileID: 1729968459251276768}
+  - component: {fileID: 2501165664187744183}
   - component: {fileID: 1729968459251276769}
   - component: {fileID: 1729968459251276774}
   - component: {fileID: 197016592141189273}
@@ -596,7 +597,6 @@ MonoBehaviour:
   sprite: {fileID: 1729968459289125578}
   _eyes: {fileID: 1729968459289125578}
   _isRobot: 0
-  _maxHp: 3
   _bulletSpawnPosition: {fileID: 1729968458609842710}
   _armPivot: {fileID: 1729968457899327859}
   _gunTransform: {fileID: 1729968459514891706}
@@ -608,6 +608,21 @@ MonoBehaviour:
   _speed: 1
   _bulletsAmountToShoot: 3
   _bulletsDelay: 0.1
+--- !u!114 &2501165664187744183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729968459251276772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20e9635a6943889419a755a4f10601b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyHealthData: {fileID: 11400000, guid: b333c41d76809b64c9e23b59da3c4976, type: 2}
+  _enemy: {fileID: 1729968459251276768}
+  _renderer: {fileID: 1729968458583891516}
 --- !u!50 &1729968459251276769
 Rigidbody2D:
   serializedVersion: 4

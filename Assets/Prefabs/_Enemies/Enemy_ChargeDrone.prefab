@@ -4937,6 +4937,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4577552466452308581}
   - component: {fileID: 4577552466452308579}
+  - component: {fileID: 3982815001402352706}
   - component: {fileID: 8569081048855954912}
   - component: {fileID: 6764628499263606919}
   - component: {fileID: 3744447243503445511}
@@ -4984,11 +4985,25 @@ MonoBehaviour:
   sprite: {fileID: 8856837495568563153}
   _eyes: {fileID: 4577552466452308581}
   _isRobot: 1
-  _maxHp: 3
   _idleWaitTime: 1.5
   _chargeSpeed: 10
   _chargeDistance: 0.7
   _particles: {fileID: 1430734933}
+--- !u!114 &3982815001402352706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4577552466452308576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20e9635a6943889419a755a4f10601b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyHealthData: {fileID: 11400000, guid: a564a8ccea6f24946badb3b107652a83, type: 2}
+  _enemy: {fileID: 4577552466452308579}
+  _renderer: {fileID: 5011122896554927714}
 --- !u!61 &8569081048855954912
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5242,7 +5257,7 @@ MonoBehaviour:
   - {x: -0.35591245, y: 0.10646796, z: 0}
   m_ShapePathHash: -1816243603
   m_Mesh: {fileID: 0}
-  m_InstanceId: 138820
+  m_InstanceId: 143200
 --- !u!114 &921577784702968906
 MonoBehaviour:
   m_ObjectHideFlags: 0

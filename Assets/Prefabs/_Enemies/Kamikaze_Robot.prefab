@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 5219421288111025125}
   - component: {fileID: 5219421288111025122}
   - component: {fileID: 5219421288111025124}
+  - component: {fileID: 6757386262002888153}
   m_Layer: 10
   m_Name: Kamikaze_Robot
   m_TagString: Untagged
@@ -148,10 +149,24 @@ MonoBehaviour:
   sprite: {fileID: 8200238320928116133}
   _eyes: {fileID: 8200238320928116133}
   _isRobot: 1
-  _maxHp: 1
   _dropSpeed: 7
   _overlapCircleRadius: 1.5
   _dmg: 1
+--- !u!114 &6757386262002888153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5219421288111025123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20e9635a6943889419a755a4f10601b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyHealthData: {fileID: 11400000, guid: c7cba3e9f582f1948bf19040b5b83c53, type: 2}
+  _enemy: {fileID: 5219421288111025124}
+  _renderer: {fileID: 6302554394847641265}
 --- !u!1 &6093816695583462749
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,7 +278,7 @@ MonoBehaviour:
   - {x: -0.44740832, y: 0.25287962, z: 0}
   m_ShapePathHash: -1361071055
   m_Mesh: {fileID: 0}
-  m_InstanceId: 139380
+  m_InstanceId: 144714
 --- !u!114 &6048746220676528147
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -16,20 +16,6 @@ public class Trap_Mine : Enemy
     {
         _isInCoroutine = true;
         _damageOnTriggerGO.SetActive(true);
-        StartCoroutine(DestroyMine());
-    }
-    public override void Die()
-    {
-        gameManager.EnemyManager.RemoveEnemy(this);
-        gameManager.EffectsManager.EnemyKilled(transform.position, _isRobot);
-
-        Destroy(_parentGO);
-    }
-
-    IEnumerator DestroyMine()
-    {
-        yield return new WaitForEndOfFrame();
-        Die();
     }
 
     protected override void PlayerInvisibleConsumable(params object[] param)

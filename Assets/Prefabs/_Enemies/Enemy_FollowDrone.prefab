@@ -81,6 +81,7 @@ GameObject:
   m_Component:
   - component: {fileID: 68006992061707084}
   - component: {fileID: 68006992061707087}
+  - component: {fileID: 8187282746424599505}
   - component: {fileID: 68006992061707086}
   - component: {fileID: 3457241579775586435}
   - component: {fileID: 4863777136005537084}
@@ -129,8 +130,22 @@ MonoBehaviour:
   sprite: {fileID: 68006992591922971}
   _eyes: {fileID: 68006992061707084}
   _isRobot: 1
-  _maxHp: 2
   _speed: 1
+--- !u!114 &8187282746424599505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68006992061707081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20e9635a6943889419a755a4f10601b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyHealthData: {fileID: 11400000, guid: d6549e967de610047ab66513e4ea56ff, type: 2}
+  _enemy: {fileID: 68006992061707087}
+  _renderer: {fileID: 713020059076569521}
 --- !u!61 &68006992061707086
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -294,7 +309,7 @@ MonoBehaviour:
   - {x: -0.40056157, y: 0.25308445, z: 0}
   m_ShapePathHash: -1881616195
   m_Mesh: {fileID: 0}
-  m_InstanceId: 138976
+  m_InstanceId: 143394
 --- !u!114 &78638533807671175
 MonoBehaviour:
   m_ObjectHideFlags: 0

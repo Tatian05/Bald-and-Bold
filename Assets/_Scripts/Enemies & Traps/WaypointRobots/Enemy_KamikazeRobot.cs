@@ -7,12 +7,14 @@ public class Enemy_KamikazeRobot : Enemy
     [SerializeField] float _dmg;
 
     bool _isDropping;
+    EnemyHealth _enemyHealth;
     enum KamikazeStates { Idle, Drop }
     EventFSM<KamikazeStates> _myFSM;
     State<KamikazeStates> IDLE;
     public override void Start()
     {
         base.Start();
+        _enemyHealth = GetComponentInChildren<EnemyHealth>();
         IDLE = new State<KamikazeStates>("IDLE");
         var DROP = new State<KamikazeStates>("DROP");
 
@@ -45,7 +47,7 @@ public class Enemy_KamikazeRobot : Enemy
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(sprite.position, _overlapCircleRadius);
+        Gizmos.DrawWireSphere(_eyes.position, _overlapCircleRadius);
     }
     protected override void PlayerInvisibleConsumable(params object[] param)
     {
@@ -55,7 +57,7 @@ public class Enemy_KamikazeRobot : Enemy
     {
         if (!_isDropping || collision.CompareTag("Bullet") || collision.gameObject.layer == 25) return;
 
-        Die();
+        _enemyHealth.Die();
 
         if (collision.TryGetComponent(out IDamageable player))
         {
@@ -63,7 +65,7 @@ public class Enemy_KamikazeRobot : Enemy
             return;
         }
 
-        var overlap = Physics2D.OverlapCircleAll(sprite.position, _overlapCircleRadius, gameManager.PlayerLayer).
+        var overlap = Physics2D.OverlapCircleAll(_eyes.position, _overlapCircleRadius, gameManager.PlayerLayer).
                       Where(x => Physics2D.Raycast(_eyes.position, DistanceToPlayer(), _overlapCircleRadius)).FirstOrDefault();
 
         if (overlap && overlap.TryGetComponent(out player))
