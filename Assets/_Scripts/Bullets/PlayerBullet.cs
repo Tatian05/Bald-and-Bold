@@ -31,6 +31,7 @@ public class PlayerBullet : Bullet
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _checkRadius);
     }
+
     #region BUILDER
     public PlayerBullet SetDirection(Vector2 direction)
     {
