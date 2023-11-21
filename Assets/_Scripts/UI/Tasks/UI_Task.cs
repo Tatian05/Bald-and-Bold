@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using System.Collections;
+
 public class UI_Task : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI _taskName, _taskDescription, _taskStage, _taskCurrentProgress, _taskGoldenBaldAward, _taskPresiCoinAward;
@@ -13,12 +15,13 @@ public class UI_Task : MonoBehaviour
     UI_TaskVariables _variables;
 
     Vector3 _randomRot;
-    private void Start()
+    Tween _tween;
+    IEnumerator Start()
     {
         _reclaimButton.onClick.AddListener(ReclaimButton);
         _taskUIManager = GetComponentInParent<TaskUIManager>();
-
-        Invoke(nameof(SetTaskStats), 1f);
+        if (_tween == null) yield break;
+        yield return new WaitUntil(() => !_tween.active);
 
         Helpers.PersistantData.tasks.SetTaskProgress(_variables.ID, _task, _variables);
     }
@@ -27,7 +30,8 @@ public class UI_Task : MonoBehaviour
         _task = task;
         _variables = Helpers.PersistantData.tasks.GetTaskProgress(_task);
         _reclaimButton.interactable = _task.CanReclaimMision();
-        if(_variables.randomRotation == Vector3.zero) _variables.randomRotation = new Vector3(0, 0, Random.Range(-10, 11));
+        if (_variables.currentStageGoal <= 0) _variables.currentStageGoal = _task.stages[_variables.currentStage];
+        if (_variables.randomRotation == Vector3.zero) _variables.randomRotation = new Vector3(0, 0, Random.Range(-10, 11));
         transform.eulerAngles = _variables.randomRotation;
         return this;
     }
@@ -36,27 +40,28 @@ public class UI_Task : MonoBehaviour
         _taskName.text = _task.taskName;
         _taskDescription.text = _task.taskDescription;
         _taskStage.text = $"{_variables.currentStage + 1}/ {_task.stages.Length}";
-        _taskCurrentProgress.text = $"{_variables.currentProgress}/ {_variables.currentStageGoal}";
+        _taskCurrentProgress.text = $"{(int)_variables.currentProgress}/ {_variables.currentStageGoal}";
         _taskGoldenBaldAward.text = _task.goldenBaldCoinsAward[_task.currentStageIndex].ToString();
         _taskPresiCoinAward.text = _task.presiCoinsAward[_task.currentStageIndex].ToString();
 
         _backgroundImg.color = _task.noteColor;
-        _progressBar.fillAmount = (float)_variables.currentProgress / (float)_variables.currentStageGoal;
+        _progressBar.fillAmount = _variables.currentProgress / _variables.currentStageGoal;
         float currentProgress = _variables.currentProgress;
-        var tweenTime = (_task.progress - currentProgress) / 10;
-
+        var tweenTime = (_task.progress - currentProgress) * .1f;
         if (tweenTime <= 0) return;
 
-        DOTween.To(() => _variables.currentProgress, x => x = _variables.currentProgress = x, _task.progress, tweenTime).SetEase(Ease.InOutQuart).OnUpdate(() =>
+        _tween = DOTween.To(() => _variables.currentProgress, x => x = _variables.currentProgress = x, _task.progress, tweenTime).SetEase(Ease.InOutQuart).OnUpdate(() =>
         {
+            _progressBar.fillAmount = _variables.currentProgress / _variables.currentStageGoal;
             if (_variables.currentProgress >= _variables.currentStageGoal)
             {
                 _variables.currentStage++;
+                _variables.currentProgress -= _variables.currentStageGoal;
                 _variables.currentStageGoal = _task.stages[_variables.currentStage];
                 _taskStage.text = $"{_variables.currentStage + 1}/ {_task.stages.Length}";
             }
-            _taskCurrentProgress.text = $"{_variables.currentProgress}/ {_variables.currentStageGoal}";
-            _progressBar.fillAmount = (float)_variables.currentProgress / _variables.currentStageGoal;
+            Debug.Log(_variables.currentProgress);
+            _taskCurrentProgress.text = $"{(int)_variables.currentProgress}/ {_variables.currentStageGoal}";
         });
     }
     void ReclaimButton()

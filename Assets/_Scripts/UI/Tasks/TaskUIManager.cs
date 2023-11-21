@@ -25,6 +25,7 @@ public class TaskUIManager : MonoBehaviour
 [System.Serializable]
 public struct UI_TaskVariables
 {
-    public int currentProgress, currentStageGoal, currentStage, ID;
+    public int currentStageGoal, currentStage, ID;
+    public float currentProgress;
     [HideInInspector] public Vector3 randomRotation;
 }

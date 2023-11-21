@@ -6,11 +6,11 @@ public class QuestManager : MonoBehaviour
     [SerializeField] QuestUINotificationManager _questUINotificationManager;
 
     PersistantData _persistantData;
-    Task[] _tasks;
-    private void OnEnable()
+    [SerializeField] Task[] _tasks;
+    private void Start()
     {
         _persistantData = Helpers.PersistantData;
-        if (_persistantData.tasks.tasks.Any()) _tasks = _persistantData.tasks.tasks;
+        if (_persistantData.tasks.tasks != null && _persistantData.tasks.tasks.Any()) _tasks = _persistantData.tasks.tasks;
 
         EventManager.SubscribeToEvent(Contains.MISSION_PROGRESS, SetProgressInMision);
     }
@@ -29,6 +29,7 @@ public class QuestManager : MonoBehaviour
     }
     private void OnDestroy()
     {
+        if (!enabled) return;
         SetMisions();
         EventManager.UnSubscribeToEvent(Contains.MISSION_PROGRESS, SetProgressInMision);
     }
