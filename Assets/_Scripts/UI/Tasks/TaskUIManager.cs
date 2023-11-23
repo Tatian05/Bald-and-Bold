@@ -11,7 +11,7 @@ public class TaskUIManager : MonoBehaviour
         _persistantData = Helpers.PersistantData;
         UpdateCoins();
 
-        foreach (var item in _persistantData.tasks.tasks)
+        foreach (var item in Helpers.PersistantData.tasksSO)
             Instantiate(_uiTaskPrefab, _tasksContainer).SetTask(item).SetStats();
     }
 
@@ -25,7 +25,7 @@ public class TaskUIManager : MonoBehaviour
 [System.Serializable]
 public struct UI_TaskVariables
 {
-    public int currentStageGoal, currentStage, ID;
+    public int currentStageGoal, currentStage;
     public float currentProgress;
     [HideInInspector] public Vector3 randomRotation;
 }

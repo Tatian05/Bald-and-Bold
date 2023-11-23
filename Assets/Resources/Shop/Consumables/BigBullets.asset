@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b622517f6edcd574293c55cb1e808843, type: 3}
-  m_Name: Botas Reforzadas
+  m_Name: BigBullets
   m_EditorClassIdentifier: 
   shoppableData:
     shoppableType: 1
     shoppableQuality: 0
     cost: 5
-    localizationID: ID_Boots
-    shopSpriteName: Boots
+    localizationID: ID_BigBullets
+    shopSpriteName: BigBullets
   description: Not Found
-  consumablePrefab: {fileID: 4870124190114539066, guid: 5b7bad33ea25eb04ba1eeae01d2aff8a, type: 3}
-  consumableDuration: 60
+  consumableDuration: 180
   descriptionLocalizationID: 

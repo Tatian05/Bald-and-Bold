@@ -1,5 +1,4 @@
 using BaldAndBold.Consumables;
-using System.Collections;
 using UnityEngine;
 public class ConsumablesCanvasContainer : MonoBehaviour
 {
@@ -15,7 +14,7 @@ public class ConsumablesCanvasContainer : MonoBehaviour
 
         if (consumablesActive.Count > 0)
             foreach (var item in consumablesActive)
-                ActivateConsumableUI(item.Key.consumablePrefab, item.Value);
+                ActivateConsumableUI(item.Key.Consumable, item.Value);
     }
     public void ActivateConsumableUI(params object[] param)
     {

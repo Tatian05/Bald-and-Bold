@@ -23,7 +23,7 @@ public class ConsumableSelector : MonoBehaviour
         if (!coll.Any()) return;
 
         foreach (var item in coll)
-            Instantiate(item.consumablePrefab).SetParent(_content);
+            Instantiate(item.Consumable).SetParent(_content);
 
         _consumablesInventory = _content.GetComponentsInChildren<Consumables>().ToList();
         SetPositions();
@@ -40,8 +40,8 @@ public class ConsumableSelector : MonoBehaviour
     {
         if (!_consumablesInventory.Any()) return;
 
-        _consumablesInventory[0].transform.DOScale(1.5f, .1f);
-        _consumablesInventory[0].transform.DOMove(transform.position + Vector3.zero, .2f).OnComplete(() => { _leftArrow.interactable = true; _rightArrow.interactable = true; });
+        _consumablesInventory[0].transform.DOScale(1.5f, .1f).SetUpdate(true);
+        _consumablesInventory[0].transform.DOMove(transform.position + Vector3.zero, .2f).SetUpdate(true).OnComplete(() => { _leftArrow.interactable = true; _rightArrow.interactable = true; });
         _consumablesInventory[0].SetInteractableButton(true);
         _consumablesInventory.ForEach(x =>
         {
@@ -55,9 +55,9 @@ public class ConsumableSelector : MonoBehaviour
                 if (index >= _consumablesInventory.Count - 2)
                     x.transform.position = transform.position + new Vector3(_currentOffset, 0);
                 else
-                    x.transform.DOMove(transform.position + new Vector3(_currentOffset, 0), .2f);
+                    x.transform.DOMove(transform.position + new Vector3(_currentOffset, 0), .2f).SetUpdate(true);
 
-                if (transform.localScale.magnitude != 1) x.transform.DOScale(Vector3.one, .2f);
+                if (transform.localScale.magnitude != 1) x.transform.DOScale(Vector3.one, .2f).SetUpdate(true);
 
                 x.SetInteractableButton(false);
             }

@@ -69,55 +69,8 @@ MonoBehaviour:
     musicVolume: 1
     sfxVolume: 1
   tasks:
-    tasks:
-    - taskName: Kill Enemies
-      taskDescription: Mata enemigos
-      progress: 0
-      totalProgress: 0
-      stages: 050000000f00000028000000
-      presiCoinsAward: 050000000f0000001e000000
-      goldenBaldCoinsAward: 010000000100000002000000
-      currentStageIndex: 0
-      noteColor: {r: 0.764151, g: 0.32079923, b: 0.32079923, a: 1}
-    - taskName: Golden Balds
-      taskDescription: Consigue todos los pelados de oro
-      progress: 0
-      totalProgress: 0
-      stages: 08000000
-      presiCoinsAward: 0f000000
-      goldenBaldCoinsAward: 05000000
-      currentStageIndex: 0
-      noteColor: {r: 0.19588822, g: 0.5849056, b: 0.30563438, a: 1}
-    - taskName: Get Over Zones
-      taskDescription: Desbloquea todas las zonas
-      progress: 0
-      totalProgress: 0
-      stages: 08000000
-      presiCoinsAward: 28000000
-      goldenBaldCoinsAward: 04000000
-      currentStageIndex: 0
-      noteColor: {r: 0.20741367, g: 0.31856963, b: 0.5566038, a: 1}
-    UI_Task_Progress:
-    - currentStageGoal: 0
-      currentStage: 0
-      ID: 0
-      currentProgress:
-      - 0
-      - 0
-      - 0
-      randomRotation: {x: 0, y: 0, z: 0}
-    - currentStageGoal: 0
-      currentStage: 0
-      ID: 1
-      currentProgress:
-      - 0
-      randomRotation: {x: 0, y: 0, z: 0}
-    - currentStageGoal: 0
-      currentStage: 0
-      ID: 2
-      currentProgress:
-      - 0
-      randomRotation: {x: 0, y: 0, z: 0}
+    tasksProgress: []
+    UI_Task_Progress: []
   consumablesData:
     cadenceBoost: 1
     bulletScaleBoost: 1
@@ -128,6 +81,10 @@ MonoBehaviour:
     hasMinigun: 0
     consumablesActivated: []
     consumablesActivatedTime: []
+  tasksSO:
+  - {fileID: 11400000, guid: c496b0398dc8b8f47bef2b6e6bc5b3fa, type: 2}
+  - {fileID: 11400000, guid: 9e2391543fc7cc04a999cfb8341b5c15, type: 2}
+  - {fileID: 11400000, guid: 32bfa74f229ca1b49957b6a192342fae, type: 2}
 --- !u!114 &6986544610262690710
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b622517f6edcd574293c55cb1e808843, type: 3}
-  m_Name: Big Bullets
+  m_Name: Melee
   m_EditorClassIdentifier: 
   shoppableData:
     shoppableType: 1
     shoppableQuality: 0
     cost: 5
-    localizationID: ID_BigBullets
-    shopSpriteName: BigBullets
+    localizationID: 
+    shopSpriteName: Melee
   description: Not Found
-  consumablePrefab: {fileID: 1947363630564692317, guid: d1c9cf76b8d7a994cbbcd83c7fdb3b86, type: 3}
-  consumableDuration: 180
+  consumablePrefab: {fileID: 3629820500913999718, guid: 52f73a81b199ca542b2a25b0b9175169, type: 3}
+  consumableDuration: 60
   descriptionLocalizationID: 

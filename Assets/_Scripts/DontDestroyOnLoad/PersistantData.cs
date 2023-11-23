@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 public class PersistantData : MonoBehaviour
 {
     public GameData gameData;
     public PersistantDataSaved persistantDataSaved;
     public Settings settingsData = new Settings { generalVolume = 1, musicVolume = 1, sfxVolume = 1 };
-    public Tasks tasks = new Tasks { taskDictionary = new Dictionary<Task, UI_TaskVariables>() };
+    public Tasks tasks;
     public ConsumablesValues consumablesData;
+    public TaskSO[] tasksSO;
 
     const string GAME_DATA = "Mu9BoZZfUB";
     const string PERSISTANT_DATA = "jM8SuzEYoW";
@@ -33,11 +35,13 @@ public class PersistantData : MonoBehaviour
         settingsData = SaveLoadSystem.LoadData(SETTINGS_DATA, true, settingsData);
         consumablesData = SaveLoadSystem.LoadData(CONSUMABLES_DATA, true, new ConsumablesValues());
         persistantDataSaved = SaveLoadSystem.LoadData(PERSISTANT_DATA, true, new PersistantDataSaved());
-        tasks = SaveLoadSystem.LoadData(TASKS, true, tasks);
+        tasks = SaveLoadSystem.LoadData(TASKS, true, new Tasks { tasksProgress = new TaskProgress[tasksSO.Length],
+                                                                 UI_Task_Progress = new UI_TaskVariables[tasksSO.Length] });
 
         persistantDataSaved.RemoveEmptySlot();
         persistantDataSaved.LoadUserBindingsDictionary();
-        tasks.LoadTaskDict();
+
+        foreach (var item in tasksSO) item.taskProgress = tasks.GetTaskProgress(item.ID);
     }
     public void DeletePersistantData()
     {
@@ -47,6 +51,7 @@ public class PersistantData : MonoBehaviour
     public void SaveConsumablesData() => SaveLoadSystem.SaveData(CONSUMABLES_DATA, consumablesData, true);
     private void OnDestroy()
     {
+        tasks.SetTaskProgress(tasksSO);
         SaveLoadSystem.SaveData(GAME_DATA, gameData, true);
         SaveLoadSystem.SaveData(SETTINGS_DATA, settingsData, true);
         SaveLoadSystem.SaveData(PERSISTANT_DATA, persistantDataSaved, true);
@@ -69,19 +74,13 @@ public struct Settings
 public struct Tasks
 {
     #region Quests
-    public Task[] tasks;
+    public TaskProgress[] tasksProgress;
     public UI_TaskVariables[] UI_Task_Progress;
     #endregion
-
-    public Dictionary<Task, UI_TaskVariables> taskDictionary;
-    public void LoadTaskDict() => taskDictionary = tasks.DictioraryFromTwoLists(UI_Task_Progress);
-    public UI_TaskVariables GetTaskProgress(Task task) => taskDictionary[task];
-    public void SetTaskProgress(int index, Task task, UI_TaskVariables progress)
-    {
-        UI_Task_Progress[index] = progress;
-
-        taskDictionary[task] = progress;
-    }
+    public UI_TaskVariables GetUITaskProgress(int index) => UI_Task_Progress[index];
+    public TaskProgress GetTaskProgress(int index) => tasksProgress[index];
+    public void SetUITaskProgress(int index, UI_TaskVariables progress) => UI_Task_Progress[index] = progress;
+    public void SetTaskProgress(TaskSO[] taskSO) => tasksProgress = taskSO.Select(x => x.taskProgress).ToArray();
 }
 
 [Serializable]

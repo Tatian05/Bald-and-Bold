@@ -318,7 +318,7 @@ MonoBehaviour:
   - {x: -0.5, y: 0.2, z: 0}
   m_ShapePathHash: -1906480883
   m_Mesh: {fileID: 0}
-  m_InstanceId: 568828
+  m_InstanceId: 66538
 --- !u!1 &859833147576569514
 GameObject:
   m_ObjectHideFlags: 0
@@ -884,7 +884,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _questUINotificationManager: {fileID: 6991624344374692607}
-  _tasks: []
+  tasks:
+  - {fileID: 11400000, guid: c496b0398dc8b8f47bef2b6e6bc5b3fa, type: 2}
+  - {fileID: 11400000, guid: 9e2391543fc7cc04a999cfb8341b5c15, type: 2}
+  - {fileID: 11400000, guid: 32bfa74f229ca1b49957b6a192342fae, type: 2}
 --- !u!114 &5359452173132561555
 MonoBehaviour:
   m_ObjectHideFlags: 0

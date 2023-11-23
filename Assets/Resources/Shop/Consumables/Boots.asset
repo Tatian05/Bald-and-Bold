@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b622517f6edcd574293c55cb1e808843, type: 3}
-  m_Name: More Mele
+  m_Name: Boots
   m_EditorClassIdentifier: 
   shoppableData:
     shoppableType: 1
     shoppableQuality: 0
     cost: 5
-    localizationID: 
-    shopSpriteName: Melee
+    localizationID: ID_Boots
+    shopSpriteName: Boots
   description: Not Found
-  consumablePrefab: {fileID: 3629820500913999718, guid: 52f73a81b199ca542b2a25b0b9175169, type: 3}
+  consumablePrefab: {fileID: 4870124190114539066, guid: 5b7bad33ea25eb04ba1eeae01d2aff8a, type: 3}
   consumableDuration: 60
   descriptionLocalizationID: 

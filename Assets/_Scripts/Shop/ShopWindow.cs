@@ -170,6 +170,6 @@ public class ShopWindow : MonoBehaviour
     {
         var consumable = (ConsumableData)_shoppableSelected;
         _consumableImage.enabled = true;
-        consumable.SetConsumable(_consumableDescription, _consumableImage);
+        consumable.SetShopConsumable(_consumableDescription, _consumableImage);
     }
 }

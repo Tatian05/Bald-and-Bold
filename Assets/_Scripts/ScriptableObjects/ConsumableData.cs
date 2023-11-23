@@ -8,15 +8,22 @@ public class ConsumableData : ShoppableSO
 {
     [Header("Consumable Variables")]
     [HideInInspector] public string description;
-    public Consumables consumablePrefab;
     public float consumableDuration;
     public string descriptionLocalizationID;
+
+    Consumables _consumable;
+    public Consumables Consumable => _consumable;
     public override void OnStart()
     {
         base.OnStart();
         description = LanguageManager.Instance.GetTranslate(descriptionLocalizationID);
     }
-    public void SetConsumable(TextMeshProUGUI text, Image image) { text.text = description; image.sprite = shopSprite; }
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        _consumable = Resources.Load<Consumables>($"ConsumablePrefabs/Consumable_{name}");
+    }
+    public void SetShopConsumable(TextMeshProUGUI text, Image image) { text.text = description; image.sprite = shopSprite; }
     public override void Buy()
     {
         base.Buy();
