@@ -17,10 +17,9 @@ public class QuestManager : MonoBehaviour
     public void SetProgressInMision(params object[] param)
     {
         var index = Array.IndexOf(_tasks, _tasks.FirstOrDefault(x => x.taskName.Equals((string)param[0])));
-        _tasks[index].AddProgress((int)param[1]);
-        if (_tasks[index].StageCompleted()) _questUINotificationManager.GetNotification().
+        if (_tasks[index].AddProgressAndStageCompleted((int)param[1])) _questUINotificationManager.GetNotification().
                                                       SetQuestName(_tasks[index].taskName).
-                                                      SetQuestStage(_tasks[index].currentStageIndex, _tasks[index].stages.Length).
+                                                      SetQuestStage(_tasks[index].currentStageIndex - 1, _tasks[index].stages.Length).
                                                       Init();
     }
     void SetMisions()
@@ -39,14 +38,25 @@ public class QuestManager : MonoBehaviour
 public struct Task
 {
     public string taskName, taskDescription;
-    public int progress;
+    public int progress, totalProgress;
     public int[] stages;
     public int[] presiCoinsAward;
     public int[] goldenBaldCoinsAward;
     public int currentStageIndex;
     public Color noteColor;
-    public void AddProgress(int amount) { progress += amount; }
-    public bool StageCompleted() => progress == stages[currentStageIndex];
+    public bool AddProgressAndStageCompleted(int amount)
+    {
+        progress += amount;
+        totalProgress += amount;
+        if (progress >= stages[currentStageIndex])
+        {
+            var diff = progress - stages[currentStageIndex];
+            progress += diff;
+            currentStageIndex++;
+            return true;
+        }
+        return false;
+    }
     public bool CanReclaimMision() => progress >= stages[currentStageIndex];
     public void ReclaimMision()
     {

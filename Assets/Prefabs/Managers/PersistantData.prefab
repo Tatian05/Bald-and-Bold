@@ -73,6 +73,7 @@ MonoBehaviour:
     - taskName: Kill Enemies
       taskDescription: Mata enemigos
       progress: 0
+      totalProgress: 0
       stages: 050000000f00000028000000
       presiCoinsAward: 050000000f0000001e000000
       goldenBaldCoinsAward: 010000000100000002000000
@@ -81,6 +82,7 @@ MonoBehaviour:
     - taskName: Golden Balds
       taskDescription: Consigue todos los pelados de oro
       progress: 0
+      totalProgress: 0
       stages: 08000000
       presiCoinsAward: 0f000000
       goldenBaldCoinsAward: 05000000
@@ -89,24 +91,33 @@ MonoBehaviour:
     - taskName: Get Over Zones
       taskDescription: Desbloquea todas las zonas
       progress: 0
+      totalProgress: 0
       stages: 08000000
       presiCoinsAward: 28000000
       goldenBaldCoinsAward: 04000000
       currentStageIndex: 0
       noteColor: {r: 0.20741367, g: 0.31856963, b: 0.5566038, a: 1}
     UI_Task_Progress:
-    - currentProgress: 0
-      currentStageGoal: 0
+    - currentStageGoal: 0
       currentStage: 0
       ID: 0
-    - currentProgress: 0
-      currentStageGoal: 0
+      currentProgress:
+      - 0
+      - 0
+      - 0
+      randomRotation: {x: 0, y: 0, z: 0}
+    - currentStageGoal: 0
       currentStage: 0
       ID: 1
-    - currentProgress: 0
-      currentStageGoal: 0
+      currentProgress:
+      - 0
+      randomRotation: {x: 0, y: 0, z: 0}
+    - currentStageGoal: 0
       currentStage: 0
       ID: 2
+      currentProgress:
+      - 0
+      randomRotation: {x: 0, y: 0, z: 0}
   consumablesData:
     cadenceBoost: 1
     bulletScaleBoost: 1

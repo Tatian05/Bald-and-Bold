@@ -12,7 +12,7 @@ public class TaskUIManager : MonoBehaviour
         UpdateCoins();
 
         foreach (var item in _persistantData.tasks.tasks)
-            Instantiate(_uiTaskPrefab, _tasksContainer).SetTask(item).SetTaskStats();
+            Instantiate(_uiTaskPrefab, _tasksContainer).SetTask(item).SetStats();
     }
 
     public void UpdateCoins()
