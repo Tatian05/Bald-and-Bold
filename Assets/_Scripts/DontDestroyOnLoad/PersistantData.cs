@@ -58,15 +58,27 @@ public class PersistantData : MonoBehaviour
         SaveLoadSystem.SaveData(TASKS, tasks, true);
     }
 
-    [ContextMenu("Delete Files")]
-    public void DeleteFiles()
+    public void BorrarProgresoDeNiveles()
     {
         SaveLoadSystem.Delete(GAME_DATA);
+    }
+    public void BorrarAjustes()
+    {
         SaveLoadSystem.Delete(SETTINGS_DATA);
+    }
+    public void BorrarSkinsYWeas()
+    {
         SaveLoadSystem.Delete(PERSISTANT_DATA);
+    }
+    public void BorrarConsumiblesActivados()
+    {
         SaveLoadSystem.Delete(CONSUMABLES_DATA);
+    }
+    public void BorrarProgresoDeTareas()
+    {
         SaveLoadSystem.Delete(TASKS);
     }
+
 }
 
 [Serializable]

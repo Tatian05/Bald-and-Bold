@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Task", menuName = "New Task")]
+[System.Serializable]
 public class TaskSO : ScriptableObject
 {
     public TaskProgress taskProgress;

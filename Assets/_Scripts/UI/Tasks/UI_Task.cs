@@ -17,12 +17,11 @@ public class UI_Task : MonoBehaviour
     int[] _points;
     System.Action _uiTaskAnimation;
     float _lerpTime, _lerpGoal;
-    Animator _animator;
+    [SerializeField]Animator _animator, _noteMaskAnimator;
     void Start()
     {
         _reclaimButton.onClick.AddListener(ReclaimButton);
         _taskUIManager = GetComponentInParent<TaskUIManager>();
-        _animator = GetComponentInParent<Animator>();
     }
     public UI_Task SetTask(TaskSO task)
     {
@@ -99,6 +98,7 @@ public class UI_Task : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         _animator.Play("NoteTakeOff");
+        _noteMaskAnimator.Play("NoteMask");
     }
     void ReclaimButton()
     {

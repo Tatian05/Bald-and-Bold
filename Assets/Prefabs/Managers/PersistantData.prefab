@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1520184938380114089}
-  - component: {fileID: 1948077365993056737}
-  - component: {fileID: 6986544610262690710}
+  - component: {fileID: 2739781973959394680}
+  - component: {fileID: 3748602147031419994}
   m_Layer: 0
   m_Name: PersistantData
   m_TagString: Untagged
@@ -32,60 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1948077365993056737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1520184938380114091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e91771b3b1cac8145be6b5cdd1bcc59d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameData:
-    unlockedZones: 0
-    currentLevel: 1
-    gameMode: 0
-    firstTime: 1
-    firstTimeLevelsMap: 1
-    currentDeaths: 0
-    levels: []
-    deaths: 
-  persistantDataSaved:
-    presiCoins: 0
-    goldenBaldCoins: 0
-    playerCosmeticEquiped: {fileID: 0}
-    presidentCosmeticEquiped: {fileID: 0}
-    playerCosmeticCollection: []
-    presidentCosmeticCollection: []
-    consumablesInCollection: []
-    userBindingKeys: []
-    userBindingValues: []
-  settingsData:
-    currentLanguage: 0
-    generalVolume: 1
-    musicVolume: 1
-    sfxVolume: 1
-  tasks:
-    tasksProgress: []
-    UI_Task_Progress: []
-  consumablesData:
-    cadenceBoost: 1
-    bulletScaleBoost: 1
-    knifeBoost: 1
-    recoil: 1
-    boots: 0
-    invisible: 0
-    hasMinigun: 0
-    consumablesActivated: []
-    consumablesActivatedTime: []
-  tasksSO:
-  - {fileID: 11400000, guid: c496b0398dc8b8f47bef2b6e6bc5b3fa, type: 2}
-  - {fileID: 11400000, guid: 9e2391543fc7cc04a999cfb8341b5c15, type: 2}
-  - {fileID: 11400000, guid: 32bfa74f229ca1b49957b6a192342fae, type: 2}
---- !u!114 &6986544610262690710
+--- !u!114 &2739781973959394680
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -171,3 +118,56 @@ MonoBehaviour:
     currentDeathsInZone: 0
     ID: 7
   lastLevelsZone: []
+--- !u!114 &3748602147031419994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520184938380114091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e91771b3b1cac8145be6b5cdd1bcc59d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameData:
+    unlockedZones: 0
+    currentLevel: 1
+    gameMode: 0
+    firstTime: 1
+    firstTimeLevelsMap: 1
+    currentDeaths: 0
+    levels: []
+    deaths: 
+  persistantDataSaved:
+    presiCoins: 0
+    goldenBaldCoins: 0
+    playerCosmeticEquiped: {fileID: 0}
+    presidentCosmeticEquiped: {fileID: 0}
+    playerCosmeticCollection: []
+    presidentCosmeticCollection: []
+    consumablesInCollection: []
+    userBindingKeys: []
+    userBindingValues: []
+  settingsData:
+    currentLanguage: 0
+    generalVolume: 1
+    musicVolume: 1
+    sfxVolume: 1
+  tasks:
+    tasksProgress: []
+    UI_Task_Progress: []
+  consumablesData:
+    cadenceBoost: 1
+    bulletScaleBoost: 1
+    knifeBoost: 1
+    recoil: 1
+    boots: 0
+    invisible: 0
+    hasMinigun: 0
+    consumablesActivated: []
+    consumablesActivatedTime: []
+  tasksSO:
+  - {fileID: 11400000, guid: c496b0398dc8b8f47bef2b6e6bc5b3fa, type: 2}
+  - {fileID: 11400000, guid: 9e2391543fc7cc04a999cfb8341b5c15, type: 2}
+  - {fileID: 11400000, guid: 32bfa74f229ca1b49957b6a192342fae, type: 2}
