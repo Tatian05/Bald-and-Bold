@@ -1,6 +1,8 @@
 using UnityEngine;
 public enum ShoppableType { Cosmetic, Consumable, BulletTrail }
 public enum ShoppableQuality { Normal, Rare, Epic }
+
+[System.Serializable]
 public abstract class ShoppableSO : ScriptableObject, IShoppable
 {
     [Header("Base Shoppable Variables")]

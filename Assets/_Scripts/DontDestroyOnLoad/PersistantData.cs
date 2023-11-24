@@ -57,6 +57,16 @@ public class PersistantData : MonoBehaviour
         SaveLoadSystem.SaveData(PERSISTANT_DATA, persistantDataSaved, true);
         SaveLoadSystem.SaveData(TASKS, tasks, true);
     }
+
+    [ContextMenu("Delete Files")]
+    public void DeleteFiles()
+    {
+        SaveLoadSystem.Delete(GAME_DATA);
+        SaveLoadSystem.Delete(SETTINGS_DATA);
+        SaveLoadSystem.Delete(PERSISTANT_DATA);
+        SaveLoadSystem.Delete(CONSUMABLES_DATA);
+        SaveLoadSystem.Delete(TASKS);
+    }
 }
 
 [Serializable]
