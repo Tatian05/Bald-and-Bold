@@ -40,6 +40,7 @@ public class PersistantData : MonoBehaviour
 
         persistantDataSaved.RemoveEmptySlot();
         persistantDataSaved.LoadUserBindingsDictionary();
+        persistantDataSaved.LoadCosmeticsCollection();
 
         foreach (var item in tasksSO) item.taskProgress = tasks.GetTaskProgress(item.ID);
     }
@@ -143,6 +144,8 @@ public class PersistantDataSaved
     [Header("Coins")]
     public int presiCoins, goldenBaldCoins;
 
+    public List<CosmeticData> cosmeticsInCollection;
+
     #region Cosmetics
     [Header("Cosmetics")]
     public CosmeticData playerCosmeticEquiped;
@@ -200,6 +203,7 @@ public class PersistantDataSaved
     }
     public string GetBind(string key) => userBindings.ContainsKey(key) ? userBindings[key] : string.Empty;
     public void LoadUserBindingsDictionary() { userBindings = userBindingKeys.DictioraryFromTwoLists(userBindingValues); }
+    public void LoadCosmeticsCollection() { cosmeticsInCollection = playerCosmeticCollection.Concat(presidentCosmeticCollection).ToList(); }
 }
 
 [Serializable]

@@ -9,9 +9,9 @@ public class ShopItem : MonoBehaviour
     [SerializeField] Image _cosmeticImg;
     [SerializeField] TextMeshProUGUI _shoppableSONameTxt;
     [SerializeField] TextMeshProUGUI _inCollectionTxt;
-    public void SetInCollection()
+    public void SetInCollection(bool inCollection)
     {
-        _shoppableSO.Buy();
+        if (!inCollection) _shoppableSO.Buy();
         if (_shoppableSO is ConsumableData) return;
 
         GetComponent<Button>().interactable = false;
@@ -24,7 +24,8 @@ public class ShopItem : MonoBehaviour
         _shoppableSO = shoppableSO;
         _shoppableSO.OnStart();
         _cosmeticImg.sprite = _shoppableSO.shopSprite;
-        _shoppableSONameTxt.text = _shoppableSO.shoppableData.shoppableName;
+        _shoppableSONameTxt.text = _shoppableSO.shoppableName;
+        transform.localScale = Vector3.one;
         return this;
     }
 

@@ -5,9 +5,10 @@ public class PlayerShop : MonoBehaviour
 {
     [SerializeField] float _speedMovement;
     [SerializeField] GameObject _shopCanvas, _collectionCanvas;
+    [SerializeField] Gachapon _gachapon;
 
     Animator _animator;
-    bool _onShopTrigger, _onProbadorTrigger;
+    bool _onShopTrigger, _onProbadorTrigger, _onGachaTrigger;
     InputAction _interact, _movement;
     Vector3 _movementInputs;
     void Start()
@@ -18,6 +19,7 @@ public class PlayerShop : MonoBehaviour
 
         _interact.performed += OpenShop;
         _interact.performed += OpenProbador;
+        _interact.performed += PlayGachapon;
 
         _interact.Enable();
         _movement.Enable();
@@ -37,14 +39,25 @@ public class PlayerShop : MonoBehaviour
         if (_movementInputs.magnitude != 0)
             transform.eulerAngles = _movementInputs.x < 0 ? new Vector3(0, 180, 0) : Vector3.zero;
     }
+    void PlayGachapon(InputAction.CallbackContext obj)
+    {
+        if (!_onGachaTrigger) return;
+
+        _gachapon.Gacha();
+    }
     void OpenShop(InputAction.CallbackContext obj)
     {
         if (!_onShopTrigger) return;
 
-        _shopCanvas.SetActive(true);
-        _interact.Disable();
-        _movement.Disable();
+        if (_shopCanvas.activeSelf)
+        {
+            ResetState();
+            _shopCanvas.GetComponent<WindowsAnimation>().OnWindowClose();
+            return;
+        }
 
+        _shopCanvas.SetActive(true);
+        _movement.Disable();
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
     }
@@ -52,10 +65,15 @@ public class PlayerShop : MonoBehaviour
     {
         if (!_onProbadorTrigger) return;
 
-        _collectionCanvas.SetActive(true);
-        _interact.Disable();
-        _movement.Disable();
+        if (_collectionCanvas.activeSelf)
+        {
+            ResetState();
+            _collectionCanvas.GetComponent<WindowsAnimation>().OnWindowClose();
+            return;
+        }
 
+        _collectionCanvas.SetActive(true);
+        _movement.Disable();
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
     }
@@ -74,18 +92,28 @@ public class PlayerShop : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.GetComponent<ShowKeyUI>() && collision.transform.parent.name == "Seller") _onShopTrigger = true;
+        if (collision.GetComponent<ShowKeyUI>() && collision.transform.parent.CompareTag("Seller")) _onShopTrigger = true;
 
-        if (collision.GetComponent<ShowKeyUI>() && collision.transform.parent.name == "Probador") _onProbadorTrigger = true;
+        if (collision.GetComponent<ShowKeyUI>() && collision.transform.parent.CompareTag("Probador")) _onProbadorTrigger = true;
+
+        if (collision.GetComponent<ShowKeyUI>() && collision.transform.parent.CompareTag("Gachapon")) _onGachaTrigger = true;
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.GetComponent<ShowKeyUI>() && collision.transform.parent.name == "Seller") _onShopTrigger = false;
+        if (collision.GetComponent<ShowKeyUI>() && collision.transform.parent.CompareTag("Seller")) _onShopTrigger = false;
 
-        if (collision.GetComponent<ShowKeyUI>() && collision.transform.parent.name == "Probador") _onProbadorTrigger = false;
+        if (collision.GetComponent<ShowKeyUI>() && collision.transform.parent.CompareTag("Probador")) _onProbadorTrigger = false;
+
+        if (collision.GetComponent<ShowKeyUI>() && collision.transform.parent.CompareTag("Gachapon")) _onGachaTrigger = false;
     }
     private void OnDestroy()
     {
+        _interact.performed -= OpenShop;
+        _interact.performed -= OpenProbador;
+        _interact.performed -= PlayGachapon;
+
+        _interact.Disable();
+        _movement.Disable();
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
     }

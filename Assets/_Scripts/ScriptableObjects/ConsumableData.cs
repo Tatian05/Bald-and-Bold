@@ -23,7 +23,11 @@ public class ConsumableData : ShoppableSO
         base.OnEnable();
         _consumable = Resources.Load<Consumables>($"ConsumablePrefabs/Consumable_{name}");
     }
-    public void SetShopConsumable(TextMeshProUGUI text, Image image) { text.text = description; image.sprite = shopSprite; }
+    public void SetShopConsumable(TextMeshProUGUI descriptionTxt, TextMeshProUGUI durationTxt, Image image) {
+        descriptionTxt.text = description;
+        durationTxt.text = $"{consumableDuration}s";
+        image.sprite = shopSprite;
+    }
     public override void Buy()
     {
         base.Buy();
