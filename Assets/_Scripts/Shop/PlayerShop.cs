@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 public class PlayerShop : MonoBehaviour
 {
     [SerializeField] float _speedMovement;
@@ -88,7 +87,12 @@ public class PlayerShop : MonoBehaviour
     void PlayAnimation(float xAxis) => _animator.SetInteger("xAxis", (int)Mathf.Abs(xAxis));
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<NextSceneOnTrigger>()) PlayAnimation(0);
+        if (collision.GetComponent<NextSceneOnTrigger>())
+        {
+            PlayAnimation(0);
+            _interact.Disable();
+            _movement.Disable();
+        }
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
