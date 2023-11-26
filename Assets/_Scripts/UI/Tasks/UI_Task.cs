@@ -3,13 +3,12 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 using System.Collections;
-
 public class UI_Task : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI _taskName, _taskDescription, _taskStage, _taskCurrentProgress, _taskGoldenBaldAward, _taskPresiCoinAward;
-    [SerializeField] Image _backgroundImg, _progressBar;
-    [SerializeField] Button _reclaimButton;
+    [SerializeField] Image _backgroundImg, _fakeMaskImg, _progressBar;
     [SerializeField] AnimationCurve _animationCurve;
+    [SerializeField] Animator _animator, _noteMaskAnimator;
 
     TaskUIManager _taskUIManager;
     TaskSO _task;
@@ -17,17 +16,14 @@ public class UI_Task : MonoBehaviour
     int[] _points;
     System.Action _uiTaskAnimation;
     float _lerpTime, _lerpGoal;
-    [SerializeField]Animator _animator, _noteMaskAnimator;
     void Start()
     {
-        _reclaimButton.onClick.AddListener(ReclaimButton);
         _taskUIManager = GetComponentInParent<TaskUIManager>();
     }
     public UI_Task SetTask(TaskSO task)
     {
         _task = task;
         _variables = Helpers.PersistantData.tasks.GetUITaskProgress(_task.ID);
-        _reclaimButton.interactable = _task.CanReclaimMision();
         if (_variables.currentStageGoal <= 0) _variables.currentStageGoal = _task.stages[_variables.currentStage];
         if (_variables.randomRotation == Vector3.zero) _variables.randomRotation = new Vector3(0, 0, Random.Range(-10, 11));
         transform.eulerAngles = _variables.randomRotation;
@@ -44,6 +40,8 @@ public class UI_Task : MonoBehaviour
         _taskPresiCoinAward.text = _task.presiCoinsAward[_variables.currentStage].ToString();
 
         _backgroundImg.color = _task.noteColor;
+        _fakeMaskImg.color = _task.noteColor;
+
         _progressBar.fillAmount = _variables.currentProgress / _variables.currentStageGoal;
 
         _points = _task.stages.Skip(_variables.currentStage).Take(_task.taskProgress.currentStage.Equals(_variables.currentStage) ? 1 : _task.taskProgress.currentStage - _variables.currentStage).ToArray();
@@ -53,7 +51,7 @@ public class UI_Task : MonoBehaviour
         _lerpTime = _lerpGoal * .5f;
 
         _uiTaskAnimation = UIAnimation;
-
+        Helpers.PersistantData.tasks.SetUITaskProgress(_task.ID, _variables);
         return this;
     }
     private void Update()
@@ -74,7 +72,7 @@ public class UI_Task : MonoBehaviour
 
         if (_variables.currentProgress >= _variables.currentStageGoal)
         {
-            if(_variables.currentProgress >= _task.stages.Last())
+            if (_variables.currentProgress >= _task.stages.Last())
             {
                 StartCoroutine(PlayAnimation());
                 _uiTaskAnimation = null;
@@ -84,8 +82,9 @@ public class UI_Task : MonoBehaviour
             _variables.currentStageGoal = _task.stages[_variables.currentStage];
             _taskStage.text = $"{_variables.currentStage + 1}/ {_task.stages.Length}";
             _variables.currentProgress = 0;
-            _taskGoldenBaldAward.text  = _task.goldenBaldCoinsAward[_variables.currentStage].ToString();
+            _taskGoldenBaldAward.text = _task.goldenBaldCoinsAward[_variables.currentStage].ToString();
             _taskPresiCoinAward.text = _task.presiCoinsAward[_variables.currentStage].ToString();
+            _taskUIManager.UpdateCoins();
         }
 
         if (_variables.currentStage >= _points.Length - 1 && _variables.currentProgress >= _points[_points.Length - 1])
