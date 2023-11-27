@@ -32,7 +32,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable, IEnemy
 
     public virtual void Die()
     {
-        _gameManager.EnemyManager.OnWeaponEnemyDeath(_withWeaponKilled);
+        if (_withWeaponKilled != null) _gameManager.EnemyManager.OnWeaponEnemyDeath(_withWeaponKilled);
         _gameManager.EnemyManager.RemoveEnemy(_enemy);
         _enemy.ReturnObject();
 

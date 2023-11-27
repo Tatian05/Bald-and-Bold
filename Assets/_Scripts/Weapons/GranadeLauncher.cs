@@ -6,7 +6,8 @@ public class GranadeLauncher : FireWeapon
                                             SetDamage(_weaponData.damage).
                                             SetPosition(_bulletSpawn.position).
                                             SetDirection(transform.right).
-                                            SetScale(bulletScale);
+                                            SetScale(bulletScale).
+                                            SetWeaponName(_weaponData.weaponName);
         granade.ThrowGranade();
     }
 }

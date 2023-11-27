@@ -17,10 +17,8 @@ public class PersistantData : SingletonPersistent<PersistantData>
     const string CONSUMABLES_DATA = "ygWPKikIvb";
     const string TASKS = "EYeLxnrVvi";
 
-    override protected void Awake()
+    private void Start()
     {
-        base.Awake();
-
         LoadPersistantData();
     }
     public void LoadPersistantData()

@@ -52,7 +52,6 @@ public class EnemyManager : BaseEnemyManager
     }
     public void OnWeaponEnemyDeath(string weaponName)
     {
-        Debug.Log(weaponName);
         if (!_weaponEnemyDeath.ContainsKey(weaponName)) _weaponEnemyDeath.Add(weaponName, 0);
 
         _weaponEnemyDeath[weaponName]++;
@@ -67,7 +66,10 @@ public class EnemyManager : BaseEnemyManager
         EventManager.TriggerEvent(Contains.MISSION_PROGRESS, "Kill Enemies", _enemiesInLevel);
 
         foreach (var item in _weaponEnemyDeath)
+        {
+            Debug.Log($"{item.Key} -- {item.Value}");
             EventManager.TriggerEvent(Contains.MISSION_PROGRESS, item.Key, item.Value);
+        }
     }
     void InvisibleConsumable(params object[] param) { _enemyDataSO.playerPivot = (bool)param[0] ? null : _gameManager.Player.CenterPivot; }
 }

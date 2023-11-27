@@ -17,6 +17,7 @@ public class Granade : MonoBehaviour
     float _damage;
     LayerMask _groundLayer;
     Vector3 _initialScale = Vector3.one;
+    string _weaponName;
     bool _falling => _rb.velocity.y < 0;
     private void Awake()
     {
@@ -82,8 +83,8 @@ public class Granade : MonoBehaviour
         {
             if (IsBlocked(item.position, _groundLayer)) continue;
             item.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
-            var breakable = item.GetComponent<IDamageable>();
-            if (breakable != null) breakable.TakeDamage(_damage);
+            if(item.TryGetComponent(out IEnemy enemy)) enemy.SetWeaponKilled(_weaponName);
+            if(item.TryGetComponent(out IDamageable damageable)) damageable.TakeDamage(_damage);
         }
     }
 
@@ -119,6 +120,11 @@ public class Granade : MonoBehaviour
     public Granade SetScale(float scale)
     {
         transform.localScale = _initialScale * scale;
+        return this;
+    }
+    public Granade SetWeaponName(string weaponName)
+    {
+        _weaponName = weaponName;
         return this;
     }
 

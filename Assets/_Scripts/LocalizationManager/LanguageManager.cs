@@ -9,7 +9,7 @@ public enum Languages
     eng,
     spa
 }
-public class LanguageManager : MonoBehaviour
+public class LanguageManager : SingletonPersistent<LanguageManager>
 {
     [HideInInspector] public Languages selectedLanguage;
 
@@ -17,18 +17,6 @@ public class LanguageManager : MonoBehaviour
     Dictionary<Languages, Dictionary<string, string>> _languageManager;
 
     public Action OnUpdate = delegate { };
-
-    public static LanguageManager Instance;
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-            Destroy(gameObject);
-    }
     private void Start()
     {
         StartCoroutine(DownloadCSV(_externalURL));
