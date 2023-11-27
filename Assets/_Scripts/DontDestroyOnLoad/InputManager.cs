@@ -2,23 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
-public class InputManager : MonoBehaviour
+public class InputManager : SingletonPersistent<InputManager>
 {
-    public static InputManager Instance;
     public KeyData[] _keysData;
     Dictionary<string, KeyCode> _buttonKeys;
     Dictionary<string, Tuple<Sprite, Sprite>> _buttonKeysData;
     List<KeyCode> _keysAllowed;
     public List<KeyCode> KeysAllowed { get { return _keysAllowed; } }
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else Destroy(gameObject);
-    }
     private void OnEnable()
     {
         _buttonKeys = new Dictionary<string, KeyCode>();

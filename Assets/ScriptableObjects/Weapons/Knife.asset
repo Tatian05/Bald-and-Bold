@@ -13,11 +13,8 @@ MonoBehaviour:
   m_Name: Knife
   m_EditorClassIdentifier: 
   weaponType: 1
+  weaponName: Knife
   fireRate: 2.5
-  recoilDuration: 0
-  recoilForce: 0
-  recoilWeaponRot: 0
-  recoilWeaponRotDuration: 0
   damage: 1
   initialAmmo: 0
   mainSprite: {fileID: 4176362632249098406, guid: 743e0a7b747dfbd498fa96f335bace4d, type: 3}
@@ -26,5 +23,10 @@ MonoBehaviour:
   weaponSoundName: Weapon_Knife
   bulletExplosion: {fileID: 0}
   bulletSpeed: 0
+  recoilDuration: 0
+  recoilForce: 0
+  recoilWeaponRot: 0
+  recoilWeaponRotDuration: 0
+  currentCadence: 2.5
   attackRange: 0.06
   knifeSpeed: 25

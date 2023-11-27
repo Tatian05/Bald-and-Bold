@@ -13,13 +13,9 @@ MonoBehaviour:
   m_Name: Rifle
   m_EditorClassIdentifier: 
   weaponType: 0
+  weaponName: Rifle
   fireRate: 8
-  recoilDuration: 0.1
-  recoilForce: 0.2
-  recoilWeaponRot: 5
-  recoilWeaponRotDuration: 0.5
   damage: 1
-  currentCadence: 8
   initialAmmo: 30
   mainSprite: {fileID: 21300000, guid: 14947fa32cd245e48b783ea98cd0ed09, type: 3}
   selectedSprite: {fileID: 21300000, guid: 735f3efaaca344343bdc45116649fc70, type: 3}
@@ -27,5 +23,10 @@ MonoBehaviour:
   weaponSoundName: Weapon_Rifle
   bulletExplosion: {fileID: 0}
   bulletSpeed: 20
+  recoilDuration: 0.1
+  recoilForce: 0.2
+  recoilWeaponRot: 5
+  recoilWeaponRotDuration: 0.5
+  currentCadence: 8
   attackRange: 0
   knifeSpeed: 0

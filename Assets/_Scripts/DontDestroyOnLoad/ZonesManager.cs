@@ -1,19 +1,8 @@
-using UnityEngine;
 using System.Linq;
-public class ZonesManager : MonoBehaviour
+public class ZonesManager : SingletonPersistent<ZonesManager>
 {
-    public static ZonesManager Instance;
     public Zone[] zones;
     public string[] lastLevelsZone;
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else Destroy(gameObject);
-    }
     private void Start()
     {
         lastLevelsZone = new string[zones.Length - 1];

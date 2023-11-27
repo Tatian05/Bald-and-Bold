@@ -6,8 +6,6 @@ using UnityEngine.Experimental.Rendering.Universal;
 
 public class LevelLightsManager : MonoBehaviour
 {
-    public static LevelLightsManager Instance;
-
     Action OnUpdate;
 
     StateMachine _fsm;
@@ -30,11 +28,6 @@ public class LevelLightsManager : MonoBehaviour
     public bool LightsAreBlinking { get { return _lightsAreBlinking; } private set { } }
 
     List<BrokenLight> _brokenLights;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
     private void Start()
     {
         _lights = GetComponentsInChildren<Light2D>().ToList();

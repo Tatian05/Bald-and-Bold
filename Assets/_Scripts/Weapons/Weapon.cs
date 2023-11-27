@@ -57,9 +57,9 @@ namespace Weapons
         public abstract void WeaponAction();
         IEnumerator FindGameManager()
         {
-            while (GameManager.instance == null) yield return null;
+            while (Helpers.GameManager == null) yield return null;
 
-            _gameManager = GameManager.instance;
+            _gameManager = Helpers.GameManager;
         }
 
         #region BUILDER

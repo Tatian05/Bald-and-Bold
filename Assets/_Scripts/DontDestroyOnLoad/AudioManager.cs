@@ -1,24 +1,13 @@
 using System;
 using UnityEngine;
 using DG.Tweening;
-public class AudioManager : MonoBehaviour
+public class AudioManager : SingletonPersistent<AudioManager>
 {
-    public static AudioManager Instance;
-
     public Sound[] musicSounds, sfxSounds;
     public AudioSource musicSource, sfxSource;
     public Action setCinematicSound;
     Sound _currentMusic;
     PersistantData persistantData;
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else Destroy(gameObject);
-    }
     private void Start()
     {
         persistantData = Helpers.PersistantData;
@@ -57,3 +46,11 @@ public class AudioManager : MonoBehaviour
         DOTween.To(() => value, x => x = value = x, endValue, 1).OnUpdate(() => AudioListener.volume = value);
     }
 }
+
+[Serializable]
+public class Sound
+{
+    public string soundName;
+    public AudioClip clip;
+}
+

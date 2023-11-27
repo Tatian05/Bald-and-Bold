@@ -5,6 +5,7 @@ public class WeaponData : ScriptableObject
 {
     //All Weapons
     public WeaponType weaponType;
+    public string weaponName;
     [HideInInspector] public float fireRate;
     [HideInInspector] public float damage;
     [HideInInspector] public int initialAmmo;

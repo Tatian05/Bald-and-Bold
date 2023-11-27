@@ -1,14 +1,16 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 public class EnemyManager : BaseEnemyManager
 {
     [SerializeField] EnemyData _enemyDataSO;
+    Dictionary<string, int> _weaponEnemyDeath = new Dictionary<string, int>();
     public override void Start()
     {
         _gameManager = Helpers.GameManager;
         LevelTimerManager levelTimer = Helpers.LevelTimerManager;
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDead);
-        EventManager.SubscribeToEvent(Contains.ON_ROOM_WON, SetProgressEnemyMision);
+        EventManager.SubscribeToEvent(Contains.ON_ROOM_WON, SetTasksProgress);
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_INVISIBLE, InvisibleConsumable);
         _enemyDataSO.playerPivot = _gameManager.Player.CenterPivot;
 
@@ -17,7 +19,7 @@ public class EnemyManager : BaseEnemyManager
     private void OnDestroy()
     {
         EventManager.UnSubscribeToEvent(Contains.PLAYER_DEAD, OnPlayerDead);
-        EventManager.UnSubscribeToEvent(Contains.ON_ROOM_WON, SetProgressEnemyMision);
+        EventManager.UnSubscribeToEvent(Contains.ON_ROOM_WON, SetTasksProgress);
         EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_INVISIBLE, InvisibleConsumable);
     }
     void OnPlayerDead(params object[] param)
@@ -48,12 +50,24 @@ public class EnemyManager : BaseEnemyManager
     {
         return Mathf.Abs(_allEnemies.Count - _maxEnemies).ToString() + "/ " + _maxEnemies.ToString();
     }
+    public void OnWeaponEnemyDeath(string weaponName)
+    {
+        Debug.Log(weaponName);
+        if (!_weaponEnemyDeath.ContainsKey(weaponName)) _weaponEnemyDeath.Add(weaponName, 0);
 
+        _weaponEnemyDeath[weaponName]++;
+    }
     void ResetLevel()
     {
         _allEnemies.Clear();
+        _weaponEnemyDeath = new Dictionary<string, int>();
     }
+    void SetTasksProgress(params object[] param)
+    {
+        EventManager.TriggerEvent(Contains.MISSION_PROGRESS, "Kill Enemies", _enemiesInLevel);
 
-    void SetProgressEnemyMision(params object[] param) { EventManager.TriggerEvent(Contains.MISSION_PROGRESS, "Kill Enemies", _enemiesInLevel); }
+        foreach (var item in _weaponEnemyDeath)
+            EventManager.TriggerEvent(Contains.MISSION_PROGRESS, item.Key, item.Value);
+    }
     void InvisibleConsumable(params object[] param) { _enemyDataSO.playerPivot = (bool)param[0] ? null : _gameManager.Player.CenterPivot; }
 }

@@ -1,10 +1,7 @@
 using UnityEngine;
 using System;
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    public static GameManager instance;
-
-
     public Action SetPlayerSkin = delegate { }, SetPresidentSkin = delegate { };
 
     [Header("Layers")]
@@ -28,8 +25,8 @@ public class GameManager : MonoBehaviour
 
     public LoadSceneManager LoadSceneManager { get { return _loadSceneManager; } private set { } }
 
-    private BaseEnemyManager _enemyManager;
-    public BaseEnemyManager EnemyManager { get { return _enemyManager; } private set { } }
+    private EnemyManager _enemyManager;
+    public EnemyManager EnemyManager { get { return _enemyManager; } private set { } }
 
     private EffectsManager _effectsManager;
     public EffectsManager EffectsManager { get { return _effectsManager; } private set { } }
@@ -51,13 +48,13 @@ public class GameManager : MonoBehaviour
 
     ConsumablesCanvasContainer _consumableCanvasContainer;
     public ConsumablesCanvasContainer ConsumableCanvas { get { return _consumableCanvasContainer; } }
-    private void Awake()
+    override protected void Awake()
     {
-        instance = this;
+        base.Awake();
 
         _player = FindObjectOfType<GeneralPlayer>();
-        _enemyManager = GetComponent<BaseEnemyManager>();
-        if (_enemyManager == null) _enemyManager = FindObjectOfType<BaseEnemyManager>();
+        _enemyManager = GetComponent<EnemyManager>();
+        if (_enemyManager == null) _enemyManager = FindObjectOfType<EnemyManager>();
         _effectsManager = GetComponent<EffectsManager>();
         _saveDataManager = GetComponent<SaveDataManager>();
         _pauseManager = GetComponent<PauseManager>();

@@ -5,6 +5,7 @@ public class PlayerBullet : Bullet
 
     Vector3 _lastPosition, _dir, _initialScale = Vector3.one;
     float _checkRadius;
+    string _weaponName;
     protected override void Start()
     {
         base.Start();
@@ -19,7 +20,9 @@ public class PlayerBullet : Bullet
 
         if (raycast)
         {
-            if (raycast.collider.TryGetComponent(out IDamageable enemy)) enemy.TakeDamage(_dmg);
+            if (raycast.collider.TryGetComponent(out IEnemy enemy)) enemy.SetWeaponKilled(_weaponName);
+            if (raycast.collider.TryGetComponent(out IDamageable damageable))damageable.TakeDamage(_dmg);
+
             else Helpers.AudioManager.PlaySFX("Bullet_GroundHit");
             ReturnBullet();
         }
@@ -59,6 +62,11 @@ public class PlayerBullet : Bullet
     {
         transform.localScale = _initialScale * scale;
         _checkRadius = transform.localScale.x * .12f;
+        return this;
+    }
+    public PlayerBullet SetWeaponName(string weaponName)
+    {
+        _weaponName = weaponName;
         return this;
     }
 

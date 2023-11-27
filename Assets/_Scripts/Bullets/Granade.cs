@@ -26,7 +26,7 @@ public class Granade : MonoBehaviour
     {
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, ReturnGrenade);
         _trail = GetComponent<TrailRenderer>();
-        _groundLayer = GameManager.instance.GroundLayer;
+        _groundLayer = Helpers.GameManager.GroundLayer;
         _startGravityScale = _rb.gravityScale;
         _startMass = _rb.mass;
     }
@@ -74,7 +74,7 @@ public class Granade : MonoBehaviour
     }
     void Explosion()
     {
-        var collisions = Physics2D.OverlapCircleAll(transform.position, _explosionRadius * transform.localScale.x, GameManager.instance.DynamicBodiesLayer).
+        var collisions = Physics2D.OverlapCircleAll(transform.position, _explosionRadius * transform.localScale.x, Helpers.GameManager.DynamicBodiesLayer).
                                                                                                                                    Where(x => x.GetComponent<IDamageable>() != null && x.GetComponent<Rigidbody2D>() != null && !x.GetComponent<Player>()).
                                                                                                                                    Select(x => x.GetComponent<Rigidbody2D>());
         if (collisions.Count() <= 0) return;

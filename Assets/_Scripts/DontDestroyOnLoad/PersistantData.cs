@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-public class PersistantData : MonoBehaviour
+public class PersistantData : SingletonPersistent<PersistantData>
 {
     public GameData gameData;
     public PersistantDataSaved persistantDataSaved;
@@ -17,15 +17,9 @@ public class PersistantData : MonoBehaviour
     const string CONSUMABLES_DATA = "ygWPKikIvb";
     const string TASKS = "EYeLxnrVvi";
 
-    public static PersistantData Instance;
-    private void Awake()
+    override protected void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else Destroy(gameObject);
+        base.Awake();
 
         LoadPersistantData();
     }

@@ -28,8 +28,8 @@ public class Knife : Weapon
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var damageable = collision.GetComponent<IDamageable>();
-        if (damageable != null) damageable.TakeDamage(_weaponData.damage);
+        if (collision.TryGetComponent(out IEnemy enemy)) enemy.SetWeaponKilled(_weaponData.weaponName);
+        if (collision.TryGetComponent(out IDamageable damageable)) damageable.TakeDamage(_weaponData.damage);
     }
     private void OnDestroy()
     {

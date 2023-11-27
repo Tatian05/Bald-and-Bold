@@ -1,13 +1,15 @@
 using System.Collections;
 using UnityEngine;
-public class EnemyHealth : MonoBehaviour, IDamageable
+public class EnemyHealth : MonoBehaviour, IDamageable, IEnemy
 {
     [SerializeField] EnemyHealthData _enemyHealthData;
     [SerializeField] Enemy _enemy;
     [SerializeField] SpriteRenderer _renderer;
+
     float _currentHP;
     float _onHitRedTime = .2f;
     GameManager _gameManager;
+    string _withWeaponKilled;
     private void Start()
     {
         _gameManager = Helpers.GameManager;
@@ -30,6 +32,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     public virtual void Die()
     {
+        _gameManager.EnemyManager.OnWeaponEnemyDeath(_withWeaponKilled);
         _gameManager.EnemyManager.RemoveEnemy(_enemy);
         _enemy.ReturnObject();
 
@@ -44,5 +47,10 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(_onHitRedTime);
 
         _renderer.color = Color.white;
+    }
+
+    public void SetWeaponKilled(string weaponName)
+    {
+        _withWeaponKilled = weaponName;
     }
 }

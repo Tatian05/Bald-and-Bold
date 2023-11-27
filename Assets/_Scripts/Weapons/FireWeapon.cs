@@ -71,7 +71,8 @@ public class FireWeapon : Weapon
                                             SetSpeed(_weaponData.bulletSpeed).
                                             SetPosition(_bulletSpawn.position).
                                             SetDirection(transform.right).
-                                            SetScale(bulletScale);
+                                            SetScale(bulletScale).
+                                            SetWeaponName(_weaponData.weaponName);
     }
     public virtual void OnCanceledShoot(InputAction.CallbackContext obj) { }
     public virtual void OnStartShoot(InputAction.CallbackContext obj) { }

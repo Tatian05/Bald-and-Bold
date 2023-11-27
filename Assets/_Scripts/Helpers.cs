@@ -27,7 +27,7 @@ public static class Helpers
     {
         get
         {
-            if (_gameManager == null) _gameManager = GameManager.instance;
+            if (_gameManager == null) _gameManager = GameManager.Instance;
             return _gameManager;
         }
     }
