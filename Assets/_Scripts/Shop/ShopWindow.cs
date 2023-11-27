@@ -21,7 +21,7 @@ public class ShopWindow : MonoBehaviour
 
     [Header("Consumables Settings")]
     [SerializeField] Transform _consumablesGridParent;
-    [SerializeField] TextMeshProUGUI _consumableDescription, _consumableDurationTxt;
+    [SerializeField] TextMeshProUGUI _consumableDescription, _consumableDuration, _consumableAmountDurationTxt;
     [SerializeField] Image _consumableImage;
 
     [Space(20)]
@@ -31,11 +31,13 @@ public class ShopWindow : MonoBehaviour
     [SerializeField] CosmeticData[] _playerCosmetics;
     [SerializeField] CosmeticData[] _presidentCosmetics;
     [SerializeField] ConsumableData[] _consumables;
+
     ShoppableSO _shoppableSelected;
     ShopItem _itemSelected;
     Color _buttonsColor;
     PersistantDataSaved _persistantDataSaved;
     List<ShopItem> _allShopItems = new List<ShopItem>(), _inCollectionShopItems = new List<ShopItem>();
+    Button _lastPlayerCosmeticSelected, _lastPresidentCosmeticSelected, _lastConsumableSelected;
     bool _start = true;
 
     public static event System.Action UpdateCollList;
@@ -86,6 +88,7 @@ public class ShopWindow : MonoBehaviour
                 _shoppableSelected = cosmeticItem.ShoppableSO;
                 _itemSelected = cosmeticItem;
                 ShowSelectedPlayerCosmetic();
+                _lastPlayerCosmeticSelected = button;
             });
         }
 
@@ -110,6 +113,7 @@ public class ShopWindow : MonoBehaviour
                 _shoppableSelected = cosmeticItem.ShoppableSO;
                 ShowSelectedPresidentCosmetic();
                 _itemSelected = cosmeticItem;
+                _lastPresidentCosmeticSelected = button;
             });
         }
 
@@ -126,7 +130,9 @@ public class ShopWindow : MonoBehaviour
             {
                 _shoppableSelected = consumable.ShoppableSO;
                 _itemSelected = consumable;
+                _consumableDuration.gameObject.SetActive(true);
                 ShowConsumableSelected();
+                _lastConsumableSelected = button;
             });
         }
 
@@ -190,6 +196,28 @@ public class ShopWindow : MonoBehaviour
     {
         var consumable = (ConsumableData)_shoppableSelected;
         _consumableImage.enabled = true;
-        consumable.SetShopConsumable(_consumableDescription, _consumableDurationTxt, _consumableImage);
+        consumable.SetShopConsumable(_consumableDescription, _consumableAmountDurationTxt, _consumableImage);
+    }
+    void OnWindowChange()
+    {
+        _consumableDuration.gameObject.SetActive(false);
+        _shoppableSelectedTxt.text = string.Empty;
+    }
+
+    //LO LLAMO POR EVENTO EN INSPECTOR
+    public void OnPlayerWindow()
+    {
+        OnWindowChange();
+        _lastPlayerCosmeticSelected?.onClick.Invoke();
+    }
+    public void OnPresidentWindow()
+    {
+        OnWindowChange();
+        _lastPresidentCosmeticSelected?.onClick.Invoke();
+    }
+    public void OnConsumablesWindow()
+    {
+        OnWindowChange();
+        _lastConsumableSelected?.onClick.Invoke();
     }
 }

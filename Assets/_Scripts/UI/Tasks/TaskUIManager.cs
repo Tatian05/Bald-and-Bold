@@ -68,18 +68,23 @@ public class TaskUIManager : MonoBehaviour
 
         _inputCounter++;
     }
+    bool _last;
     void NextPage()
     {
         if (_currentPageIndex > _taskPaper.Length - 2) return;
-        if (_currentPageIndex < 0) _currentPageIndex = 0;
+        _last = _currentPageIndex >= _taskPaper.Length - 1;
         _taskPaper[_currentPageIndex].PlayNext();
+        _first = false;
         if (_currentPageIndex < _taskPaper.Length - 1) _currentPageIndex++;
     }
+    bool _first;
     void BeforePage()
     {
-        if (_currentPageIndex < 0) return;
-        _taskPaper[_currentPageIndex <= 0 || _currentPageIndex >= _taskPaper.Length - 1 ? _currentPageIndex : _currentPageIndex - 1].PlayBefore();
+        if (_first) return;
+        _taskPaper[_last ? _currentPageIndex : _currentPageIndex - 1].PlayBefore();
+        _last = false;
         if (_currentPageIndex > 0) _currentPageIndex--;
+        _first = _currentPageIndex == 0;
     }
 }
 
