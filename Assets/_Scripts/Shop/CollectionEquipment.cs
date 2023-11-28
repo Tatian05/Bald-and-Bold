@@ -9,7 +9,7 @@ public class CollectionEquipment : MonoBehaviour
     [Header("Inspector Variables")]
     [SerializeField] Button[] _windowButtons;
     [SerializeField] Button _nextCosmetic, _previousCosmetic, _equipButton;
-    [SerializeField] GameObject _cosmeticWindow, _consumableWindow, _playerWindow, _presidentWindow;
+    [SerializeField] GameObject _cosmeticWindow, _consumableWindow, _playerWindow, _presidentWindow, _bulletsWindow;
     [SerializeField] TextMeshProUGUI _cosmeticName;
 
     [Header("Player Sprites")]
@@ -17,6 +17,9 @@ public class CollectionEquipment : MonoBehaviour
 
     [Header("President Sprites")]
     [SerializeField] Image _presidentHead, _presidentTorso, _presidentRightLeg, _presidentLeftLeg, _presidentRightHand, _presidentLeftHand, _presidentTail;
+
+    [Header("Bullet Sprite")]
+    [SerializeField] Image _bulletPreviewImg;
 
     [Header("Consumables")]
     [SerializeField] ConsumableUICollection _consumableCollectionPrefab;
@@ -27,34 +30,41 @@ public class CollectionEquipment : MonoBehaviour
     PersistantDataSaved _persistantDataSaved;
     CosmeticData[] _playerCosmeticsList;
     CosmeticData[] _presidentCosmeticsList;
+    BulletData[] _bulletCollectionList;
     ConsumableData[] _consumablesCollectionList;
-    Action<CosmeticData> _equipCosmetic;
+    Action<ShoppableSO> _equipCosmetic;
     void Awake()
     {
         _persistantDataSaved = Helpers.PersistantData.persistantDataSaved;
         _playerCosmeticsList = _persistantDataSaved.playerCosmeticCollection.ToArray();
         _presidentCosmeticsList = _persistantDataSaved.presidentCosmeticCollection.ToArray();
         _consumablesCollectionList = _persistantDataSaved.consumablesInCollection.ToArray();
+        _bulletCollectionList = _persistantDataSaved.bulletsInCollection.ToArray();
     }
     void OnEnable()
     {
-        foreach (var item in _playerCosmeticsList) item.OnStart();
-        foreach (var item in _presidentCosmeticsList) item.OnStart();
-        foreach (var item in _consumablesCollectionList) item.OnStart();
+        foreach (var item in _playerCosmeticsList.OfType<ShoppableSO>().Concat(_presidentCosmeticsList).Concat(_consumablesCollectionList).Concat(_bulletCollectionList))
+            item.OnStart();
     }
     void Start()
     {
         _buttonsColor = _windowButtons[0].image.color;
         PersistantDataSaved persistantDataSaved = Helpers.PersistantData.persistantDataSaved;
 
-        persistantDataSaved.AddCosmetic(CosmeticType.Player, Resources.Load<CosmeticData>("Player Default"));
-        persistantDataSaved.AddCosmetic(CosmeticType.President, Resources.Load<CosmeticData>("Presi Default"));
+        var playerCosmeticEquiped = persistantDataSaved.playerCosmeticEquiped;
+        var presidentCosmeticEquiped = persistantDataSaved.presidentCosmeticEquiped;
+        var bulletEquiped = persistantDataSaved.bulletEquiped;
 
-        if (persistantDataSaved.playerCosmeticEquiped) EquipPlayer(persistantDataSaved.playerCosmeticEquiped);
-        if (persistantDataSaved.presidentCosmeticEquiped) EquipPresident(persistantDataSaved.playerCosmeticEquiped);
+        persistantDataSaved.AddCosmetic(CosmeticType.Player, playerCosmeticEquiped);
+        persistantDataSaved.AddCosmetic(CosmeticType.President, presidentCosmeticEquiped);
+        persistantDataSaved.AddBullet(bulletEquiped);
 
-        List<CosmeticData> currentCollection = null;
-        Func<bool> isEquiped = () => currentCollection[_index] == persistantDataSaved.playerCosmeticEquiped || currentCollection[_index] == persistantDataSaved.presidentCosmeticEquiped;
+        EquipPlayer(playerCosmeticEquiped);
+        EquipPresident(presidentCosmeticEquiped);
+        EquipBullet(bulletEquiped);
+
+        List<ShoppableSO> currentCollection = null;
+        Func<bool> isEquiped = () => currentCollection[_index] == playerCosmeticEquiped || currentCollection[_index] == presidentCosmeticEquiped || currentCollection[_index] == bulletEquiped;
 
         foreach (var item in _consumablesCollectionList.Distinct())
             Instantiate(_consumableCollectionPrefab).SetParent(_consumableContent).SetImage(item.shopSprite).SetCount(_consumablesCollectionList.GroupBy(x => x).First(x => x.Key == item).Count());
@@ -82,48 +92,13 @@ public class CollectionEquipment : MonoBehaviour
                 persistantDataSaved.playerCosmeticEquiped = _playerCosmeticsList[_index];
                 if (Helpers.GameManager) Helpers.GameManager.SetPlayerSkin();
             }
-            else
+            else if (_presidentWindow.activeSelf)
             {
                 persistantDataSaved.presidentCosmeticEquiped = _presidentCosmeticsList[_index];
                 if (Helpers.GameManager) Helpers.GameManager.SetPresidentSkin();
             }
+            else persistantDataSaved.bulletEquiped = _bulletCollectionList[_index];
             _equipButton.interactable = false;
-        });
-
-        _windowButtons[0].onClick.AddListener(() =>
-        {
-            currentCollection = _playerCosmeticsList.ToList();
-            _index = 0;
-            _equipCosmetic = EquipPlayer;
-            _equipCosmetic(currentCollection[_index]);
-            _cosmeticName.text = currentCollection[_index].shoppableName;
-            _cosmeticWindow.SetActive(true);
-            _consumableWindow.SetActive(false);
-            _presidentWindow.SetActive(false);
-            _playerWindow.SetActive(true);
-        });
-
-        _windowButtons[1].onClick.AddListener(() =>
-        {
-            currentCollection = _presidentCosmeticsList.ToList();
-            _index = 0;
-            _equipCosmetic = EquipPresident;
-            _equipCosmetic(currentCollection[_index]);
-            _cosmeticName.text = currentCollection[_index].shoppableName;
-            _cosmeticWindow.SetActive(true);
-            _consumableWindow.SetActive(false);
-            _playerWindow.SetActive(false);
-            _presidentWindow.SetActive(true);
-            _cosmeticName.text = currentCollection[_index].shoppableName;
-        });
-
-        _windowButtons[2].onClick.AddListener(() =>
-        {
-            _index = 0;
-            _consumableWindow.SetActive(true);
-            _cosmeticWindow.SetActive(false);
-            _playerWindow.SetActive(false);
-            _presidentWindow.SetActive(false);
         });
 
         var buttons = _windowButtons.ToList();
@@ -133,18 +108,67 @@ public class CollectionEquipment : MonoBehaviour
             {
                 buttons.ForEach(x => x.image.color = _buttonsColor);
                 item.image.color = Color.black * .5f;
+                _index = 0;
             });
         }
+        _windowButtons[0].onClick.AddListener(() =>
+        {
+            currentCollection = _playerCosmeticsList.OfType<ShoppableSO>().ToList();
+            _equipCosmetic = EquipPlayer;
+            _equipCosmetic(currentCollection[_index]);
+            _cosmeticName.text = currentCollection[_index].shoppableName;
+            _consumableWindow.SetActive(false);
+            _presidentWindow.SetActive(false);
+            _bulletsWindow.SetActive(false);
+            _cosmeticWindow.SetActive(true);
+            _playerWindow.SetActive(true);
+        });
+
+        _windowButtons[1].onClick.AddListener(() =>
+        {
+            currentCollection = _presidentCosmeticsList.OfType<ShoppableSO>().ToList();
+            _equipCosmetic = EquipPresident;
+            _equipCosmetic(currentCollection[_index]);
+            _cosmeticName.text = currentCollection[_index].shoppableName;
+            _consumableWindow.SetActive(false);
+            _playerWindow.SetActive(false);
+            _bulletsWindow.SetActive(false);
+            _cosmeticWindow.SetActive(true);
+            _presidentWindow.SetActive(true);
+            _cosmeticName.text = currentCollection[_index].shoppableName;
+        });
+
+        _windowButtons[2].onClick.AddListener(() =>
+        {
+            _cosmeticWindow.SetActive(false);
+            _playerWindow.SetActive(false);
+            _presidentWindow.SetActive(false);
+            _bulletsWindow.SetActive(false);
+            _consumableWindow.SetActive(true);
+        });
+
+        _windowButtons[3].onClick.AddListener(() =>
+        {
+            currentCollection = _bulletCollectionList.OfType<ShoppableSO>().ToList();
+            _equipCosmetic = EquipBullet;
+            _equipCosmetic(currentCollection[_index]);
+            _cosmeticName.text = currentCollection[_index].shoppableName;
+            _consumableWindow.SetActive(false);
+            _playerWindow.SetActive(false);
+            _presidentWindow.SetActive(false);
+            _cosmeticWindow.SetActive(true);
+            _bulletsWindow.SetActive(true);
+        });
 
         _windowButtons[0].onClick.Invoke();
         _cosmeticName.text = _playerCosmeticsList[_index].shoppableName;
 
-
         _nextCosmetic.onClick.Invoke();
     }
 
-    void EquipPlayer(CosmeticData cosmeticData)
+    void EquipPlayer(ShoppableSO shoppableSO)
     {
+        var cosmeticData = shoppableSO as CosmeticData;
         if (!cosmeticData) return;
 
         _playerHead.sprite = cosmeticData.HeadSprite;
@@ -164,8 +188,9 @@ public class CollectionEquipment : MonoBehaviour
             _playerTail.gameObject.SetActive(false);
         }
     }
-    void EquipPresident(CosmeticData cosmeticData)
+    void EquipPresident(ShoppableSO shoppable)
     {
+        var cosmeticData = shoppable as CosmeticData;
         if (!cosmeticData) return;
 
         _presidentHead.sprite = cosmeticData.HeadSprite;
@@ -184,5 +209,12 @@ public class CollectionEquipment : MonoBehaviour
             _presidentTail.sprite = null;
             _presidentTail.gameObject.SetActive(false);
         }
+    }
+    void EquipBullet(ShoppableSO shoppableSO)
+    {
+        var bulletData = shoppableSO as BulletData;
+        if (!bulletData) return;
+
+        _bulletPreviewImg.sprite = bulletData.shopSprite;
     }
 }

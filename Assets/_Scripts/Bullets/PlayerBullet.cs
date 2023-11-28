@@ -2,6 +2,7 @@ using UnityEngine;
 public class PlayerBullet : Bullet
 {
     [SerializeField] protected LayerMask _bulletLayer;
+    [SerializeField] SpriteRenderer _bulletSpriteRenderer;
 
     Vector3 _lastPosition, _dir, _initialScale = Vector3.one;
     float _checkRadius;
@@ -21,7 +22,7 @@ public class PlayerBullet : Bullet
         if (raycast)
         {
             if (raycast.collider.TryGetComponent(out IEnemy enemy)) enemy.SetWeaponKilled(_weaponName);
-            if (raycast.collider.TryGetComponent(out IDamageable damageable))damageable.TakeDamage(_dmg);
+            if (raycast.collider.TryGetComponent(out IDamageable damageable)) damageable.TakeDamage(_dmg);
 
             else Helpers.AudioManager.PlaySFX("Bullet_GroundHit");
             ReturnBullet();
@@ -67,6 +68,11 @@ public class PlayerBullet : Bullet
     public PlayerBullet SetWeaponName(string weaponName)
     {
         _weaponName = weaponName;
+        return this;
+    }
+    public PlayerBullet SetSprite(Sprite bulletSprite)
+    {
+        _bulletSpriteRenderer.sprite = bulletSprite;
         return this;
     }
 

@@ -143,11 +143,13 @@ MonoBehaviour:
     presiCoins: 0
     goldenBaldCoins: 0
     cosmeticsInCollection: []
-    playerCosmeticEquiped: {fileID: 0}
-    presidentCosmeticEquiped: {fileID: 0}
+    playerCosmeticEquiped: {fileID: 11400000, guid: 0ac4de9915f481f478f3906bd11216d8, type: 2}
+    presidentCosmeticEquiped: {fileID: 11400000, guid: 4b72506f51fa3c04c9edb744d8bfd7bd, type: 2}
+    bulletEquiped: {fileID: 11400000, guid: bc1ef3bc96dc5c942848b113e6437b54, type: 2}
     playerCosmeticCollection: []
     presidentCosmeticCollection: []
     consumablesInCollection: []
+    bulletsInCollection: []
     userBindingKeys: []
     userBindingValues: []
   settingsData:

@@ -1,5 +1,5 @@
 using UnityEngine;
-public enum ShoppableType { Cosmetic, Consumable, BulletTrail }
+public enum ShoppableType { Cosmetic, Consumable, Bullet }
 public enum ShoppableQuality { Normal, Rare, Epic }
 
 [System.Serializable]

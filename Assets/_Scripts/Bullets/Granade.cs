@@ -5,10 +5,10 @@ public class Granade : MonoBehaviour
     [SerializeField] float _throwForce;
     [SerializeField] float _explosionRadius;
     [SerializeField] float _explosionForce;
+    [SerializeField] SpriteRenderer _grenadeSpriteRenderer;
 
     float _gravityScale = 1.5f;
     float _fallGravityMultiplier = 3;
-    float _startMass, _startGravityScale;
     public float ThrowForce { get { return _throwForce; } }
 
     TrailRenderer _trail;
@@ -28,8 +28,6 @@ public class Granade : MonoBehaviour
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, ReturnGrenade);
         _trail = GetComponent<TrailRenderer>();
         _groundLayer = Helpers.GameManager.GroundLayer;
-        _startGravityScale = _rb.gravityScale;
-        _startMass = _rb.mass;
     }
     private void OnDestroy()
     {
@@ -83,8 +81,8 @@ public class Granade : MonoBehaviour
         {
             if (IsBlocked(item.position, _groundLayer)) continue;
             item.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
-            if(item.TryGetComponent(out IEnemy enemy)) enemy.SetWeaponKilled(_weaponName);
-            if(item.TryGetComponent(out IDamageable damageable)) damageable.TakeDamage(_damage);
+            if (item.TryGetComponent(out IEnemy enemy)) enemy.SetWeaponKilled(_weaponName);
+            if (item.TryGetComponent(out IDamageable damageable)) damageable.TakeDamage(_damage);
         }
     }
 
@@ -125,6 +123,11 @@ public class Granade : MonoBehaviour
     public Granade SetWeaponName(string weaponName)
     {
         _weaponName = weaponName;
+        return this;
+    }
+    public Granade SetSprite(Sprite grenadeSprite)
+    {
+        _grenadeSpriteRenderer.sprite = grenadeSprite;
         return this;
     }
 

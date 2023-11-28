@@ -15,6 +15,7 @@ namespace Weapons
         protected WeaponManager _weaponManager;
         protected SpriteRenderer _spriteRenderer;
         protected GameManager _gameManager;
+        protected Sprite _equipedBulletx16, _equipedBulletx32;
         public WeaponData GetWeaponData { get { return _weaponData; } }
         public bool CanPickUp => Mathf.Abs(_rb.velocity.magnitude) < .1f;
         protected virtual void Awake()
@@ -22,6 +23,8 @@ namespace Weapons
             _rb = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             if (_droppableWeapon) _animator = GetComponent<Animator>();
+            _equipedBulletx16 = Helpers.PersistantData.persistantDataSaved.bulletEquiped.shopSprite;
+            _equipedBulletx32 = Helpers.PersistantData.persistantDataSaved.bulletEquiped.bulletX32;
         }
         private void OnEnable()
         {

@@ -7,7 +7,8 @@ public class GranadeLauncher : FireWeapon
                                             SetPosition(_bulletSpawn.position).
                                             SetDirection(transform.right).
                                             SetScale(bulletScale).
-                                            SetWeaponName(_weaponData.weaponName);
+                                            SetWeaponName(_weaponData.weaponName).
+                                            SetSprite(_equipedBulletx16);
         granade.ThrowGranade();
     }
 }

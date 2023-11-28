@@ -85,7 +85,7 @@ public struct Settings
     public void SetSFXVolume(float volume) { sfxVolume = volume; }
 }
 
-[System.Serializable]
+[Serializable]
 public struct Tasks
 {
     #region Quests
@@ -136,12 +136,13 @@ public class PersistantDataSaved
     [Header("Coins")]
     public int presiCoins, goldenBaldCoins;
 
-    public List<CosmeticData> cosmeticsInCollection;
+    public IEnumerable<ShoppableSO> cosmeticsInCollection;
 
     #region Cosmetics
     [Header("Cosmetics")]
     public CosmeticData playerCosmeticEquiped;
     public CosmeticData presidentCosmeticEquiped;
+    public BulletData bulletEquiped;
     public List<CosmeticData> playerCosmeticCollection = new List<CosmeticData>();
     public List<CosmeticData> presidentCosmeticCollection = new List<CosmeticData>();
     #endregion 
@@ -149,6 +150,12 @@ public class PersistantDataSaved
     #region Consumables 
 
     public List<ConsumableData> consumablesInCollection = new List<ConsumableData>();
+
+    #endregion
+
+    #region Bullets
+
+    public List<BulletData> bulletsInCollection = new List<BulletData>();
 
     #endregion
 
@@ -193,9 +200,14 @@ public class PersistantDataSaved
         userBindingValues.Add(value);
         userBindings.Add(key, value);
     }
+    public void AddBullet(BulletData bulletData)
+    {
+        if (bulletsInCollection.Contains(bulletData)) return;
+        bulletsInCollection.Add(bulletData);
+    }
     public string GetBind(string key) => userBindings.ContainsKey(key) ? userBindings[key] : string.Empty;
     public void LoadUserBindingsDictionary() { userBindings = userBindingKeys.DictioraryFromTwoLists(userBindingValues); }
-    public void LoadCosmeticsCollection() { cosmeticsInCollection = playerCosmeticCollection.Concat(presidentCosmeticCollection).ToList(); }
+    public void LoadCosmeticsCollection() { cosmeticsInCollection = playerCosmeticCollection.OfType<ShoppableSO>().Concat(presidentCosmeticCollection).Concat(bulletsInCollection).ToList(); }
 }
 
 [Serializable]

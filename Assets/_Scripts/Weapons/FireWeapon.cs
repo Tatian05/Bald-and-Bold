@@ -72,7 +72,8 @@ public class FireWeapon : Weapon
                                             SetPosition(_bulletSpawn.position).
                                             SetDirection(transform.right).
                                             SetScale(bulletScale).
-                                            SetWeaponName(_weaponData.weaponName);
+                                            SetWeaponName(_weaponData.weaponName).
+                                            SetSprite(_equipedBulletx32);
     }
     public virtual void OnCanceledShoot(InputAction.CallbackContext obj) { }
     public virtual void OnStartShoot(InputAction.CallbackContext obj) { }

@@ -27,10 +27,15 @@ public class Gachapon : MonoBehaviour
             var cosmetic = shoppableGacha as CosmeticData;
             _persistantDataSaved.AddCosmetic(cosmetic.cosmeticType, cosmetic);
         }
-        else
+        else if(shoppableGacha is ConsumableData)
         {
             var consumable = shoppableGacha as ConsumableData;
             _persistantDataSaved.AddConsumable(consumable);
+        }
+        else
+        {
+            var bullet = shoppableGacha as BulletData;
+            _persistantDataSaved.AddBullet(bullet);
         }
         shoppableGacha.OnStart();
 

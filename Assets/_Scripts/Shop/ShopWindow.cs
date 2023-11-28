@@ -24,6 +24,10 @@ public class ShopWindow : MonoBehaviour
     [SerializeField] TextMeshProUGUI _consumableDescription, _consumableDuration, _consumableAmountDurationTxt;
     [SerializeField] Image _consumableImage;
 
+    [Header("Bullets Settings")]
+    [SerializeField] Transform _bulletsGridParent;
+    [SerializeField] Image _bulletPreviewImg;
+
     [Space(20)]
     [SerializeField] Color _selectedColor;
     [SerializeField] TextMeshProUGUI _coins;
@@ -31,13 +35,14 @@ public class ShopWindow : MonoBehaviour
     [SerializeField] CosmeticData[] _playerCosmetics;
     [SerializeField] CosmeticData[] _presidentCosmetics;
     [SerializeField] ConsumableData[] _consumables;
+    [SerializeField] BulletData[] _bullets;
 
     ShoppableSO _shoppableSelected;
     ShopItem _itemSelected;
     Color _buttonsColor;
     PersistantDataSaved _persistantDataSaved;
     List<ShopItem> _allShopItems = new List<ShopItem>(), _inCollectionShopItems = new List<ShopItem>();
-    Button _lastPlayerCosmeticSelected, _lastPresidentCosmeticSelected, _lastConsumableSelected;
+    Button _lastPlayerCosmeticSelected, _lastPresidentCosmeticSelected, _lastConsumableSelected, _lastBulletSelected;
     bool _start = true;
 
     public static event System.Action UpdateCollList;
@@ -48,6 +53,7 @@ public class ShopWindow : MonoBehaviour
         _playerCosmetics = _allShopables.OfType<CosmeticData>().Where(x => x.cosmeticType == CosmeticType.Player).OrderBy(x => x.shoppableQuality).ToArray();
         _presidentCosmetics = _allShopables.OfType<CosmeticData>().Where(x => x.cosmeticType == CosmeticType.President).OrderBy(x => x.shoppableQuality).ToArray();
         _consumables = _allShopables.OfType<ConsumableData>().OrderBy(x => x.shoppableQuality).ToArray();
+        _bullets = _allShopables.OfType<BulletData>().OrderBy(x => x.shoppableQuality).ToArray();
     }
     private void OnEnable()
     {
@@ -62,6 +68,7 @@ public class ShopWindow : MonoBehaviour
         _buttonsColor = _windowsButtons[0].image.color;
         _coins.text = _persistantDataSaved.presiCoins.ToString();
         _consumableImage.enabled = false;
+        _bulletPreviewImg.enabled = false;
 
         List<Button> allButtons = new List<Button>();
 
@@ -136,6 +143,31 @@ public class ShopWindow : MonoBehaviour
             });
         }
 
+        for (int i = 0; i < _bullets.Length; i++)
+        {
+            var cosmeticItem = Instantiate(_shopItemPrefab).
+                               SetParent(_bulletsGridParent).
+                               SetCosmeticData(_bullets[i]);
+            _allShopItems.Add(cosmeticItem);
+
+            var button = cosmeticItem.GetComponent<Button>();
+            allButtons.Add(button);
+            if (_persistantDataSaved.bulletsInCollection.Contains(cosmeticItem.ShoppableSO))
+            {
+                cosmeticItem.SetInCollection(true);
+                _inCollectionShopItems.Add(cosmeticItem);
+                continue;
+            }
+
+            button.onClick.AddListener(() =>
+            {
+                _shoppableSelected = cosmeticItem.ShoppableSO;
+                _itemSelected = cosmeticItem;
+                ShowBulletSelected();
+                _lastBulletSelected = button;
+            });
+        }
+
         #endregion
 
         foreach (var item in allButtons)
@@ -198,6 +230,12 @@ public class ShopWindow : MonoBehaviour
         _consumableImage.enabled = true;
         consumable.SetShopConsumable(_consumableDescription, _consumableAmountDurationTxt, _consumableImage);
     }
+
+    void ShowBulletSelected()
+    {
+        _bulletPreviewImg.enabled = true;
+        (_shoppableSelected as BulletData).SetShopBullet(_bulletPreviewImg);
+    }
     void OnWindowChange()
     {
         _consumableDuration.gameObject.SetActive(false);
@@ -219,5 +257,10 @@ public class ShopWindow : MonoBehaviour
     {
         OnWindowChange();
         _lastConsumableSelected?.onClick.Invoke();
+    }
+    public void OnBulletsWindow()
+    {
+        OnWindowChange();
+        _lastBulletSelected?.onClick.Invoke();
     }
 }
