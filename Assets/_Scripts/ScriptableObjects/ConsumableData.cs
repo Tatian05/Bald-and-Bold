@@ -17,10 +17,6 @@ public class ConsumableData : ShoppableSO
     {
         base.OnStart();
         description = LanguageManager.Instance.GetTranslate(descriptionLocalizationID);
-    }
-    protected override void OnEnable()
-    {
-        base.OnEnable();
         _consumable = Resources.Load<Consumables>($"ConsumablePrefabs/Consumable_{name}");
     }
     public void SetShopConsumable(TextMeshProUGUI descriptionTxt, TextMeshProUGUI durationTxt, Image image) {

@@ -11,7 +11,7 @@ public class PlayerSetSkin : MonoBehaviour
     public void SetSkin()
     {
         if (!Helpers.PersistantData.persistantDataSaved.playerCosmeticEquiped) return;
-
+        
         CosmeticData cosmetic = Helpers.PersistantData.persistantDataSaved.playerCosmeticEquiped;
         _headSprite.sprite = cosmetic.HeadSprite;
         _torsoSprite.sprite = cosmetic.TorsoSprite;

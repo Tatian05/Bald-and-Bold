@@ -26,13 +26,13 @@ public class PersistantData : SingletonPersistent<PersistantData>
         gameData = SaveLoadSystem.LoadData(GAME_DATA, true, new GameData());
         settingsData = SaveLoadSystem.LoadData(SETTINGS_DATA, true, settingsData);
         consumablesData = SaveLoadSystem.LoadData(CONSUMABLES_DATA, true, new ConsumablesValues());
-        persistantDataSaved = SaveLoadSystem.LoadData(PERSISTANT_DATA, true, new PersistantDataSaved());
-        tasks = SaveLoadSystem.LoadData(TASKS, true, new Tasks { tasksProgress = new TaskProgress[tasksSO.Length],
-                                                                 UI_Task_Progress = new UI_TaskVariables[tasksSO.Length] });
+        persistantDataSaved = SaveLoadSystem.LoadData(PERSISTANT_DATA, true,
+            new PersistantDataSaved(Resources.Load<CosmeticData>("Player Default"),
+                                    Resources.Load<CosmeticData>("Presi Default"),
+                                    Resources.Load<BulletData>("Bullet Default")));
+        tasks = SaveLoadSystem.LoadData(TASKS, true, new Tasks(tasksSO.Length));
 
-        persistantDataSaved.RemoveEmptySlot();
-        persistantDataSaved.LoadUserBindingsDictionary();
-        persistantDataSaved.LoadCosmeticsCollection();
+        persistantDataSaved.Init();
 
         foreach (var item in tasksSO) item.taskProgress = tasks.GetTaskProgress(item.ID);
     }
@@ -92,6 +92,11 @@ public struct Tasks
     public TaskProgress[] tasksProgress;
     public UI_TaskVariables[] UI_Task_Progress;
     #endregion
+    public Tasks(int length)
+    {
+        tasksProgress = new TaskProgress[length];
+        UI_Task_Progress = new UI_TaskVariables[length];
+    }
     public UI_TaskVariables GetUITaskProgress(int index) => UI_Task_Progress[index];
     public TaskProgress GetTaskProgress(int index) => tasksProgress[index];
     public void SetUITaskProgress(int index, UI_TaskVariables progress) => UI_Task_Progress[index] = progress;
@@ -103,9 +108,14 @@ public class ConsumablesValues
 {
     public float cadenceBoost = 1, bulletScaleBoost = 1, knifeBoost = 1;
     public bool recoil = true, boots, invisible, hasMinigun;
-    public List<ConsumableData> consumablesActivated = new List<ConsumableData>();
-    public List<float> consumablesActivatedTime = new List<float>();
+    public List<ConsumableData> consumablesActivated;
+    public List<float> consumablesActivatedTime;
     public Dictionary<ConsumableData, float> consumablesWithTime;
+    public ConsumablesValues()
+    {
+        consumablesActivated = new List<ConsumableData>();
+        consumablesActivatedTime = new List<float>();
+    }
     public void SaveConsumable(ConsumableData consumableData, float time)
     {
         if (consumablesActivated.Contains(consumableData))
@@ -136,36 +146,58 @@ public class PersistantDataSaved
     [Header("Coins")]
     public int presiCoins, goldenBaldCoins;
 
-    public IEnumerable<ShoppableSO> cosmeticsInCollection;
+    public List<ShoppableSO> cosmeticsInCollection;
 
     #region Cosmetics
     [Header("Cosmetics")]
     public CosmeticData playerCosmeticEquiped;
     public CosmeticData presidentCosmeticEquiped;
     public BulletData bulletEquiped;
-    public List<CosmeticData> playerCosmeticCollection = new List<CosmeticData>();
-    public List<CosmeticData> presidentCosmeticCollection = new List<CosmeticData>();
+    public List<CosmeticData> playerCosmeticCollection;
+    public List<CosmeticData> presidentCosmeticCollection;
     #endregion 
 
     #region Consumables 
 
-    public List<ConsumableData> consumablesInCollection = new List<ConsumableData>();
+    public List<ConsumableData> consumablesInCollection;
 
     #endregion
 
     #region Bullets
 
-    public List<BulletData> bulletsInCollection = new List<BulletData>();
+    public List<BulletData> bulletsInCollection;
 
     #endregion
 
     #region Bindings
     [Header("Bindings")]
-    public List<string> userBindingKeys = new List<string>();
-    public List<string> userBindingValues = new List<string>();
-    public Dictionary<string, string> userBindings = new Dictionary<string, string>();
+    public List<string> userBindingKeys;
+    public List<string> userBindingValues;
+    public Dictionary<string, string> userBindings;
     #endregion
 
+    public PersistantDataSaved(CosmeticData playerDefault, CosmeticData presiDefault, BulletData bulletDefault)
+    {
+        playerCosmeticEquiped = playerDefault;
+        presidentCosmeticEquiped = presiDefault;
+        bulletEquiped = bulletDefault;
+        playerCosmeticCollection = new List<CosmeticData>();
+        presidentCosmeticCollection = new List<CosmeticData>();
+        consumablesInCollection = new List<ConsumableData>();
+        bulletsInCollection = new List<BulletData>();
+        userBindingKeys = new List<string>();
+        userBindingValues = new List<string>();
+        userBindings = new Dictionary<string, string>();
+    }
+    public void Init()
+    {
+        playerCosmeticEquiped.OnStart();
+        presidentCosmeticEquiped.OnStart();
+        bulletEquiped.OnStart();
+        RemoveEmptySlot();
+        LoadUserBindingsDictionary();
+        LoadCosmeticsCollection();
+    }
     public void RemoveEmptySlot()
     {
         for (int i = 0; i < playerCosmeticCollection.Count; i++)
@@ -221,6 +253,12 @@ public class GameData
     public int currentDeaths;
 
     //Deaths per level
-    public List<string> levels = new List<string>();
-    public List<int> deaths = new List<int>();
+    public List<string> levels;
+    public List<int> deaths;
+
+    public GameData()
+    {
+        levels = new List<string>();
+        deaths = new List<int>();
+    }
 }

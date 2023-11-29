@@ -170,7 +170,7 @@ public class CollectionEquipment : MonoBehaviour
     {
         var cosmeticData = shoppableSO as CosmeticData;
         if (!cosmeticData) return;
-
+        
         _playerHead.sprite = cosmeticData.HeadSprite;
         _playerTorso.sprite = cosmeticData.TorsoSprite;
         _playerRightLeg.sprite = cosmeticData.RightLegSprite;
@@ -192,7 +192,7 @@ public class CollectionEquipment : MonoBehaviour
     {
         var cosmeticData = shoppable as CosmeticData;
         if (!cosmeticData) return;
-
+        
         _presidentHead.sprite = cosmeticData.HeadSprite;
         _presidentTorso.sprite = cosmeticData.TorsoSprite;
         _presidentRightLeg.sprite = cosmeticData.RightLegSprite;
