@@ -23,7 +23,7 @@ public class ShopItem : MonoBehaviour
     {
         _shoppableSO = shoppableSO;
         _shoppableSO.OnStart();
-        _cosmeticImg.sprite = _shoppableSO.shopSprite;
+        _cosmeticImg.sprite = _shoppableSO.shopSprite();
         _shoppableSONameTxt.text = _shoppableSO.shoppableName;
         transform.localScale = Vector3.one;
         return this;

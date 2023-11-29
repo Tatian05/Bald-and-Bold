@@ -2,19 +2,20 @@ using UnityEngine;
 using UnityEngine.UI;
 public enum CosmeticType { Player, President }
 [CreateAssetMenu(fileName = "New Cosmetic", menuName = "New Cosmetic")]
+[System.Serializable]
 public class CosmeticData : ShoppableSO
 {
     public CosmeticType cosmeticType;
     public string torsoSpriteName, rightLegSpriteName, leftLegSpriteName, tailSpriteName;
     [System.NonSerialized] public string rightHandSpriteName = "Mano", leftHandSpriteName = "Mano";
     Sprite _torsoSprite, _rightLegSprite, _leftLegSprite, _rightHandSprite, _leftHandSprite, _tailSprite;
-    public Sprite HeadSprite => shopSprite;
-    public Sprite TorsoSprite => _torsoSprite;
-    public Sprite RightLegSprite => _rightLegSprite;
-    public Sprite LeftLegSprite => _leftLegSprite;
-    public Sprite RightHandSprite => _rightHandSprite;
-    public Sprite LeftHandSprite => _leftHandSprite;
-    public Sprite TailSprite => _tailSprite;
+    public Sprite HeadSprite() => shopSprite();
+    public Sprite TorsoSprite() => _torsoSprite;
+    public Sprite RightLegSprite() => _rightLegSprite;
+    public Sprite LeftLegSprite() => _leftLegSprite;
+    public Sprite RightHandSprite() => _rightHandSprite;
+    public Sprite LeftHandSprite() => _leftHandSprite;
+    public Sprite TailSprite() => _tailSprite;
     public override void OnStart()
     {
         base.OnStart();
@@ -27,7 +28,7 @@ public class CosmeticData : ShoppableSO
     }
     public void SetCosmetic(Image headSprite, Image torsoSprite, Image rightLegSprite, Image leftLegSprite, Image rightHandSprite, Image leftHandSprite, Image tailSprite)
     {
-        headSprite.sprite = HeadSprite;
+        headSprite.sprite = HeadSprite();
         torsoSprite.sprite = _torsoSprite;
         rightLegSprite.sprite = _rightLegSprite;
         leftLegSprite.sprite = _leftLegSprite;

@@ -67,7 +67,7 @@ public class CollectionEquipment : MonoBehaviour
         Func<bool> isEquiped = () => currentCollection[_index] == playerCosmeticEquiped || currentCollection[_index] == presidentCosmeticEquiped || currentCollection[_index] == bulletEquiped;
 
         foreach (var item in _consumablesCollectionList.Distinct())
-            Instantiate(_consumableCollectionPrefab).SetParent(_consumableContent).SetImage(item.shopSprite).SetCount(_consumablesCollectionList.GroupBy(x => x).First(x => x.Key == item).Count());
+            Instantiate(_consumableCollectionPrefab).SetParent(_consumableContent).SetImage(item.shopSprite()).SetCount(_consumablesCollectionList.GroupBy(x => x).First(x => x.Key == item).Count());
 
         _nextCosmetic.onClick.AddListener(() =>
         {
@@ -171,16 +171,16 @@ public class CollectionEquipment : MonoBehaviour
         var cosmeticData = shoppableSO as CosmeticData;
         if (!cosmeticData) return;
         
-        _playerHead.sprite = cosmeticData.HeadSprite;
-        _playerTorso.sprite = cosmeticData.TorsoSprite;
-        _playerRightLeg.sprite = cosmeticData.RightLegSprite;
-        _playerLeftLeg.sprite = cosmeticData.LeftLegSprite;
-        _playerRightHand.sprite = cosmeticData.RightHandSprite;
-        _playerLeftHand.sprite = cosmeticData.LeftHandSprite;
-        if (cosmeticData.TailSprite)
+        _playerHead.sprite = cosmeticData.HeadSprite();
+        _playerTorso.sprite = cosmeticData.TorsoSprite();
+        _playerRightLeg.sprite = cosmeticData.RightLegSprite();
+        _playerLeftLeg.sprite = cosmeticData.LeftLegSprite();
+        _playerRightHand.sprite = cosmeticData.RightHandSprite();
+        _playerLeftHand.sprite = cosmeticData.LeftHandSprite();
+        if (cosmeticData.TailSprite())
         {
             _playerTail.gameObject.SetActive(true);
-            _playerTail.sprite = cosmeticData.TailSprite;
+            _playerTail.sprite = cosmeticData.TailSprite();
         }
         else
         {
@@ -193,16 +193,16 @@ public class CollectionEquipment : MonoBehaviour
         var cosmeticData = shoppable as CosmeticData;
         if (!cosmeticData) return;
         
-        _presidentHead.sprite = cosmeticData.HeadSprite;
-        _presidentTorso.sprite = cosmeticData.TorsoSprite;
-        _presidentRightLeg.sprite = cosmeticData.RightLegSprite;
-        _presidentLeftLeg.sprite = cosmeticData.LeftLegSprite;
-        _presidentRightHand.sprite = cosmeticData.RightHandSprite;
-        _presidentLeftHand.sprite = cosmeticData.LeftHandSprite;
-        if (cosmeticData.TailSprite)
+        _presidentHead.sprite = cosmeticData.HeadSprite();
+        _presidentTorso.sprite = cosmeticData.TorsoSprite();
+        _presidentRightLeg.sprite = cosmeticData.RightLegSprite();
+        _presidentLeftLeg.sprite = cosmeticData.LeftLegSprite();
+        _presidentRightHand.sprite = cosmeticData.RightHandSprite();
+        _presidentLeftHand.sprite = cosmeticData.LeftHandSprite();
+        if (cosmeticData.TailSprite())
         {
             _presidentTail.gameObject.SetActive(true);
-            _presidentTail.sprite = cosmeticData.TailSprite;
+            _presidentTail.sprite = cosmeticData.TailSprite();
         }
         else
         {
@@ -215,6 +215,6 @@ public class CollectionEquipment : MonoBehaviour
         var bulletData = shoppableSO as BulletData;
         if (!bulletData) return;
 
-        _bulletPreviewImg.sprite = bulletData.shopSprite;
+        _bulletPreviewImg.sprite = bulletData.shopSprite();
     }
 }

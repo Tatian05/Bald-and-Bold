@@ -14,7 +14,7 @@ public class ShoppableSO : ScriptableObject
 
     string _shoppableName;
     Sprite _shopSprite;
-    public Sprite shopSprite => _shopSprite;
+    public Sprite shopSprite() => _shopSprite;
     public string shoppableName => _shoppableName;
     public virtual void OnStart()
     {

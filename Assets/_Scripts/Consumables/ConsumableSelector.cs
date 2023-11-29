@@ -23,7 +23,7 @@ public class ConsumableSelector : MonoBehaviour
         if (!coll.Any()) return;
 
         foreach (var item in coll)
-            Instantiate(item.Consumable).SetParent(_content);
+            Instantiate(item.Consumable()).SetParent(_content);
 
         _consumablesInventory = _content.GetComponentsInChildren<Consumables>().ToList();
         SetPositions();

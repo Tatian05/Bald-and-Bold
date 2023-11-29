@@ -37,7 +37,7 @@ public class ConsumablesUI : MonoBehaviour
     public ConsumablesUI SetConsumable(Consumables consumable)
     {
         _consumable = consumable;
-        _img.sprite = _consumable.ConsumableData.shopSprite;
+        _img.sprite = _consumable.ConsumableData.shopSprite();
         return this;
     }
     public ConsumablesUI SetTime(float time)

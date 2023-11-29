@@ -8,7 +8,7 @@ public class UI_Task : MonoBehaviour
     [SerializeField] TextMeshProUGUI _taskName, _taskDescription, _taskStage, _taskCurrentProgress, _taskGoldenBaldAward, _taskPresiCoinAward;
     [SerializeField] Image _backgroundImg, _fakeMaskImg, _progressBar;
     [SerializeField] AnimationCurve _animationCurve;
-    [SerializeField] Animator _animator, _noteMaskAnimator;
+    [SerializeField] Animator _animator;
 
     TaskUIManager _taskUIManager;
     TaskSO _task;
@@ -97,7 +97,6 @@ public class UI_Task : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         _animator.Play("NoteTakeOff");
-        _noteMaskAnimator.Play("NoteMask");
     }
     void ReclaimButton()
     {
