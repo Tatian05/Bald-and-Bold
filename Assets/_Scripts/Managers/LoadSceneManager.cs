@@ -26,11 +26,11 @@ public class LoadSceneManager : MonoBehaviour
         Helpers.PersistantData.gameData.currentLevel = lastLevel || Helpers.PersistantData.gameData.currentLevel > currentLevel ? Helpers.PersistantData.gameData.currentLevel : currentLevel + 1;
 
         string nextScene = lastLevel && Helpers.PersistantData.gameData.currentDeaths > ZonesManager.Instance.zones.Last().deathsNeeded ||
-            ZonesManager.Instance.lastLevelsZone.Any(x => x == SceneManager.GetActiveScene().name) ? "LevelsMap" :
+            ZonesManager.Instance.lastLevelsZone.Any(x => x == SceneManager.GetActiveScene().name) ? "LevelSelect" :
             lastLevel && Helpers.PersistantData.gameData.currentDeaths <= ZonesManager.Instance.zones.Last().deathsNeeded ? "WinScreen"
             : $"Level {currentLevel + 1}";
 
-        LoadLevelAsync(nextScene, nextScene.Equals("LevelsMap"));
+        LoadLevelAsync(nextScene, nextScene.Equals("LevelSelect"));
     }
 
     IEnumerator LoadAsync(string sceneName, bool fadeOut)

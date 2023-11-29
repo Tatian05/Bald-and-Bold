@@ -2,10 +2,17 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Linq;
+using DG.Tweening;
 public class LevelsMap : MonoBehaviour
 {
     [SerializeField] Button[] _zonesButtons;
+    [SerializeField] Image[] _buttonsBackground;
+    [SerializeField] Button _menuButton, _shopButton;
+    [SerializeField] Image _menuBackground, _shopBackground;
     [SerializeField] TextMeshProUGUI[] _deathsZoneTxt;
+    [SerializeField] Transform _mano;
+    [SerializeField] Ease _easeIn, _easeOut;
+    [SerializeField] Color _buttonsBackgroundColor;
     private void Start()
     {
         Helpers.AudioManager.PlayMusic("Elevator Music");
@@ -42,11 +49,11 @@ public class LevelsMap : MonoBehaviour
         {
             zonesManager.zones[i].SetCurrentDeaths();
             deathsAmount += zonesManager.zones[i].currentDeathsInZone;
-            SetButton(_deathsZoneTxt[i], _zonesButtons[i], zonesManager.zones[i].deathsNeeded, ref deathsAmount, ZonesManager.Instance.zones[i].levelsZone.First());
+            SetButton(_deathsZoneTxt[i], _zonesButtons[i], zonesManager.zones[i].deathsNeeded, ref deathsAmount, ZonesManager.Instance.zones[i].levelsZone.First(), _buttonsBackground[i]);
             if (zonesManager.zones[i].currentDeathsInZone > zonesManager.zones[i].deathsNeeded) break;
         }
     }
-    public void SetButton(TextMeshProUGUI deathsZoneTxt, Button buttonZone, int deathsNeeded, ref int deathsAmount, string sceneToLoad)
+    public void SetButton(TextMeshProUGUI deathsZoneTxt, Button buttonZone, int deathsNeeded, ref int deathsAmount, string sceneToLoad, Image buttonBackground)
     {
         buttonZone.interactable = true;
 
@@ -55,6 +62,32 @@ public class LevelsMap : MonoBehaviour
         deathsZoneTxt.text = $"{deathsAmount} / {deathsNeeded}";
         deathsZoneTxt.color = deathsAmount <= deathsNeeded ? Color.green : Color.red;
 
-        buttonZone.onClick.AddListener(() => Helpers.GameManager.LoadSceneManager.LoadLevelAsync(sceneToLoad, true));
+        buttonZone.onClick.AddListener(() =>
+        {
+            _mano.DOMove(buttonZone.transform.position - new Vector3(0f, .5f), 1f).SetEase(_easeIn).
+            OnComplete(() =>
+            {
+                buttonBackground.color = _buttonsBackgroundColor;
+                _mano.DOMoveY(_mano.transform.position.y - 100f, 1f).SetEase(_easeOut).OnComplete(() => Helpers.GameManager.LoadSceneManager.LoadLevelAsync(sceneToLoad, true));
+            });
+        });
+    }
+    public void MenuButton(string MenuSceneName)
+    {
+        _mano.DOMove(_menuButton.transform.position - new Vector3(0f, .5f), 1f).SetEase(_easeIn).
+        OnComplete(() =>
+        {
+            _menuBackground.color = _buttonsBackgroundColor;
+            _mano.DOMoveY(_mano.transform.position.y - 100f, 1f).SetEase(_easeOut).OnComplete(() => Helpers.GameManager.LoadSceneManager.LoadLevelAsync(MenuSceneName, true));
+        });
+    }
+    public void ShopButton(string ShopSceneName)
+    {
+        _mano.DOMove(_shopButton.transform.position - new Vector3(0f, .5f), 1f).SetEase(_easeIn).
+        OnComplete(() =>
+        {
+            _shopBackground.color = _buttonsBackgroundColor;
+            _mano.DOMoveY(_mano.transform.position.y - 100f, 1f).SetEase(_easeOut).OnComplete(() => Helpers.GameManager.LoadSceneManager.LoadLevelAsync(ShopSceneName, true));
+        });
     }
 }
