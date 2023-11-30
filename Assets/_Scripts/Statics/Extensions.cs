@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
 public static class Extensions
 {
     public static void AddExplosionForce(this Rigidbody2D body, float explosionForce, Vector3 explosionPosition, float explosionRadius)
@@ -36,5 +35,17 @@ public static class Extensions
 
         return components.FirstOrDefault(childComponent =>
             childComponent.transform != obj.transform);
+    }
+    public static T[] AddToArray<T>(this T[] array, T element)
+    {
+        return (FList.Cast(array) + element).ToArray();
+    }
+    public static T[] RemoveToArray<T>(this T[] array, T element)
+    {
+        return array.Where(x => !x.Equals(element)).ToArray();
+    }
+    public static T[] RemoveToArrayByIndex<T>(this T[] array, int index)
+    {
+        return array.Where((item, i) => i != index).ToArray();
     }
 }
