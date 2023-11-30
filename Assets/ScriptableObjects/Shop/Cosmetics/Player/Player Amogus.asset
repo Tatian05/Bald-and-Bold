@@ -16,9 +16,12 @@ MonoBehaviour:
   shoppableQuality: 1
   cost: 5
   localizationID: ID_SkinAmogus
-  shopSpriteName: Cabeza prota Amogus
+  shopSprite: {fileID: 21300000, guid: 439c268e250a3c143a017e0e481720a0, type: 3}
+  shoppableName: 
   cosmeticType: 0
-  torsoSpriteName: Torso prota Amogus
-  rightLegSpriteName: Pierna prota Amogus
-  leftLegSpriteName: Pierna prota Amogus
-  tailSpriteName: 
+  torsoSprite: {fileID: 21300000, guid: b51660bd09948ca43bae9815509a1f10, type: 3}
+  rightLegSprite: {fileID: 21300000, guid: 46dc8d92fbb44c744b691739bd014ad2, type: 3}
+  leftLegSprite: {fileID: 21300000, guid: 46dc8d92fbb44c744b691739bd014ad2, type: 3}
+  rightHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
+  leftHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
+  tailSprite: {fileID: 0}

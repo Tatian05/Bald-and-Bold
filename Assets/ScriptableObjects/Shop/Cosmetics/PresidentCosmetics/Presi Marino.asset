@@ -16,9 +16,12 @@ MonoBehaviour:
   shoppableQuality: 0
   cost: 2
   localizationID: ID_SkinMarine
-  shopSpriteName: Cabeza presidente Marino
+  shopSprite: {fileID: 21300000, guid: 27574255dedc5fe4f97ef10155869092, type: 3}
+  shoppableName: 
   cosmeticType: 1
-  torsoSpriteName: Torso Presidente Marino
-  rightLegSpriteName: Pierna Presidente Marino
-  leftLegSpriteName: Pierna Presidente Marino
-  tailSpriteName: 
+  torsoSprite: {fileID: 21300000, guid: 14e396cf27d920a49810e266f2f790f4, type: 3}
+  rightLegSprite: {fileID: 21300000, guid: 6fb1b00a9c3e14d48b630229858832c1, type: 3}
+  leftLegSprite: {fileID: 21300000, guid: 6fb1b00a9c3e14d48b630229858832c1, type: 3}
+  rightHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
+  leftHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
+  tailSprite: {fileID: 0}

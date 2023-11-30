@@ -16,9 +16,12 @@ MonoBehaviour:
   shoppableQuality: 1
   cost: 5
   localizationID: ID_SkinQuinn
-  shopSpriteName: Cabeza Presidente Quinn
+  shopSprite: {fileID: 21300000, guid: 82ab775b248abf748a22f70526f4b4b0, type: 3}
+  shoppableName: 
   cosmeticType: 1
-  torsoSpriteName: Torso Presidente Quinn
-  rightLegSpriteName: Pierna der Presidente Quinn
-  leftLegSpriteName: Pierna izq Presidente Quinn
-  tailSpriteName: 
+  torsoSprite: {fileID: 21300000, guid: 3606e619d3a045443ab8b4ac0316f199, type: 3}
+  rightLegSprite: {fileID: 21300000, guid: 3001142ae61d23c4dace0a84cf140816, type: 3}
+  leftLegSprite: {fileID: 21300000, guid: 17d84e6424b747b40a27fe0516ee84d2, type: 3}
+  rightHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
+  leftHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
+  tailSprite: {fileID: 0}

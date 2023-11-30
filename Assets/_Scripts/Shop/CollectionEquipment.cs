@@ -67,14 +67,14 @@ public class CollectionEquipment : MonoBehaviour
         Func<bool> isEquiped = () => currentCollection[_index] == playerCosmeticEquiped || currentCollection[_index] == presidentCosmeticEquiped || currentCollection[_index] == bulletEquiped;
 
         foreach (var item in _consumablesCollectionList.Distinct())
-            Instantiate(_consumableCollectionPrefab).SetParent(_consumableContent).SetImage(item.shopSprite()).SetCount(_consumablesCollectionList.GroupBy(x => x).First(x => x.Key == item).Count());
+            Instantiate(_consumableCollectionPrefab).SetParent(_consumableContent).SetImage(item.shopSprite).SetCount(_consumablesCollectionList.GroupBy(x => x).First(x => x.Key == item).Count());
 
         _nextCosmetic.onClick.AddListener(() =>
         {
             if (!currentCollection.Any()) return;
             _index = (_index + 1) % currentCollection.Count;
             _equipCosmetic(currentCollection[_index]);
-            _cosmeticName.text = currentCollection[_index].shoppableName();
+            _cosmeticName.text = currentCollection[_index].shoppableName;
             _equipButton.interactable = !isEquiped();
         });
         _previousCosmetic.onClick.AddListener(() =>
@@ -116,7 +116,7 @@ public class CollectionEquipment : MonoBehaviour
             currentCollection = _playerCosmeticsList.OfType<ShoppableSO>().ToList();
             _equipCosmetic = EquipPlayer;
             _equipCosmetic(currentCollection[_index]);
-            _cosmeticName.text = currentCollection[_index].shoppableName();
+            _cosmeticName.text = currentCollection[_index].shoppableName;
             _consumableWindow.SetActive(false);
             _presidentWindow.SetActive(false);
             _bulletsWindow.SetActive(false);
@@ -129,13 +129,13 @@ public class CollectionEquipment : MonoBehaviour
             currentCollection = _presidentCosmeticsList.OfType<ShoppableSO>().ToList();
             _equipCosmetic = EquipPresident;
             _equipCosmetic(currentCollection[_index]);
-            _cosmeticName.text = currentCollection[_index].shoppableName();
+            _cosmeticName.text = currentCollection[_index].shoppableName;
             _consumableWindow.SetActive(false);
             _playerWindow.SetActive(false);
             _bulletsWindow.SetActive(false);
             _cosmeticWindow.SetActive(true);
             _presidentWindow.SetActive(true);
-            _cosmeticName.text = currentCollection[_index].shoppableName();
+            _cosmeticName.text = currentCollection[_index].shoppableName;
         });
 
         _windowButtons[2].onClick.AddListener(() =>
@@ -152,7 +152,7 @@ public class CollectionEquipment : MonoBehaviour
             currentCollection = _bulletCollectionList.OfType<ShoppableSO>().ToList();
             _equipCosmetic = EquipBullet;
             _equipCosmetic(currentCollection[_index]);
-            _cosmeticName.text = currentCollection[_index].shoppableName();
+            _cosmeticName.text = currentCollection[_index].shoppableName;
             _consumableWindow.SetActive(false);
             _playerWindow.SetActive(false);
             _presidentWindow.SetActive(false);
@@ -161,7 +161,7 @@ public class CollectionEquipment : MonoBehaviour
         });
 
         _windowButtons[0].onClick.Invoke();
-        _cosmeticName.text = _playerCosmeticsList[_index].shoppableName();
+        _cosmeticName.text = _playerCosmeticsList[_index].shoppableName;
 
         _nextCosmetic.onClick.Invoke();
     }
@@ -171,16 +171,16 @@ public class CollectionEquipment : MonoBehaviour
         var cosmeticData = shoppableSO as CosmeticData;
         if (!cosmeticData) return;
         
-        _playerHead.sprite = cosmeticData.HeadSprite();
-        _playerTorso.sprite = cosmeticData.TorsoSprite();
-        _playerRightLeg.sprite = cosmeticData.RightLegSprite();
-        _playerLeftLeg.sprite = cosmeticData.LeftLegSprite();
-        _playerRightHand.sprite = cosmeticData.RightHandSprite();
-        _playerLeftHand.sprite = cosmeticData.LeftHandSprite();
-        if (cosmeticData.TailSprite())
+        _playerHead.sprite = cosmeticData.shopSprite;
+        _playerTorso.sprite = cosmeticData.torsoSprite;
+        _playerRightLeg.sprite = cosmeticData.rightLegSprite;
+        _playerLeftLeg.sprite = cosmeticData.leftLegSprite;
+        _playerRightHand.sprite = cosmeticData.rightHandSprite;
+        _playerLeftHand.sprite = cosmeticData.leftHandSprite;
+        if (cosmeticData.tailSprite)
         {
             _playerTail.gameObject.SetActive(true);
-            _playerTail.sprite = cosmeticData.TailSprite();
+            _playerTail.sprite = cosmeticData.tailSprite;
         }
         else
         {
@@ -193,16 +193,16 @@ public class CollectionEquipment : MonoBehaviour
         var cosmeticData = shoppable as CosmeticData;
         if (!cosmeticData) return;
         
-        _presidentHead.sprite = cosmeticData.HeadSprite();
-        _presidentTorso.sprite = cosmeticData.TorsoSprite();
-        _presidentRightLeg.sprite = cosmeticData.RightLegSprite();
-        _presidentLeftLeg.sprite = cosmeticData.LeftLegSprite();
-        _presidentRightHand.sprite = cosmeticData.RightHandSprite();
-        _presidentLeftHand.sprite = cosmeticData.LeftHandSprite();
-        if (cosmeticData.TailSprite())
+        _presidentHead.sprite = cosmeticData.shopSprite;
+        _presidentTorso.sprite = cosmeticData.torsoSprite;
+        _presidentRightLeg.sprite = cosmeticData.rightLegSprite;
+        _presidentLeftLeg.sprite = cosmeticData.leftLegSprite;
+        _presidentRightHand.sprite = cosmeticData.rightHandSprite;
+        _presidentLeftHand.sprite = cosmeticData.leftHandSprite;
+        if (cosmeticData.tailSprite)
         {
             _presidentTail.gameObject.SetActive(true);
-            _presidentTail.sprite = cosmeticData.TailSprite();
+            _presidentTail.sprite = cosmeticData.tailSprite;
         }
         else
         {
@@ -215,6 +215,6 @@ public class CollectionEquipment : MonoBehaviour
         var bulletData = shoppableSO as BulletData;
         if (!bulletData) return;
 
-        _bulletPreviewImg.sprite = bulletData.shopSprite();
+        _bulletPreviewImg.sprite = bulletData.shopSprite;
     }
 }

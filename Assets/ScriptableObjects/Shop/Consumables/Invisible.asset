@@ -16,7 +16,9 @@ MonoBehaviour:
   shoppableQuality: 1
   cost: 5
   localizationID: ID_Invisible
-  shopSpriteName: Invisible
+  shopSprite: {fileID: 21300000, guid: bc942e9608df932489cd8c99f44cf4e1, type: 3}
+  shoppableName: 
   description: Not Found
   consumableDuration: 180
   descriptionLocalizationID: ID_InvisibleDescription
+  consumable: {fileID: 2046888496694403929, guid: 3f140c4e3ff839646afc29a6b783557e, type: 3}

@@ -13,12 +13,12 @@ public class PresidentSetSkin : MonoBehaviour
 
         CosmeticData cosmetic = Helpers.PersistantData.persistantDataSaved.presidentCosmeticEquiped;
 
-        _headSprite.sprite = cosmetic.HeadSprite();
-        _torsoSprite.sprite = cosmetic.TorsoSprite();
-        _rightLegSprite.sprite = cosmetic.RightLegSprite();
-        _leftLegSprite.sprite = cosmetic.LeftLegSprite();
-        _rightHandSprite.sprite = cosmetic.RightHandSprite();
-        _leftHandSprite.sprite = cosmetic.LeftHandSprite();
-        _tailSprite.sprite = cosmetic.TailSprite() ? cosmetic.TailSprite() : null;
+        _headSprite.sprite = cosmetic.shopSprite;
+        _torsoSprite.sprite = cosmetic.torsoSprite;
+        _rightLegSprite.sprite = cosmetic.rightLegSprite;
+        _leftLegSprite.sprite = cosmetic.leftLegSprite;
+        _rightHandSprite.sprite = cosmetic.rightHandSprite;
+        _leftHandSprite.sprite = cosmetic.leftHandSprite;
+        _tailSprite.sprite = cosmetic.tailSprite ? cosmetic.tailSprite : null;
     }
 }

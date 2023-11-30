@@ -16,7 +16,9 @@ MonoBehaviour:
   shoppableQuality: 2
   cost: 10
   localizationID: ID_Minigun
-  shopSpriteName: Minigun
+  shopSprite: {fileID: 21300000, guid: 9b7d53fe74b655b4ca7e5f96cfd61339, type: 3}
+  shoppableName: 
   description: Not Found
   consumableDuration: 300
   descriptionLocalizationID: ID_MinigunDescription
+  consumable: {fileID: 5370345060838640217, guid: a1694396d129c684d88f0e7f5629176e, type: 3}

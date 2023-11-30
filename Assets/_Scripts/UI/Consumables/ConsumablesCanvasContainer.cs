@@ -14,7 +14,7 @@ public class ConsumablesCanvasContainer : MonoBehaviour
 
         if (consumablesActive.Count > 0)
             foreach (var item in consumablesActive)
-                ActivateConsumableUI(item.Key.Consumable(), item.Value);
+                ActivateConsumableUI(item.Key.consumable, item.Value);
     }
     public void ActivateConsumableUI(params object[] param)
     {

@@ -17,7 +17,7 @@ public class MenuManager : MonoBehaviour
     }
     public void Play()
     {
-        Helpers.PersistantData.DeletePersistantData();
+        Helpers.PersistantData.ResetGame();
         PlayerPrefs.DeleteAll();
         _trainCinematic.Play();
         Helpers.PersistantData.gameData.firstTime = false;

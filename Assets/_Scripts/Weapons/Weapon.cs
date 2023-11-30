@@ -23,8 +23,7 @@ namespace Weapons
             _rb = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             if (_droppableWeapon) _animator = GetComponent<Animator>();
-            _equipedBulletx16 = Helpers.PersistantData.persistantDataSaved.bulletEquiped.shopSprite();
-            _equipedBulletx32 = Helpers.PersistantData.persistantDataSaved.bulletEquiped.bulletX32();
+            _equipedBulletx16 = Helpers.PersistantData.persistantDataSaved.bulletEquiped.shopSprite;
         }
         private void OnEnable()
         {

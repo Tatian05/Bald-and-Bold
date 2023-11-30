@@ -16,7 +16,9 @@ MonoBehaviour:
   shoppableQuality: 0
   cost: 2
   localizationID: ID_Boots
-  shopSpriteName: Boots
+  shopSprite: {fileID: 21300000, guid: 5e692c92aaa98654f8e3b2412c7a0cf6, type: 3}
+  shoppableName: 
   description: Not Found
   consumableDuration: 60
   descriptionLocalizationID: ID_BootsDescription
+  consumable: {fileID: 4870124190114539066, guid: 5b7bad33ea25eb04ba1eeae01d2aff8a, type: 3}

@@ -16,9 +16,12 @@ MonoBehaviour:
   shoppableQuality: 1
   cost: 5
   localizationID: ID_SkinAstronaut
-  shopSpriteName: Cabeza presidente Astronauta
+  shopSprite: {fileID: 21300000, guid: 3dfd34869061419418d5edd3c7cd3afa, type: 3}
+  shoppableName: 
   cosmeticType: 1
-  torsoSpriteName: Torso Presidente Astronauta
-  rightLegSpriteName: Pierna Presidente Astronauta
-  leftLegSpriteName: Pierna Presidente Astronauta
-  tailSpriteName: 
+  torsoSprite: {fileID: 21300000, guid: 25ac5ac3dc9016d42ad9b7cc253c0a3d, type: 3}
+  rightLegSprite: {fileID: 21300000, guid: 16184576a9e1c0141a73d01b8e60b8bb, type: 3}
+  leftLegSprite: {fileID: 21300000, guid: 16184576a9e1c0141a73d01b8e60b8bb, type: 3}
+  rightHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
+  leftHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
+  tailSprite: {fileID: 0}

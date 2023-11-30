@@ -16,7 +16,9 @@ MonoBehaviour:
   shoppableQuality: 0
   cost: 2
   localizationID: ID_Cadence
-  shopSpriteName: Cadence
+  shopSprite: {fileID: 21300000, guid: 85e49839329751c48bbf5d97a9b9fed7, type: 3}
+  shoppableName: 
   description: Not Found
   consumableDuration: 60
   descriptionLocalizationID: ID_CadenceDescription
+  consumable: {fileID: 3437544642497185531, guid: bcf6933a5e158af429f5f41f3eabaf96, type: 3}
