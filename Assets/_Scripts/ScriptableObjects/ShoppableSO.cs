@@ -14,8 +14,8 @@ public class ShoppableSO : ScriptableObject
 
     string _shoppableName;
     Sprite _shopSprite;
-    public Sprite shopSprite => _shopSprite;
-    public string shoppableName => _shoppableName;
+    public Sprite shopSprite() => _shopSprite;
+    public string shoppableName() => _shoppableName;
     protected virtual void OnEnable()
     {
         _shopSprite = Resources.Load<Sprite>($"ShopSprites/{shopSpriteName}");

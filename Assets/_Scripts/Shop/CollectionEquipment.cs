@@ -74,7 +74,7 @@ public class CollectionEquipment : MonoBehaviour
             if (!currentCollection.Any()) return;
             _index = (_index + 1) % currentCollection.Count;
             _equipCosmetic(currentCollection[_index]);
-            _cosmeticName.text = currentCollection[_index].shoppableName;
+            _cosmeticName.text = currentCollection[_index].shoppableName();
             _equipButton.interactable = !isEquiped();
         });
         _previousCosmetic.onClick.AddListener(() =>
@@ -116,7 +116,7 @@ public class CollectionEquipment : MonoBehaviour
             currentCollection = _playerCosmeticsList.OfType<ShoppableSO>().ToList();
             _equipCosmetic = EquipPlayer;
             _equipCosmetic(currentCollection[_index]);
-            _cosmeticName.text = currentCollection[_index].shoppableName;
+            _cosmeticName.text = currentCollection[_index].shoppableName();
             _consumableWindow.SetActive(false);
             _presidentWindow.SetActive(false);
             _bulletsWindow.SetActive(false);
@@ -129,13 +129,13 @@ public class CollectionEquipment : MonoBehaviour
             currentCollection = _presidentCosmeticsList.OfType<ShoppableSO>().ToList();
             _equipCosmetic = EquipPresident;
             _equipCosmetic(currentCollection[_index]);
-            _cosmeticName.text = currentCollection[_index].shoppableName;
+            _cosmeticName.text = currentCollection[_index].shoppableName();
             _consumableWindow.SetActive(false);
             _playerWindow.SetActive(false);
             _bulletsWindow.SetActive(false);
             _cosmeticWindow.SetActive(true);
             _presidentWindow.SetActive(true);
-            _cosmeticName.text = currentCollection[_index].shoppableName;
+            _cosmeticName.text = currentCollection[_index].shoppableName();
         });
 
         _windowButtons[2].onClick.AddListener(() =>
@@ -152,7 +152,7 @@ public class CollectionEquipment : MonoBehaviour
             currentCollection = _bulletCollectionList.OfType<ShoppableSO>().ToList();
             _equipCosmetic = EquipBullet;
             _equipCosmetic(currentCollection[_index]);
-            _cosmeticName.text = currentCollection[_index].shoppableName;
+            _cosmeticName.text = currentCollection[_index].shoppableName();
             _consumableWindow.SetActive(false);
             _playerWindow.SetActive(false);
             _presidentWindow.SetActive(false);
@@ -161,7 +161,7 @@ public class CollectionEquipment : MonoBehaviour
         });
 
         _windowButtons[0].onClick.Invoke();
-        _cosmeticName.text = _playerCosmeticsList[_index].shoppableName;
+        _cosmeticName.text = _playerCosmeticsList[_index].shoppableName();
 
         _nextCosmetic.onClick.Invoke();
     }

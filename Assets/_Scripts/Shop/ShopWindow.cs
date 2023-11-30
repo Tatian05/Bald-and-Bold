@@ -176,7 +176,7 @@ public class ShopWindow : MonoBehaviour
             {
                 allButtons.ForEach(x => x.image.color = Color.clear);
                 item.image.color = _selectedColor;
-                _shoppableSelectedTxt.text = _shoppableSelected.shoppableName;
+                _shoppableSelectedTxt.text = _shoppableSelected.shoppableName();
                 _coinsTextBuyButton.text = _shoppableSelected.cost.ToString();
                 _buyButton.interactable = _persistantDataSaved.presiCoins >= _shoppableSelected.cost ? true : false;
             });

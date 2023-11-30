@@ -13,7 +13,7 @@ public class ConsumableData : ShoppableSO
     public string descriptionLocalizationID;
 
     Consumables _consumable;
-    public Consumables Consumable => _consumable;
+    public Consumables Consumable() => _consumable;
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -27,7 +27,7 @@ public class ConsumableData : ShoppableSO
     public void SetShopConsumable(TextMeshProUGUI descriptionTxt, TextMeshProUGUI durationTxt, Image image) {
         descriptionTxt.text = description;
         durationTxt.text = $"{consumableDuration}s";
-        image.sprite = shopSprite;
+        image.sprite = shopSprite();
     }
     public override void Buy()
     {
