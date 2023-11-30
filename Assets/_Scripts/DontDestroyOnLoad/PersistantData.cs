@@ -36,7 +36,7 @@ public class PersistantData : SingletonPersistent<PersistantData>
 
         foreach (var item in tasksSO) item.taskProgress = tasks.GetTaskProgress(item.ID);
     }
-    public void DeletePersistantData()
+    public void ResetGame()
     {
         SaveLoadSystem.Delete(GAME_DATA);
         gameData = new GameData();
