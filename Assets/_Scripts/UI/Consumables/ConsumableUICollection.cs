@@ -7,7 +7,8 @@ public class ConsumableUICollection : MonoBehaviour
     [SerializeField] TextMeshProUGUI _countTxt; 
     public ConsumableUICollection SetParent(Transform parent)
     {
-        transform.SetParent(parent);
+        transform.SetParent(parent, true);
+        transform.localScale = Vector3.one;
         return this;
     }
     public ConsumableUICollection SetImage(Sprite sprite)

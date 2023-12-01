@@ -45,7 +45,7 @@ public class Gachapon : MonoBehaviour
     void UpdateLists()
     {
         _gachaDictionary = new Dictionary<List<ShoppableSO>, int>();
-        var filterColl = _allGachaShoppables.Except(_persistantData.shoppablesInCollection);
+        var filterColl = _allGachaShoppables.Except(_persistantData.CosmeticsInCollection);
         _normalQualityShoppables = filterColl.Where(x => x.shoppableQuality == ShoppableQuality.Normal).ToList();
         _rareQualityShoppables = filterColl.Where(x => x.shoppableQuality == ShoppableQuality.Rare).ToList();
         _epicQualityShoppables = filterColl.Where(x => x.shoppableQuality == ShoppableQuality.Epic).ToList();

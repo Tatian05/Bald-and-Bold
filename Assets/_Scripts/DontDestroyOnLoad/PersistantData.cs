@@ -20,6 +20,7 @@ public class PersistantData : SingletonPersistent<PersistantData>
     [Header("Consumables Activated")]
     public List<ConsumableData> consumablesActivated;
     public List<float> consumablesActivatedTime;
+    public List<ShoppableSO> CosmeticsInCollection => shoppablesInCollection.Except(shoppablesInCollection.OfType<ConsumableData>()).ToList();
 
     public void AddShoppableToCollection(ShoppableSO shoppable)
     {
@@ -114,7 +115,7 @@ public class PersistantData : SingletonPersistent<PersistantData>
     {
         persistantDataSaved.Save(shoppablesInCollection);
         consumablesData.Save(consumablesActivated, consumablesActivatedTime);
-        tasks.SetTaskProgress(tasksSO);
+        tasks.SaveTasks(tasksSO);
 
         SaveLoadSystem.SaveData(GAME_DATA, gameData, true);
         SaveLoadSystem.SaveData(SETTINGS_DATA, settingsData, true);
@@ -159,7 +160,7 @@ public struct Settings
 [Serializable]
 public struct Tasks
 {
-    #region Quests
+    #region Tasks
     public TaskProgress[] tasksProgress;
     public UI_TaskVariables[] UI_Task_Progress;
     #endregion
@@ -171,7 +172,10 @@ public struct Tasks
     public UI_TaskVariables GetUITaskProgress(int index) => UI_Task_Progress[index];
     public TaskProgress GetTaskProgress(int index) => tasksProgress[index];
     public void SetUITaskProgress(int index, UI_TaskVariables progress) => UI_Task_Progress[index] = progress;
-    public void SetTaskProgress(TaskSO[] taskSO) => tasksProgress = taskSO.Select(x => x.taskProgress).ToArray();
+    public void SaveTasks(TaskSO[] currentTasks)
+    {
+        tasksProgress = currentTasks.Select(x => x.taskProgress).ToArray();
+    }
 }
 
 [Serializable]
@@ -198,7 +202,6 @@ public class PersistantDataSaved
 {
     [Header("Coins")]
     public int presiCoins, goldenBaldCoins;
-
 
     #region Cosmetics
     [Header("Cosmetics")]

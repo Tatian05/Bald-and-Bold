@@ -27,7 +27,7 @@ public class TaskUIManager : MonoBehaviour
         {
             for (int t = 0; t < 4; t++)
             {
-                Instantiate(_uiTaskPrefab, _papersContent[i]).SetTask(taskSO[_index]).SetStats();
+                Instantiate(_uiTaskPrefab, _papersContent[i]).SetPosition(_taskPaper[i].Spawns[t].position).SetTask(taskSO[_index]).SetStats();
                 if (_index >= taskSO.Length - 1)
                     break;
                 _index++;
@@ -94,4 +94,5 @@ public struct UI_TaskVariables
     public int currentStageGoal, currentStage;
     public float currentProgress;
     public Vector3 randomRotation;
+    public bool completed;
 }

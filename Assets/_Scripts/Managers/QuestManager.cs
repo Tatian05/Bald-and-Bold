@@ -15,7 +15,7 @@ public class QuestManager : MonoBehaviour
         var index = Array.IndexOf(tasks, tasks.FirstOrDefault(x => x.taskName.Equals((string)param[0])));
         if (tasks[index].AddProgressAndStageCompleted((int)param[1])) _questUINotificationManager.GetNotification().
                                                       SetQuestName(tasks[index].taskName).
-                                                      SetQuestStage(tasks[index].taskProgress.currentStage - 1, tasks[index].stages.Length).
+                                                      SetQuestStage(tasks[index].taskProgress.currentStage, tasks[index].stages.Length).
                                                       Init();
     }
     private void OnDestroy()

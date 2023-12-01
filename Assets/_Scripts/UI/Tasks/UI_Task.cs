@@ -20,10 +20,20 @@ public class UI_Task : MonoBehaviour
     {
         _taskUIManager = GetComponentInParent<TaskUIManager>();
     }
+    public UI_Task SetPosition(Vector3 position)
+    {
+        transform.position = position; 
+        return this;
+    }
     public UI_Task SetTask(TaskSO task)
     {
         _task = task;
         _variables = Helpers.PersistantData.tasks.GetUITaskProgress(_task.ID);
+        if (_variables.completed)
+        {
+            gameObject.SetActive(false);
+            return this;
+        }
         if (_variables.currentStageGoal <= 0) _variables.currentStageGoal = _task.stages[_variables.currentStage];
         if (_variables.randomRotation == Vector3.zero) _variables.randomRotation = new Vector3(0, 0, Random.Range(-10, 11));
         transform.eulerAngles = _variables.randomRotation;
@@ -32,6 +42,7 @@ public class UI_Task : MonoBehaviour
     }
     public UI_Task SetStats()
     {
+        if (_variables.completed) return this;
         _taskName.text = _task.taskName;
         _taskDescription.text = _task.taskDescription;
         _taskStage.text = $"{_variables.currentStage + 1}/ {_task.stages.Length}";
@@ -47,8 +58,8 @@ public class UI_Task : MonoBehaviour
         _points = _task.stages.Skip(_variables.currentStage).Take(_task.taskProgress.currentStage.Equals(_variables.currentStage) ? 1 : _task.taskProgress.currentStage - _variables.currentStage).ToArray();
         _points[_points.Length - 1] = _task.taskProgress.progress;
 
-        _lerpGoal = _task.taskProgress.totalProgress - _variables.currentProgress;
-        _lerpTime = _lerpGoal * .5f;
+        _lerpGoal = _task.taskProgress.totalProgress;
+        _lerpTime = (_lerpGoal - _variables.currentProgress) * .5f;
 
         _uiTaskAnimation = UIAnimation;
         Helpers.PersistantData.tasks.SetUITaskProgress(_task.ID, _variables);
@@ -74,6 +85,8 @@ public class UI_Task : MonoBehaviour
         {
             if (_variables.currentProgress >= _task.stages.Last())
             {
+                _variables.completed = true;
+                Helpers.PersistantData.tasks.SetUITaskProgress(_task.ID, _variables);
                 StartCoroutine(PlayAnimation());
                 _uiTaskAnimation = null;
                 return;

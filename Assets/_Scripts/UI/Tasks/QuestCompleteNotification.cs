@@ -12,7 +12,7 @@ public class QuestCompleteNotification : MonoBehaviour
     }
     public QuestCompleteNotification SetQuestStage(int stageCompleted, int totalStages)
     {
-        _descriptionTxt.text = $"stage {stageCompleted + 1}/ {totalStages} completed";
+        _descriptionTxt.text = $"stage {stageCompleted}/ {totalStages} completed";
         return this;
     }
     public QuestCompleteNotification Init()
