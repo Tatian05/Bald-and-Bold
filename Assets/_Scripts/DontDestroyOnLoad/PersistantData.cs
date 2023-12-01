@@ -4,12 +4,82 @@ using System.Linq;
 using UnityEngine;
 public class PersistantData : SingletonPersistent<PersistantData>
 {
+    public TaskSO[] tasksSO;
+    public ShoppableSO[] allShoppables;
+
+    #region SHOPPABLES LISTS
+
+    [Header("Equiped")]
+    public CosmeticData playerCosmeticEquiped;
+    public CosmeticData presidentCosmeticEquiped;
+    public BulletData bulletEquiped;
+
+    [Header("Collection")]
+    public List<ShoppableSO> shoppablesInCollection;
+
+    [Header("Consumables Activated")]
+    public List<ConsumableData> consumablesActivated;
+    public List<float> consumablesActivatedTime;
+
+    public void AddShoppableToCollection(ShoppableSO shoppable)
+    {
+        if (shoppable.shoppableType != ShoppableType.Consumable && shoppablesInCollection.Contains(shoppable)) return;
+
+        shoppablesInCollection.Add(shoppable);
+    }
+    public void RemoveShoppableToCollection(ShoppableSO shoppable)
+    {
+        if (!shoppablesInCollection.Contains(shoppable)) return;
+
+        shoppablesInCollection.Remove(shoppable);
+    }
+    void LoadLists()
+    {
+        foreach (var item in persistantDataSaved.shoppablesInCollectionIDs)
+        {
+            if (item < 0) continue;
+            AddShoppableToCollection(allShoppables[item]);
+        }
+
+        if (persistantDataSaved.playerCosmeticEquipedID >= 0) playerCosmeticEquiped = allShoppables[persistantDataSaved.playerCosmeticEquipedID] as CosmeticData;
+        if (persistantDataSaved.presidentCosmeticEquipedID >= 0) presidentCosmeticEquiped = allShoppables[persistantDataSaved.presidentCosmeticEquipedID] as CosmeticData;
+        if (persistantDataSaved.bulletEquipedID >= 0) bulletEquiped = allShoppables[persistantDataSaved.bulletEquipedID] as BulletData;
+
+        //CONSUMABLES ACTIVADOS
+        consumablesActivated = allShoppables.OfType<ConsumableData>().Where(x => consumablesData.consumablesActivatedIDs.Contains(x.ID)).ToList();
+        consumablesActivatedTime = consumablesData.consumablesActivatedTime.ToList();
+    }
+    public void SaveConsumableActivated(ConsumableData consumable, float time)
+    {
+        if (consumablesActivated.Contains(consumable))
+        {
+            consumablesActivatedTime[consumablesActivated.IndexOf(consumable)] = time;
+            return;
+        }
+
+        consumablesActivated.Add(consumable);
+        consumablesActivatedTime.Add(time);
+    }
+    public void RemoveConsumableActivated(ConsumableData consumable)
+    {
+        if (!consumablesActivated.Contains(consumable)) return;
+
+        var index = consumablesActivated.IndexOf(consumable);
+
+        if (index != -1)
+        {
+            consumablesActivated.RemoveAt(index);
+            consumablesActivatedTime.RemoveAt(index);
+        }
+    }
+
+    #endregion
+
     public GameData gameData;
     public PersistantDataSaved persistantDataSaved;
     public Settings settingsData = new Settings { generalVolume = 1, musicVolume = 1, sfxVolume = 1 };
     public Tasks tasks;
     public ConsumablesValues consumablesData;
-    public TaskSO[] tasksSO;
 
     const string GAME_DATA = "Mu9BoZZfUB";
     const string PERSISTANT_DATA = "jM8SuzEYoW";
@@ -26,13 +96,11 @@ public class PersistantData : SingletonPersistent<PersistantData>
         gameData = SaveLoadSystem.LoadData(GAME_DATA, true, new GameData());
         settingsData = SaveLoadSystem.LoadData(SETTINGS_DATA, true, settingsData);
         consumablesData = SaveLoadSystem.LoadData(CONSUMABLES_DATA, true, new ConsumablesValues());
-        persistantDataSaved = SaveLoadSystem.LoadData(PERSISTANT_DATA, true,
-            new PersistantDataSaved(Resources.Load<CosmeticData>("Player Default"),
-                                    Resources.Load<CosmeticData>("Presi Default"),
-                                    Resources.Load<BulletData>("Bullet Default")));
+        persistantDataSaved = SaveLoadSystem.LoadData(PERSISTANT_DATA, true, new PersistantDataSaved());
         tasks = SaveLoadSystem.LoadData(TASKS, true, new Tasks(tasksSO.Length));
 
-        persistantDataSaved.Init();
+        persistantDataSaved.Load();
+        LoadLists();
 
         foreach (var item in tasksSO) item.taskProgress = tasks.GetTaskProgress(item.ID);
     }
@@ -44,7 +112,10 @@ public class PersistantData : SingletonPersistent<PersistantData>
     public void SaveConsumablesData() => SaveLoadSystem.SaveData(CONSUMABLES_DATA, consumablesData, true);
     private void OnDestroy()
     {
+        persistantDataSaved.Save(shoppablesInCollection);
+        consumablesData.Save(consumablesActivated, consumablesActivatedTime);
         tasks.SetTaskProgress(tasksSO);
+
         SaveLoadSystem.SaveData(GAME_DATA, gameData, true);
         SaveLoadSystem.SaveData(SETTINGS_DATA, settingsData, true);
         SaveLoadSystem.SaveData(PERSISTANT_DATA, persistantDataSaved, true);
@@ -108,36 +179,18 @@ public class ConsumablesValues
 {
     public float cadenceBoost = 1, bulletScaleBoost = 1, knifeBoost = 1;
     public bool recoil = true, boots, invisible, hasMinigun;
-    public List<ConsumableData> consumablesActivated;
-    public List<float> consumablesActivatedTime;
-    public Dictionary<ConsumableData, float> consumablesWithTime;
+    public int[] consumablesActivatedIDs;
+    public float[] consumablesActivatedTime;
     public ConsumablesValues()
     {
-        consumablesActivated = new List<ConsumableData>();
-        consumablesActivatedTime = new List<float>();
+        consumablesActivatedIDs = new int[0];
+        consumablesActivatedTime = new float[0];
     }
-    public void SaveConsumable(ConsumableData consumableData, float time)
+    public void Save(List<ConsumableData> consumablesActivated, List<float> consumablesTime)
     {
-        if (consumablesActivated.Contains(consumableData))
-        {
-            var index = consumablesActivated.IndexOf(consumableData);
-            if (index != -1)
-                consumablesActivatedTime[index] = time;
-            return;
-        }
-
-        consumablesActivated.Add(consumableData);
-        consumablesActivatedTime.Add(time);
+        consumablesActivatedIDs = consumablesActivated.Select(x => x.ID).ToArray();
+        consumablesActivatedTime = consumablesTime.ToArray();
     }
-    public void RemoveConsumable(ConsumableData consumableData)
-    {
-        if (!consumablesActivated.Contains(consumableData)) return;
-
-        var index = consumablesActivated.IndexOf(consumableData);
-        consumablesActivated.RemoveAt(index);
-        consumablesActivatedTime.RemoveAt(index);
-    }
-    public Dictionary<ConsumableData, float> LoadActivesConsumables() => consumablesActivated.DictioraryFromTwoLists(consumablesActivatedTime);
 }
 
 [Serializable]
@@ -146,28 +199,14 @@ public class PersistantDataSaved
     [Header("Coins")]
     public int presiCoins, goldenBaldCoins;
 
-    public List<ShoppableSO> cosmeticsInCollection;
 
     #region Cosmetics
     [Header("Cosmetics")]
-    public CosmeticData playerCosmeticEquiped;
-    public CosmeticData presidentCosmeticEquiped;
-    public BulletData bulletEquiped;
-    public List<CosmeticData> playerCosmeticCollection;
-    public List<CosmeticData> presidentCosmeticCollection;
+    public int playerCosmeticEquipedID;
+    public int presidentCosmeticEquipedID;
+    public int bulletEquipedID;
+    public int[] shoppablesInCollectionIDs;
     #endregion 
-
-    #region Consumables 
-
-    public List<ConsumableData> consumablesInCollection;
-
-    #endregion
-
-    #region Bullets
-
-    public List<BulletData> bulletsInCollection;
-
-    #endregion
 
     #region Bindings
     [Header("Bindings")]
@@ -176,48 +215,24 @@ public class PersistantDataSaved
     public Dictionary<string, string> userBindings;
     #endregion
 
-    public PersistantDataSaved(CosmeticData playerDefault, CosmeticData presiDefault, BulletData bulletDefault)
+    public PersistantDataSaved()
     {
-        playerCosmeticEquiped = playerDefault;
-        presidentCosmeticEquiped = presiDefault;
-        bulletEquiped = bulletDefault;
-        playerCosmeticCollection = new List<CosmeticData>();
-        presidentCosmeticCollection = new List<CosmeticData>();
-        consumablesInCollection = new List<ConsumableData>();
-        bulletsInCollection = new List<BulletData>();
+        playerCosmeticEquipedID = -1;
+        presidentCosmeticEquipedID = -2;
+        bulletEquipedID = -3;
+        shoppablesInCollectionIDs = new int[0];
         userBindingKeys = new List<string>();
         userBindingValues = new List<string>();
         userBindings = new Dictionary<string, string>();
     }
-    public void Init()
+    public void Load()
     {
-        playerCosmeticEquiped.OnStart();
-        presidentCosmeticEquiped.OnStart();
-        bulletEquiped.OnStart();
-        RemoveEmptySlot();
         LoadUserBindingsDictionary();
-        LoadCosmeticsCollection();
     }
-    public void RemoveEmptySlot()
-    {
-        for (int i = 0; i < playerCosmeticCollection.Count; i++)
-            if (!playerCosmeticCollection[i]) playerCosmeticCollection.Remove(playerCosmeticCollection[i]);
-
-        for (int i = 0; i < presidentCosmeticCollection.Count; i++)
-            if (!presidentCosmeticCollection[i]) presidentCosmeticCollection.Remove(presidentCosmeticCollection[i]);
-    }
-
     public void AddPresiCoins(int amount) { presiCoins += amount; }
     public void AddGoldenBaldCoins(int amount) { goldenBaldCoins += amount; }
     public void Buy(int amount) { presiCoins -= amount; }
     public void Gacha(int amount) { goldenBaldCoins -= amount; }
-    public void AddCosmetic(CosmeticType cosmeticType, CosmeticData cosmetic)
-    {
-        if (cosmeticType is CosmeticType.Player && !playerCosmeticCollection.Contains(cosmetic)) playerCosmeticCollection.Add(cosmetic);
-        else if (cosmeticType is CosmeticType.President && !presidentCosmeticCollection.Contains(cosmetic)) presidentCosmeticCollection.Add(cosmetic);
-    }
-    public void AddConsumable(ConsumableData consumableData) { consumablesInCollection.Add(consumableData); }
-    public void RemoveConsumable(ConsumableData consumableData) { consumablesInCollection.Remove(consumableData); }
     public void AddBinding(string key, string value)
     {
         if (userBindings.ContainsKey(key))
@@ -232,14 +247,12 @@ public class PersistantDataSaved
         userBindingValues.Add(value);
         userBindings.Add(key, value);
     }
-    public void AddBullet(BulletData bulletData)
+    public void Save(List<ShoppableSO> shoppablesInCollection)
     {
-        if (bulletsInCollection.Contains(bulletData)) return;
-        bulletsInCollection.Add(bulletData);
+        shoppablesInCollectionIDs = shoppablesInCollection.Select(x => x.ID).ToArray();
     }
     public string GetBind(string key) => userBindings.ContainsKey(key) ? userBindings[key] : string.Empty;
     public void LoadUserBindingsDictionary() { userBindings = userBindingKeys.DictioraryFromTwoLists(userBindingValues); }
-    public void LoadCosmeticsCollection() { cosmeticsInCollection = playerCosmeticCollection.OfType<ShoppableSO>().Concat(presidentCosmeticCollection).Concat(bulletsInCollection).ToList(); }
 }
 
 [Serializable]

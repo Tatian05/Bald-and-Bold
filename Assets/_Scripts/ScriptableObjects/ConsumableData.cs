@@ -24,6 +24,6 @@ public class ConsumableData : ShoppableSO
     public override void Buy()
     {
         base.Buy();
-        Helpers.PersistantData.persistantDataSaved.AddConsumable(this);
+        Helpers.PersistantData.AddShoppableToCollection(this);
     }
 }

@@ -24,13 +24,13 @@ public class ConsumablesUI : MonoBehaviour
         if (_countDown <= 0)
         {
             _consumable.ConsumableAction(false);
-            Helpers.PersistantData.consumablesData.RemoveConsumable(_consumable.ConsumableData);
+            Helpers.PersistantData.RemoveConsumableActivated(_consumable.ConsumableData);
             Destroy(gameObject);
         }
     }
     void SaveConsumableTime(params object[] param)
     {
-        if (_countDown > 0) Helpers.PersistantData.consumablesData.SaveConsumable(_consumable.ConsumableData, _countDown);
+        if (_countDown > 0) Helpers.PersistantData.SaveConsumableActivated(_consumable.ConsumableData, _countDown);
         EventManager.UnSubscribeToEvent(Contains.SAVE_GAME, SaveConsumableTime);
     }
 

@@ -10,9 +10,9 @@ public class PlayerSetSkin : MonoBehaviour
 
     public void SetSkin()
     {
-        if (!Helpers.PersistantData.persistantDataSaved.playerCosmeticEquiped) return;
+        if (!Helpers.PersistantData.playerCosmeticEquiped) return;
         
-        CosmeticData cosmetic = Helpers.PersistantData.persistantDataSaved.playerCosmeticEquiped;
+        CosmeticData cosmetic = Helpers.PersistantData.playerCosmeticEquiped;
         _headSprite.sprite = cosmetic.shopSprite;
         _torsoSprite.sprite = cosmetic.torsoSprite;
         _rightLegSprite.sprite = cosmetic.rightLegSprite;

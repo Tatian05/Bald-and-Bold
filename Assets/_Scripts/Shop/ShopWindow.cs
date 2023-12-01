@@ -40,6 +40,7 @@ public class ShopWindow : MonoBehaviour
     ShoppableSO _shoppableSelected;
     ShopItem _itemSelected;
     Color _buttonsColor;
+    PersistantData _persistantData;
     PersistantDataSaved _persistantDataSaved;
     List<ShopItem> _allShopItems = new List<ShopItem>(), _inCollectionShopItems = new List<ShopItem>();
     Button _lastPlayerCosmeticSelected, _lastPresidentCosmeticSelected, _lastConsumableSelected, _lastBulletSelected;
@@ -48,6 +49,7 @@ public class ShopWindow : MonoBehaviour
     public static event System.Action UpdateCollList;
     void Awake()
     {
+        _persistantData = Helpers.PersistantData;
         _persistantDataSaved = Helpers.PersistantData.persistantDataSaved;
 
         _playerCosmetics = _allShopables.OfType<CosmeticData>().Where(x => x.cosmeticType == CosmeticType.Player).OrderBy(x => x.shoppableQuality).ToArray();
@@ -60,7 +62,7 @@ public class ShopWindow : MonoBehaviour
         if (_start) return;
 
         foreach (var item in _allShopItems.Except(_inCollectionShopItems))
-            if (_persistantDataSaved.cosmeticsInCollection.Contains(item.ShoppableSO)) item.SetInCollection(true);
+            if (_persistantData.shoppablesInCollection.Contains(item.ShoppableSO)) item.SetInCollection(true);
     }
     void Start()
     {
@@ -83,7 +85,7 @@ public class ShopWindow : MonoBehaviour
 
             var button = cosmeticItem.GetComponent<Button>();
             allButtons.Add(button);
-            if (_persistantDataSaved.playerCosmeticCollection.Contains(cosmeticItem.ShoppableSO))
+            if (_persistantData.shoppablesInCollection.Contains(cosmeticItem.ShoppableSO))
             {
                 cosmeticItem.SetInCollection(true);
                 _inCollectionShopItems.Add(cosmeticItem);
@@ -108,7 +110,7 @@ public class ShopWindow : MonoBehaviour
 
             var button = cosmeticItem.GetComponent<Button>();
             allButtons.Add(button);
-            if (_persistantDataSaved.presidentCosmeticCollection.Contains(cosmeticItem.ShoppableSO))
+            if (_persistantData.shoppablesInCollection.Contains(cosmeticItem.ShoppableSO))
             {
                 cosmeticItem.SetInCollection(true);
                 _inCollectionShopItems.Add(cosmeticItem);
@@ -152,7 +154,7 @@ public class ShopWindow : MonoBehaviour
 
             var button = cosmeticItem.GetComponent<Button>();
             allButtons.Add(button);
-            if (_persistantDataSaved.bulletsInCollection.Contains(cosmeticItem.ShoppableSO))
+            if (_persistantData.shoppablesInCollection.Contains(cosmeticItem.ShoppableSO))
             {
                 cosmeticItem.SetInCollection(true);
                 _inCollectionShopItems.Add(cosmeticItem);

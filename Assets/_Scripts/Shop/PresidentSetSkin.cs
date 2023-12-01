@@ -9,9 +9,9 @@ public class PresidentSetSkin : MonoBehaviour
     }
     public void SetSkin()
     {
-        if (!Helpers.PersistantData.persistantDataSaved.presidentCosmeticEquiped) return;
+        if (!Helpers.PersistantData.presidentCosmeticEquiped) return;
 
-        CosmeticData cosmetic = Helpers.PersistantData.persistantDataSaved.presidentCosmeticEquiped;
+        CosmeticData cosmetic = Helpers.PersistantData.presidentCosmeticEquiped;
 
         _headSprite.sprite = cosmetic.shopSprite;
         _torsoSprite.sprite = cosmetic.torsoSprite;

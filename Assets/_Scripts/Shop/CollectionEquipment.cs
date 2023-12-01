@@ -27,22 +27,33 @@ public class CollectionEquipment : MonoBehaviour
 
     int _index;
     Color _buttonsColor;
-    PersistantDataSaved _persistantDataSaved;
+    PersistantData _persistantData;
     CosmeticData[] _playerCosmeticsList;
     CosmeticData[] _presidentCosmeticsList;
     BulletData[] _bulletCollectionList;
     ConsumableData[] _consumablesCollectionList;
     Action<ShoppableSO> _equipCosmetic;
-    void Awake()
+    CosmeticData _playerCosmeticEquiped, _presidentCosmeticEquiped;
+    BulletData _bulletEquiped;
+    private void Awake()
     {
-        _persistantDataSaved = Helpers.PersistantData.persistantDataSaved;
-        _playerCosmeticsList = _persistantDataSaved.playerCosmeticCollection.ToArray();
-        _presidentCosmeticsList = _persistantDataSaved.presidentCosmeticCollection.ToArray();
-        _consumablesCollectionList = _persistantDataSaved.consumablesInCollection.ToArray();
-        _bulletCollectionList = _persistantDataSaved.bulletsInCollection.ToArray();
+        _persistantData = Helpers.PersistantData;
     }
     void OnEnable()
     {
+        _playerCosmeticEquiped = _persistantData.playerCosmeticEquiped;
+        _presidentCosmeticEquiped = _persistantData.presidentCosmeticEquiped;
+        _bulletEquiped = _persistantData.bulletEquiped;
+
+        //_persistantData.AddShoppableToCollection(_playerCosmeticEquiped);
+        //_persistantData.AddShoppableToCollection(_presidentCosmeticEquiped);
+        //_persistantData.AddShoppableToCollection(_bulletEquiped);
+
+        _playerCosmeticsList = _persistantData.shoppablesInCollection.OfType<CosmeticData>().Where(x => x.cosmeticType == CosmeticType.Player).ToArray();
+        _presidentCosmeticsList = _persistantData.shoppablesInCollection.OfType<CosmeticData>().Where(x => x.cosmeticType == CosmeticType.President).ToArray();
+        _consumablesCollectionList = _persistantData.shoppablesInCollection.OfType<ConsumableData>().ToArray();
+        _bulletCollectionList = _persistantData.shoppablesInCollection.OfType<BulletData>().ToArray();
+
         foreach (var item in _playerCosmeticsList.OfType<ShoppableSO>().Concat(_presidentCosmeticsList).Concat(_consumablesCollectionList).Concat(_bulletCollectionList))
             item.OnStart();
     }
@@ -51,20 +62,12 @@ public class CollectionEquipment : MonoBehaviour
         _buttonsColor = _windowButtons[0].image.color;
         PersistantDataSaved persistantDataSaved = Helpers.PersistantData.persistantDataSaved;
 
-        var playerCosmeticEquiped = persistantDataSaved.playerCosmeticEquiped;
-        var presidentCosmeticEquiped = persistantDataSaved.presidentCosmeticEquiped;
-        var bulletEquiped = persistantDataSaved.bulletEquiped;
-
-        persistantDataSaved.AddCosmetic(CosmeticType.Player, playerCosmeticEquiped);
-        persistantDataSaved.AddCosmetic(CosmeticType.President, presidentCosmeticEquiped);
-        persistantDataSaved.AddBullet(bulletEquiped);
-
-        EquipPlayer(playerCosmeticEquiped);
-        EquipPresident(presidentCosmeticEquiped);
-        EquipBullet(bulletEquiped);
+        EquipPlayer(_playerCosmeticEquiped);
+        EquipPresident(_presidentCosmeticEquiped);
+        EquipBullet(_bulletEquiped);
 
         List<ShoppableSO> currentCollection = null;
-        Func<bool> isEquiped = () => currentCollection[_index] == playerCosmeticEquiped || currentCollection[_index] == presidentCosmeticEquiped || currentCollection[_index] == bulletEquiped;
+        Func<bool> isEquiped = () => currentCollection[_index] == _playerCosmeticEquiped || currentCollection[_index] == _presidentCosmeticEquiped || currentCollection[_index] == _bulletEquiped;
 
         foreach (var item in _consumablesCollectionList.Distinct())
             Instantiate(_consumableCollectionPrefab).SetParent(_consumableContent).SetImage(item.shopSprite).SetCount(_consumablesCollectionList.GroupBy(x => x).First(x => x.Key == item).Count());
@@ -89,15 +92,15 @@ public class CollectionEquipment : MonoBehaviour
         {
             if (_playerWindow.activeSelf)
             {
-                persistantDataSaved.playerCosmeticEquiped = _playerCosmeticsList[_index];
+                _persistantData.playerCosmeticEquiped = _playerCosmeticsList[_index];
                 if (Helpers.GameManager) Helpers.GameManager.SetPlayerSkin();
             }
             else if (_presidentWindow.activeSelf)
             {
-                persistantDataSaved.presidentCosmeticEquiped = _presidentCosmeticsList[_index];
+                _persistantData.presidentCosmeticEquiped = _presidentCosmeticsList[_index];
                 if (Helpers.GameManager) Helpers.GameManager.SetPresidentSkin();
             }
-            else persistantDataSaved.bulletEquiped = _bulletCollectionList[_index];
+            else _persistantData.bulletEquiped = _bulletCollectionList[_index];
             _equipButton.interactable = false;
         });
 
@@ -170,7 +173,7 @@ public class CollectionEquipment : MonoBehaviour
     {
         var cosmeticData = shoppableSO as CosmeticData;
         if (!cosmeticData) return;
-        
+
         _playerHead.sprite = cosmeticData.shopSprite;
         _playerTorso.sprite = cosmeticData.torsoSprite;
         _playerRightLeg.sprite = cosmeticData.rightLegSprite;
@@ -192,7 +195,7 @@ public class CollectionEquipment : MonoBehaviour
     {
         var cosmeticData = shoppable as CosmeticData;
         if (!cosmeticData) return;
-        
+
         _presidentHead.sprite = cosmeticData.shopSprite;
         _presidentTorso.sprite = cosmeticData.torsoSprite;
         _presidentRightLeg.sprite = cosmeticData.rightLegSprite;

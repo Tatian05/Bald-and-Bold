@@ -21,7 +21,7 @@ namespace BaldAndBold.Consumables
         {
             ConsumableAction(true);
             EventManager.TriggerEvent(Contains.CONSUMABLE, this, _consumableData.consumableDuration);
-            Helpers.PersistantData.persistantDataSaved.RemoveConsumable(_consumableData);
+            Helpers.PersistantData.RemoveShoppableToCollection(_consumableData);
             Destroy(gameObject);
         }
         public void SetInteractableButton(bool interactable) { _triggerButton.interactable = interactable; }

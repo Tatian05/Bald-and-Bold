@@ -10,18 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a52bc19e8500d2b4885dde9bbe02d1e8, type: 3}
-  m_Name: Presi Marciano
+  m_Name: Presi Quinn
   m_EditorClassIdentifier: 
   shoppableType: 0
-  shoppableQuality: 0
-  cost: 2
-  localizationID: ID_SkinMartian
-  shopSprite: {fileID: 21300000, guid: 6779cde0dbc2c8047b988fa5680ccbd1, type: 3}
+  shoppableQuality: 1
+  ID: 21
+  cost: 5
+  localizationID: ID_SkinQuinn
+  shopSprite: {fileID: 21300000, guid: 82ab775b248abf748a22f70526f4b4b0, type: 3}
   shoppableName: 
   cosmeticType: 1
-  torsoSprite: {fileID: 21300000, guid: 718c1d2b9137dd84ca33cefd2fd36e4f, type: 3}
-  rightLegSprite: {fileID: 21300000, guid: 24cc73f60a1d2a341b09f0fab0d49503, type: 3}
-  leftLegSprite: {fileID: 21300000, guid: 24cc73f60a1d2a341b09f0fab0d49503, type: 3}
+  torsoSprite: {fileID: 21300000, guid: 3606e619d3a045443ab8b4ac0316f199, type: 3}
+  rightLegSprite: {fileID: 21300000, guid: 3001142ae61d23c4dace0a84cf140816, type: 3}
+  leftLegSprite: {fileID: 21300000, guid: 17d84e6424b747b40a27fe0516ee84d2, type: 3}
   rightHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
   leftHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
   tailSprite: {fileID: 0}

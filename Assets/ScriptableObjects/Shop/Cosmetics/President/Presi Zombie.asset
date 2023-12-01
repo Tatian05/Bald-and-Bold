@@ -10,18 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a52bc19e8500d2b4885dde9bbe02d1e8, type: 3}
-  m_Name: Presi Bombero
+  m_Name: Presi Zombie
   m_EditorClassIdentifier: 
   shoppableType: 0
   shoppableQuality: 0
+  ID: 23
   cost: 2
-  localizationID: ID_SkinBomber
-  shopSprite: {fileID: 21300000, guid: 4bbeacfb59d91ff4b87b5c472d00b256, type: 3}
+  localizationID: ID_SkinZombie
+  shopSprite: {fileID: 21300000, guid: 62695b595d4a95545a8f1c6711349968, type: 3}
   shoppableName: 
   cosmeticType: 1
-  torsoSprite: {fileID: 21300000, guid: 8fd47132b41faeb458b0c0f00a6c54cb, type: 3}
-  rightLegSprite: {fileID: 21300000, guid: d417b7e48b9a6f241aea2f3f35b6e768, type: 3}
-  leftLegSprite: {fileID: 21300000, guid: d417b7e48b9a6f241aea2f3f35b6e768, type: 3}
+  torsoSprite: {fileID: 21300000, guid: 214a2a263b5867a40a433f859d7a818b, type: 3}
+  rightLegSprite: {fileID: 21300000, guid: 955a558d0fdad2b4c8da6782a44dd07d, type: 3}
+  leftLegSprite: {fileID: 21300000, guid: 955a558d0fdad2b4c8da6782a44dd07d, type: 3}
   rightHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
   leftHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
   tailSprite: {fileID: 0}

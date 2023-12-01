@@ -10,18 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a52bc19e8500d2b4885dde9bbe02d1e8, type: 3}
-  m_Name: Presi Mariachi
+  m_Name: Presi Banana
   m_EditorClassIdentifier: 
   shoppableType: 0
-  shoppableQuality: 1
-  cost: 5
-  localizationID: ID_SkinMariachi
-  shopSprite: {fileID: 21300000, guid: 4628b48100d01cc4b8f92e9ecb8bdb0a, type: 3}
+  shoppableQuality: 2
+  ID: 13
+  cost: 10
+  localizationID: ID_SkinBanana
+  shopSprite: {fileID: 21300000, guid: 428bbf65e7a463c4bb4224413e5bdc28, type: 3}
   shoppableName: 
   cosmeticType: 1
-  torsoSprite: {fileID: 21300000, guid: d636f76d90264b548a5edc87f90eb913, type: 3}
-  rightLegSprite: {fileID: 21300000, guid: db1ecd3c13d6b95448c1830ebc816e4b, type: 3}
-  leftLegSprite: {fileID: 21300000, guid: db1ecd3c13d6b95448c1830ebc816e4b, type: 3}
+  torsoSprite: {fileID: 21300000, guid: 7ee08dc1c6f9203438292b5350d283d7, type: 3}
+  rightLegSprite: {fileID: 21300000, guid: ee4cc340b0d70b647b4e9602fd2866ab, type: 3}
+  leftLegSprite: {fileID: 21300000, guid: ee4cc340b0d70b647b4e9602fd2866ab, type: 3}
   rightHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
   leftHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
   tailSprite: {fileID: 0}

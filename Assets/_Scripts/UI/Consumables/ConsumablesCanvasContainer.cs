@@ -10,7 +10,7 @@ public class ConsumablesCanvasContainer : MonoBehaviour
     }
     void Start()
     {
-        var consumablesActive = Helpers.PersistantData.consumablesData.LoadActivesConsumables();
+        var consumablesActive = Helpers.PersistantData.consumablesActivated.DictioraryFromTwoLists(Helpers.PersistantData.consumablesActivatedTime);
 
         if (consumablesActive.Count > 0)
             foreach (var item in consumablesActive)

@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1520184938380114089}
-  - component: {fileID: 2739781973959394680}
   - component: {fileID: 3748602147031419994}
+  - component: {fileID: 2739781973959394680}
   m_Layer: 0
   m_Name: PersistantData
   m_TagString: Untagged
@@ -32,6 +32,111 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3748602147031419994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520184938380114091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e91771b3b1cac8145be6b5cdd1bcc59d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tasksSO:
+  - {fileID: 11400000, guid: c496b0398dc8b8f47bef2b6e6bc5b3fa, type: 2}
+  - {fileID: 11400000, guid: 9e2391543fc7cc04a999cfb8341b5c15, type: 2}
+  - {fileID: 11400000, guid: 32bfa74f229ca1b49957b6a192342fae, type: 2}
+  - {fileID: 11400000, guid: 2fa00d1a482c2ed44a03c87365d48cd1, type: 2}
+  - {fileID: 11400000, guid: fc90a8c8c8fbbe245b8e4c092f539cf0, type: 2}
+  - {fileID: 11400000, guid: 2ec6c2e24a0e94946a08069035eb6ba4, type: 2}
+  - {fileID: 11400000, guid: a9567ed66dc9f5e4aa8b1f19fc547f20, type: 2}
+  - {fileID: 11400000, guid: f06d9b4d81153474c973747d52adf766, type: 2}
+  - {fileID: 11400000, guid: 083c4592a9a6b574d9469385b5e776ac, type: 2}
+  allShoppables:
+  - {fileID: 11400000, guid: 144f6bd2d5a025f448fdb813667f13f8, type: 2}
+  - {fileID: 11400000, guid: 8e226112db9caef4a8e3d4094a96e7be, type: 2}
+  - {fileID: 11400000, guid: 644bea9df73800244bcbeb74bfc43357, type: 2}
+  - {fileID: 11400000, guid: 5202fc6796c6b9a4a9079a97327069f6, type: 2}
+  - {fileID: 11400000, guid: 1962790a345ae1e4a991b472e9f708f7, type: 2}
+  - {fileID: 11400000, guid: df8890c24e30a4b4e971c531884d811c, type: 2}
+  - {fileID: 11400000, guid: 1cafa4b1d6390fa41b22a1b4c9271a91, type: 2}
+  - {fileID: 11400000, guid: 71034fbe2b4332a48918e230691099fa, type: 2}
+  - {fileID: 11400000, guid: d74bcc87cb97a154381d0d2013ddab5c, type: 2}
+  - {fileID: 11400000, guid: 1333607f70370b848b802c0f9b0c90b2, type: 2}
+  - {fileID: 11400000, guid: 8aba1c211dbf1364f83a7757e07cdaa9, type: 2}
+  - {fileID: 11400000, guid: 4618cdcbd39ce9041a1be04ad5dad603, type: 2}
+  - {fileID: 11400000, guid: 17c64d7addd7a1140a5992a295ec3be6, type: 2}
+  - {fileID: 11400000, guid: 254c20dfa5286c645a8948a6e099ab56, type: 2}
+  - {fileID: 11400000, guid: 9f6975b039eaeca4cb0f1631ac90be73, type: 2}
+  - {fileID: 11400000, guid: e25fcb5f33c6cbc419054fa4d8642606, type: 2}
+  - {fileID: 11400000, guid: e6c3ed083b029f84a91513f4abd3a3a7, type: 2}
+  - {fileID: 11400000, guid: ab99eb5be1794324d94e2c3d12d2f3b2, type: 2}
+  - {fileID: 11400000, guid: 0ad53c61e69f6974588c696ca029d666, type: 2}
+  - {fileID: 11400000, guid: d5df65af4a606be4a84374a56e0efcc3, type: 2}
+  - {fileID: 11400000, guid: feae2ea12d353c54697cedb545b4250b, type: 2}
+  - {fileID: 11400000, guid: a182c14cc74feb641b1fd9a5ff5fd3f1, type: 2}
+  - {fileID: 11400000, guid: ab0d266a2c254434e80f7398321c938f, type: 2}
+  - {fileID: 11400000, guid: 0098710d0eb032c45a61cae4951a610f, type: 2}
+  - {fileID: 11400000, guid: 9a12143ca542ee248a10bfdd75902d5a, type: 2}
+  - {fileID: 11400000, guid: 39be8c4c63ec6624bb3ef61fae4bee48, type: 2}
+  - {fileID: 11400000, guid: 5705c1c2ff9eb8545890c56de0ba7028, type: 2}
+  - {fileID: 11400000, guid: 5d8cdccefd0ccf04388196f5726de439, type: 2}
+  - {fileID: 11400000, guid: 7c895d5e331a49e4889b6727cdc02a15, type: 2}
+  - {fileID: 11400000, guid: db2429bf86518734cb9947e7f8d68d72, type: 2}
+  - {fileID: 11400000, guid: d92dc2034d1c15643ad842180d25fd9d, type: 2}
+  - {fileID: 11400000, guid: b18b6908175d21f4ea6fbdf4cc2aea11, type: 2}
+  - {fileID: 11400000, guid: 8ee9a75d98c33664a8679e36dfb9824a, type: 2}
+  - {fileID: 11400000, guid: c950092c8f22f0d448c260320594dbf0, type: 2}
+  - {fileID: 11400000, guid: 78ccad56b82b3874491df1c423d9dd1c, type: 2}
+  - {fileID: 11400000, guid: 8073ccfa714efbd4b93749e5dd9c43b4, type: 2}
+  - {fileID: 11400000, guid: f612b91d5dce2aa4d8b884da598b653b, type: 2}
+  playerCosmeticEquiped: {fileID: 11400000, guid: 0ac4de9915f481f478f3906bd11216d8, type: 2}
+  presidentCosmeticEquiped: {fileID: 11400000, guid: 4b72506f51fa3c04c9edb744d8bfd7bd, type: 2}
+  bulletEquiped: {fileID: 11400000, guid: bc1ef3bc96dc5c942848b113e6437b54, type: 2}
+  shoppablesInCollection:
+  - {fileID: 11400000, guid: 0ac4de9915f481f478f3906bd11216d8, type: 2}
+  - {fileID: 11400000, guid: 4b72506f51fa3c04c9edb744d8bfd7bd, type: 2}
+  - {fileID: 11400000, guid: bc1ef3bc96dc5c942848b113e6437b54, type: 2}
+  consumablesActivated: []
+  consumablesActivatedTime: []
+  gameData:
+    unlockedZones: 0
+    currentLevel: 1
+    gameMode: 0
+    firstTime: 1
+    firstTimeLevelsMap: 1
+    currentDeaths: 0
+    levels: []
+    deaths: 
+  persistantDataSaved:
+    presiCoins: 0
+    goldenBaldCoins: 0
+    playerCosmeticEquipedID: 0
+    presidentCosmeticEquipedID: 0
+    bulletEquipedID: 0
+    shoppablesInCollectionIDs: 
+    userBindingKeys: []
+    userBindingValues: []
+  settingsData:
+    currentLanguage: 0
+    generalVolume: 1
+    musicVolume: 1
+    sfxVolume: 1
+  tasks:
+    tasksProgress: []
+    UI_Task_Progress: []
+  consumablesData:
+    cadenceBoost: 1
+    bulletScaleBoost: 1
+    knifeBoost: 1
+    recoil: 1
+    boots: 0
+    invisible: 0
+    hasMinigun: 0
+    consumablesActivatedIDs: 
+    consumablesActivatedTime: []
 --- !u!114 &2739781973959394680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,65 +223,3 @@ MonoBehaviour:
     currentDeathsInZone: 0
     ID: 7
   lastLevelsZone: []
---- !u!114 &3748602147031419994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1520184938380114091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e91771b3b1cac8145be6b5cdd1bcc59d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameData:
-    unlockedZones: 0
-    currentLevel: 1
-    gameMode: 0
-    firstTime: 1
-    firstTimeLevelsMap: 1
-    currentDeaths: 0
-    levels: []
-    deaths: 
-  persistantDataSaved:
-    presiCoins: 0
-    goldenBaldCoins: 0
-    cosmeticsInCollection: []
-    playerCosmeticEquiped: {fileID: 11400000, guid: 0ac4de9915f481f478f3906bd11216d8, type: 2}
-    presidentCosmeticEquiped: {fileID: 11400000, guid: 4b72506f51fa3c04c9edb744d8bfd7bd, type: 2}
-    bulletEquiped: {fileID: 11400000, guid: bc1ef3bc96dc5c942848b113e6437b54, type: 2}
-    playerCosmeticCollection: []
-    presidentCosmeticCollection: []
-    consumablesInCollection: []
-    bulletsInCollection: []
-    userBindingKeys: []
-    userBindingValues: []
-  settingsData:
-    currentLanguage: 0
-    generalVolume: 1
-    musicVolume: 1
-    sfxVolume: 1
-  tasks:
-    tasksProgress: []
-    UI_Task_Progress: []
-  consumablesData:
-    cadenceBoost: 1
-    bulletScaleBoost: 1
-    knifeBoost: 1
-    recoil: 1
-    boots: 0
-    invisible: 0
-    hasMinigun: 0
-    consumablesActivated: []
-    consumablesActivatedTime: []
-  tasksSO:
-  - {fileID: 11400000, guid: c496b0398dc8b8f47bef2b6e6bc5b3fa, type: 2}
-  - {fileID: 11400000, guid: 9e2391543fc7cc04a999cfb8341b5c15, type: 2}
-  - {fileID: 11400000, guid: 32bfa74f229ca1b49957b6a192342fae, type: 2}
-  - {fileID: 11400000, guid: 2fa00d1a482c2ed44a03c87365d48cd1, type: 2}
-  - {fileID: 11400000, guid: fc90a8c8c8fbbe245b8e4c092f539cf0, type: 2}
-  - {fileID: 11400000, guid: 2ec6c2e24a0e94946a08069035eb6ba4, type: 2}
-  - {fileID: 11400000, guid: a9567ed66dc9f5e4aa8b1f19fc547f20, type: 2}
-  - {fileID: 11400000, guid: f06d9b4d81153474c973747d52adf766, type: 2}
-  - {fileID: 11400000, guid: 083c4592a9a6b574d9469385b5e776ac, type: 2}

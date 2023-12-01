@@ -6,7 +6,7 @@ public class ShoppableSO : ScriptableObject
     [Header("Base Shoppable Variables")]
     public ShoppableType shoppableType;
     public ShoppableQuality shoppableQuality;
-    public int cost;
+    public int ID, cost;
     public string localizationID;
     public Sprite shopSprite;
     [HideInInspector] public string shoppableName;

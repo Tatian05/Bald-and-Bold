@@ -29,6 +29,6 @@ public class CosmeticData : ShoppableSO
     public override void Buy()
     {
         base.Buy();
-        Helpers.PersistantData.persistantDataSaved.AddCosmetic(cosmeticType, this);
+        Helpers.PersistantData.AddShoppableToCollection(this);
     }
 }

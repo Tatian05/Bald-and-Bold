@@ -7,10 +7,10 @@ public class Gachapon : MonoBehaviour
     [SerializeField] List<ShoppableSO> _normalQualityShoppables, _rareQualityShoppables, _epicQualityShoppables;
 
     Dictionary<List<ShoppableSO>, int> _gachaDictionary = new Dictionary<List<ShoppableSO>, int>();
-    PersistantDataSaved _persistantDataSaved;
+    PersistantData _persistantData;
     private void Start()
     {
-        _persistantDataSaved = Helpers.PersistantData.persistantDataSaved;
+        _persistantData = Helpers.PersistantData;
         UpdateLists();
         ShopWindow.UpdateCollList += UpdateListOnShop;
     }
@@ -25,17 +25,17 @@ public class Gachapon : MonoBehaviour
         if (shoppableGacha is CosmeticData)
         {
             var cosmetic = shoppableGacha as CosmeticData;
-            _persistantDataSaved.AddCosmetic(cosmetic.cosmeticType, cosmetic);
+            _persistantData.AddShoppableToCollection(cosmetic);
         }
         else if(shoppableGacha is ConsumableData)
         {
             var consumable = shoppableGacha as ConsumableData;
-            _persistantDataSaved.AddConsumable(consumable);
+            _persistantData.AddShoppableToCollection(consumable);
         }
         else
         {
             var bullet = shoppableGacha as BulletData;
-            _persistantDataSaved.AddBullet(bullet);
+            _persistantData.AddShoppableToCollection(bullet);
         }
         shoppableGacha.OnStart();
 
@@ -44,9 +44,8 @@ public class Gachapon : MonoBehaviour
     }
     void UpdateLists()
     {
-        _persistantDataSaved.LoadCosmeticsCollection();
         _gachaDictionary = new Dictionary<List<ShoppableSO>, int>();
-        var filterColl = _allGachaShoppables.Except(_persistantDataSaved.cosmeticsInCollection);
+        var filterColl = _allGachaShoppables.Except(_persistantData.shoppablesInCollection);
         _normalQualityShoppables = filterColl.Where(x => x.shoppableQuality == ShoppableQuality.Normal).ToList();
         _rareQualityShoppables = filterColl.Where(x => x.shoppableQuality == ShoppableQuality.Rare).ToList();
         _epicQualityShoppables = filterColl.Where(x => x.shoppableQuality == ShoppableQuality.Epic).ToList();
