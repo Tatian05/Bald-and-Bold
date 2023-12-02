@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 using System.Collections;
-using DG.Tweening;
 public class UI_Task : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI _taskName, _taskDescription, _taskStage, _taskCurrentProgress, _taskGoldenBaldAward, _taskPresiCoinAward;
@@ -61,7 +60,7 @@ public class UI_Task : MonoBehaviour
         if (_endGoal) return this;
 
         _lerpGoal = _variables.currentProgress + (_task.taskProgress.totalProgress - _variables.currentProgress);
-        _lerpTime = .1f + (_lerpGoal - _variables.currentProgress) * .5f;
+        _lerpTime = _lerpGoal - _variables.currentProgress * .5f;
 
         _uiTaskAnimation = UIAnimation;
         Helpers.PersistantData.tasks.SetUITaskProgress(_task.ID, _variables);
@@ -78,7 +77,7 @@ public class UI_Task : MonoBehaviour
         _endGoal = _variables.currentProgress >= _task.taskProgress.progress && _variables.currentStage >= _task.taskProgress.currentStage;
 
         _timeElapsed += Time.deltaTime;
-        _variables.currentProgress = Mathf.Lerp(_variables.currentProgress, _lerpGoal, _animationCurve.Evaluate(_timeElapsed / _lerpTime));
+        _variables.currentProgress = Mathf.Lerp(_variables.currentProgress, _lerpGoal + .1f, _animationCurve.Evaluate(_timeElapsed / _lerpTime));
 
         _progressBar.fillAmount = _variables.currentProgress / _variables.currentStageGoal;
         _taskCurrentProgress.text = $"{(int)_variables.currentProgress}/ {_variables.currentStageGoal}";
@@ -88,6 +87,8 @@ public class UI_Task : MonoBehaviour
             if (_variables.currentProgress >= _task.stages.Last())
             {
                 _variables.completed = true;
+                _task.ReclaimMision(_task.presiCoinsAward[_variables.currentStage], _task.goldenBaldCoinsAward[_variables.currentStage]);
+                _taskUIManager.UpdateCoinsAnimation();
                 StartCoroutine(PlayAnimation());
             }
             Helpers.PersistantData.tasks.SetUITaskProgress(_task.ID, _variables);
@@ -98,25 +99,19 @@ public class UI_Task : MonoBehaviour
         if (_variables.currentProgress >= _variables.currentStageGoal && _variables.currentStage != _task.taskProgress.currentStage)
         {
             _lerpGoal -= _variables.currentStageGoal;
+            _task.ReclaimMision(_task.presiCoinsAward[_variables.currentStage], _task.goldenBaldCoinsAward[_variables.currentStage]);
+            _taskUIManager.UpdateCoinsAnimation();
             _variables.currentStage++;
             _variables.currentStageGoal = _task.stages[_variables.currentStage];
             _taskStage.text = $"{_variables.currentStage + 1}/ {_task.stages.Length}";
             _variables.currentProgress = 0;
             _taskGoldenBaldAward.text = _task.goldenBaldCoinsAward[_variables.currentStage].ToString();
             _taskPresiCoinAward.text = _task.presiCoinsAward[_variables.currentStage].ToString();
-            _task.ReclaimMision();
-            _taskUIManager.UpdateCoins();
         }
     }
     IEnumerator PlayAnimation()
     {
         yield return new WaitForSeconds(1f);
         _animator.Play("NoteTakeOff");
-    }
-    void ReclaimButton()
-    {
-        _task.ReclaimMision();
-        SetStats();
-        _taskUIManager.UpdateCoins();
     }
 }

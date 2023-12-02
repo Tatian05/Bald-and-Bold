@@ -21,7 +21,8 @@ public class TaskSO : ScriptableObject
         taskProgress.totalProgress += amount;
         if (taskProgress.progress >= stages[taskProgress.currentStage])
         {
-            if (taskProgress.currentStage >= stages.Length - 1) {
+            if (taskProgress.currentStage >= stages.Length - 1)
+            {
                 taskProgress.completed = true;
                 return true;
             };
@@ -34,10 +35,10 @@ public class TaskSO : ScriptableObject
         return false;
     }
     public bool CanReclaimMision() => taskProgress.progress >= stages[taskProgress.currentStage];
-    public void ReclaimMision()
+    public void ReclaimMision(int presiCoinsReward, int goldenBaldCoinsReward)
     {
-        Helpers.PersistantData.persistantDataSaved.presiCoins += presiCoinsAward[taskProgress.currentStage];
-        Helpers.PersistantData.persistantDataSaved.goldenBaldCoins += goldenBaldCoinsAward[taskProgress.currentStage];
+        Helpers.PersistantData.persistantDataSaved.presiCoins += presiCoinsReward;
+        Helpers.PersistantData.persistantDataSaved.goldenBaldCoins += goldenBaldCoinsReward;
     }
 }
 

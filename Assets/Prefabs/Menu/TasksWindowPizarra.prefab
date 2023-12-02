@@ -288,6 +288,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uiTaskPrefab: {fileID: 8049890501609381, guid: f56b724db7a765442b97b3fc3f572eaa, type: 3}
+  _presiCoinsTransform: {fileID: 1318729400050811225}
+  _goldenBaldCoinsTransform: {fileID: 2920443919776981081}
   _goldenBaldTxt: {fileID: 5064613179564107363}
   _presiCoinTxt: {fileID: 3773142165293379481}
   _papersContent:
@@ -922,7 +924,7 @@ RectTransform:
   m_GameObject: {fileID: 7402370628230729739}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8183409434070873767}
   - {fileID: 3164492973446768852}
@@ -959,7 +961,7 @@ RectTransform:
   m_GameObject: {fileID: 7967264601626212076}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9074957311859345510}
   - {fileID: 6753464581252537605}

@@ -1,9 +1,11 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 public class TaskUIManager : MonoBehaviour
 {
     [SerializeField] UI_Task _uiTaskPrefab;
+    [SerializeField] Transform _presiCoinsTransform, _goldenBaldCoinsTransform;
     [SerializeField] TextMeshProUGUI _goldenBaldTxt, _presiCoinTxt;
     [SerializeField] Transform[] _papersContent;
     [SerializeField] TaskPaper[] _taskPaper;
@@ -13,6 +15,7 @@ public class TaskUIManager : MonoBehaviour
     int _currentPageIndex;
     InputAction _nextBeforePage;
     Vector2 _navigateInput;
+    Tween _tween1, _tween2;
     private void Awake()
     {
         _nextBeforePage = EventSystemScript.Instance.UIInputs.UI.Navigate;
@@ -49,8 +52,16 @@ public class TaskUIManager : MonoBehaviour
     }
     public void UpdateCoins()
     {
-        _goldenBaldTxt.text = _persistantData.persistantDataSaved.goldenBaldCoins.ToString();
         _presiCoinTxt.text = _persistantData.persistantDataSaved.presiCoins.ToString();
+        _goldenBaldTxt.text = _persistantData.persistantDataSaved.goldenBaldCoins.ToString();
+    }
+    public void UpdateCoinsAnimation()
+    {
+        _presiCoinTxt.text = _persistantData.persistantDataSaved.presiCoins.ToString();
+        _goldenBaldTxt.text = _persistantData.persistantDataSaved.goldenBaldCoins.ToString();
+
+        _presiCoinsTransform.DOScale(Vector3.one * 1.25f, .1f).OnComplete(() => _presiCoinsTransform.DOScale(Vector3.one, .1f));//.SetEase(Ease.InBack));
+        _goldenBaldCoinsTransform.DOScale(Vector3.one * 1.25f, .1f).OnComplete(() => _goldenBaldCoinsTransform.DOScale(Vector3.one, .1f));//.SetEase(Ease.InBack));
     }
 
     int _inputCounter;
