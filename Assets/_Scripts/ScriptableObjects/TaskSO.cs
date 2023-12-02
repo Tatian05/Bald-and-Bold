@@ -22,7 +22,6 @@ public class TaskSO : ScriptableObject
         if (taskProgress.progress >= stages[taskProgress.currentStage])
         {
             if (taskProgress.currentStage >= stages.Length - 1) {
-                taskProgress.currentStage++;
                 taskProgress.completed = true;
                 return true;
             };

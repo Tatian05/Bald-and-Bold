@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: Kill Enemies With Pistol
   m_EditorClassIdentifier: 
   taskProgress:
-    progress: 1
-    totalProgress: 6
-    currentStage: 1
+    progress: 0
+    totalProgress: 0
+    currentStage: 0
+    completed: 0
   taskName: Pistol
   taskDescription: Mata Enemigos con pistola
   stages: 050000000f0000001e000000
   presiCoinsAward: 050000000f0000001e000000
   goldenBaldCoinsAward: 010000000100000002000000
   ID: 5
-  noteColor: {r: 0.7647059, g: 0.32156864, b: 0.32156864, a: 1}
+  noteColor: {r: 0.19607843, g: 0.58431375, b: 0.30588236, a: 1}

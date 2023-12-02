@@ -10,9 +10,10 @@ public class QuestCompleteNotification : MonoBehaviour
         _questNameTxt.text = questName;
         return this;
     }
-    public QuestCompleteNotification SetQuestStage(int stageCompleted, int totalStages)
+    public QuestCompleteNotification SetQuestStage(bool completed, int stageCompleted, int totalStages)
     {
-        _descriptionTxt.text = $"stage {stageCompleted}/ {totalStages} completed";
+        var stage = completed ? stageCompleted + 1 : stageCompleted;
+        _descriptionTxt.text = $"stage {stage}/ {totalStages} completed";
         return this;
     }
     public QuestCompleteNotification Init()
