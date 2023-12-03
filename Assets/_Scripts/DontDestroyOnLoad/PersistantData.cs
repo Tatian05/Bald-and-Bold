@@ -13,6 +13,7 @@ public class PersistantData : SingletonPersistent<PersistantData>
     public CosmeticData playerCosmeticEquiped;
     public CosmeticData presidentCosmeticEquiped;
     public BulletData bulletEquiped;
+    public BulletData grenadeEquiped;
 
     [Header("Collection")]
     public List<ShoppableSO> shoppablesInCollection;
@@ -45,6 +46,7 @@ public class PersistantData : SingletonPersistent<PersistantData>
         if (persistantDataSaved.playerCosmeticEquipedID >= 0) playerCosmeticEquiped = allShoppables[persistantDataSaved.playerCosmeticEquipedID] as CosmeticData;
         if (persistantDataSaved.presidentCosmeticEquipedID >= 0) presidentCosmeticEquiped = allShoppables[persistantDataSaved.presidentCosmeticEquipedID] as CosmeticData;
         if (persistantDataSaved.bulletEquipedID >= 0) bulletEquiped = allShoppables[persistantDataSaved.bulletEquipedID] as BulletData;
+        if (persistantDataSaved.grenadeEquipedID >= 0) grenadeEquiped = allShoppables[persistantDataSaved.grenadeEquipedID] as BulletData;
 
         //CONSUMABLES ACTIVADOS
         consumablesActivated = allShoppables.OfType<ConsumableData>().Where(x => consumablesData.consumablesActivatedIDs.Contains(x.ID)).ToList();
@@ -113,7 +115,7 @@ public class PersistantData : SingletonPersistent<PersistantData>
     public void SaveConsumablesData() => SaveLoadSystem.SaveData(CONSUMABLES_DATA, consumablesData, true);
     private void OnDestroy()
     {
-        persistantDataSaved.Save(shoppablesInCollection);
+        persistantDataSaved.Save(shoppablesInCollection, playerCosmeticEquiped, presidentCosmeticEquiped, bulletEquiped, grenadeEquiped);
         consumablesData.Save(consumablesActivated, consumablesActivatedTime);
         tasks.SaveTasks(tasksSO);
 
@@ -207,7 +209,7 @@ public class PersistantDataSaved
     [Header("Cosmetics")]
     public int playerCosmeticEquipedID;
     public int presidentCosmeticEquipedID;
-    public int bulletEquipedID;
+    public int bulletEquipedID, grenadeEquipedID;
     public int[] shoppablesInCollectionIDs;
     #endregion 
 
@@ -223,6 +225,7 @@ public class PersistantDataSaved
         playerCosmeticEquipedID = -1;
         presidentCosmeticEquipedID = -2;
         bulletEquipedID = -3;
+        grenadeEquipedID = -4;
         shoppablesInCollectionIDs = new int[0];
         userBindingKeys = new List<string>();
         userBindingValues = new List<string>();
@@ -250,9 +253,14 @@ public class PersistantDataSaved
         userBindingValues.Add(value);
         userBindings.Add(key, value);
     }
-    public void Save(List<ShoppableSO> shoppablesInCollection)
+    public void Save(List<ShoppableSO> shoppablesInCollection, CosmeticData playerEquipedCosmetic, CosmeticData presidentEquipedCosmetic,
+        BulletData bulletEquiped, BulletData grenadeEquiped)
     {
         shoppablesInCollectionIDs = shoppablesInCollection.Select(x => x.ID).ToArray();
+        playerCosmeticEquipedID = playerEquipedCosmetic.ID;
+        presidentCosmeticEquipedID = presidentEquipedCosmetic.ID;
+        bulletEquipedID = bulletEquiped.ID;
+        grenadeEquipedID = grenadeEquiped.ID;
     }
     public string GetBind(string key) => userBindings.ContainsKey(key) ? userBindings[key] : string.Empty;
     public void LoadUserBindingsDictionary() { userBindings = userBindingKeys.DictioraryFromTwoLists(userBindingValues); }

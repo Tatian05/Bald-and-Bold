@@ -21,9 +21,4 @@ public class ConsumableData : ShoppableSO
         durationTxt.text = $"{consumableDuration}s";
         image.sprite = shopSprite;
     }
-    public override void Buy()
-    {
-        base.Buy();
-        Helpers.PersistantData.AddShoppableToCollection(this);
-    }
 }

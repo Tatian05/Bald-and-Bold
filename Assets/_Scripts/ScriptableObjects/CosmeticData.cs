@@ -26,9 +26,4 @@ public class CosmeticData : ShoppableSO
             tailSprite.gameObject.SetActive(false);
         }
     }
-    public override void Buy()
-    {
-        base.Buy();
-        Helpers.PersistantData.AddShoppableToCollection(this);
-    }
 }

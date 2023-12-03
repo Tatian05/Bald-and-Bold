@@ -14,8 +14,9 @@ public class ShoppableSO : ScriptableObject
     {
         shoppableName = LanguageManager.Instance.GetTranslate(localizationID);
     }
-    public virtual void Buy()
+    public void Buy()
     {
         Helpers.PersistantData.persistantDataSaved.Buy(cost);
+        Helpers.PersistantData.AddShoppableToCollection(this);
     }
 }

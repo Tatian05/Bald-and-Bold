@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 673de16754a93f244abfa92735f78624, type: 3}
+  m_Name: Cannon Grenade
+  m_EditorClassIdentifier: 
+  shoppableType: 2
+  shoppableQuality: 0
+  ID: 39
+  cost: 2
+  localizationID: ID_CannonGrenade
+  shopSprite: {fileID: 21300000, guid: ed6c625897ba58746a6553562dbe77db, type: 3}
+  shoppableName: 
+  bulletType: 1

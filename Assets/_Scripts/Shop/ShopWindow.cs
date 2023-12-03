@@ -3,10 +3,12 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using System;
 public class ShopWindow : MonoBehaviour
 {
     [Header("Inspector Variables")]
-    [SerializeField, Tooltip("PlayerCosmetic, PresidentCosmetic, Consumables")] Button[] _windowsButtons;
+    [SerializeField, Tooltip("PlayerCosmetic, PresidentCosmetic, Consumables, Bullets, Grenades")] Button[] _windowsButtons;
+    [SerializeField] GameObject[] _windowContainers;
     [SerializeField] Button _buyButton;
     [SerializeField] TextMeshProUGUI _coinsTextBuyButton, _shoppableSelectedTxt;
     [SerializeField] ShopItem _shopItemPrefab;
@@ -26,7 +28,8 @@ public class ShopWindow : MonoBehaviour
 
     [Header("Bullets Settings")]
     [SerializeField] Transform _bulletsGridParent;
-    [SerializeField] Image _bulletPreviewImg;
+    [SerializeField] Transform _grenadesGridParent;
+    [SerializeField] Image _bulletPreviewImg, _grenadePreviewImg;
 
     [Space(20)]
     [SerializeField] Color _selectedColor;
@@ -36,6 +39,7 @@ public class ShopWindow : MonoBehaviour
     [SerializeField] CosmeticData[] _presidentCosmetics;
     [SerializeField] ConsumableData[] _consumables;
     [SerializeField] BulletData[] _bullets;
+    [SerializeField] BulletData[] _grenades;
 
     ShoppableSO _shoppableSelected;
     ShopItem _itemSelected;
@@ -43,10 +47,10 @@ public class ShopWindow : MonoBehaviour
     PersistantData _persistantData;
     PersistantDataSaved _persistantDataSaved;
     List<ShopItem> _allShopItems = new List<ShopItem>(), _inCollectionShopItems = new List<ShopItem>();
-    Button _lastPlayerCosmeticSelected, _lastPresidentCosmeticSelected, _lastConsumableSelected, _lastBulletSelected;
+    Button _lastPlayerCosmeticSelected, _lastPresidentCosmeticSelected, _lastConsumableSelected, _lastBulletSelected, _lastGrenadeSelected;
     bool _start = true;
 
-    public static event System.Action UpdateCollList;
+    public static event Action UpdateCollList;
     void Awake()
     {
         _persistantData = Helpers.PersistantData;
@@ -55,7 +59,8 @@ public class ShopWindow : MonoBehaviour
         _playerCosmetics = _allShopables.OfType<CosmeticData>().Where(x => x.cosmeticType == CosmeticType.Player).OrderBy(x => x.shoppableQuality).ToArray();
         _presidentCosmetics = _allShopables.OfType<CosmeticData>().Where(x => x.cosmeticType == CosmeticType.President).OrderBy(x => x.shoppableQuality).ToArray();
         _consumables = _allShopables.OfType<ConsumableData>().OrderBy(x => x.shoppableQuality).ToArray();
-        _bullets = _allShopables.OfType<BulletData>().OrderBy(x => x.shoppableQuality).ToArray();
+        _bullets = _allShopables.OfType<BulletData>().Where(x => x.bulletType == BulletType.Bullet).OrderBy(x => x.shoppableQuality).ToArray();
+        _grenades = _allShopables.OfType<BulletData>().Where(x => x.bulletType == BulletType.Grenade).OrderBy(x => x.shoppableQuality).ToArray();
     }
     private void OnEnable()
     {
@@ -71,6 +76,7 @@ public class ShopWindow : MonoBehaviour
         _coins.text = _persistantDataSaved.presiCoins.ToString();
         _consumableImage.enabled = false;
         _bulletPreviewImg.enabled = false;
+        _grenadePreviewImg.enabled = false;
 
         List<Button> allButtons = new List<Button>();
 
@@ -170,6 +176,31 @@ public class ShopWindow : MonoBehaviour
             });
         }
 
+        for (int i = 0; i < _grenades.Length; i++)
+        {
+            var cosmeticItem = Instantiate(_shopItemPrefab).
+                               SetParent(_grenadesGridParent).
+                               SetCosmeticData(_grenades[i]);
+            _allShopItems.Add(cosmeticItem);
+
+            var button = cosmeticItem.GetComponent<Button>();
+            allButtons.Add(button);
+            if (_persistantData.shoppablesInCollection.Contains(cosmeticItem.ShoppableSO))
+            {
+                cosmeticItem.SetInCollection(true);
+                _inCollectionShopItems.Add(cosmeticItem);
+                continue;
+            }
+
+            button.onClick.AddListener(() =>
+            {
+                _shoppableSelected = cosmeticItem.ShoppableSO;
+                _itemSelected = cosmeticItem;
+                ShowGrenadeSelected();
+                _lastGrenadeSelected = button;
+            });
+        }
+
         #endregion
 
         foreach (var item in allButtons)
@@ -186,13 +217,18 @@ public class ShopWindow : MonoBehaviour
 
         #region botones
 
-        var buttons = _windowsButtons.ToList();
-        foreach (var item in buttons)
+        var buttonsAndWindow = _windowsButtons.Zip(_windowContainers, (x, y) => Tuple.Create(x, y));
+        foreach (var item in buttonsAndWindow)
         {
-            item.onClick.AddListener(() =>
+            item.Item1.onClick.AddListener(() =>
             {
-                buttons.ForEach(x => x.image.color = _buttonsColor);
-                item.image.color = Color.black * .5f;
+                for (int a = 0; a < _windowsButtons.Length; a++)
+                {
+                    _windowsButtons[a].image.color = _buttonsColor;
+                    _windowContainers[a].gameObject.SetActive(false);
+                }
+                item.Item1.image.color = Color.black * .5f;
+                item.Item2.gameObject.SetActive(true);
             });
         }
 
@@ -238,6 +274,11 @@ public class ShopWindow : MonoBehaviour
         _bulletPreviewImg.enabled = true;
         (_shoppableSelected as BulletData).SetShopBullet(_bulletPreviewImg);
     }
+    void ShowGrenadeSelected()
+    {
+        _grenadePreviewImg.enabled = true;
+        (_shoppableSelected as BulletData).SetShopBullet(_grenadePreviewImg);
+    }
     void OnWindowChange()
     {
         _consumableDuration.gameObject.SetActive(false);
@@ -264,5 +305,10 @@ public class ShopWindow : MonoBehaviour
     {
         OnWindowChange();
         _lastBulletSelected?.onClick.Invoke();
+    }
+    public void OnGrenadesWindow()
+    {
+        OnWindowChange();
+        _lastGrenadeSelected?.onClick.Invoke();
     }
 }
