@@ -863,6 +863,7 @@ GameObject:
   - component: {fileID: 110481478}
   - component: {fileID: 110481477}
   - component: {fileID: 110481480}
+  - component: {fileID: 110481481}
   m_Layer: 5
   m_Name: BTN_GameOptions
   m_TagString: Untagged
@@ -909,7 +910,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 1526039753}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
@@ -1009,6 +1010,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!95 &110481481
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110481475}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3ef926f7afe4904b94b8fd269a90d49, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &113216747
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,7 +1089,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 405243408}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
@@ -1166,7 +1186,7 @@ Animator:
   m_GameObject: {fileID: 113216747}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3ef926f7afe4904b94b8fd269a90d49, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1846,6 +1866,7 @@ GameObject:
   - component: {fileID: 200822423}
   - component: {fileID: 200822425}
   - component: {fileID: 200822422}
+  - component: {fileID: 200822426}
   m_Layer: 5
   m_Name: BTN_Back
   m_TagString: Untagged
@@ -1943,7 +1964,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 2135977471}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
@@ -1992,6 +2013,25 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!95 &200822426
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200822420}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3ef926f7afe4904b94b8fd269a90d49, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &240861770
 GameObject:
   m_ObjectHideFlags: 0
@@ -3213,7 +3253,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 1049366853}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
@@ -3310,7 +3350,7 @@ Animator:
   m_GameObject: {fileID: 405243406}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3ef926f7afe4904b94b8fd269a90d49, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -5111,7 +5151,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 981346601}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
@@ -5196,7 +5236,7 @@ Animator:
   m_GameObject: {fileID: 700017316}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3ef926f7afe4904b94b8fd269a90d49, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -7915,7 +7955,7 @@ Animator:
   m_GameObject: {fileID: 981346598}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3ef926f7afe4904b94b8fd269a90d49, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -7943,7 +7983,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 113216749}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
@@ -8441,7 +8481,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 700017318}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
@@ -8526,7 +8566,7 @@ Animator:
   m_GameObject: {fileID: 1049366851}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3ef926f7afe4904b94b8fd269a90d49, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -9203,7 +9243,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 981346601}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
@@ -9300,7 +9340,7 @@ Animator:
   m_GameObject: {fileID: 1317919797}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3ef926f7afe4904b94b8fd269a90d49, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -9451,6 +9491,7 @@ GameObject:
   - component: {fileID: 1347133784}
   - component: {fileID: 1347133783}
   - component: {fileID: 1347133786}
+  - component: {fileID: 1347133787}
   m_Layer: 5
   m_Name: BTN_Back
   m_TagString: Untagged
@@ -9497,7 +9538,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 110481477}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
@@ -9597,6 +9638,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!95 &1347133787
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347133781}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3ef926f7afe4904b94b8fd269a90d49, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1350376037
 GameObject:
   m_ObjectHideFlags: 0
@@ -10341,6 +10401,7 @@ GameObject:
   - component: {fileID: 1526039754}
   - component: {fileID: 1526039753}
   - component: {fileID: 1526039756}
+  - component: {fileID: 1526039757}
   m_Layer: 5
   m_Name: BTN_Audio
   m_TagString: Untagged
@@ -10387,7 +10448,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 2137556974}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
@@ -10487,6 +10548,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!95 &1526039757
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526039751}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3ef926f7afe4904b94b8fd269a90d49, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1529786816
 GameObject:
   m_ObjectHideFlags: 0
@@ -13712,6 +13792,7 @@ GameObject:
   - component: {fileID: 1909793993}
   - component: {fileID: 1909793992}
   - component: {fileID: 1909793991}
+  - component: {fileID: 1909793995}
   m_Layer: 5
   m_Name: BTN_Quests
   m_TagString: Untagged
@@ -13771,7 +13852,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 200822425}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
@@ -13858,6 +13939,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1909793989}
   m_CullTransparentMesh: 1
+--- !u!95 &1909793995
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1909793989}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3ef926f7afe4904b94b8fd269a90d49, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1917044393
 GameObject:
   m_ObjectHideFlags: 0
@@ -14688,6 +14788,7 @@ GameObject:
   - component: {fileID: 1994503150}
   - component: {fileID: 1994503149}
   - component: {fileID: 1994503152}
+  - component: {fileID: 1994503153}
   m_Layer: 5
   m_Name: BTN_Controls
   m_TagString: Untagged
@@ -14734,7 +14835,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 1347133783}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
@@ -14834,6 +14935,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!95 &1994503153
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994503147}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3ef926f7afe4904b94b8fd269a90d49, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2008816640
 GameObject:
   m_ObjectHideFlags: 0
@@ -15774,6 +15894,7 @@ GameObject:
   - component: {fileID: 2135977472}
   - component: {fileID: 2135977471}
   - component: {fileID: 2135977473}
+  - component: {fileID: 2135977476}
   m_Layer: 5
   m_Name: BTN_Collection
   m_TagString: Untagged
@@ -15800,7 +15921,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 1909793992}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
@@ -15920,6 +16041,25 @@ RectTransform:
   m_AnchoredPosition: {x: 50, y: 0}
   m_SizeDelta: {x: 400, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &2135977476
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135977470}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3ef926f7afe4904b94b8fd269a90d49, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2137556972
 GameObject:
   m_ObjectHideFlags: 0
@@ -15933,6 +16073,7 @@ GameObject:
   - component: {fileID: 2137556975}
   - component: {fileID: 2137556974}
   - component: {fileID: 2137556977}
+  - component: {fileID: 2137556978}
   m_Layer: 5
   m_Name: BTN_Video
   m_TagString: Untagged
@@ -15979,7 +16120,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 1994503149}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
@@ -16079,6 +16220,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!95 &2137556978
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137556972}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3ef926f7afe4904b94b8fd269a90d49, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &738585013677413365
 PrefabInstance:
   m_ObjectHideFlags: 0
