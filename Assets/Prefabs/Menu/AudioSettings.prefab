@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 6436136690264322792}
+    m_SelectOnUp: {fileID: 3914901340137413691}
     m_SelectOnDown: {fileID: 2740230638220945335}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
@@ -663,6 +663,7 @@ GameObject:
   - component: {fileID: 2169064202675677585}
   - component: {fileID: 2232580786213705358}
   - component: {fileID: 220763086966433605}
+  - component: {fileID: 6229778155879386654}
   m_Layer: 5
   m_Name: AudioSettings
   m_TagString: Untagged
@@ -719,6 +720,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _onEnableSelectedButton: {fileID: 542562893927860922}
   _backButton: {fileID: 6436136690264322792}
+  _lastSelectedObject: {fileID: 0}
 --- !u!114 &220763086966433605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -731,6 +733,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dd59a974c454d7459cf99f94526763b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6229778155879386654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2233763887741021770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddbad7ebbbeeeaf49bd8f322f930a081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onBackButton: {fileID: 6436136690264322792}
 --- !u!1 &2456609729940365698
 GameObject:
   m_ObjectHideFlags: 0
@@ -2330,7 +2345,7 @@ MonoBehaviour:
     m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 2740230638220945335}
-    m_SelectOnDown: {fileID: 6436136690264322792}
+    m_SelectOnDown: {fileID: 1655159195132748795}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1

@@ -15,7 +15,6 @@ public class TaskUIManager : MonoBehaviour
     int _currentPageIndex;
     InputAction _nextBeforePage;
     Vector2 _navigateInput;
-    Tween _tween1, _tween2;
     private void Awake()
     {
         _nextBeforePage = EventSystemScript.Instance.UIInputs.UI.Navigate;

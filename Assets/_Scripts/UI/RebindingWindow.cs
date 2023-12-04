@@ -7,24 +7,18 @@ public class RebindingWindow : MonoBehaviour
     [SerializeField] GameObject[] _devicesWindows;
     [SerializeField] GameObject _currentWindowActive;
 
-    InputAction _cancelUI;
     private void Awake()
     {
         _resetDefaultButton.onClick.AddListener(ResetDefault);
         OpenCurrentWindow();
-        _cancelUI = EventSystemScript.Instance.UIInputs.UI.Cancel;
     }
     private void OnEnable()
     {
         NewInputManager.ActiveDeviceChangeEvent += OpenCurrentWindow;
-        EventSystemScript.Instance.UIInputs.UI.Cancel.performed += CancelBinding;
-        _cancelUI.Enable();
     }
     private void OnDisable()
     {
         NewInputManager.ActiveDeviceChangeEvent += OpenCurrentWindow;
-        EventSystemScript.Instance.UIInputs.UI.Cancel.performed -= CancelBinding;
-        _cancelUI?.Disable();
     }
     void OpenCurrentWindow()
     {
@@ -41,10 +35,5 @@ public class RebindingWindow : MonoBehaviour
             if (!item.TryGetComponent(out RebindUI rebindUI)) continue;
             rebindUI.ResetBinding();
         }
-    }
-    private void CancelBinding(InputAction.CallbackContext obj)
-    {
-        Debug.Log("asd");
-        EventSystemScript.Instance.SetCurrentGameObjectSelected(_okButton.gameObject);
     }
 }
