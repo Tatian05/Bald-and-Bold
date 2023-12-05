@@ -14,7 +14,6 @@ public class PlayerBullet : Bullet
     }
     private void Update()
     {
-        Debug.Log(CustomTime.DeltaTime);
         transform.position += _direction.normalized * _speed * CustomTime.DeltaTime;
 
         _dir = _lastPosition - transform.position;
