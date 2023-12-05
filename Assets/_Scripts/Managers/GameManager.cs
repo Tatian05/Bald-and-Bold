@@ -63,5 +63,6 @@ public class GameManager : Singleton<GameManager>
         _questManager = GetComponent<QuestManager>();
         _consumableCanvasContainer = GetComponent<ConsumablesCanvasContainer>();
         Cursor.lockState = CursorLockMode.Confined;
+        if (!Helpers.LevelTimerManager.enabled) CustomTime.SetTimeScale(1);
     }
 }

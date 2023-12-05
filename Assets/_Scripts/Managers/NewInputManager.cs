@@ -81,7 +81,7 @@ public class NewInputManager : MonoBehaviour
     {
         if (actionToRebind == null || bindingIndex < 0) return;
 
-        statusText.text = LanguageManager.Instance.selectedLanguage == Languages.eng ? "Waiting for input" : "Esperando entrada";
+        statusText.text = "...";
 
         actionToRebind.Disable();
 
@@ -110,8 +110,13 @@ public class NewInputManager : MonoBehaviour
             RebindCanceled?.Invoke();
         });
 
-        rebindingOperation.WithControlsExcluding("")
-                          .OnPotentialMatch(operation => { Debug.Log(operation.selectedControl.path); if (operation.selectedControl.path is "/Keyboard/escape" || operation.selectedControl.path is "/Gamepad/Start") rebindingOperation.Cancel(); });
+        rebindingOperation.WithCancelingThrough(activeDevice == DeviceType.Keyboard ? "<Keyboard>/escape" : "<Gamepad>/start");
+
+        rebindingOperation.WithControlsExcluding("<Gamepad>/select")
+                          .WithControlsExcluding("<Gamepad>/touchpadButton")
+                          .WithControlsExcluding("<Gamepad>/leftStick")
+                          .WithControlsExcluding("<Gamepad>/rightStick")
+                          .WithControlsExcluding("<Gamepad>/dPad");
 
         if (excludeMouse) rebindingOperation.WithControlsExcluding("Mouse");
 

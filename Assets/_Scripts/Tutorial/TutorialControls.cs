@@ -25,7 +25,7 @@ public class TutorialControls : MonoBehaviour
     void OnControlChange()
     {
         _current = _tutorialControls.FirstOrDefault(x => x.deviceType == NewInputManager.activeDevice);
-        _current.SetTexts(_setText, _spritesSize);
+        _current.SetTexts(_setText, _spritesSize, _current.startFrame);
         SetMessage();
     }
     public void SetMessage()
@@ -44,15 +44,16 @@ public class TutorialControl
     public DeviceType deviceType;
     public TutorialInputs[] tutorialInputs;
     public string tutorialTextESP, tutorialTextENG;
+    public int startFrame;
     public void OnValidate()
     {
         for (int i = 0; i < tutorialInputs.Length; i++)
             tutorialInputs[i].OnValidate();
     }
-    public void SetTexts(SetTextToBoxText setText, int spritesSize)
+    public void SetTexts(SetTextToBoxText setText, int spritesSize, int startFrame)
     {
         for (int i = 0; i < tutorialInputs.Length; i++)
-            tutorialInputs[i].spriteText = setText.SetText(tutorialInputs[i].inputBinding.action, deviceType, tutorialInputs[i].extraFrames, tutorialInputs[i].selectedBind, spritesSize);
+            tutorialInputs[i].spriteText = setText.SetText(tutorialInputs[i].inputBinding.action, deviceType, tutorialInputs[i].extraFrames, startFrame, tutorialInputs[i].selectedBind, spritesSize);
 
         if (tutorialTextENG.Contains("-"))
         {

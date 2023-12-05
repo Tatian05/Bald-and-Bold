@@ -663,6 +663,8 @@ MonoBehaviour:
   _rebindText: {fileID: 1532811250931466896}
   _listOfTmpSpriteAssets: {fileID: 11400000, guid: ed163f3a5900cbd489517fb9e9490a1a, type: 2}
   _deviceType: 1
+  _frames: 0
+  _message: 
 --- !u!1 &6680292650847612333
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,7 +855,7 @@ MonoBehaviour:
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 5
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
