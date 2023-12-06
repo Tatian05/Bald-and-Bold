@@ -70,7 +70,7 @@ public class RebindUI : MonoBehaviour
     {
         if (_rebindText != null && _setText != null)
         {
-            _rebindText.text = _setText.SetText(_actionName, _deviceType, _frames, _bindingIndex);
+            _rebindText.text = _setText.SetText(_actionName, _deviceType, _frames, startFrame: 0, actionCompositeIndex: _bindingIndex);
             //if (Application.isPlaying)
             // _rebindText.text = NewInputManager.GetBindingName(_actionName, _bindingIndex);
             //else

@@ -3,9 +3,12 @@ using UnityEngine;
 using TMPro;
 public class VideoSettings : MonoBehaviour
 {
-    Resolution[] _resolutions;
     [SerializeField] TMP_Dropdown _resolutionDropDown, _qualityDropDown, _windowModeDropDown;
+    [SerializeField] TextMeshProUGUI _tmpBackTxt;
+    [SerializeField] string[] _gamepadTmpSprites;
+    [SerializeField] GameObject _backButton, _backTMPTxt;
 
+    Resolution[] _resolutions;
     List<string> _qualities = new List<string>() { "Low", "Medium", "High" };
     List<string> _windowOptions = new List<string>() { "Full Screen", "Windowed" };
 
@@ -43,6 +46,12 @@ public class VideoSettings : MonoBehaviour
         _qualityDropDown.value = QualitySettings.GetQualityLevel();
 
         _windowModeDropDown.value = Screen.fullScreenMode == FullScreenMode.FullScreenWindow ? 0 : 1;
+
+        NewInputManager.ActiveDeviceChangeEvent += GamepadBack;
+    }
+    private void OnDisable()
+    {
+        NewInputManager.ActiveDeviceChangeEvent -= GamepadBack;
     }
     private void Start()
     {
@@ -71,6 +80,8 @@ public class VideoSettings : MonoBehaviour
         _resolutionDropDown.onValueChanged.AddListener(SetResolution);
         _qualityDropDown.onValueChanged.AddListener(SetQuality);
         _windowModeDropDown.onValueChanged.AddListener(SetWindowMode);
+
+        GamepadBack();
     }
     public void SetQuality(int qualityIndex)
     {
@@ -85,5 +96,19 @@ public class VideoSettings : MonoBehaviour
     {
         Resolution resolution = _resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+    }
+    void GamepadBack()
+    {
+        if(NewInputManager.activeDevice != DeviceType.Keyboard)
+        {
+            _backTMPTxt.SetActive(true);
+            _tmpBackTxt.text = _gamepadTmpSprites[(int)NewInputManager.activeDevice];
+            _backButton.SetActive(false);
+        }
+        else
+        {
+            _backTMPTxt.SetActive(false);
+            _backButton.SetActive(true);
+        }
     }
 }

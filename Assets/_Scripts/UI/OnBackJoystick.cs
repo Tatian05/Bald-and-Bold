@@ -1,27 +1,39 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
-
 public class OnBackJoystick : MonoBehaviour
 {
-    [SerializeField] Button _onBackButton;
+    [SerializeField] UnityEvent _onBackEvent;
     InputAction _cancelUI;
+    bool _binding;
     private void Awake()
     {
-        _cancelUI = EventSystemScript.Instance.UIInputs.UI.Cancel;     
+        _cancelUI = EventSystemScript.Instance.UIInputs.UI.Cancel;
     }
     private void OnEnable()
     {
-       EventSystemScript.Instance.UIInputs.UI.Cancel.performed += CancelBinding;
+        NewInputManager.rebindStarted += OnRebindStarted;
+        NewInputManager.RebindComplete += OnRebindFinish;
+        NewInputManager.RebindCanceled += OnRebindFinish;
+
+        _cancelUI.performed += CancelBinding;
         _cancelUI.Enable();
     }
     private void OnDisable()
     {
-        EventSystemScript.Instance.UIInputs.UI.Cancel.performed -= CancelBinding;
+        NewInputManager.rebindStarted -= OnRebindStarted;
+        NewInputManager.RebindComplete -= OnRebindFinish;
+        NewInputManager.RebindCanceled -= OnRebindFinish;
+
+        _cancelUI.performed -= CancelBinding;
         _cancelUI?.Disable();
     }
+    void OnRebindStarted(InputAction a, int b) { DisableAction(); }
+    void OnRebindFinish() { Invoke(nameof(EnableAction), .05f); }
+    void EnableAction() { _cancelUI?.Enable(); }
+    void DisableAction() { _cancelUI?.Disable(); }
     private void CancelBinding(InputAction.CallbackContext obj)
     {
-        EventSystemScript.Instance.SetCurrentGameObjectSelected(_onBackButton.gameObject);
+        _onBackEvent.Invoke();
     }
 }

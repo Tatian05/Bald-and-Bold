@@ -5,6 +5,9 @@ public class GameOptionsSettings : MonoBehaviour
 {
     [SerializeField] TMP_Dropdown _languageDD, _gameModeDD;
     [SerializeField] TextToTranslate _gameModeTextToTranslate;
+    [SerializeField] TextMeshProUGUI _tmpBackSprite;
+    [SerializeField] string[] _tmpSpritesTxt;
+    [SerializeField] GameObject _backButton, _tmpSpriteBackGO;
 
     List<string> _languages = new List<string>() { "English", "Spanish" };
     List<string> _gameModeOptions = new List<string>() { "Easy", "Hard" };
@@ -51,8 +54,17 @@ public class GameOptionsSettings : MonoBehaviour
         _gameModeDD.RefreshShownValue();
 
         _gameModeTextToTranslate.UpdateText(_gameModeDD.value == 0 ? "ID_Easy" : "ID_Hard");
-    }
 
+        GamepadBack();
+    }
+    private void OnEnable()
+    {
+        NewInputManager.ActiveDeviceChangeEvent += GamepadBack;
+    }
+    private void OnDisable()
+    {
+        NewInputManager.ActiveDeviceChangeEvent -= GamepadBack;
+    }
     public void SetLanguage(int language)
     {
         LanguageManager.Instance.selectedLanguage = (Languages)language;
@@ -84,5 +96,19 @@ public class GameOptionsSettings : MonoBehaviour
     {
         Helpers.PersistantData.gameData.gameMode = (int)(GameMode)gameMode;
         _gameModeTextToTranslate.UpdateText(_gameModeDD.value == 0 ? "ID_Easy" : "ID_Hard");
+    }
+    void GamepadBack()
+    {
+        if(NewInputManager.activeDevice != DeviceType.Keyboard)
+        {
+            _tmpSpriteBackGO.SetActive(true);
+            _tmpBackSprite.text = _tmpSpritesTxt[(int)NewInputManager.activeDevice];
+            _backButton.SetActive(false);
+        }
+        else
+        {
+            _tmpSpriteBackGO.SetActive(false);
+            _backButton.SetActive(true);
+        }
     }
 }
