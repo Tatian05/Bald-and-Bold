@@ -4,6 +4,8 @@ using TMPro;
 using System;
 using System.Linq;
 using UnityEngine.InputSystem.XInput;
+using System.Threading.Tasks;
+
 public enum DeviceType { Keyboard, GeneralGamepad, xBoxGamepad }
 public class NewInputManager : MonoBehaviour
 {
@@ -146,8 +148,9 @@ public class NewInputManager : MonoBehaviour
         for (int i = 0; i < action.bindings.Count; i++)
             persistandDataSaved.AddBinding(action.name + i, action.bindings[i].overridePath);
     }
-    public static void LoadUserBindings(string actionName)
+    public static async void LoadUserBindings(string actionName)
     {
+        await Task.Yield();
         var persistandDataSaved = Helpers.PersistantData.persistantDataSaved;
 
         if (actionName == null || !persistandDataSaved.userBindingKeys.Any()) return;

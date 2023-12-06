@@ -16,7 +16,6 @@ public class PauseManager : MonoBehaviour
     private void Awake()
     {
         _stack = new Stack<IScreen>();
-        _pauseAction = NewInputManager.PlayerInputs.Player.Pause;
         Push(new PauseGO(_mainGame));
     }
     private void OnEnable()
@@ -33,6 +32,7 @@ public class PauseManager : MonoBehaviour
     }
     private void Start()
     {
+        _pauseAction = NewInputManager.PlayerInputs.Player.Pause;
         _cinematicManager = Helpers.GameManager.CinematicManager;
         Helpers.LevelTimerManager.OnLevelDefeat += PauseObjectsInCinematic;
     }

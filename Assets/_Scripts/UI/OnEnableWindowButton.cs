@@ -13,6 +13,7 @@ public class OnEnableWindowButton : MonoBehaviour
     }
     public void SetCurrentButton()
     {
+        Debug.Log(NewInputManager.activeDevice);
         if (NewInputManager.activeDevice != DeviceType.Keyboard)
             _eventSystem.SetCurrentGameObjectSelected(_onEnableSelectedButton);
     }
