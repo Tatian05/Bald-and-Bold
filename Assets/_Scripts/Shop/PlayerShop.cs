@@ -57,8 +57,7 @@ public class PlayerShop : MonoBehaviour
 
         _shopCanvas.SetActive(true);
         _movement.Disable();
-        Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = true;
+        ActivateMouse();
     }
     void OpenProbador(InputAction.CallbackContext obj)
     {
@@ -73,6 +72,11 @@ public class PlayerShop : MonoBehaviour
 
         _collectionCanvas.SetActive(true);
         _movement.Disable();
+        ActivateMouse();
+    }
+    void ActivateMouse()
+    {
+        if (NewInputManager.activeDevice != DeviceType.Keyboard) return;
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
     }

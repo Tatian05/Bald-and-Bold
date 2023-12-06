@@ -4,9 +4,9 @@ using UnityEngine.EventSystems;
 public class GamepadShopButton : MonoBehaviour, ISelectHandler
 {
     Button _myButton;
-    void Start()
+    void Awake()
     {
-        _myButton = GetComponent<Button>(); 
+        _myButton = GetComponent<Button>();
     }
     public void OnSelect(BaseEventData eventData)
     {

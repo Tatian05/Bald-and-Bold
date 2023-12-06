@@ -489,6 +489,24 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Next"",
+                    ""type"": ""Button"",
+                    ""id"": ""1bfb8a36-6058-4cc0-828d-30a0ffd8695a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Before"",
+                    ""type"": ""Button"",
+                    ""id"": ""c94a82c4-9e61-49bd-a3e1-9664993bde36"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -511,6 +529,50 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""xBoxController"",
                     ""action"": ""SpecialAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6ed86621-f804-448a-878d-769db1bbc02e"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Next"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""efc547ee-6921-42c5-9713-c07ef08c0d4b"",
+                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""xBoxController"",
+                    ""action"": ""Next"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""07b3b786-ca50-4e48-8f79-a6f0ab49bba6"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Before"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2769db01-6aa6-4b6f-80a4-58c79f171345"",
+                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""xBoxController"",
+                    ""action"": ""Before"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -571,6 +633,8 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_SpecialAction = m_UI.FindAction("SpecialAction", throwIfNotFound: true);
+        m_UI_Next = m_UI.FindAction("Next", throwIfNotFound: true);
+        m_UI_Before = m_UI.FindAction("Before", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -720,11 +784,15 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private IUIActions m_UIActionsCallbackInterface;
     private readonly InputAction m_UI_SpecialAction;
+    private readonly InputAction m_UI_Next;
+    private readonly InputAction m_UI_Before;
     public struct UIActions
     {
         private @PlayerInputs m_Wrapper;
         public UIActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @SpecialAction => m_Wrapper.m_UI_SpecialAction;
+        public InputAction @Next => m_Wrapper.m_UI_Next;
+        public InputAction @Before => m_Wrapper.m_UI_Before;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -737,6 +805,12 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @SpecialAction.started -= m_Wrapper.m_UIActionsCallbackInterface.OnSpecialAction;
                 @SpecialAction.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnSpecialAction;
                 @SpecialAction.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnSpecialAction;
+                @Next.started -= m_Wrapper.m_UIActionsCallbackInterface.OnNext;
+                @Next.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnNext;
+                @Next.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnNext;
+                @Before.started -= m_Wrapper.m_UIActionsCallbackInterface.OnBefore;
+                @Before.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnBefore;
+                @Before.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnBefore;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -744,6 +818,12 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @SpecialAction.started += instance.OnSpecialAction;
                 @SpecialAction.performed += instance.OnSpecialAction;
                 @SpecialAction.canceled += instance.OnSpecialAction;
+                @Next.started += instance.OnNext;
+                @Next.performed += instance.OnNext;
+                @Next.canceled += instance.OnNext;
+                @Before.started += instance.OnBefore;
+                @Before.performed += instance.OnBefore;
+                @Before.canceled += instance.OnBefore;
             }
         }
     }
@@ -789,5 +869,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         void OnSpecialAction(InputAction.CallbackContext context);
+        void OnNext(InputAction.CallbackContext context);
+        void OnBefore(InputAction.CallbackContext context);
     }
 }
