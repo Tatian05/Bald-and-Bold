@@ -33,6 +33,7 @@ public class ShopWindow : MonoBehaviour
 
     [Space(20)]
     [SerializeField] Color _selectedColor;
+    [SerializeField] Color _canBuyColor, _cantBuyColor;
     [SerializeField] TextMeshProUGUI _coins;
     [SerializeField] ShoppableSO[] _allShopables;
     [SerializeField] CosmeticData[] _playerCosmetics;
@@ -41,16 +42,16 @@ public class ShopWindow : MonoBehaviour
     [SerializeField] BulletData[] _bullets;
     [SerializeField] BulletData[] _grenades;
 
-    ShoppableSO _shoppableSelected;
-    ShopItem _itemSelected;
+    public ShoppableSO shoppableSelected;
+    public ShopItem itemSelected;
     Color _buttonsColor;
     PersistantData _persistantData;
     PersistantDataSaved _persistantDataSaved;
     List<ShopItem> _allShopItems = new List<ShopItem>(), _inCollectionShopItems = new List<ShopItem>();
     bool _start = true;
     EventSystemScript _eventSystemScript;
+    Button _lastPlayerCosmeticSelected, _lastPresidentCosmeticSelected, _lastConsumableSelected, _lastBulletSelected, _lastGrenadeSelected;
 
-    public Button lastPlayerCosmeticSelected, lastPresidentCosmeticSelected, lastConsumableSelected, lastBulletSelected, lastGrenadeSelected;
     public event Action OnBuy;
     public static event Action UpdateCollList;
     void Awake()
@@ -79,6 +80,7 @@ public class ShopWindow : MonoBehaviour
         _consumableImage.enabled = false;
         _bulletPreviewImg.enabled = false;
         _grenadePreviewImg.enabled = false;
+        Image buyButtonImg = _buyButton.GetComponent<Image>();
 
         List<Button> allButtons = new List<Button>();
 
@@ -101,14 +103,13 @@ public class ShopWindow : MonoBehaviour
                 _inCollectionShopItems.Add(cosmeticItem);
                 continue;
             }
-            if (!cosmeticItem.InCollection && !lastPlayerCosmeticSelected) lastPlayerCosmeticSelected = button;
 
             button.onClick.AddListener(() =>
             {
-                _shoppableSelected = cosmeticItem.ShoppableSO;
-                _itemSelected = cosmeticItem;
+                shoppableSelected = cosmeticItem.ShoppableSO;
+                itemSelected = cosmeticItem;
                 ShowSelectedPlayerCosmetic();
-                lastPlayerCosmeticSelected = button;
+                _lastPlayerCosmeticSelected = button;
             });
         }
 
@@ -129,14 +130,12 @@ public class ShopWindow : MonoBehaviour
                 continue;
             }
 
-            if (!cosmeticItem.InCollection && !lastPresidentCosmeticSelected) lastPresidentCosmeticSelected = button;
-
             button.onClick.AddListener(() =>
             {
-                _shoppableSelected = cosmeticItem.ShoppableSO;
+                shoppableSelected = cosmeticItem.ShoppableSO;
                 ShowSelectedPresidentCosmetic();
-                _itemSelected = cosmeticItem;
-                lastPresidentCosmeticSelected = button;
+                itemSelected = cosmeticItem;
+                _lastPresidentCosmeticSelected = button;
             });
         }
 
@@ -148,17 +147,15 @@ public class ShopWindow : MonoBehaviour
 
             var button = cosmeticItem.GetComponent<Button>();
 
-            if (!lastConsumableSelected) lastConsumableSelected = button;
-
             allButtons.Add(button);
 
             button.onClick.AddListener(() =>
             {
-                _shoppableSelected = cosmeticItem.ShoppableSO;
-                _itemSelected = cosmeticItem;
+                shoppableSelected = cosmeticItem.ShoppableSO;
+                itemSelected = cosmeticItem;
                 _consumableDuration.gameObject.SetActive(true);
                 ShowConsumableSelected();
-                lastConsumableSelected = button;
+                _lastConsumableSelected = button;
             });
         }
 
@@ -179,14 +176,12 @@ public class ShopWindow : MonoBehaviour
                 continue;
             }
 
-            if (!cosmeticItem.InCollection && !lastBulletSelected) lastBulletSelected = button;
-
             button.onClick.AddListener(() =>
             {
-                _shoppableSelected = cosmeticItem.ShoppableSO;
-                _itemSelected = cosmeticItem;
+                shoppableSelected = cosmeticItem.ShoppableSO;
+                itemSelected = cosmeticItem;
                 ShowBulletSelected();
-                lastBulletSelected = button;
+                _lastBulletSelected = button;
             });
         }
 
@@ -207,18 +202,22 @@ public class ShopWindow : MonoBehaviour
                 continue;
             }
 
-            if (!cosmeticItem.InCollection && !lastGrenadeSelected) lastGrenadeSelected = button;
-
             button.onClick.AddListener(() =>
             {
-                _shoppableSelected = cosmeticItem.ShoppableSO;
-                _itemSelected = cosmeticItem;
+                shoppableSelected = cosmeticItem.ShoppableSO;
+                itemSelected = cosmeticItem;
                 ShowGrenadeSelected();
-                lastGrenadeSelected = button;
+                _lastGrenadeSelected = button;
             });
         }
 
         #endregion
+
+        Action updateBuyButtonState = delegate
+        {
+            _buyButton.interactable = _persistantDataSaved.presiCoins >= shoppableSelected.cost ? true : false;
+            buyButtonImg.color = _buyButton.interactable ? _canBuyColor : _cantBuyColor;
+        };
 
         foreach (var item in allButtons)
         {
@@ -226,9 +225,9 @@ public class ShopWindow : MonoBehaviour
             {
                 allButtons.ForEach(x => x.image.color = Color.clear);
                 item.image.color = _selectedColor;
-                _shoppableSelectedTxt.text = _shoppableSelected.shoppableName;
-                _coinsTextBuyButton.text = _shoppableSelected.cost.ToString();
-                _buyButton.interactable = _persistantDataSaved.presiCoins >= _shoppableSelected.cost ? true : false;
+                _shoppableSelectedTxt.text = shoppableSelected.shoppableName;
+                _coinsTextBuyButton.text = shoppableSelected.cost.ToString();
+                updateBuyButtonState();
             });
         }
 
@@ -253,15 +252,20 @@ public class ShopWindow : MonoBehaviour
 
         _buyButton.onClick.AddListener(() =>
         {
-            _itemSelected.SetInCollection(false);
-            if (_itemSelected.ShoppableSO is CosmeticData) _inCollectionShopItems.Add(_itemSelected);
+            itemSelected.SetInCollection(false);
+            if (itemSelected.ShoppableSO is CosmeticData) _inCollectionShopItems.Add(itemSelected);
             _coins.text = _persistantDataSaved.presiCoins.ToString();
-            if (_shoppableSelected is ConsumableData) return;
-            _shoppableSelected = null;
-            _itemSelected = null;
+            if (shoppableSelected is ConsumableData)
+            {
+                updateBuyButtonState();
+                return;
+            };
+            shoppableSelected = null;
+            itemSelected = null;
             _buyButton.interactable = false;
+            _coinsTextBuyButton.text = string.Empty;
             UpdateCollList();
-            OnBuy();
+            OnBuy?.Invoke();
         });
 
         _eventSystemScript = EventSystemScript.Instance;
@@ -270,20 +274,20 @@ public class ShopWindow : MonoBehaviour
     }
     void ShowSelectedPlayerCosmetic()
     {
-        var cosmeticData = (CosmeticData)_shoppableSelected;
+        var cosmeticData = (CosmeticData)shoppableSelected;
         cosmeticData.SetCosmetic(_playerHeadSprite, _playerTorsoSprite, _playerRightLegSprite,
                 _playerLeftLegSprite, _playerRightHandSprite, _playerLeftHandSprite, _playerTailSprite);
     }
     void ShowSelectedPresidentCosmetic()
     {
-        var cosmeticData = (CosmeticData)_shoppableSelected;
+        var cosmeticData = (CosmeticData)shoppableSelected;
         cosmeticData.SetCosmetic(_presidentHeadSprite, _presidentTorsoSprite, _presidentRightLegSprite,
                   _presidentLeftLegSprite, _presidentRightHandSprite, _presidentLeftHandSprite, _presidentTailSprite);
     }
 
     void ShowConsumableSelected()
     {
-        var consumable = (ConsumableData)_shoppableSelected;
+        var consumable = (ConsumableData)shoppableSelected;
         _consumableImage.enabled = true;
         consumable.SetShopConsumable(_consumableDescription, _consumableAmountDurationTxt, _consumableImage);
     }
@@ -291,12 +295,12 @@ public class ShopWindow : MonoBehaviour
     void ShowBulletSelected()
     {
         _bulletPreviewImg.enabled = true;
-        (_shoppableSelected as BulletData).SetShopBullet(_bulletPreviewImg);
+        (shoppableSelected as BulletData).SetShopBullet(_bulletPreviewImg);
     }
     void ShowGrenadeSelected()
     {
         _grenadePreviewImg.enabled = true;
-        (_shoppableSelected as BulletData).SetShopBullet(_grenadePreviewImg);
+        (shoppableSelected as BulletData).SetShopBullet(_grenadePreviewImg);
     }
     void OnWindowChange()
     {
@@ -307,19 +311,19 @@ public class ShopWindow : MonoBehaviour
     {
         if (gamepad)
         {
-            windowsButtons[0].onClick.AddListener(() => _eventSystemScript.SetCurrentGameObjectSelected(lastPlayerCosmeticSelected.gameObject));
-            windowsButtons[1].onClick.AddListener(() => _eventSystemScript.SetCurrentGameObjectSelected(lastPresidentCosmeticSelected.gameObject));
-            windowsButtons[2].onClick.AddListener(() => _eventSystemScript.SetCurrentGameObjectSelected(lastBulletSelected.gameObject));
-            windowsButtons[3].onClick.AddListener(() => _eventSystemScript.SetCurrentGameObjectSelected(lastGrenadeSelected.gameObject));
-            windowsButtons[4].onClick.AddListener(() => _eventSystemScript.SetCurrentGameObjectSelected(lastConsumableSelected.gameObject));
+            windowsButtons[0].onClick.AddListener(() => _eventSystemScript.SetCurrentGameObjectSelected(_lastPlayerCosmeticSelected.gameObject));
+            windowsButtons[1].onClick.AddListener(() => _eventSystemScript.SetCurrentGameObjectSelected(_lastPresidentCosmeticSelected.gameObject));
+            windowsButtons[2].onClick.AddListener(() => _eventSystemScript.SetCurrentGameObjectSelected(_lastBulletSelected.gameObject));
+            windowsButtons[3].onClick.AddListener(() => _eventSystemScript.SetCurrentGameObjectSelected(_lastGrenadeSelected.gameObject));
+            windowsButtons[4].onClick.AddListener(() => _eventSystemScript.SetCurrentGameObjectSelected(_lastConsumableSelected.gameObject));
         }
         else
         {
-            windowsButtons[0].onClick.RemoveListener(() => _eventSystemScript.SetCurrentGameObjectSelected(lastPlayerCosmeticSelected.gameObject));
-            windowsButtons[1].onClick.RemoveListener(() => _eventSystemScript.SetCurrentGameObjectSelected(lastPresidentCosmeticSelected.gameObject));
-            windowsButtons[2].onClick.RemoveListener(() => _eventSystemScript.SetCurrentGameObjectSelected(lastBulletSelected.gameObject));
-            windowsButtons[3].onClick.RemoveListener(() => _eventSystemScript.SetCurrentGameObjectSelected(lastGrenadeSelected.gameObject));
-            windowsButtons[4].onClick.RemoveListener(() => _eventSystemScript.SetCurrentGameObjectSelected(lastConsumableSelected.gameObject));
+            windowsButtons[0].onClick.RemoveListener(() => _eventSystemScript.SetCurrentGameObjectSelected(_lastPlayerCosmeticSelected.gameObject));
+            windowsButtons[1].onClick.RemoveListener(() => _eventSystemScript.SetCurrentGameObjectSelected(_lastPresidentCosmeticSelected.gameObject));
+            windowsButtons[2].onClick.RemoveListener(() => _eventSystemScript.SetCurrentGameObjectSelected(_lastBulletSelected.gameObject));
+            windowsButtons[3].onClick.RemoveListener(() => _eventSystemScript.SetCurrentGameObjectSelected(_lastGrenadeSelected.gameObject));
+            windowsButtons[4].onClick.RemoveListener(() => _eventSystemScript.SetCurrentGameObjectSelected(_lastConsumableSelected.gameObject));
         }
     }
 
@@ -327,26 +331,26 @@ public class ShopWindow : MonoBehaviour
     public void OnPlayerWindow()
     {
         OnWindowChange();
-        lastPlayerCosmeticSelected?.onClick.Invoke();
+        _lastPlayerCosmeticSelected?.onClick.Invoke();
     }
     public void OnPresidentWindow()
     {
         OnWindowChange();
-        lastPresidentCosmeticSelected?.onClick.Invoke();
+        _lastPresidentCosmeticSelected?.onClick.Invoke();
     }
     public void OnConsumablesWindow()
     {
         OnWindowChange();
-        lastConsumableSelected?.onClick.Invoke();
+        _lastConsumableSelected?.onClick.Invoke();
     }
     public void OnBulletsWindow()
     {
         OnWindowChange();
-        lastBulletSelected?.onClick.Invoke();
+        _lastBulletSelected?.onClick.Invoke();
     }
     public void OnGrenadesWindow()
     {
         OnWindowChange();
-        lastGrenadeSelected?.onClick.Invoke();
+        _lastGrenadeSelected?.onClick.Invoke();
     }
 }

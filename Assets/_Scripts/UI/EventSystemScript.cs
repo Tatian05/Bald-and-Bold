@@ -22,7 +22,7 @@ public class EventSystemScript : MonoBehaviour
     {
         Instance = this;
         _uiNavigateActions = new DefaultInputActions();
-        _eventSystem = FindObjectOfType<EventSystem>();
+        _eventSystem = EventSystem.current;
     }
     private void OnEnable()
     {

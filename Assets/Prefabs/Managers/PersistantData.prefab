@@ -103,6 +103,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0ac4de9915f481f478f3906bd11216d8, type: 2}
   - {fileID: 11400000, guid: 4b72506f51fa3c04c9edb744d8bfd7bd, type: 2}
   - {fileID: 11400000, guid: bc1ef3bc96dc5c942848b113e6437b54, type: 2}
+  - {fileID: 11400000, guid: df309390a7e44ea488326f29ece75dd5, type: 2}
   consumablesActivated: []
   consumablesActivatedTime: []
   gameData:
@@ -120,6 +121,7 @@ MonoBehaviour:
     playerCosmeticEquipedID: 0
     presidentCosmeticEquipedID: 0
     bulletEquipedID: 0
+    grenadeEquipedID: 0
     shoppablesInCollectionIDs: 
     userBindingKeys: []
     userBindingValues: []

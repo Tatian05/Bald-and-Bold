@@ -73,7 +73,7 @@ public class CollectionEquipment : MonoBehaviour
         EquipGrenade(_grenadeEquiped);
 
         List<ShoppableSO> currentCollection = null;
-        Func<bool> isEquiped = () => currentCollection[_index] == _playerCosmeticEquiped || currentCollection[_index] == _presidentCosmeticEquiped || currentCollection[_index] == _bulletEquiped;
+        Func<bool> isEquiped = () => currentCollection[_index] == _playerCosmeticEquiped || currentCollection[_index] == _presidentCosmeticEquiped || currentCollection[_index] == _bulletEquiped || currentCollection[_index] == _grenadeEquiped;
 
         foreach (var item in _consumablesCollectionList.Distinct())
             Instantiate(_consumableCollectionPrefab).SetParent(_consumableContent).SetImage(item.shopSprite).SetCount(_consumablesCollectionList.GroupBy(x => x).First(x => x.Key == item).Count());
@@ -116,6 +116,7 @@ public class CollectionEquipment : MonoBehaviour
         {
             item.Item1.onClick.AddListener(() =>
             {
+                _index = 0;
                 for (int i = 0; i < _windowButtons.Length; i++)
                 {
                     _windowButtons[i].image.color = _buttonsColor;
@@ -123,7 +124,6 @@ public class CollectionEquipment : MonoBehaviour
                 }
                 item.Item1.image.color = Color.black * .5f;
                 item.Item2.gameObject.SetActive(true);
-                _index = 0;
             });
         }
 

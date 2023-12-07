@@ -15,7 +15,7 @@ public class CosmeticData : ShoppableSO
         leftLegSprite.sprite = this.leftLegSprite;
         rightHandSprite.sprite = this.rightHandSprite;
         leftHandSprite.sprite = this.leftHandSprite;
-        if (tailSprite)
+        if (this.tailSprite)
         {
             tailSprite.gameObject.SetActive(true);
             tailSprite.sprite = this.tailSprite;
