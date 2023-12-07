@@ -29,6 +29,7 @@ public static class ReadAndReplaceBinding
             return message;
         }
 
+        Debug.Log(stringButtonName + $"{startFrame}");
         int startFrameIndex = spriteAsset.GetSpriteIndexFromName(stringButtonName + $"{startFrame}");
         startFrameIndex += extraFrames < 0 ? extraFrames : 0;
         return $"<size={fontSize}em><sprite=\"{spriteAsset.name}\" anim=\"{startFrameIndex}, {startFrameIndex + Mathf.Abs(extraFrames)}, {3}\"></size>";
