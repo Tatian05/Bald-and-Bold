@@ -125,7 +125,6 @@ public class PersistantData : SingletonPersistent<PersistantData>
         SaveLoadSystem.SaveData(SETTINGS_DATA, settingsData, true);
         SaveLoadSystem.SaveData(PERSISTANT_DATA, persistantDataSaved, true);
         SaveLoadSystem.SaveData(TASKS, tasks, true);
-        Debug.Log("Save");
         SaveLoadSystem.SaveData(CONSUMABLES_DATA, consumablesData, true);
    
         base.OnApplicationQuit();

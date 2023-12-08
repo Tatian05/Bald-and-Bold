@@ -32,12 +32,14 @@ public class NewInputManager : MonoBehaviour
     private void OnEnable()
     {
         InputSystem.onActionChange += TrackActions;
+        if (!Helpers.LevelTimerManager) return;
         Helpers.LevelTimerManager.OnLevelDefeat += DisablePlayer;
         Helpers.LevelTimerManager.RedButton += DisablePlayer;
     }
     private void OnDisable()
     {
         InputSystem.onActionChange -= TrackActions;
+        if (!Helpers.LevelTimerManager) return;
         Helpers.LevelTimerManager.OnLevelDefeat -= DisablePlayer;
         Helpers.LevelTimerManager.RedButton -= DisablePlayer;
         DisablePlayer();

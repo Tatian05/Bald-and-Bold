@@ -5,19 +5,34 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 public class ConsumableSelector : MonoBehaviour
 {
     [SerializeField] Button _leftArrow, _rightArrow;
     [SerializeField] Transform _content;
     [SerializeField] List<Consumables> _consumablesInventory;
 
+    [Header("UI")]
+    [SerializeField] string[] _submitTMP, _nextTMP, _beforeTMP;
+    [SerializeField] TextMeshProUGUI _submitTMPText, _nextTMPText, _beforeTMPText;
+    [SerializeField] GameObject _gamepadContainerGO;
+
     float _offset = 1.75f, _currentOffset;
-    ConsumablesSelectorInputs _consumableSelectorInputs;
-    InputAction _triggerConsumable, _moveNext, _moveBefore;
+    InputAction _gamepadTriggerConsumable, _gamepadNext, _gamepadBefore;
+    private void Awake()
+    {
+        _gamepadTriggerConsumable = EventSystemScript.Instance.UIInputs.UI.Submit;
+        _gamepadNext = NewInputManager.PlayerInputs.UI.Next;
+        _gamepadBefore = NewInputManager.PlayerInputs.UI.Before;
+       
+    }
     private void Start()
     {
+        _leftArrow.onClick.AddListener(Before);
+        _rightArrow.onClick.AddListener(Next);
+
         GetComponent<Canvas>().worldCamera = Helpers.MainCamera;
-        SetInputs();
+        GamepadUI();
 
         var coll = Helpers.PersistantData.shoppablesInCollection.OfType<ConsumableData>().Distinct().Where(x => !Helpers.PersistantData.consumablesActivated.Contains(x));
         if (!coll.Any()) return;
@@ -31,10 +46,26 @@ public class ConsumableSelector : MonoBehaviour
     private void OnEnable()
     {
         EventManager.SubscribeToEvent(Contains.CONSUMABLE, UpdateList);
+        NewInputManager.ActiveDeviceChangeEvent += GamepadUI;
+
+        _gamepadTriggerConsumable.performed += TriggerSelectedConsumable;
+        _gamepadTriggerConsumable.Enable();
+        _gamepadNext.performed += TriggerMoveNext;
+        _gamepadNext.Enable();
+        _gamepadBefore.performed += TriggerMoveBefore;
+        _gamepadBefore.Enable();
     }
     private void OnDisable()
     {
         EventManager.UnSubscribeToEvent(Contains.CONSUMABLE, UpdateList);
+        NewInputManager.ActiveDeviceChangeEvent -= GamepadUI;
+
+        _gamepadTriggerConsumable.performed -= TriggerSelectedConsumable;
+        _gamepadTriggerConsumable.Disable();
+        _gamepadNext.performed -= TriggerMoveNext;
+        _gamepadNext.Disable();
+        _gamepadBefore.performed -= TriggerMoveBefore;
+        _gamepadBefore.Disable();
     }
     public void SetPositions()
     {
@@ -116,34 +147,25 @@ public class ConsumableSelector : MonoBehaviour
         _consumablesInventory = newArray.ToList();
         SetPositions();
     }
-    void TriggerSelectedConsumable(InputAction.CallbackContext obj) { _consumablesInventory[0].TriggerConsumable(); }
-    void TriggerMoveNext(InputAction.CallbackContext obj) { Next(); }
-    void TriggerMoveBefore(InputAction.CallbackContext obj) { Before(); }
-
-    void SetInputs()
-    {
-        if (NewInputManager.activeDevice != DeviceType.Keyboard)
-        {
-            if (_consumableSelectorInputs == null) _consumableSelectorInputs = new ConsumablesSelectorInputs();
-
-            _triggerConsumable = _consumableSelectorInputs.ConsumableSelector.TriggerConsumable;
-            _moveNext = _consumableSelectorInputs.ConsumableSelector.MoveNext;
-            _moveBefore = _consumableSelectorInputs.ConsumableSelector.MoveBefore;
-
-            _triggerConsumable.performed += TriggerSelectedConsumable;
-            _moveNext.performed += TriggerMoveNext;
-            _moveBefore.performed += TriggerMoveBefore;
-        }
-        else
-        {
-            _leftArrow.onClick.AddListener(Before);
-            _rightArrow.onClick.AddListener(Next);
-        }
-    }
-
+    void TriggerSelectedConsumable(InputAction.CallbackContext obj) { _consumablesInventory[0]?.TriggerConsumable(); }
+    void TriggerMoveNext(InputAction.CallbackContext obj) { _rightArrow.onClick.Invoke(); }
+    void TriggerMoveBefore(InputAction.CallbackContext obj) { _leftArrow.onClick.Invoke(); }
     void UpdateList(params object[] param)
     {
         _consumablesInventory.Remove((Consumables)param[0]);
         SetPositions();
+    }
+
+    void GamepadUI()
+    {
+        if (NewInputManager.activeDevice != DeviceType.Keyboard)
+        {
+            _submitTMPText.text = _submitTMP[(int)NewInputManager.activeDevice - 1];
+            _nextTMPText.text = _nextTMP[(int)NewInputManager.activeDevice - 1];
+            _beforeTMPText.text = _beforeTMP[(int)NewInputManager.activeDevice - 1];
+            _gamepadContainerGO.SetActive(true);
+        }
+        else
+            _gamepadContainerGO.SetActive(false);
     }
 }

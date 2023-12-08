@@ -31,7 +31,7 @@ public static class ReadAndReplaceBinding
 
         Debug.Log(stringButtonName + $"{startFrame}");
         int startFrameIndex = spriteAsset.GetSpriteIndexFromName(stringButtonName + $"{startFrame}");
-        startFrameIndex += extraFrames < 0 ? extraFrames : 0;
+        if (startFrameIndex != -1) startFrameIndex += extraFrames < 0 ? extraFrames : 0;
         return $"<size={fontSize}em><sprite=\"{spriteAsset.name}\" anim=\"{startFrameIndex}, {startFrameIndex + Mathf.Abs(extraFrames)}, {3}\"></size>";
     }
     public static string ReplaceActiveBindings(string textWithActions, DeviceType deviceType, ListOfTmpSpriteAssets spritesAssets, int startFrame, int compositeBind, int extraFrames, int fontSize, string message = "")
