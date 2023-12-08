@@ -10,10 +10,9 @@ public class ConsumablesUI : MonoBehaviour
     float _countDown;
     float _minutes, _seconds;
     Consumables _consumable;
-    private void Start()
-    {
-        EventManager.SubscribeToEvent(Contains.SAVE_GAME, SaveConsumableTime);
-    }
+
+    public ConsumableData ConsumableData { get { return _consumable.ConsumableData; } }
+    public float Time { get { return _countDown; } }
     private void Update()
     {
         _countDown -= CustomTime.DeltaTime;
@@ -28,12 +27,12 @@ public class ConsumablesUI : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    void SaveConsumableTime(params object[] param)
+    private void OnDisable()
     {
         if (_countDown > 0) Helpers.PersistantData.SaveConsumableActivated(_consumable.ConsumableData, _countDown);
-        EventManager.UnSubscribeToEvent(Contains.SAVE_GAME, SaveConsumableTime);
     }
 
+    #region BUILDER
     public ConsumablesUI SetConsumable(Consumables consumable)
     {
         _consumable = consumable;
@@ -50,4 +49,6 @@ public class ConsumablesUI : MonoBehaviour
         transform.SetParent(parent, true);
         return this;
     }
+
+    #endregion
 }

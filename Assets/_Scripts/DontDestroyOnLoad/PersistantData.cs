@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 public class PersistantData : SingletonPersistent<PersistantData>
 {
@@ -113,8 +114,9 @@ public class PersistantData : SingletonPersistent<PersistantData>
         gameData = new GameData();
     }
     public void SaveConsumablesData() => SaveLoadSystem.SaveData(CONSUMABLES_DATA, consumablesData, true);
-    private void OnDestroy()
+    protected override async void OnApplicationQuit()
     {
+        await Task.Yield();
         persistantDataSaved.Save(shoppablesInCollection, playerCosmeticEquiped, presidentCosmeticEquiped, bulletEquiped, grenadeEquiped);
         consumablesData.Save(consumablesActivated, consumablesActivatedTime);
         tasks.SaveTasks(tasksSO);
@@ -123,6 +125,10 @@ public class PersistantData : SingletonPersistent<PersistantData>
         SaveLoadSystem.SaveData(SETTINGS_DATA, settingsData, true);
         SaveLoadSystem.SaveData(PERSISTANT_DATA, persistantDataSaved, true);
         SaveLoadSystem.SaveData(TASKS, tasks, true);
+        Debug.Log("Save");
+        SaveLoadSystem.SaveData(CONSUMABLES_DATA, consumablesData, true);
+   
+        base.OnApplicationQuit();
     }
 
     public void BorrarProgresoDeNiveles()

@@ -41,7 +41,6 @@ public class WeaponManager : MonoBehaviour
         _shoot = _playerInputs.Player.Shoot;
 
         _interact.performed += OnInteract;
-        EventManager.SubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
 
         _knife.Enable();
         _interact.Enable();
@@ -58,7 +57,6 @@ public class WeaponManager : MonoBehaviour
     private void OnEnable()
     {
         NewInputManager.ActiveDeviceChangeEvent += OnControlChanged;
-        EventManager.SubscribeToEvent(Contains.CONSUMABLE_PAUSE, PauseActions);
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_MINIGUN, MinigunConsumable);
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_BIG_BULLET, BigBulletsConsumable);
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_NO_RECOIL, NoRecoilConsumable);
@@ -67,7 +65,6 @@ public class WeaponManager : MonoBehaviour
     private void OnDisable()
     {
         EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_MINIGUN, MinigunConsumable);
-        EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_PAUSE, PauseActions);
         EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_BIG_BULLET, BigBulletsConsumable);
         EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_NO_RECOIL, NoRecoilConsumable);
         EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_CADENCE, CadenceConsumable);
@@ -191,24 +188,6 @@ public class WeaponManager : MonoBehaviour
         _shoot.Disable();
 
         NewInputManager.ActiveDeviceChangeEvent -= OnControlChanged;
-        EventManager.UnSubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
-    }
-
-    #region EVENT FUNCTIONS
-    void PauseActions(params object[] param)
-    {
-        if ((bool)param[0])
-        {
-            _interact.Disable();
-            _knife.Disable();
-            _shoot.Disable();
-        }
-        else
-        {
-            _interact.Enable();
-            _knife.Enable();
-            _shoot.Enable();
-        }
     }
 
     #region CONSUMABLES 
@@ -238,10 +217,9 @@ public class WeaponManager : MonoBehaviour
         }
     }
     void BigBulletsConsumable(params object[] param) => _persistantData.consumablesData.bulletScaleBoost = _currentBulletScale = (bool)param[0] ? (float)param[1] : 1;
-    void NoRecoilConsumable(params object[] param) => _persistantData.consumablesData.recoil = _recoil = (bool)param[0];
+    void NoRecoilConsumable(params object[] param) => _persistantData.consumablesData.recoil = _recoil = !(bool)param[0];
     void CadenceConsumable(params object[] param) => _persistantData.consumablesData.cadenceBoost = _cadenceBoost = (bool)param[0] ? (float)param[1] : 1;
 
     #endregion
 
-    #endregion
 }

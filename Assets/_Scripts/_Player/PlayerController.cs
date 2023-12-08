@@ -43,35 +43,12 @@ public class PlayerController
     {
         _jump.performed += OnJump;
         _dash.performed += OnDash;
-
-        _playerInputs.Enable();
-        EventManager.SubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
-        EventManager.SubscribeToEvent(Contains.CONSUMABLE_PAUSE, PauseActions);
     }
     public void OnDestroy()
     {
         _jump.performed -= OnJump;
         _dash.performed -= OnDash;
-
-        _playerInputs.Disable();
-        EventManager.UnSubscribeToEvent(Contains.PAUSE_GAME, PauseActions);
-        EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_PAUSE, PauseActions);
     }
     void OnJump(InputAction.CallbackContext obj) { if (_playerModel.CanJump || _playerModel.InRope) { _player.ExitClimb(); _player.OnJump(); } }
     void OnDash(InputAction.CallbackContext obj) { if (_playerModel.CanDash) { _player.ExitClimb(); _player.SendInput(PlayerStates.Dash); } }
-    void PauseActions(params object[] param)
-    {
-        if ((bool)param[0])
-        {
-            _movement.Disable();
-            _jump.Disable();
-            _dash.Disable();
-        }
-        else
-        {
-            _movement.Enable();
-            _jump.Enable();
-            _dash.Enable();
-        }
-    }
 }
