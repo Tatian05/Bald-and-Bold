@@ -102,7 +102,7 @@ public class GameOptionsSettings : MonoBehaviour
         if(NewInputManager.activeDevice != DeviceType.Keyboard)
         {
             _tmpSpriteBackGO.SetActive(true);
-            _tmpBackSprite.text = _tmpSpritesTxt[(int)NewInputManager.activeDevice];
+            _tmpBackSprite.text = _tmpSpritesTxt[(int)NewInputManager.activeDevice - 1];
             _backButton.SetActive(false);
         }
         else

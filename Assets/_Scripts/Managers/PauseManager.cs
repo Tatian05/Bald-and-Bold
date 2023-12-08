@@ -17,34 +17,30 @@ public class PauseManager : MonoBehaviour
     {
         _stack = new Stack<IScreen>();
         Push(new PauseGO(_mainGame));
+        _pauseAction = NewInputManager.PlayerInputs.Player.Pause;
     }
     private void OnEnable()
     {
-        _pauseAction.Enable();
         _pauseAction.performed += Pause;
-        EventManager.SubscribeToEvent(Contains.PAUSE_GAME, PauseGame);
     }
     private void OnDisable()
     {
-        _pauseAction.Disable();
         _pauseAction.performed -= Pause;
-        EventManager.UnSubscribeToEvent(Contains.PAUSE_GAME, PauseGame);
     }
     private void Start()
     {
-        _pauseAction = NewInputManager.PlayerInputs.Player.Pause;
         _cinematicManager = Helpers.GameManager.CinematicManager;
         Helpers.LevelTimerManager.OnLevelDefeat += PauseObjectsInCinematic;
     }
     void Pause(InputAction.CallbackContext obj)
     {
-        EventManager.TriggerEvent(Contains.PAUSE_GAME, TurnPause);
+        PauseGame();
     }
-    void PauseGame(params object[] param)
+    public void PauseGame()
     {
         if (!_cinematicManager.playingCinematic && !_tutorialPause)
         {
-            if((bool)param[0]) Push(Instantiate(_pauseGO));
+            if (TurnPause) Push(Instantiate(_pauseGO));
             else Pop();
         }
     }
@@ -52,15 +48,26 @@ public class PauseManager : MonoBehaviour
     {
         if (_stack.Count <= 1) return;
         _stack.Pop().Free();
-        CustomTime.SetTimeScale(1);
-        if (_stack.Count > 0) _stack.Peek().Activate();
+        if (_stack.Count > 0)
+        {
+            _stack.Peek().Activate();
+            CustomTime.SetTimeScale(1);
+            _pauseAction?.Disable();
+            NewInputManager.EnablePlayer();
+        }
     }
     public void Push(IScreen screen)
     {
-        if (_stack.Count > 0) _stack.Peek().Deactivate();
+        if (_stack.Count > 0)
+        {
+            _stack.Peek().Deactivate();
+            CustomTime.SetTimeScale(0);
+            NewInputManager.DisablePlayer();
+            _pauseAction?.Enable();
+        }
+
         _stack.Push(screen);
         screen.Activate();
-        CustomTime.SetTimeScale(0);
     }
     public void PauseObjectsInCinematic()
     {

@@ -47,7 +47,7 @@ public class AudioSettings : MonoBehaviour
         if (NewInputManager.activeDevice != DeviceType.Keyboard)
         {
             _gamepadBackGO.SetActive(true);
-            _gamepadBackTxt.text = _tmpTexts[(int)NewInputManager.activeDevice];
+            _gamepadBackTxt.text = _tmpTexts[(int)NewInputManager.activeDevice - 1];
             _backButtonGO.SetActive(false);
         }
         else

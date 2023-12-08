@@ -26,14 +26,21 @@ public class NewInputManager : MonoBehaviour
 
         foreach (var action in PlayerInputs)
             LoadUserBindings(action.name);
+
+        EnablePlayer();
     }
     private void OnEnable()
     {
         InputSystem.onActionChange += TrackActions;
+        Helpers.LevelTimerManager.OnLevelDefeat += DisablePlayer;
+        Helpers.LevelTimerManager.RedButton += DisablePlayer;
     }
     private void OnDisable()
     {
         InputSystem.onActionChange -= TrackActions;
+        Helpers.LevelTimerManager.OnLevelDefeat -= DisablePlayer;
+        Helpers.LevelTimerManager.RedButton -= DisablePlayer;
+        DisablePlayer();
     }
     private void Start()
     {

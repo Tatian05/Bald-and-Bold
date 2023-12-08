@@ -29,7 +29,7 @@ public class RebindingWindow : MonoBehaviour
         NewInputManager.ActiveDeviceChangeEvent += OpenCurrentWindow;
         NewInputManager.ActiveDeviceChangeEvent += GamepadBack;
 
-        NewInputManager.rebindStarted += (x,y) => DisableAction();
+        NewInputManager.rebindStarted += (x, y) => DisableAction();
         NewInputManager.RebindCanceled += OnRebindFinish;
         NewInputManager.RebindComplete += OnRebindFinish;
 
@@ -83,8 +83,8 @@ public class RebindingWindow : MonoBehaviour
             _backTMPSpriteGO.SetActive(true);
             _resetBindTMPSpriteGO.SetActive(true);
 
-            _tmpBackSprite.text = _tmpSpritesBackText[(int)NewInputManager.activeDevice];
-            _tmpResetBindSprite.text = _tmpSpritesResetBindText[(int)NewInputManager.activeDevice];
+            _tmpBackSprite.text = _tmpSpritesBackText[(int)NewInputManager.activeDevice - 1];
+            _tmpResetBindSprite.text = _tmpSpritesResetBindText[(int)NewInputManager.activeDevice - 1];
 
             _backButtonGO.SetActive(false);
             _resetBindButtonGO.SetActive(false);

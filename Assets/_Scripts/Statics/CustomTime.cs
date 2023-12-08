@@ -1,7 +1,7 @@
 using UnityEngine;
 public class CustomTime
 {
-    public static float LocalTimeScale = 1f;
+    public static float LocalTimeScale = 0f;
     public static float DeltaTime { get { return Time.deltaTime * LocalTimeScale; } }
     public static float FixedDeltaTime { get { return Time.fixedDeltaTime * LocalTimeScale; } }
     public static float TimeScale { get { return Time.timeScale * LocalTimeScale; } }

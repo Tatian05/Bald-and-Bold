@@ -102,7 +102,7 @@ public class VideoSettings : MonoBehaviour
         if(NewInputManager.activeDevice != DeviceType.Keyboard)
         {
             _backTMPTxt.SetActive(true);
-            _tmpBackTxt.text = _gamepadTmpSprites[(int)NewInputManager.activeDevice];
+            _tmpBackTxt.text = _gamepadTmpSprites[(int)NewInputManager.activeDevice - 1];
             _backButton.SetActive(false);
         }
         else
