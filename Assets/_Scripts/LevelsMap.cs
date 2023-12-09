@@ -3,16 +3,24 @@ using TMPro;
 using UnityEngine.UI;
 using System.Linq;
 using DG.Tweening;
+using System;
+using System.Collections.Generic;
+
 public class LevelsMap : MonoBehaviour
 {
+    [SerializeField] Button[] _allButtons;
     [SerializeField] Button[] _zonesButtons;
     [SerializeField] Image[] _buttonsBackground;
     [SerializeField] Button _menuButton, _shopButton;
     [SerializeField] Image _menuBackground, _shopBackground;
-    [SerializeField] TextMeshProUGUI[] _deathsZoneTxt;
+    [SerializeField] GameObject[] _deathsZoneGO;
     [SerializeField] Transform _mano;
     [SerializeField] Ease _easeIn, _easeOut;
     [SerializeField] Color _buttonsBackgroundColor;
+
+
+    [SerializeField] List<Button> _parButtons;
+    [SerializeField] List<Button> _unParButtons;
     private void Start()
     {
         Helpers.AudioManager.PlayMusic("Elevator Music");
@@ -49,25 +57,60 @@ public class LevelsMap : MonoBehaviour
         {
             zonesManager.zones[i].SetCurrentDeaths();
             deathsAmount += zonesManager.zones[i].currentDeathsInZone;
-            SetButton(_deathsZoneTxt[i], _zonesButtons[i], zonesManager.zones[i].deathsNeeded, ref deathsAmount, ZonesManager.Instance.zones[i].levelsZone.First(), _buttonsBackground[i]);
+            SetButton(_deathsZoneGO[i], _zonesButtons[i], zonesManager.zones[i].deathsNeeded, ref deathsAmount, ZonesManager.Instance.zones[i].levelsZone.First(), _buttonsBackground[i]);
             if (zonesManager.zones[i].currentDeathsInZone > zonesManager.zones[i].deathsNeeded) break;
         }
+
+        Button[] allSelectables = _allButtons.Where(x => x.interactable).ToArray();
+        _unParButtons = allSelectables.Where((elemento, indice)=> indice % 2 == 0).ToList();
+        _parButtons = allSelectables.Where((elemento, indice) => indice % 2 != 0).ToList();
+
+        foreach (var item in allSelectables)
+        {
+            var navigation = item.navigation;
+            if (navigation.selectOnRight == null) navigation.selectOnRight = allSelectables.Next(item);
+            if (navigation.selectOnLeft == null) navigation.selectOnLeft = allSelectables.Previous(item);
+
+            item.navigation = navigation;
+        }
+
+        foreach (var item in _parButtons)
+        {
+            var navigation = item.navigation;
+            if (navigation.selectOnDown == null) navigation.selectOnDown = _parButtons.Next(item);
+            if (navigation.selectOnUp == null) navigation.selectOnUp = _parButtons.Previous(item);
+
+            item.navigation = navigation;
+        }
+
+        foreach (var item in _unParButtons)
+        {
+            var navigation = item.navigation;
+            if (navigation.selectOnDown == null) navigation.selectOnDown = _unParButtons.Next(item);
+            if (navigation.selectOnUp == null) navigation.selectOnUp = _unParButtons.Previous(item);
+
+            item.navigation = navigation;
+        }
     }
-    public void SetButton(TextMeshProUGUI deathsZoneTxt, Button buttonZone, int deathsNeeded, ref int deathsAmount, string sceneToLoad, Image buttonBackground)
+    public void SetButton(GameObject deathsZoneGO, Button buttonZone, int deathsNeeded, ref int deathsAmount, string sceneToLoad, Image buttonBackground)
     {
         buttonZone.interactable = true;
 
-        deathsZoneTxt.gameObject.SetActive(true);
+        deathsZoneGO.SetActive(true);
+        buttonBackground.color = Color.green;
+        var deathZoneText = deathsZoneGO.GetComponentInChildren<TextMeshProUGUI>();
 
-        deathsZoneTxt.text = $"{deathsAmount} / {deathsNeeded}";
-        deathsZoneTxt.color = deathsAmount <= deathsNeeded ? Color.green : Color.red;
+        deathZoneText.text = $"{deathsAmount} / {deathsNeeded}";
+
+        deathZoneText.color = deathsAmount <= deathsNeeded ? Color.green : Color.red;
 
         buttonZone.onClick.AddListener(() =>
         {
+            buttonZone.interactable = false;
             _mano.DOMove(buttonZone.transform.position - new Vector3(0f, .5f), 1f).SetEase(_easeIn).
             OnComplete(() =>
             {
-                buttonBackground.color = _buttonsBackgroundColor;
+                buttonZone.GetComponent<Animator>().Play("Pressed");
                 _mano.DOMoveY(_mano.transform.position.y - 100f, 1f).SetEase(_easeOut).OnComplete(() => Helpers.GameManager.LoadSceneManager.LoadLevelAsync(sceneToLoad, true));
             });
         });

@@ -15,6 +15,11 @@ public static class Extensions
         T next = source.SkipWhile(x => !x.Equals(current)).Skip(1).FirstOrDefault();
         return next != null ? next : source.FirstOrDefault();
     }
+    public static T Previous<T>(this IEnumerable<T> source, T current)
+    {
+        T previous = source.TakeWhile(x => !x.Equals(current)).LastOrDefault();
+        return previous != null ? previous : source.FirstOrDefault();
+    }
     public static Dictionary<K, V> DictioraryFromTwoLists<K, V>(this IEnumerable<K> keys, IEnumerable<V> values)
     {
         return keys.Zip(values, (k, v) => new { k, v }).ToDictionary(x => x.k, x => x.v);
