@@ -21,7 +21,6 @@ public class TaskUIManager : MonoBehaviour
     int _index = 0;
     int _currentPageIndex;
     InputAction _gamepadNextPage, _gamepadPreviousPage;
-    Vector2 _navigateInput;
     private void Awake()
     {
         _gamepadNextPage = NewInputManager.PlayerInputs.UI.Next;
@@ -83,7 +82,7 @@ public class TaskUIManager : MonoBehaviour
         _first = false;
         if (_currentPageIndex < _taskPaper.Length - 1) _currentPageIndex++;
     }
-    bool _first;
+    bool _first = true;
     void BeforePage()
     {
         if (_first) return;
