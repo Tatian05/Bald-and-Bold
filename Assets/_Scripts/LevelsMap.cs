@@ -19,8 +19,8 @@ public class LevelsMap : MonoBehaviour
     [SerializeField] Color _buttonsBackgroundColor;
 
 
-    [SerializeField] List<Button> _parButtons;
-    [SerializeField] List<Button> _unParButtons;
+    [SerializeField] Button[] _parButtons;
+    [SerializeField] Button[] _unParButtons;
     private void Start()
     {
         Helpers.AudioManager.PlayMusic("Elevator Music");
@@ -62,8 +62,13 @@ public class LevelsMap : MonoBehaviour
         }
 
         Button[] allSelectables = _allButtons.Where(x => x.interactable).ToArray();
-        _unParButtons = allSelectables.Where((elemento, indice)=> indice % 2 == 0).ToList();
-        _parButtons = allSelectables.Where((elemento, indice) => indice % 2 != 0).ToList();
+
+        var buttonsIndex = allSelectables.Zip(allSelectables.Select(x => Array.IndexOf(_allButtons, x)), (button, index) => Tuple.Create(button, index));
+
+        int[] buttonIndexes = allSelectables.Select(x => Array.IndexOf(_allButtons, x)).ToArray();
+
+        _parButtons = buttonsIndex.Where(x => x.Item2 % 2 == 0).Select(x => x.Item1).Skip(1).ToArray();
+        _unParButtons = buttonsIndex.Where(x => x.Item2 % 2 != 0).Select(x => x.Item1).ToArray();
 
         foreach (var item in allSelectables)
         {

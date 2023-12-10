@@ -1011,7 +1011,7 @@ MonoBehaviour:
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 41923733}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1150474756}
   m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -3771,6 +3771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _allButtons:
+  - {fileID: 41923733}
   - {fileID: 1150474756}
   - {fileID: 1696575894}
   - {fileID: 830884468}
@@ -3779,8 +3780,8 @@ MonoBehaviour:
   - {fileID: 218080749}
   - {fileID: 660770651}
   - {fileID: 1383852832}
-  - {fileID: 203279708}
   - {fileID: 1308912428}
+  - {fileID: 203279708}
   _zonesButtons:
   - {fileID: 1150474756}
   - {fileID: 1696575894}

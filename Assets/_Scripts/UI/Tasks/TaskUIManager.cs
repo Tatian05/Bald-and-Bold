@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine.InputSystem;
 using DG.Tweening;
@@ -9,18 +10,28 @@ public class TaskUIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI _goldenBaldTxt, _presiCoinTxt;
     [SerializeField] Transform[] _papersContent;
     [SerializeField] TaskPaper[] _taskPaper;
+    [SerializeField] Button _nextPageButton, _previousPageButton;
+
+    [Header("GamepadUI")]
+    [SerializeField] string[] _backTMP, _nextPageTMP, _previousTMP;
+    [SerializeField] TextMeshProUGUI _backTMPTxt, _nextPageTMPTxt, _previousPageTMPText;
+    [SerializeField] GameObject _gamepadContainer, _backButtonGO;
 
     PersistantData _persistantData;
     int _index = 0;
     int _currentPageIndex;
-    InputAction _nextBeforePage;
+    InputAction _gamepadNextPage, _gamepadPreviousPage;
     Vector2 _navigateInput;
     private void Awake()
     {
-        _nextBeforePage = EventSystemScript.Instance.UIInputs.UI.Navigate;
+        _gamepadNextPage = NewInputManager.PlayerInputs.UI.Next;
+        _gamepadPreviousPage = NewInputManager.PlayerInputs.UI.Before;
     }
     private void Start()
     {
+        _nextPageButton.onClick.AddListener(NextPage);
+        _previousPageButton.onClick.AddListener(BeforePage);
+
         _persistantData = Helpers.PersistantData;
         UpdateCoins();
 
@@ -35,19 +46,19 @@ public class TaskUIManager : MonoBehaviour
                 _index++;
             }
 
-            if (_index >= taskSO.Length - 1)
+            if (_index >= taskSO.Length)
                 break;
         }
+
+        GamepadUI();
     }
     private void OnEnable()
     {
-        _nextBeforePage.performed += PassPage;
-        _nextBeforePage.Enable();
+        NewInputManager.ActiveDeviceChangeEvent += GamepadUI;
     }
     private void OnDisable()
     {
-        _nextBeforePage.performed -= PassPage;
-        _nextBeforePage.Disable();
+        NewInputManager.ActiveDeviceChangeEvent -= GamepadUI;
     }
     public void UpdateCoins()
     {
@@ -63,21 +74,6 @@ public class TaskUIManager : MonoBehaviour
         _goldenBaldCoinsTransform.DOScale(Vector3.one * 1.25f, .1f).OnComplete(() => _goldenBaldCoinsTransform.DOScale(Vector3.one, .1f));//.SetEase(Ease.InBack));
     }
 
-    int _inputCounter;
-    void PassPage(InputAction.CallbackContext obj)
-    {
-        if (_inputCounter >= 1)
-        {
-            _inputCounter = 0;
-            return;
-        }
-
-        _navigateInput = new Vector2 { x = Mathf.RoundToInt(_nextBeforePage.ReadValue<Vector2>().x), y = Mathf.RoundToInt(_nextBeforePage.ReadValue<Vector2>().y) };
-        if (_navigateInput.x > 0 || _navigateInput.y > 0) NextPage();
-        else BeforePage();
-
-        _inputCounter++;
-    }
     bool _last;
     void NextPage()
     {
@@ -96,6 +92,45 @@ public class TaskUIManager : MonoBehaviour
         if (_currentPageIndex > 0) _currentPageIndex--;
         _first = _currentPageIndex == 0;
     }
+
+    #region GAMEPAD
+    void GamepadUI()
+    {
+        if (NewInputManager.activeDevice != DeviceType.Keyboard)
+        {
+            _nextPageButton.gameObject.SetActive(false);
+            _previousPageButton.gameObject.SetActive(false);
+            _backButtonGO.SetActive(false);
+            _gamepadContainer.SetActive(true);
+
+            _backTMPTxt.text = _backTMP[(int)NewInputManager.activeDevice - 1];
+            _nextPageTMPTxt.text = _nextPageTMP[(int)NewInputManager.activeDevice - 1];
+            _previousPageTMPText.text = _previousTMP[(int)NewInputManager.activeDevice - 1];
+
+            _gamepadNextPage.performed += GamepadNextTrigger;
+            _gamepadNextPage.Enable();
+            _gamepadPreviousPage.performed += GamepadPreviousTrigger;
+            _gamepadPreviousPage.Enable();
+        }
+        else
+        {
+            _gamepadContainer.SetActive(false);
+            _nextPageButton.gameObject.SetActive(true);
+            _previousPageButton.gameObject.SetActive(true);
+            _backButtonGO.SetActive(true);
+
+            _gamepadNextPage.performed -= GamepadNextTrigger;
+            _gamepadNextPage.Disable();
+            _gamepadPreviousPage.performed -= GamepadPreviousTrigger;
+            _gamepadPreviousPage.Disable();
+        }
+    }
+
+    void GamepadNextTrigger(InputAction.CallbackContext obj) => _nextPageButton.onClick.Invoke();
+    void GamepadPreviousTrigger(InputAction.CallbackContext obj) => _previousPageButton.onClick.Invoke();
+
+    #endregion
+
 }
 
 [System.Serializable]
