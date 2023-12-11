@@ -10,7 +10,7 @@ public class CollectionEquipment : MonoBehaviour
     [SerializeField] GameObject[] _windowContainers;
     [SerializeField] Button[] _windowButtons;
     [SerializeField] Button _nextCosmetic, _previousCosmetic, _equipButton;
-    [SerializeField] GameObject _cosmeticWindow, _playerWindow, _presidentWindow, _bulletsWindow;
+    [SerializeField] GameObject _cosmeticWindow, _playerWindow, _presidentWindow, _weaponsWindow, _bulletsWindow;
     [SerializeField] TextMeshProUGUI _cosmeticName;
 
     [Header("Player Sprites")]
@@ -18,6 +18,11 @@ public class CollectionEquipment : MonoBehaviour
 
     [Header("President Sprites")]
     [SerializeField] Image _presidentHead, _presidentTorso, _presidentRightLeg, _presidentLeftLeg, _presidentRightHand, _presidentLeftHand, _presidentTail;
+
+    [Header("Weapon Sprites")]
+    [SerializeField] Image _weaponPreviewImg;
+    [SerializeField] TextMeshProUGUI _weaponTypeTxt; 
+    [SerializeField] GameObject _weaponTypeParentGO; 
 
     [Header("Bullet Sprites")]
     [SerializeField] Image _bulletPreviewImg;
@@ -32,12 +37,14 @@ public class CollectionEquipment : MonoBehaviour
     PersistantData _persistantData;
     CosmeticData[] _playerCosmeticsList;
     CosmeticData[] _presidentCosmeticsList;
+    WeaponSkinData[] _weaponCollectionList;
     BulletData[] _bulletCollectionList;
     BulletData[] _grenadeCollectionList;
     ConsumableData[] _consumablesCollectionList;
     Action<ShoppableSO> _equipCosmetic;
     CosmeticData _playerCosmeticEquiped, _presidentCosmeticEquiped;
     BulletData _bulletEquiped, _grenadeEquiped;
+    WeaponSkinData _pistolEquiped, _rifleEquiped, _sniperEquiped, _grenadeLauncherEquiped;
     private void Awake()
     {
         _persistantData = Helpers.PersistantData;
@@ -48,6 +55,10 @@ public class CollectionEquipment : MonoBehaviour
         _presidentCosmeticEquiped = _persistantData.presidentCosmeticEquiped;
         _bulletEquiped = _persistantData.bulletEquiped;
         _grenadeEquiped = _persistantData.grenadeEquiped;
+        _pistolEquiped = _persistantData.pistolEquiped;
+        _rifleEquiped = _persistantData.rifleEquiped;
+        _sniperEquiped = _persistantData.sniperEquiped;
+        _grenadeLauncherEquiped = _persistantData.grenadeLauncherEquiped;
 
         //_persistantData.AddShoppableToCollection(_playerCosmeticEquiped);
         //_persistantData.AddShoppableToCollection(_presidentCosmeticEquiped);
@@ -55,11 +66,12 @@ public class CollectionEquipment : MonoBehaviour
 
         _playerCosmeticsList = _persistantData.shoppablesInCollection.OfType<CosmeticData>().Where(x => x.cosmeticType == CosmeticType.Player).ToArray();
         _presidentCosmeticsList = _persistantData.shoppablesInCollection.OfType<CosmeticData>().Where(x => x.cosmeticType == CosmeticType.President).ToArray();
+        _weaponCollectionList = _persistantData.shoppablesInCollection.OfType<WeaponSkinData>().ToArray();
         _consumablesCollectionList = _persistantData.shoppablesInCollection.OfType<ConsumableData>().ToArray();
         _bulletCollectionList = _persistantData.shoppablesInCollection.OfType<BulletData>().Where(x => x.bulletType == BulletType.Bullet).ToArray();
         _grenadeCollectionList = _persistantData.shoppablesInCollection.OfType<BulletData>().Where(x => x.bulletType == BulletType.Grenade).ToArray();
 
-        foreach (var item in _playerCosmeticsList.OfType<ShoppableSO>().Concat(_presidentCosmeticsList).Concat(_consumablesCollectionList).Concat(_bulletCollectionList))
+        foreach (var item in FList.Cast(_playerCosmeticsList.OfType<ShoppableSO>()) + _presidentCosmeticsList + _weaponCollectionList + _bulletCollectionList + _grenadeCollectionList + _consumablesCollectionList)
             item.OnStart();
     }
     void Start()
@@ -71,9 +83,18 @@ public class CollectionEquipment : MonoBehaviour
         EquipPresident(_presidentCosmeticEquiped);
         EquipBullet(_bulletEquiped);
         EquipGrenade(_grenadeEquiped);
+        EquipWeapon(_pistolEquiped);
 
         List<ShoppableSO> currentCollection = null;
-        Func<bool> isEquiped = () => currentCollection[_index] == _playerCosmeticEquiped || currentCollection[_index] == _presidentCosmeticEquiped || currentCollection[_index] == _bulletEquiped || currentCollection[_index] == _grenadeEquiped;
+
+        bool isEquiped() => currentCollection[_index] == _playerCosmeticEquiped
+        || currentCollection[_index] == _presidentCosmeticEquiped
+        || currentCollection[_index] == _bulletEquiped
+        || currentCollection[_index] == _grenadeEquiped
+        || currentCollection[_index] == _pistolEquiped
+        || currentCollection[_index] == _rifleEquiped
+        || currentCollection[_index] == _sniperEquiped
+        || currentCollection[_index] == _grenadeLauncherEquiped;
 
         foreach (var item in _consumablesCollectionList.Distinct())
             Instantiate(_consumableCollectionPrefab).SetParent(_consumableContent).SetImage(item.shopSprite).SetCount(_consumablesCollectionList.GroupBy(x => x).First(x => x.Key == item).Count());
@@ -90,24 +111,14 @@ public class CollectionEquipment : MonoBehaviour
         {
             _index--;
             if (_index < 0) _index += currentCollection.Count;
+            _cosmeticName.text = currentCollection[_index].shoppableName;
             _equipCosmetic(currentCollection[_index]);
             _equipButton.interactable = !isEquiped();
         });
 
         _equipButton.onClick.AddListener(() =>
         {
-            if (_playerWindow.activeSelf)
-            {
-                _persistantData.playerCosmeticEquiped = _playerCosmeticsList[_index];
-                if (Helpers.GameManager) Helpers.GameManager.SetPlayerSkin();
-            }
-            else if (_presidentWindow.activeSelf)
-            {
-                _persistantData.presidentCosmeticEquiped = _presidentCosmeticsList[_index];
-                if (Helpers.GameManager) Helpers.GameManager.SetPresidentSkin();
-            }
-            else if (_bulletsWindow.activeSelf) _persistantData.bulletEquiped = _bulletCollectionList[_index];
-            else _persistantData.grenadeEquiped = _grenadeCollectionList[_index];
+            EquipButton();
             _equipButton.interactable = false;
         });
 
@@ -148,7 +159,11 @@ public class CollectionEquipment : MonoBehaviour
 
         _windowButtons[2].onClick.AddListener(() =>
         {
-            _cosmeticWindow.SetActive(false);
+            currentCollection = _weaponCollectionList.Cast<ShoppableSO>().ToList();
+            _equipCosmetic = EquipWeapon;
+            _equipCosmetic(currentCollection[_index]);
+            _cosmeticName.text = currentCollection[_index].shoppableName;
+            _cosmeticWindow.SetActive(true);
         });
 
         _windowButtons[3].onClick.AddListener(() =>
@@ -169,12 +184,54 @@ public class CollectionEquipment : MonoBehaviour
             _cosmeticWindow.SetActive(true);
         });
 
+        _windowButtons[5].onClick.AddListener(() =>
+        {
+            _cosmeticWindow.SetActive(false);
+        });
+
         _windowButtons[0].onClick.Invoke();
         _cosmeticName.text = _playerCosmeticsList[_index].shoppableName;
 
         _nextCosmetic.onClick.Invoke();
     }
-
+    void EquipButton()
+    {
+        if (_playerWindow.activeSelf)
+        {
+            _playerCosmeticEquiped = _playerCosmeticsList[_index];
+            _persistantData.playerCosmeticEquiped = _playerCosmeticEquiped;
+            if (Helpers.GameManager) Helpers.GameManager.SetPlayerSkin();
+        }
+        else if (_presidentWindow.activeSelf)
+        {
+            _presidentCosmeticEquiped = _presidentCosmeticsList[_index];
+            _persistantData.presidentCosmeticEquiped = _presidentCosmeticEquiped;
+            if (Helpers.GameManager) Helpers.GameManager.SetPresidentSkin();
+        }
+        else if (_weaponsWindow.activeSelf) EquipCurrentWeapon(_weaponCollectionList[_index])();
+        else if (_bulletsWindow.activeSelf)
+        {
+            _bulletEquiped = _bulletCollectionList[_index];
+            _persistantData.bulletEquiped = _bulletEquiped;
+        }
+        else
+        {
+            _grenadeEquiped = _grenadeCollectionList[_index];
+            _persistantData.grenadeEquiped = _grenadeEquiped;
+        }
+    }
+    public Action EquipCurrentWeapon(WeaponSkinData weapon) => weapon.fireWeaponType switch
+    {
+        FireWeaponType.Pistol => delegate { _pistolEquiped = weapon; _persistantData.pistolEquiped = weapon; }
+        ,
+        FireWeaponType.Rifle => delegate { _rifleEquiped = weapon; _persistantData.rifleEquiped = weapon; }
+        ,
+        FireWeaponType.Sniper => delegate { _sniperEquiped = weapon; _persistantData.sniperEquiped = weapon; }
+        ,
+        FireWeaponType.GrenadeLauncher => delegate { _grenadeLauncherEquiped = weapon; _persistantData.grenadeLauncherEquiped = weapon; }
+        ,
+        _ => throw new ArgumentOutOfRangeException()
+    };
     void EquipPlayer(ShoppableSO shoppableSO)
     {
         var cosmeticData = shoppableSO as CosmeticData;
@@ -232,5 +289,14 @@ public class CollectionEquipment : MonoBehaviour
         if (!grenadeData) return;
 
         _grenadePreviewImg.sprite = grenadeData.shopSprite;
+    }
+    void EquipWeapon(ShoppableSO shoppableSO)
+    {
+        var weaponData = shoppableSO as WeaponSkinData;
+        if (!weaponData) return;
+
+        _weaponTypeParentGO.SetActive(true);
+        _weaponTypeTxt.text = weaponData.weaponTypeText;
+        _weaponPreviewImg.sprite = shoppableSO.shopSprite;
     }
 }

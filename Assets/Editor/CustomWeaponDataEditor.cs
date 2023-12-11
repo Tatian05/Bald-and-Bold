@@ -21,12 +21,6 @@ public class CustomWeaponDataEditor : Editor
         EditorGUILayout.LabelField("Damage");
         weaponData.damage = EditorGUILayout.FloatField(weaponData.damage, GUILayout.MaxWidth(50));
 
-        weaponData.mainSprite = (Sprite)EditorGUILayout.ObjectField("Main Sprite", weaponData.mainSprite, typeof(Sprite), false);
-
-        weaponData.selectedSprite = (Sprite)EditorGUILayout.ObjectField("Selected Sprite", weaponData.selectedSprite, typeof(Sprite), false);
-
-        weaponData.handWeapon = (Sprite)EditorGUILayout.ObjectField("Hand Weapon", weaponData.handWeapon, typeof(Sprite), false);
-
         weaponData.bulletExplosion = (GameObject)EditorGUILayout.ObjectField("Bullet Explosion", weaponData.bulletExplosion, typeof(GameObject), false);
 
         EditorGUILayout.LabelField("Weapon Sound Name");

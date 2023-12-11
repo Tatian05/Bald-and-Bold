@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 public class ShopUINavigation : MonoBehaviour
 {
-    [SerializeField] GameObject _playerShopsContainer, _presidentShopsContainer, _bulletsShopContainer, _grenadesShopContainer, _consumablesShopContainer;
+    [SerializeField] GameObject _playerShopsContainer, _presidentShopsContainer, _weaponsShopContainer, _bulletsShopContainer, _grenadesShopContainer, _consumablesShopContainer;
     [SerializeField] Button _buyButton, _closeButton;
 
     [Header("DeviceChange")]
@@ -19,7 +19,7 @@ public class ShopUINavigation : MonoBehaviour
 
     EventSystemScript _eventSystemScript;
     ShopWindow _shopWindow;
-    List<ShopItem> _playerList, _presidentList, _bulletsList, _grenadesList, _consumablesList;
+    List<ShopItem> _playerList, _presidentList, _weaponsList, _bulletsList, _grenadesList, _consumablesList;
     Button[] _windowsButtons;
     InputAction _nextAction, _beforeAction, _buyAction, _closeAction;
     private void Awake()
@@ -35,13 +35,35 @@ public class ShopUINavigation : MonoBehaviour
     private void OnEnable()
     {
         NewInputManager.ActiveDeviceChangeEvent += GamepadNavigation;
+        if (NewInputManager.activeDevice == DeviceType.Keyboard) return;
+
         _shopWindow.OnBuy += Navigation;
+
+        _nextAction.performed += GamepadNextWindow;
+        _nextAction.Enable();
+        _beforeAction.performed += GamepadBeforeWindow;
+        _beforeAction.Enable();
+        _buyAction.performed += GamepadBuy;
+        _buyAction.Enable();
+        _closeAction.performed += GamepadClose;
+        _closeAction.Enable();
     }
 
     private void OnDisable()
     {
         NewInputManager.ActiveDeviceChangeEvent -= GamepadNavigation;
+        if (NewInputManager.activeDevice == DeviceType.Keyboard) return;
+
         _shopWindow.OnBuy -= Navigation;
+
+        _nextAction.performed -= GamepadNextWindow;
+        _nextAction.Disable();
+        _beforeAction.performed -= GamepadBeforeWindow;
+        _beforeAction.Disable();
+        _buyAction.performed -= GamepadBuy;
+        _buyAction.Disable();
+        _closeAction.performed -= GamepadClose;
+        _closeAction.Disable();
     }
     void Start()
     {
@@ -52,46 +74,21 @@ public class ShopUINavigation : MonoBehaviour
         await Task.Yield();
         if (NewInputManager.activeDevice != DeviceType.Keyboard)
         {
-            _windowsButtons[0].onClick.AddListener(() =>
-            {
-                var go = _playerList.FirstOrDefault();
-                if (!go) return;
-                _eventSystemScript.SetCurrentGameObjectSelected(go.gameObject);
-                _shopWindow.shoppableSelected = go.ShoppableSO;
-                _shopWindow.itemSelected = go;
-            });
-            _windowsButtons[1].onClick.AddListener(() =>
-            {
-                var go = _presidentList.FirstOrDefault();
-                if (!go) return;
-                _eventSystemScript.SetCurrentGameObjectSelected(go.gameObject);
-                _shopWindow.shoppableSelected = go.ShoppableSO;
-                _shopWindow.itemSelected = go;
-            });
-            _windowsButtons[2].onClick.AddListener(() =>
-            {
-                var go = _bulletsList.FirstOrDefault();
-                if (!go) return;
-                _eventSystemScript.SetCurrentGameObjectSelected(go.gameObject);
-                _shopWindow.shoppableSelected = go.ShoppableSO;
-                _shopWindow.itemSelected = go;
-            });
-            _windowsButtons[3].onClick.AddListener(() =>
-            {
-                var go = _grenadesList.FirstOrDefault();
-                if (!go) return;
-                _eventSystemScript.SetCurrentGameObjectSelected(go.gameObject);
-                _shopWindow.shoppableSelected = go.ShoppableSO;
-                _shopWindow.itemSelected = go;
-            });
-            _windowsButtons[4].onClick.AddListener(() =>
-            {
-                var go = _consumablesList.FirstOrDefault();
-                if (!go) return;
-                _eventSystemScript.SetCurrentGameObjectSelected(go.gameObject);
-                _shopWindow.shoppableSelected = go.ShoppableSO;
-                _shopWindow.itemSelected = go;
-            });
+            _windowsButtons[0].onClick.AddListener(PlayerWindowButton);
+
+            _windowsButtons[1].onClick.AddListener(PresidentWindowButton);
+
+            _windowsButtons[2].onClick.AddListener(WeaponWindowButton);
+
+            _windowsButtons[3].onClick.AddListener(BulletWindowButton);
+
+            _windowsButtons[4].onClick.AddListener(GrenadeWindowButton);
+
+            _windowsButtons[5].onClick.AddListener(ConsumableWindowButton);
+
+            Navigation();
+
+            _shopWindow.OnBuy += Navigation;
 
             _nextAction.performed += GamepadNextWindow;
             _nextAction.Enable();
@@ -102,8 +99,6 @@ public class ShopUINavigation : MonoBehaviour
             _closeAction.performed += GamepadClose;
             _closeAction.Enable();
 
-            Navigation();
-
             _gamepadCloseTMP.text = _backTMP[(int)NewInputManager.activeDevice - 1];
             _gamepadBuyTMP.text = _buyTMP[(int)NewInputManager.activeDevice - 1];
             _gamepadNextTMP.text = _nextTMP[(int)NewInputManager.activeDevice - 1];
@@ -113,11 +108,14 @@ public class ShopUINavigation : MonoBehaviour
         }
         else
         {
-            _windowsButtons[0].onClick.RemoveListener(() => _eventSystemScript.SetCurrentGameObjectSelected(_playerList.FirstOrDefault()?.gameObject));
-            _windowsButtons[1].onClick.RemoveListener(() => _eventSystemScript.SetCurrentGameObjectSelected(_presidentList.FirstOrDefault()?.gameObject));
-            _windowsButtons[2].onClick.RemoveListener(() => _eventSystemScript.SetCurrentGameObjectSelected(_bulletsList.FirstOrDefault()?.gameObject));
-            _windowsButtons[3].onClick.RemoveListener(() => _eventSystemScript.SetCurrentGameObjectSelected(_grenadesList.FirstOrDefault()?.gameObject));
-            _windowsButtons[4].onClick.RemoveListener(() => _eventSystemScript.SetCurrentGameObjectSelected(_consumablesList.FirstOrDefault()?.gameObject));
+            _windowsButtons[0].onClick.RemoveListener(PlayerWindowButton);
+            _windowsButtons[1].onClick.RemoveListener(PresidentWindowButton);
+            _windowsButtons[2].onClick.RemoveListener(WeaponWindowButton);
+            _windowsButtons[3].onClick.RemoveListener(BulletWindowButton);
+            _windowsButtons[4].onClick.RemoveListener(GrenadeWindowButton);
+            _windowsButtons[5].onClick.RemoveListener(ConsumableWindowButton);
+
+            _shopWindow.OnBuy -= Navigation;
 
             _nextAction.performed -= GamepadNextWindow;
             _nextAction.Disable();
@@ -128,12 +126,65 @@ public class ShopUINavigation : MonoBehaviour
             _closeAction.performed -= GamepadClose;
             _closeAction.Disable();
 
-            _shopWindow.OnBuy -= Navigation;
-
             _gamepadContainer.SetActive(false);
             _exitButton.SetActive(true);
         }
     }
+
+    #region WindowsButtons
+
+    void PlayerWindowButton()
+    {
+        var go = _playerList.FirstOrDefault();
+        if (!go) return;
+        _eventSystemScript.SetCurrentGameObjectSelected(go.gameObject);
+        _shopWindow.shoppableSelected = go.ShoppableSO;
+        _shopWindow.itemSelected = go;
+    }
+    void PresidentWindowButton()
+    {
+        var go = _presidentList.FirstOrDefault();
+        if (!go) return;
+        _eventSystemScript.SetCurrentGameObjectSelected(go.gameObject);
+        _shopWindow.shoppableSelected = go.ShoppableSO;
+        _shopWindow.itemSelected = go;
+    }
+
+    void WeaponWindowButton()
+    {
+        var go = _weaponsList.FirstOrDefault();
+        if (!go) return;
+        _eventSystemScript.SetCurrentGameObjectSelected(go.gameObject);
+        _shopWindow.shoppableSelected = go.ShoppableSO;
+        _shopWindow.itemSelected = go;
+    }
+
+    void BulletWindowButton()
+    {
+        var go = _bulletsList.FirstOrDefault();
+        if (!go) return;
+        _eventSystemScript.SetCurrentGameObjectSelected(go.gameObject);
+        _shopWindow.shoppableSelected = go.ShoppableSO;
+        _shopWindow.itemSelected = go;
+    }
+    void GrenadeWindowButton()
+    {
+        var go = _grenadesList.FirstOrDefault();
+        if (!go) return;
+        _eventSystemScript.SetCurrentGameObjectSelected(go.gameObject);
+        _shopWindow.shoppableSelected = go.ShoppableSO;
+        _shopWindow.itemSelected = go;
+    }
+    void ConsumableWindowButton()
+    {
+        var go = _consumablesList.FirstOrDefault();
+        if (!go) return;
+        _eventSystemScript.SetCurrentGameObjectSelected(go.gameObject);
+        _shopWindow.shoppableSelected = go.ShoppableSO;
+        _shopWindow.itemSelected = go;
+    }
+
+    #endregion
     void Navigation()
     {
         UpdateLists();
@@ -141,6 +192,7 @@ public class ShopUINavigation : MonoBehaviour
         _windowsButtons[_windowIndex].onClick.Invoke();
         Button beforePlayerButton = null;
         Button beforePresiButton = null;
+        Button beforeWeaponButton = null;
         Button beforeBulletButton = null;
         Button beforeGrenadeButton = null;
         Button beforeConsumableButton = null;
@@ -163,6 +215,16 @@ public class ShopUINavigation : MonoBehaviour
 
             item.Button.navigation = navigation;
             beforePresiButton = item.Button;
+        }
+
+        foreach (var item in _weaponsList)
+        {
+            var navigation = item.Button.navigation;
+            navigation.selectOnRight = _weaponsList.Next(item).Button;
+            navigation.selectOnLeft = beforeWeaponButton ? beforeWeaponButton : _weaponsList.Last().Button;
+
+            item.Button.navigation = navigation;
+            beforeWeaponButton = item.Button;
         }
 
         foreach (var item in _bulletsList)
@@ -200,6 +262,7 @@ public class ShopUINavigation : MonoBehaviour
         _shopWindow = GetComponent<ShopWindow>();
         _playerList = _playerShopsContainer.GetComponentsInChildren<ShopItem>().Where(x => !x.InCollection).ToList();
         _presidentList = _presidentShopsContainer.GetComponentsInChildren<ShopItem>().Where(x => !x.InCollection).ToList();
+        _weaponsList = _weaponsShopContainer.GetComponentsInChildren<ShopItem>().Where(x => !x.InCollection).ToList();
         _bulletsList = _bulletsShopContainer.GetComponentsInChildren<ShopItem>().Where(x => !x.InCollection).ToList();
         _grenadesList = _grenadesShopContainer.GetComponentsInChildren<ShopItem>().Where(x => !x.InCollection).ToList();
         _consumablesList = _consumablesShopContainer.GetComponentsInChildren<ShopItem>().ToList();

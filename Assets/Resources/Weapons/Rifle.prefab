@@ -178,7 +178,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaponData: {fileID: 11400000, guid: 8afee45441b384948baafd696731e5bd, type: 2}
   _droppableWeapon: 1
-  _recoilForce: 0
+  _animated: 0
+  _equipedWeaponOffset: {x: 0, y: 0}
+  _fireWeaponType: 1
 --- !u!114 &2790094702740411220
 MonoBehaviour:
   m_ObjectHideFlags: 0

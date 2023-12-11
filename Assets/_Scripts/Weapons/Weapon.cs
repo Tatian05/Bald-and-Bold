@@ -12,7 +12,6 @@ namespace Weapons
         protected float _weaponTimer;
         protected Rigidbody2D _rb;
         protected Animator _animator;
-        protected WeaponManager _weaponManager;
         protected SpriteRenderer _spriteRenderer;
         protected GameManager _gameManager;
         protected Sprite _equipedBullet, _equipedGrenade;
@@ -29,11 +28,6 @@ namespace Weapons
         private void OnEnable()
         {
             StartCoroutine(FindGameManager());
-        }
-        protected virtual void Start()
-        {
-            _weaponManager = FindObjectOfType<WeaponManager>();
-            _spriteRenderer.sprite = _weaponData.mainSprite;
         }
         private void OnDrawGizmos()
         {
@@ -83,22 +77,12 @@ namespace Weapons
             transform.localPosition = _equipedWeaponOffset;
             return this;
         }
-        public Weapon PickUp(bool knife = false)
+        public virtual Weapon PickUp(bool knife = false)
         {
             _rb.simulated = knife;
             _rb.velocity = Vector2.zero;
             transform.eulerAngles = Vector3.zero;
             if (_animator && !_animated) _animator.enabled = false;
-            if (_droppableWeapon) _spriteRenderer.sprite = _weaponData.handWeapon;
-            return this;
-        }
-
-        public Weapon ThrowOut(Vector2 direction)
-        {
-            _rb.simulated = true;
-            _rb.AddForce(direction * 3, ForceMode2D.Impulse);
-            if (_animator) _animator.enabled = true;
-            _spriteRenderer.sprite = _weaponData.mainSprite;
             return this;
         }
 

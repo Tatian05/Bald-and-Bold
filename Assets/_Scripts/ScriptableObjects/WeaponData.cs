@@ -9,9 +9,6 @@ public class WeaponData : ScriptableObject
     [HideInInspector] public float fireRate;
     [HideInInspector] public float damage;
     [HideInInspector] public int initialAmmo;
-    [HideInInspector] public Sprite mainSprite;
-    [HideInInspector] public Sprite selectedSprite;
-    [HideInInspector] public Sprite handWeapon;
     [HideInInspector] public string weaponSoundName;
     [HideInInspector] public GameObject bulletExplosion;
 

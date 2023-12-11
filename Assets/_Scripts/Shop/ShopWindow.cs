@@ -31,6 +31,11 @@ public class ShopWindow : MonoBehaviour
     [SerializeField] Transform _grenadesGridParent;
     [SerializeField] Image _bulletPreviewImg, _grenadePreviewImg;
 
+    [Header("Weapons Settings")]
+    [SerializeField] Transform _weaponsGridParent;
+    [SerializeField] Image _weaponPreviewImg;
+    [SerializeField] TextMeshProUGUI _weaponType, _weaponTypeTxt;
+
     [Space(20)]
     [SerializeField] Color _selectedColor;
     [SerializeField] Color _canBuyColor, _cantBuyColor;
@@ -41,6 +46,7 @@ public class ShopWindow : MonoBehaviour
     [SerializeField] ConsumableData[] _consumables;
     [SerializeField] BulletData[] _bullets;
     [SerializeField] BulletData[] _grenades;
+    [SerializeField] WeaponSkinData[] _weaponSkins;
 
     public ShoppableSO shoppableSelected;
     public ShopItem itemSelected;
@@ -50,7 +56,7 @@ public class ShopWindow : MonoBehaviour
     List<ShopItem> _allShopItems = new List<ShopItem>(), _inCollectionShopItems = new List<ShopItem>();
     bool _start = true;
     EventSystemScript _eventSystemScript;
-    Button _lastPlayerCosmeticSelected, _lastPresidentCosmeticSelected, _lastConsumableSelected, _lastBulletSelected, _lastGrenadeSelected;
+    Button _lastPlayerCosmeticSelected, _lastPresidentCosmeticSelected, _lastConsumableSelected, _lastBulletSelected, _lastGrenadeSelected, _lastWeaponSelected;
 
     public event Action OnBuy;
     public static event Action UpdateCollList;
@@ -59,11 +65,14 @@ public class ShopWindow : MonoBehaviour
         _persistantData = Helpers.PersistantData;
         _persistantDataSaved = Helpers.PersistantData.persistantDataSaved;
 
+        _allShopables = _persistantData.allShoppables;
+
         _playerCosmetics = _allShopables.OfType<CosmeticData>().Where(x => x.cosmeticType == CosmeticType.Player).OrderBy(x => x.shoppableQuality).ToArray();
         _presidentCosmetics = _allShopables.OfType<CosmeticData>().Where(x => x.cosmeticType == CosmeticType.President).OrderBy(x => x.shoppableQuality).ToArray();
         _consumables = _allShopables.OfType<ConsumableData>().OrderBy(x => x.shoppableQuality).ToArray();
         _bullets = _allShopables.OfType<BulletData>().Where(x => x.bulletType == BulletType.Bullet).OrderBy(x => x.shoppableQuality).ToArray();
         _grenades = _allShopables.OfType<BulletData>().Where(x => x.bulletType == BulletType.Grenade).OrderBy(x => x.shoppableQuality).ToArray();
+        _weaponSkins = _allShopables.OfType<WeaponSkinData>().OrderBy(x => x.shoppableQuality).ToArray();
     }
     private void OnEnable()
     {
@@ -80,6 +89,8 @@ public class ShopWindow : MonoBehaviour
         _consumableImage.enabled = false;
         _bulletPreviewImg.enabled = false;
         _grenadePreviewImg.enabled = false;
+        _weaponPreviewImg.enabled = false;
+
         Image buyButtonImg = _buyButton.GetComponent<Image>();
 
         List<Button> allButtons = new List<Button>();
@@ -211,6 +222,33 @@ public class ShopWindow : MonoBehaviour
             });
         }
 
+        for (int i = 0; i < _weaponSkins.Length; i++)
+        {
+            var cosmeticItem = Instantiate(_shopItemPrefab).
+                               SetParent(_weaponsGridParent).
+                               SetCosmeticData(_weaponSkins[i]);
+            _allShopItems.Add(cosmeticItem);
+
+            var button = cosmeticItem.GetComponent<Button>();
+
+            allButtons.Add(button);
+            if (_persistantData.shoppablesInCollection.Contains(cosmeticItem.ShoppableSO))
+            {
+                cosmeticItem.SetInCollection(true);
+                _inCollectionShopItems.Add(cosmeticItem);
+                continue;
+            }
+
+            button.onClick.AddListener(() =>
+            {
+                shoppableSelected = cosmeticItem.ShoppableSO;
+                itemSelected = cosmeticItem;
+                _weaponType.gameObject.SetActive(true);
+                ShowWeaponSelected();
+                _lastWeaponSelected = button;
+            });
+        }
+
         #endregion
 
         Action updateBuyButtonState = delegate
@@ -302,9 +340,15 @@ public class ShopWindow : MonoBehaviour
         _grenadePreviewImg.enabled = true;
         (shoppableSelected as BulletData).SetShopBullet(_grenadePreviewImg);
     }
+    void ShowWeaponSelected()
+    {
+        _weaponPreviewImg.enabled = true;
+        (shoppableSelected as WeaponSkinData).SetWeaponCosmetic(_weaponPreviewImg, _weaponTypeTxt);
+    }
     void OnWindowChange()
     {
         _consumableDuration.gameObject.SetActive(false);
+        _weaponType.gameObject.SetActive(false);
         _shoppableSelectedTxt.text = string.Empty;
     }
     public void GamepadOnOpenWindow(bool gamepad)
@@ -352,5 +396,10 @@ public class ShopWindow : MonoBehaviour
     {
         OnWindowChange();
         _lastGrenadeSelected?.onClick.Invoke();
+    }
+    public void OnWeaponWindow()
+    {
+        OnWindowChange();
+        _lastWeaponSelected?.onClick.Invoke();
     }
 }

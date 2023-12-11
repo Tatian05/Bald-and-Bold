@@ -11,6 +11,7 @@ public class Gachapon : MonoBehaviour
     private void Start()
     {
         _persistantData = Helpers.PersistantData;
+        _allGachaShoppables = _persistantData.allShoppables;
         UpdateLists();
         ShopWindow.UpdateCollList += UpdateListOnShop;
     }
