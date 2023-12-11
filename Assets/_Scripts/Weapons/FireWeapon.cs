@@ -4,9 +4,12 @@ using DG.Tweening;
 using UnityEngine.InputSystem;
 public class FireWeapon : Weapon
 {
+    [SerializeField] FireWeaponType _fireWeaponType;
     protected Transform _bulletSpawn;
     protected int _currentAmmo;
     protected Animator _muzzleFlashAnimator;
+    [SerializeField]protected WeaponSkinData _weaponSkinData;
+
     LayerMask _borderMask;
     Tween _currentTween;
     protected override void Awake()
@@ -15,9 +18,14 @@ public class FireWeapon : Weapon
         _borderMask = LayerMask.GetMask("Border");
         //_currentAmmo = _weaponData.initialAmmo;
     }
-    protected override void Start()
+    protected virtual void Start()
     {
-        base.Start();
+        if (_droppableWeapon)
+        {
+            _weaponSkinData = Helpers.PersistantData.GetWeaponSkin(_fireWeaponType);
+            _spriteRenderer.sprite = _weaponSkinData.mainSprite;
+            Debug.Log("asd");
+        }
         _bulletSpawn = transform.GetChild(0);
         _muzzleFlashAnimator = _bulletSpawn.GetChild(0).GetComponent<Animator>();
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, ResetRecoil);
@@ -77,4 +85,24 @@ public class FireWeapon : Weapon
     }
     public virtual void OnCanceledShoot(InputAction.CallbackContext obj) { }
     public virtual void OnStartShoot(InputAction.CallbackContext obj) { }
+
+    #region BUILDER
+
+    public FireWeapon ThrowOut(Vector2 direction)
+    {
+        _rb.simulated = true;
+        _rb.AddForce(direction * 3, ForceMode2D.Impulse);
+        if (_animator) _animator.enabled = true;
+        _spriteRenderer.sprite = _weaponSkinData.mainSprite;
+        return this;
+    }
+    public override Weapon PickUp(bool knife = false)
+    {
+        base.PickUp();
+
+        if (_droppableWeapon) _spriteRenderer.sprite = _weaponSkinData.handWeaponSprite;
+        return this;
+    }
+
+    #endregion
 }

@@ -4,7 +4,8 @@ using UnityEngine.InputSystem;
 using Weapons;
 public class WeaponManager : MonoBehaviour
 {
-    [SerializeField] Weapon _currentMainWeapon = null, _currentSecundaryWeapon = null;
+    [SerializeField] FireWeapon _currentMainWeapon = null;
+    [SerializeField] Weapon _currentSecundaryWeapon = null;
     [SerializeField] GameObject _rightHand, _leftHand;
     [SerializeField] Minigun _minigunPrefab;
 
@@ -97,15 +98,15 @@ public class WeaponManager : MonoBehaviour
     }
     void EquipWeapon(Weapon newWeapon)
     {
-        _currentMainWeapon = newWeapon;
+        _currentMainWeapon = newWeapon as FireWeapon;
         _mainWeaponContainer.localEulerAngles = transform.eulerAngles;
         _lookAtMouse += MainWeapon;
         _currentMainWeapon.PickUp().SetParent(_mainWeaponContainer).SetPosition(_mainWeaponContainer.position).SetOffset();
         _rightHand.SetActive(false);
         _leftHand.SetActive(false);
 
-        _shoot.performed += (_currentMainWeapon as FireWeapon).OnStartShoot;
-        _shoot.canceled += (_currentMainWeapon as FireWeapon).OnCanceledShoot;
+        _shoot.performed += (_currentMainWeapon).OnStartShoot;
+        _shoot.canceled += (_currentMainWeapon).OnCanceledShoot;
     }
     private void ThrowWeapon(bool minigun)
     {

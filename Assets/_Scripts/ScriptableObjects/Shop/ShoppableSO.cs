@@ -1,5 +1,5 @@
 using UnityEngine;
-public enum ShoppableType { Cosmetic, Consumable, Bullet }
+public enum ShoppableType { Cosmetic, Consumable, Bullet, Weapon }
 public enum ShoppableQuality { Normal, Rare, Epic }
 public class ShoppableSO : ScriptableObject
 {

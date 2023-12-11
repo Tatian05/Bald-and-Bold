@@ -27,33 +27,44 @@ public class GamepadCollectionNavigation : MonoBehaviour
     private void OnEnable()
     {
         NewInputManager.ActiveDeviceChangeEvent += GamepadNavigation;
+
+        if (NewInputManager.activeDevice == DeviceType.Keyboard) return;
+
+        _equipAction.performed += EquipButton;
+        _equipAction.Enable();
+        _nextWindowAction.performed += GamepadNextWindow;
+        _nextWindowAction.Enable();
+        _beforeWindowAction.performed += GamepadBeforeWindow;
+        _beforeWindowAction.Enable();
+        _nextBeforeConsumableAction.performed += PassCollectionItem;
+        _nextBeforeConsumableAction.Enable();
     }
     private void OnDisable()
     {
         NewInputManager.ActiveDeviceChangeEvent -= GamepadNavigation;
+
+        if (NewInputManager.activeDevice == DeviceType.Keyboard) return;
+
+        _equipAction.performed -= EquipButton;
+        _equipAction.Disable();
+        _nextWindowAction.performed -= GamepadNextWindow;
+        _nextWindowAction.Disable();
+        _beforeWindowAction.performed -= GamepadBeforeWindow;
+        _beforeWindowAction.Disable();
+        _nextBeforeConsumableAction.performed -= PassCollectionItem;
+        _nextBeforeConsumableAction.Disable();
     }
     void GamepadNavigation()
     {
         if (NewInputManager.activeDevice != DeviceType.Keyboard)
         {
-            _equipAction.performed += EquipButton;
-            _equipAction.Enable();
-            _nextWindowAction.performed += GamepadNextWindow;
-            _nextWindowAction.Enable();
-            _beforeWindowAction.performed += GamepadBeforeWindow;
-            _beforeWindowAction.Enable();
-            _nextBeforeConsumableAction.performed += PassCollectionItem;
-            _nextBeforeConsumableAction.Enable();
-
             _closeTMPText.text = _closeTMP[(int)NewInputManager.activeDevice - 1];
             _equipTMPText.text = _equipTMP[(int)NewInputManager.activeDevice - 1];
             _nextWindowTMPText.text = _nextWindowTMP[(int)NewInputManager.activeDevice - 1];
             _beforeWindowTMPText.text = _beforeWindowTMP[(int)NewInputManager.activeDevice - 1];
             _gamepadWindow.SetActive(true);
             _closeButton.SetActive(false);
-        }
-        else
-        {
+
             _equipAction.performed += EquipButton;
             _equipAction.Enable();
             _nextWindowAction.performed += GamepadNextWindow;
@@ -62,6 +73,17 @@ public class GamepadCollectionNavigation : MonoBehaviour
             _beforeWindowAction.Enable();
             _nextBeforeConsumableAction.performed += PassCollectionItem;
             _nextBeforeConsumableAction.Enable();
+        }
+        else
+        {
+            _equipAction.performed -= EquipButton;
+            _equipAction.Disable();
+            _nextWindowAction.performed -= GamepadNextWindow;
+            _nextWindowAction.Disable();
+            _beforeWindowAction.performed -= GamepadBeforeWindow;
+            _beforeWindowAction.Disable();
+            _nextBeforeConsumableAction.performed -= PassCollectionItem;
+            _nextBeforeConsumableAction.Disable();
 
             _gamepadWindow.SetActive(false);
             _closeButton.SetActive(true);

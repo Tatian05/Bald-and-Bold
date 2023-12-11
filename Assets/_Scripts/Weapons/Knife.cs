@@ -5,9 +5,8 @@ public class Knife : Weapon
     Animator _anim;
     Vector3 _initialScale;
     float _knifeBoost;
-    protected override void Start()
+    void Start()
     {
-        base.Start();
         _anim = GetComponent<Animator>();
         _initialScale = transform.localScale;
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_MELEE, MeleeConsumable);

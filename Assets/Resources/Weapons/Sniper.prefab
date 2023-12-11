@@ -280,7 +280,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaponData: {fileID: 11400000, guid: 8deb3d5dddb071d4ea187f037ebbe458, type: 2}
   _droppableWeapon: 1
-  _recoilForce: 0
+  _animated: 0
+  _equipedWeaponOffset: {x: 0, y: 0}
+  _fireWeaponType: 2
 --- !u!114 &4088419304027367941
 MonoBehaviour:
   m_ObjectHideFlags: 0

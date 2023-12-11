@@ -15,6 +15,7 @@ public class PersistantData : SingletonPersistent<PersistantData>
     public CosmeticData presidentCosmeticEquiped;
     public BulletData bulletEquiped;
     public BulletData grenadeEquiped;
+    public WeaponSkinData pistolEquiped, rifleEquiped, sniperEquiped, grenadeLauncherEquiped;
 
     [Header("Collection")]
     public List<ShoppableSO> shoppablesInCollection;
@@ -48,6 +49,10 @@ public class PersistantData : SingletonPersistent<PersistantData>
         if (persistantDataSaved.presidentCosmeticEquipedID >= 0) presidentCosmeticEquiped = allShoppables[persistantDataSaved.presidentCosmeticEquipedID] as CosmeticData;
         if (persistantDataSaved.bulletEquipedID >= 0) bulletEquiped = allShoppables[persistantDataSaved.bulletEquipedID] as BulletData;
         if (persistantDataSaved.grenadeEquipedID >= 0) grenadeEquiped = allShoppables[persistantDataSaved.grenadeEquipedID] as BulletData;
+        if(persistantDataSaved.pistolEquipedID >= 0) pistolEquiped = allShoppables[persistantDataSaved.pistolEquipedID] as WeaponSkinData;
+        if(persistantDataSaved.rifleEquipedID >= 0) rifleEquiped = allShoppables[persistantDataSaved.rifleEquipedID] as WeaponSkinData;
+        if(persistantDataSaved.sniperEquipedID >= 0) sniperEquiped = allShoppables[persistantDataSaved.sniperEquipedID] as WeaponSkinData;
+        if(persistantDataSaved.grenadeLauncherID >= 0) grenadeLauncherEquiped = allShoppables[persistantDataSaved.grenadeLauncherID] as WeaponSkinData;
 
         //CONSUMABLES ACTIVADOS
         consumablesActivated = allShoppables.OfType<ConsumableData>().Where(x => consumablesData.consumablesActivatedIDs.Contains(x.ID)).ToList();
@@ -77,6 +82,14 @@ public class PersistantData : SingletonPersistent<PersistantData>
         }
     }
 
+    public WeaponSkinData GetWeaponSkin(FireWeaponType fireWeaponType) => fireWeaponType switch
+    {
+        FireWeaponType.Pistol => pistolEquiped,
+        FireWeaponType.Rifle => rifleEquiped,
+        FireWeaponType.Sniper => sniperEquiped,
+        FireWeaponType.GrenadeLauncher => grenadeLauncherEquiped,
+        _ => throw new ArgumentNullException($"{fireWeaponType} not exist")
+    };
     #endregion
 
     public GameData gameData;
@@ -117,7 +130,7 @@ public class PersistantData : SingletonPersistent<PersistantData>
     protected override async void OnApplicationQuit()
     {
         await Task.Yield();
-        persistantDataSaved.Save(shoppablesInCollection, playerCosmeticEquiped, presidentCosmeticEquiped, bulletEquiped, grenadeEquiped);
+        persistantDataSaved.Save(shoppablesInCollection, playerCosmeticEquiped, presidentCosmeticEquiped, bulletEquiped, grenadeEquiped, pistolEquiped, rifleEquiped, sniperEquiped, grenadeLauncherEquiped);
         consumablesData.Save(consumablesActivated, consumablesActivatedTime);
         tasks.SaveTasks(tasksSO);
 
@@ -215,6 +228,7 @@ public class PersistantDataSaved
     public int playerCosmeticEquipedID;
     public int presidentCosmeticEquipedID;
     public int bulletEquipedID, grenadeEquipedID;
+    public int pistolEquipedID, rifleEquipedID, sniperEquipedID, grenadeLauncherID;
     public int[] shoppablesInCollectionIDs;
     #endregion 
 
@@ -231,6 +245,10 @@ public class PersistantDataSaved
         presidentCosmeticEquipedID = -2;
         bulletEquipedID = -3;
         grenadeEquipedID = -4;
+        pistolEquipedID = -5;
+        rifleEquipedID = -6;
+        sniperEquipedID = -7;
+        grenadeLauncherID = -8;
         shoppablesInCollectionIDs = new int[0];
         userBindingKeys = new List<string>();
         userBindingValues = new List<string>();
@@ -259,13 +277,18 @@ public class PersistantDataSaved
         userBindings.Add(key, value);
     }
     public void Save(List<ShoppableSO> shoppablesInCollection, CosmeticData playerEquipedCosmetic, CosmeticData presidentEquipedCosmetic,
-        BulletData bulletEquiped, BulletData grenadeEquiped)
+        BulletData bulletEquiped, BulletData grenadeEquiped, WeaponSkinData pistolEquiped, WeaponSkinData rifleEquiped, WeaponSkinData sniperEquiped,
+        WeaponSkinData grenadeLauncherEquiped)
     {
         shoppablesInCollectionIDs = shoppablesInCollection.Select(x => x.ID).ToArray();
         playerCosmeticEquipedID = playerEquipedCosmetic.ID;
         presidentCosmeticEquipedID = presidentEquipedCosmetic.ID;
         bulletEquipedID = bulletEquiped.ID;
         grenadeEquipedID = grenadeEquiped.ID;
+        pistolEquipedID = pistolEquiped.ID;
+        rifleEquipedID = rifleEquiped.ID;
+        sniperEquipedID = sniperEquiped.ID;
+        grenadeLauncherID = grenadeLauncherEquiped.ID;
     }
     public string GetBind(string key) => userBindings.ContainsKey(key) ? userBindings[key] : string.Empty;
     public void LoadUserBindingsDictionary() { userBindings = userBindingKeys.DictioraryFromTwoLists(userBindingValues); }
