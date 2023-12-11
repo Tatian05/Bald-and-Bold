@@ -18,8 +18,10 @@ MonoBehaviour:
   cost: 0
   localizationID: ID_Default
   shopSprite: {fileID: 21300000, guid: 14947fa32cd245e48b783ea98cd0ed09, type: 3}
-  shoppableName: Skull rifle
+  shoppableName: Default
+  mainMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   mainSprite: {fileID: 21300000, guid: 14947fa32cd245e48b783ea98cd0ed09, type: 3}
-  selectedWeaponSprite: {fileID: 21300000, guid: 735f3efaaca344343bdc45116649fc70, type: 3}
+  weaponMask: {fileID: 21300000, guid: 6a2da15c2936b3c448862c3a246ff587, type: 3}
   handWeaponSprite: {fileID: 21300000, guid: 3d0233f22664cc14b8efa9e44ce33348, type: 3}
   fireWeaponType: 1
+  weaponTypeText: Rifle

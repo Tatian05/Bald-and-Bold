@@ -18,8 +18,10 @@ MonoBehaviour:
   cost: 0
   localizationID: ID_Default
   shopSprite: {fileID: 21300000, guid: 2a16164e6715c124bbe6efffad836d9d, type: 3}
-  shoppableName: Modern Sniper
+  shoppableName: Default
+  mainMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   mainSprite: {fileID: 21300000, guid: 2a16164e6715c124bbe6efffad836d9d, type: 3}
-  selectedWeaponSprite: {fileID: 21300000, guid: 79c5dad9eff81fe43bbdff23a65ca7b4, type: 3}
+  weaponMask: {fileID: 21300000, guid: 3a2627e7ade8ba8469e50cdbe81f428b, type: 3}
   handWeaponSprite: {fileID: 21300000, guid: 4e2886bf29d5cb545af52df8354a64b3, type: 3}
   fireWeaponType: 2
+  weaponTypeText: Sniper

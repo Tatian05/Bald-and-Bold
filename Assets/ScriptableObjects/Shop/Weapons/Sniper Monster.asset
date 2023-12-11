@@ -19,7 +19,9 @@ MonoBehaviour:
   localizationID: ID_Monster
   shopSprite: {fileID: 21300000, guid: b8f53d0a39a66ab4f96b11a1a28e3301, type: 3}
   shoppableName: Monster Sniper
+  mainMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   mainSprite: {fileID: 21300000, guid: b8f53d0a39a66ab4f96b11a1a28e3301, type: 3}
-  selectedWeaponSprite: {fileID: 0}
-  handWeaponSprite: {fileID: 0}
+  weaponMask: {fileID: 21300000, guid: 8c00bfdaa3d6f784fb8abf027390ad45, type: 3}
+  handWeaponSprite: {fileID: 21300000, guid: 6222bfccec846e64580342b97a60593d, type: 3}
   fireWeaponType: 2
+  weaponTypeText: Sniper

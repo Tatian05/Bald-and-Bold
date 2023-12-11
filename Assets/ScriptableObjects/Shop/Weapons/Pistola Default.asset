@@ -18,8 +18,10 @@ MonoBehaviour:
   cost: 0
   localizationID: ID_Default
   shopSprite: {fileID: 21300000, guid: af92cce75caf49840a908af4d0cd112c, type: 3}
-  shoppableName: Laser pistol
+  shoppableName: Default
+  mainMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   mainSprite: {fileID: 21300000, guid: af92cce75caf49840a908af4d0cd112c, type: 3}
-  selectedWeaponSprite: {fileID: 21300000, guid: 8cfb42de7c3dbb842a31d09be7358b52, type: 3}
+  weaponMask: {fileID: 21300000, guid: 85a71abfcdc2c1244a0cc1c3ce330a35, type: 3}
   handWeaponSprite: {fileID: 21300000, guid: 2abb2e05fe72fbc49be82c49bef0962a, type: 3}
   fireWeaponType: 0
+  weaponTypeText: Pistol

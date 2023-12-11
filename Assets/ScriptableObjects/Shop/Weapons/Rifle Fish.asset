@@ -18,8 +18,10 @@ MonoBehaviour:
   cost: 2
   localizationID: ID_Fish
   shopSprite: {fileID: 21300000, guid: 853a5711ee87f114cae61487b179c400, type: 3}
-  shoppableName: Fish rifle
+  shoppableName: Fish
+  mainMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   mainSprite: {fileID: 21300000, guid: 853a5711ee87f114cae61487b179c400, type: 3}
-  selectedWeaponSprite: {fileID: 0}
-  handWeaponSprite: {fileID: 0}
+  weaponMask: {fileID: 21300000, guid: ebd5270e2bafae6458ed78401efa6e8d, type: 3}
+  handWeaponSprite: {fileID: 21300000, guid: 1bf4369573247004484c7ec2a78eff1c, type: 3}
   fireWeaponType: 1
+  weaponTypeText: Rifle

@@ -283,6 +283,7 @@ MonoBehaviour:
   _animated: 0
   _equipedWeaponOffset: {x: 0, y: 0}
   _fireWeaponType: 2
+  _onFloorMaterial: {fileID: 2100000, guid: 832da018fe7bcc3448324dd31e159205, type: 2}
 --- !u!114 &4088419304027367941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,7 +305,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5614521715814990548}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 6d8dc8a03226af04c9b24ba6d926de1f, type: 2}
   m_CullingMode: 0

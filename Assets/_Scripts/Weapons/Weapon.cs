@@ -82,7 +82,6 @@ namespace Weapons
             _rb.simulated = knife;
             _rb.velocity = Vector2.zero;
             transform.eulerAngles = Vector3.zero;
-            if (_animator && !_animated) _animator.enabled = false;
             return this;
         }
 

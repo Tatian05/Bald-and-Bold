@@ -5,10 +5,11 @@ using UnityEngine.InputSystem;
 public class FireWeapon : Weapon
 {
     [SerializeField] FireWeaponType _fireWeaponType;
+    [SerializeField] Material _onFloorMaterial;
     protected Transform _bulletSpawn;
     protected int _currentAmmo;
     protected Animator _muzzleFlashAnimator;
-    [SerializeField]protected WeaponSkinData _weaponSkinData;
+    protected WeaponSkinData _weaponSkinData;
 
     LayerMask _borderMask;
     Tween _currentTween;
@@ -23,8 +24,10 @@ public class FireWeapon : Weapon
         if (_droppableWeapon)
         {
             _weaponSkinData = Helpers.PersistantData.GetWeaponSkin(_fireWeaponType);
+            _spriteRenderer.material = _onFloorMaterial;
+            _spriteRenderer.material.SetTexture("_MainText", _weaponSkinData.mainSprite.texture);
+            _spriteRenderer.material.SetTexture("_Mask", _weaponSkinData.weaponMask.texture);
             _spriteRenderer.sprite = _weaponSkinData.mainSprite;
-            Debug.Log("asd");
         }
         _bulletSpawn = transform.GetChild(0);
         _muzzleFlashAnimator = _bulletSpawn.GetChild(0).GetComponent<Animator>();
@@ -100,7 +103,11 @@ public class FireWeapon : Weapon
     {
         base.PickUp();
 
-        if (_droppableWeapon) _spriteRenderer.sprite = _weaponSkinData.handWeaponSprite;
+        if (_droppableWeapon)
+        {
+            _spriteRenderer.material = _weaponSkinData.mainMaterial;
+            _spriteRenderer.sprite = _weaponSkinData.handWeaponSprite;
+        }
         return this;
     }
 

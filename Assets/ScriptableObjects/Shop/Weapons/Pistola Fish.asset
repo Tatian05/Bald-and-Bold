@@ -18,8 +18,10 @@ MonoBehaviour:
   cost: 2
   localizationID: ID_Fish
   shopSprite: {fileID: 21300000, guid: 015843f1b8923f841b51e6feaa2222b3, type: 3}
-  shoppableName: Laser pistol
+  shoppableName: Fish
+  mainMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   mainSprite: {fileID: 21300000, guid: 015843f1b8923f841b51e6feaa2222b3, type: 3}
-  selectedWeaponSprite: {fileID: 0}
-  handWeaponSprite: {fileID: 0}
+  weaponMask: {fileID: 21300000, guid: 1745c9489fc8c0e4d82f6e40969eb236, type: 3}
+  handWeaponSprite: {fileID: 21300000, guid: 3ff2c1752a557cd4bb4a29880b7a48c4, type: 3}
   fireWeaponType: 0
+  weaponTypeText: Pistol

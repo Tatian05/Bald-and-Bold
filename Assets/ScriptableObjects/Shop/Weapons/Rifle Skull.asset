@@ -19,7 +19,9 @@ MonoBehaviour:
   localizationID: ID_Bone
   shopSprite: {fileID: 21300000, guid: 3a04a90112f709f43985233737a1773e, type: 3}
   shoppableName: Skull rifle
+  mainMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   mainSprite: {fileID: 21300000, guid: 3a04a90112f709f43985233737a1773e, type: 3}
-  selectedWeaponSprite: {fileID: 0}
-  handWeaponSprite: {fileID: 0}
+  weaponMask: {fileID: 21300000, guid: 131ed24e0d8816447ad7a1f1c9bf0040, type: 3}
+  handWeaponSprite: {fileID: 21300000, guid: 81c1b622a6d769a43af97de95b68fe26, type: 3}
   fireWeaponType: 1
+  weaponTypeText: Rifle

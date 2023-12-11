@@ -6,7 +6,8 @@ public enum FireWeaponType { Pistol, Rifle, Sniper, GrenadeLauncher }
 [CreateAssetMenu(menuName = "New Weapon Skin", fileName = "New Weapon Skin")]
 public class WeaponSkinData : ShoppableSO
 {
-    public Sprite mainSprite, selectedWeaponSprite, handWeaponSprite;
+    public Material mainMaterial;
+    public Sprite mainSprite, weaponMask, handWeaponSprite;
     public FireWeaponType fireWeaponType;
     [HideInInspector] public string weaponTypeText;
     public override void OnStart()

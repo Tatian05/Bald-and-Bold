@@ -18,8 +18,10 @@ MonoBehaviour:
   cost: 5
   localizationID: ID_Laser
   shopSprite: {fileID: 21300000, guid: 216cdc72707f3494fac3cee9ba260b99, type: 3}
-  shoppableName: Laser pistol
+  shoppableName: Laser
+  mainMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   mainSprite: {fileID: 21300000, guid: 216cdc72707f3494fac3cee9ba260b99, type: 3}
-  selectedWeaponSprite: {fileID: 0}
-  handWeaponSprite: {fileID: 0}
+  weaponMask: {fileID: 21300000, guid: ced797c5ab82e4e4a90afa160f486d50, type: 3}
+  handWeaponSprite: {fileID: 21300000, guid: 0f1044891ffad434793ed17f56db252e, type: 3}
   fireWeaponType: 0
+  weaponTypeText: Pistol
