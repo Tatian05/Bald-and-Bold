@@ -29,6 +29,7 @@ public class Enemy_KamikazeRobot : Enemy
                 {
                     _isDropping = true;
                     _myFSM.SendInput(KamikazeStates.Drop);
+                    Helpers.AudioManager.PlaySFX("KamikazeDrop");
                 }
             }
         };

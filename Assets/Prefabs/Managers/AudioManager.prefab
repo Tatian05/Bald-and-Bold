@@ -216,6 +216,16 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: c9b303dde1c52d943be7ef5de8429e70, type: 3}
   - soundName: PlayerDeath
     clip: {fileID: 8300000, guid: ed5b689a42fdc9d43a07ccd97625a2ee, type: 3}
+  - soundName: KamikazeDrop
+    clip: {fileID: 8300000, guid: cbdfa8ab60606854587049407d4fe3b9, type: 3}
+  - soundName: KamikazeExplode
+    clip: {fileID: 8300000, guid: 0b95698649d33d84eb11875d824a56be, type: 3}
+  - soundName: TurretAnticip
+    clip: {fileID: 8300000, guid: a207b5b8c83b5f646bb71aeb7163c27c, type: 3}
+  - soundName: Turretshoot
+    clip: {fileID: 8300000, guid: f3ec4d5e61887f4429a52a4931695b17, type: 3}
+  - soundName: Circularsaw
+    clip: {fileID: 8300000, guid: 0c5ddc2e5e5c8fa4692f3a587240bdf4, type: 3}
   musicSource: {fileID: 1265094814124689759}
   sfxSource: {fileID: 818653475253159961}
 --- !u!1 &7539644245263002980
