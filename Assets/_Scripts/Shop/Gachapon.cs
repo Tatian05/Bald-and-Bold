@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 public class Gachapon : MonoBehaviour
 {
+
     [SerializeField] int _gachaCost = 1;
     [SerializeField] GameObject _uiCostGO;
     [SerializeField] TextMeshProUGUI _gachaCostTxt;
@@ -17,6 +18,8 @@ public class Gachapon : MonoBehaviour
     PersistantData _persistantData;
     Animator _animator;
     ShoppableSO _gachaShoppable;
+
+    public bool CanGacha => _persistantData.persistantDataSaved.goldenBaldCoins >= _gachaCost;
     private void Start()
     {
         _persistantData = Helpers.PersistantData;
@@ -33,9 +36,6 @@ public class Gachapon : MonoBehaviour
     }
     public void Gacha()
     {
-        if (_persistantData.persistantDataSaved.goldenBaldCoins < _gachaCost) return;
-
-
         _gachaShoppable = RWS(_gachaDictionary);
         Debug.Log($"{_gachaShoppable.name} - {_gachaShoppable.shoppableQuality}");
         if (_gachaShoppable is CosmeticData)

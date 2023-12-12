@@ -46,7 +46,7 @@ public class PlayerShop : MonoBehaviour
     }
     void PlayGachapon(InputAction.CallbackContext obj)
     {
-        if (!_onGachaTrigger) return;
+        if (!_onGachaTrigger || !_gachapon.CanGacha) return;
 
         _gachapon.Gacha();
         DisablePlayer();
