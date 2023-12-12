@@ -37,7 +37,7 @@ public class ShopItem : MonoBehaviour
     Color GetQualityColor(ShoppableQuality quality) => quality switch
     {
         ShoppableQuality.Normal => Color.grey,
-        ShoppableQuality.Rare => Color.blue,
+        ShoppableQuality.Rare => Color.green,
         ShoppableQuality.Epic => Color.magenta,
         _ => throw new System.Exception($"{quality} not founded")
     };
