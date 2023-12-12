@@ -37,6 +37,7 @@ public class Gachapon : MonoBehaviour
 
 
         _gachaShoppable = RWS(_gachaDictionary);
+        Debug.Log($"{_gachaShoppable.name} - {_gachaShoppable.shoppableQuality}");
         if (_gachaShoppable is CosmeticData)
         {
             var cosmetic = _gachaShoppable as CosmeticData;
@@ -45,6 +46,11 @@ public class Gachapon : MonoBehaviour
         else if(_gachaShoppable is ConsumableData)
         {
             var consumable = _gachaShoppable as ConsumableData;
+            _persistantData.AddShoppableToCollection(consumable);
+        }
+        else if(_gachaShoppable is WeaponSkinData)
+        {
+            var consumable = _gachaShoppable as WeaponSkinData;
             _persistantData.AddShoppableToCollection(consumable);
         }
         else
@@ -56,7 +62,6 @@ public class Gachapon : MonoBehaviour
 
         _persistantData.persistantDataSaved.Gacha(_gachaCost);
         _animator.Play("GachaAnim");
-        Debug.Log($"{_gachaShoppable.name} - {_gachaShoppable.shoppableQuality}");
         UpdateLists();
         EventManager.TriggerEvent(Contains.SHOP_ON_BUY, _persistantData.persistantDataSaved.presiCoins, _persistantData.persistantDataSaved.goldenBaldCoins);
     }

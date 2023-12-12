@@ -22,6 +22,8 @@ public class PlayerShop : MonoBehaviour
 
         _interact.Enable();
         _movement.Enable();
+
+        GachaBallAnimationScrip.OnGachaEnd += EnablePlayer;
     }
     void Update()
     {
@@ -47,7 +49,7 @@ public class PlayerShop : MonoBehaviour
         if (!_onGachaTrigger) return;
 
         _gachapon.Gacha();
-        NewInputManager.PlayerInputs.Player.Disable();
+        DisablePlayer();
     }
     void OpenShop(InputAction.CallbackContext obj)
     {
@@ -61,7 +63,8 @@ public class PlayerShop : MonoBehaviour
         }
 
         _shopCanvas.SetActive(true);
-        _movement.Disable();
+        //_movement.Disable();
+        DisablePlayer();
         ActivateMouse();
     }
     void OpenProbador(InputAction.CallbackContext obj)
@@ -76,7 +79,7 @@ public class PlayerShop : MonoBehaviour
         }
 
         _collectionCanvas.SetActive(true);
-        _movement.Disable();
+       //_movement.Disable();
         ActivateMouse();
     }
     void ActivateMouse()
@@ -87,8 +90,7 @@ public class PlayerShop : MonoBehaviour
     }
     public void ResetState()
     {
-        _interact.Enable();
-        _movement.Enable();
+        EnablePlayer();
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = false;
@@ -99,8 +101,7 @@ public class PlayerShop : MonoBehaviour
         if (collision.GetComponent<NextSceneOnTrigger>())
         {
             PlayAnimation(0);
-            _interact.Disable();
-            _movement.Disable();
+            DisablePlayer();
         }
     }
     private void OnTriggerStay2D(Collider2D collision)
@@ -125,8 +126,7 @@ public class PlayerShop : MonoBehaviour
         _interact.performed -= OpenProbador;
         _interact.performed -= PlayGachapon;
 
-        _interact.Disable();
-        _movement.Disable();
+        DisablePlayer();
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
     }

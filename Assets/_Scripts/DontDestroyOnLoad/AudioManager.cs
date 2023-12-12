@@ -13,8 +13,7 @@ public class AudioManager : SingletonPersistent<AudioManager>
         persistantData = Helpers.PersistantData;
         AudioListener.volume = persistantData.settingsData.generalVolume;
         musicSource.volume = persistantData.settingsData.musicVolume;
-        sfxSource.volume = persistantData.settingsData.sfxVolume;
-        PlayMusic("Music");
+        sfxSource.volume = persistantData.settingsData.sfxVolume;;
     }
     public void PlayMusic(string name)
     {
@@ -29,9 +28,9 @@ public class AudioManager : SingletonPersistent<AudioManager>
         {
             musicSource.clip = s.clip;
             musicSource.Play();
-            FadeInOutVolume(0, persistantData.settingsData.generalVolume);
         }
     }
+    public void StopMusic() => musicSource.Stop();
     public void PlaySFX(string name)
     {
         Sound s = Array.Find(sfxSounds, x => x.soundName == name);

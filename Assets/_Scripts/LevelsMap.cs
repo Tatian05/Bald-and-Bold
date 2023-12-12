@@ -23,7 +23,6 @@ public class LevelsMap : MonoBehaviour
     [SerializeField] Button[] _unParButtons;
     private void Start()
     {
-        Helpers.AudioManager.PlayMusic("Elevator Music");
         foreach (var item in _zonesButtons) item.interactable = false;
 
         ZonesManager zonesManager = ZonesManager.Instance;

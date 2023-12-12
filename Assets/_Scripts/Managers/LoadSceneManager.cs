@@ -7,9 +7,14 @@ public class LoadSceneManager : MonoBehaviour
 {
     Animator _anim;
     WaitForSeconds _wait = new WaitForSeconds(1f);
+    PersistantData _persistantData;
+    AudioManager _audioManager;
     private void Start()
     {
+        _audioManager = Helpers.AudioManager;
+        _persistantData = Helpers.PersistantData;
         _anim = GetComponent<Animator>();
+        if (PlayerPrefs.GetInt("FadeOut") != 0) _audioManager.FadeInOutVolume(0, _persistantData.settingsData.generalVolume);
     }
     public void ReloadLevel() => StartCoroutine(LoadAsync(SceneManager.GetActiveScene().buildIndex, false));
     public void LoadLevelAsync(int levelIndex, bool fadeOut) => StartCoroutine(LoadAsync(levelIndex, fadeOut));
@@ -23,9 +28,9 @@ public class LoadSceneManager : MonoBehaviour
         var currentLevel = Convert.ToInt32(levelName);
 
         bool lastLevel = currentLevel >= Helpers.TotalLevels;
-        Helpers.PersistantData.gameData.currentLevel = lastLevel || Helpers.PersistantData.gameData.currentLevel > currentLevel ? Helpers.PersistantData.gameData.currentLevel : currentLevel + 1;
+        _persistantData.gameData.currentLevel = lastLevel || _persistantData.gameData.currentLevel > currentLevel ? _persistantData.gameData.currentLevel : currentLevel + 1;
 
-        string nextScene = lastLevel && Helpers.PersistantData.gameData.currentDeaths > ZonesManager.Instance.zones.Last().deathsNeeded ||
+        string nextScene = lastLevel && _persistantData.gameData.currentDeaths > ZonesManager.Instance.zones.Last().deathsNeeded ||
             ZonesManager.Instance.lastLevelsZone.Any(x => x == SceneManager.GetActiveScene().name) ? "LevelSelect" :
             lastLevel && Helpers.PersistantData.gameData.currentDeaths <= ZonesManager.Instance.zones.Last().deathsNeeded ? "WinScreen"
             : $"Level {currentLevel + 1}";
@@ -35,14 +40,16 @@ public class LoadSceneManager : MonoBehaviour
 
     IEnumerator LoadAsync(string sceneName, bool fadeOut)
     {
-        if (fadeOut) Helpers.AudioManager?.FadeInOutVolume(Helpers.PersistantData.settingsData.generalVolume, 0);
+        if (fadeOut) _audioManager?.FadeInOutVolume(_persistantData.settingsData.generalVolume, 0);
+        PlayerPrefs.SetInt("FadeOut", fadeOut ? 1 : 0);
         _anim.Play("Close");
         yield return _wait;
         SceneManager.LoadSceneAsync(sceneName);
     }
     IEnumerator LoadAsync(int sceneIndex, bool fadeOut)
     {
-        if (fadeOut) Helpers.AudioManager?.FadeInOutVolume(Helpers.PersistantData.settingsData.generalVolume, 0);
+        if (fadeOut) _audioManager?.FadeInOutVolume(_persistantData.settingsData.generalVolume, 0);
+        PlayerPrefs.SetInt("FadeOut", fadeOut ? 1 : 0);
         _anim.Play("Close");
         yield return _wait;
         SceneManager.LoadSceneAsync(sceneIndex);

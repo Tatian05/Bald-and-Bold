@@ -10,6 +10,8 @@ public class ShopItem : MonoBehaviour
     [SerializeField] Image _cosmeticImg;
     [SerializeField] TextMeshProUGUI _shoppableSONameTxt;
     [SerializeField] TextMeshProUGUI _inCollectionTxt;
+    [SerializeField] Image _qualityImg;
+
     public bool InCollection = false;
     public void SetInCollection(bool inCollection)
     {
@@ -25,14 +27,21 @@ public class ShopItem : MonoBehaviour
     public ShopItem SetCosmeticData(ShoppableSO shoppableSO)
     {
         _shoppableSO = shoppableSO;
-        name += _shoppableSO.shoppableName;
         _shoppableSO.OnStart();
+        _qualityImg.color = GetQualityColor(_shoppableSO.shoppableQuality);
         _cosmeticImg.sprite = _shoppableSO.shopSprite;
         _shoppableSONameTxt.text = _shoppableSO.shoppableName;
         transform.localScale = Vector3.one;
         return this;
     }
-
+    Color GetQualityColor(ShoppableQuality quality) => quality switch
+    {
+        ShoppableQuality.Normal => Color.grey,
+        ShoppableQuality.Rare => Color.blue,
+        ShoppableQuality.Epic => Color.magenta,
+        _ => throw new System.Exception($"{quality} not founded")
+    };
+    public void ResetGachaItemShop() { _shoppableSO = null; }
     public ShopItem SetParent(Transform parent)
     {
         transform.SetParent(parent, true);

@@ -59,7 +59,7 @@ public class Player : GeneralPlayer, IDamageable
         _playerModel = new PlayerModel(_rb, transform, _playerSprite, _groundCheckTransform, _speed, _jumpForce, _maxJumps, _dashSpeed, defaultGravity, _coyotaTime, _weaponManager);
         _playerView = new PlayerView(transform, _anim, _dashParticle, _playerSprites, _bootsCollider);
 
-        OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, y); };
+        OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, y); };
 
         OnJump += _playerModel.FreezeVelocity;
         OnJump += () => _myFsm.SendInput(PlayerStates.Empty);
@@ -140,6 +140,7 @@ public class Player : GeneralPlayer, IDamageable
     }
     public override void PausePlayer()
     {
+        Debug.Log("xd");
         _controller.OnDestroy();
         _myFsm.SendInput(PlayerStates.Empty);
         _playerModel.FreezeVelocity();
@@ -194,7 +195,7 @@ public class Player : GeneralPlayer, IDamageable
 
         _playerModel.InRope = false;
         _playerModel.NormalGravity();
-        OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, y); };
+        OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, y); };
     }
 
     IEnumerator Death()
@@ -211,6 +212,6 @@ public class Player : GeneralPlayer, IDamageable
         _goldenBald = null;
         StartCoroutine(Death());
         _myFsm.SendInput(PlayerStates.Empty);
-        OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, y); };
+        OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, y); };
     }
 }

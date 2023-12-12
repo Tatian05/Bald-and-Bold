@@ -43,11 +43,15 @@ public class PlayerController
     {
         _jump.performed += OnJump;
         _dash.performed += OnDash;
+
+        _playerInputs.Enable();
     }
     public void OnDestroy()
     {
         _jump.performed -= OnJump;
         _dash.performed -= OnDash;
+
+        _playerInputs.Disable();
     }
     void OnJump(InputAction.CallbackContext obj) { if (_playerModel.CanJump || _playerModel.InRope) { _player.ExitClimb(); _player.OnJump(); } }
     void OnDash(InputAction.CallbackContext obj) { if (_playerModel.CanDash) { _player.ExitClimb(); _player.SendInput(PlayerStates.Dash); } }

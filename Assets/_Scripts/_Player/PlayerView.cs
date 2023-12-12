@@ -30,12 +30,12 @@ public class PlayerView
         _invisible = _persistantData.consumablesData.invisible;
         if (_invisible) EventManager.TriggerEvent(Contains.CONSUMABLE_INVISIBLE, true);//InvisibleConsumable(true);
     }
-    public void Run(float xAxis, float yAxis = 0)
+    public void Run(float xAxis, bool inGround, float yAxis = 0)
     {
         _anim.SetInteger("xAxis", Mathf.Abs(Mathf.RoundToInt(xAxis)));
         _stepsTimer += Time.deltaTime;
 
-        if (_stepsTimer >= .1f && xAxis != 0)
+        if (_stepsTimer >= .1f && xAxis != 0 && !inGround)
         {
             Helpers.AudioManager.PlaySFX(_stepsSounds[_stepsIndex++ % _stepsSounds.Length]);
             _stepsTimer = 0;
