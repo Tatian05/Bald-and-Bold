@@ -35,6 +35,9 @@ TextureImporter:
   - first:
       213: 3044315113222541492
     second: Luz VFX-SheetBig_10
+  - first:
+      213: 938675111508368880
+    second: Luz VFX-SheetBig_11
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -350,6 +353,27 @@ TextureImporter:
       bones: []
       spriteID: 4b09bfb47749f3a20800000000000000
       internalID: 3044315113222541492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Luz VFX-SheetBig_11
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fdd4f46a08d60d00800000000000000
+      internalID: 938675111508368880
       vertices: []
       indices: 
       edges: []
