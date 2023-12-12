@@ -304,6 +304,7 @@ public class ShopWindow : MonoBehaviour
             _coinsTextBuyButton.text = string.Empty;
             UpdateCollList();
             OnBuy?.Invoke();
+            EventManager.TriggerEvent(Contains.SHOP_ON_BUY, _persistantDataSaved.presiCoins, _persistantDataSaved.goldenBaldCoins);
         });
 
         _eventSystemScript = EventSystemScript.Instance;

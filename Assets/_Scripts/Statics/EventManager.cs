@@ -54,6 +54,7 @@ public class Contains
     public const string ON_ROOM_WON = "On Room Won";
     public const string MISSION_PROGRESS = "Mission Progress";
     public const string SAVE_CONSUMABLES = "Save Consumables";
+    public const string SHOP_ON_BUY = "Shop on buy";
 
     #region CONSUMABLES
 

@@ -12,6 +12,4 @@ public class Seller : MonoBehaviour
 
         transform.eulerAngles = Mathf.Sign(playerDist) < 0 ? new Vector3(0, 180, 0) : Vector3.zero;
     }
-
-
 }

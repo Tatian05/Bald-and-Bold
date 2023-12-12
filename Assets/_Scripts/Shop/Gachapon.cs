@@ -1,19 +1,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TMPro;
 public class Gachapon : MonoBehaviour
 {
+    [SerializeField] int _gachaCost = 1;
+    [SerializeField] GameObject _uiCostGO;
+    [SerializeField] TextMeshProUGUI _gachaCostTxt;
+    [SerializeField] GachaBallAnimationScrip _gachaBall;
+
+    [Header("Lists")]
     [SerializeField] ShoppableSO[] _allGachaShoppables;
     [SerializeField] List<ShoppableSO> _normalQualityShoppables, _rareQualityShoppables, _epicQualityShoppables;
 
     Dictionary<List<ShoppableSO>, int> _gachaDictionary = new Dictionary<List<ShoppableSO>, int>();
     PersistantData _persistantData;
+    Animator _animator;
+    ShoppableSO _gachaShoppable;
     private void Start()
     {
         _persistantData = Helpers.PersistantData;
+        _animator = GetComponent<Animator>();
         _allGachaShoppables = _persistantData.allShoppables;
         UpdateLists();
         ShopWindow.UpdateCollList += UpdateListOnShop;
+        _gachaCostTxt.text = _gachaCost.ToString();
     }
     void UpdateListOnShop() => Invoke(nameof(UpdateLists), .1f);
     private void OnDestroy()
@@ -22,26 +33,32 @@ public class Gachapon : MonoBehaviour
     }
     public void Gacha()
     {
-        var shoppableGacha = RWS(_gachaDictionary);
-        if (shoppableGacha is CosmeticData)
+        if (_persistantData.persistantDataSaved.goldenBaldCoins < _gachaCost) return;
+
+
+        _gachaShoppable = RWS(_gachaDictionary);
+        if (_gachaShoppable is CosmeticData)
         {
-            var cosmetic = shoppableGacha as CosmeticData;
+            var cosmetic = _gachaShoppable as CosmeticData;
             _persistantData.AddShoppableToCollection(cosmetic);
         }
-        else if(shoppableGacha is ConsumableData)
+        else if(_gachaShoppable is ConsumableData)
         {
-            var consumable = shoppableGacha as ConsumableData;
+            var consumable = _gachaShoppable as ConsumableData;
             _persistantData.AddShoppableToCollection(consumable);
         }
         else
         {
-            var bullet = shoppableGacha as BulletData;
+            var bullet = _gachaShoppable as BulletData;
             _persistantData.AddShoppableToCollection(bullet);
         }
-        shoppableGacha.OnStart();
+        _gachaShoppable.OnStart();
 
-        Debug.Log($"{shoppableGacha.name} - {shoppableGacha.shoppableQuality}");
+        _persistantData.persistantDataSaved.Gacha(_gachaCost);
+        _animator.Play("GachaAnim");
+        Debug.Log($"{_gachaShoppable.name} - {_gachaShoppable.shoppableQuality}");
         UpdateLists();
+        EventManager.TriggerEvent(Contains.SHOP_ON_BUY, _persistantData.persistantDataSaved.presiCoins, _persistantData.persistantDataSaved.goldenBaldCoins);
     }
     void UpdateLists()
     {
@@ -73,5 +90,12 @@ public class Gachapon : MonoBehaviour
             }
         }
         return default;
+    }
+
+    //LO LLAMO POR ANIMACION
+    public void PlayGachaBall()
+    {
+        _gachaBall.gameObject.SetActive(true);
+        _gachaBall.PlayGachaBallAnim(_gachaShoppable);
     }
 }

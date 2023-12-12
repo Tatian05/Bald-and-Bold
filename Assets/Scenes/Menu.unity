@@ -6317,6 +6317,7 @@ GameObject:
   - component: {fileID: 750626613}
   - component: {fileID: 750626612}
   - component: {fileID: 750626614}
+  - component: {fileID: 750626615}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
@@ -6405,6 +6406,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _parallaxMultiplier: 0.9
   _speed: 30
+--- !u!95 &750626615
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750626611}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &751447625
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9667,6 +9687,7 @@ GameObject:
   - component: {fileID: 1290135927}
   - component: {fileID: 1290135926}
   - component: {fileID: 1290135928}
+  - component: {fileID: 1290135929}
   m_Layer: 0
   m_Name: Clouds
   m_TagString: Untagged
@@ -9755,6 +9776,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _parallaxMultiplier: 0.5
   _speed: 30
+--- !u!95 &1290135929
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290135925}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1302896181
 GameObject:
   m_ObjectHideFlags: 0
@@ -12463,12 +12503,18 @@ PlayableDirector:
     value: {fileID: 412797441}
   - key: {fileID: -3051008798015958843, guid: a89372c4d9e215b4cb45a3daf7b30327, type: 2}
     value: {fileID: 53969317}
-  - key: {fileID: -990119429515979381, guid: a89372c4d9e215b4cb45a3daf7b30327, type: 2}
-    value: {fileID: 814774060}
   - key: {fileID: 3235462323267727971, guid: a89372c4d9e215b4cb45a3daf7b30327, type: 2}
     value: {fileID: 596387362}
   - key: {fileID: -7016203774773428313, guid: a89372c4d9e215b4cb45a3daf7b30327, type: 2}
     value: {fileID: 0}
+  - key: {fileID: 4810392777102816021, guid: a89372c4d9e215b4cb45a3daf7b30327, type: 2}
+    value: {fileID: 1977711810}
+  - key: {fileID: -2937857133073702995, guid: a89372c4d9e215b4cb45a3daf7b30327, type: 2}
+    value: {fileID: 1290135929}
+  - key: {fileID: 4180721090456926291, guid: a89372c4d9e215b4cb45a3daf7b30327, type: 2}
+    value: {fileID: 1945737535}
+  - key: {fileID: 640149043434537382, guid: a89372c4d9e215b4cb45a3daf7b30327, type: 2}
+    value: {fileID: 750626615}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &1648621869
@@ -14899,6 +14945,7 @@ GameObject:
   - component: {fileID: 1945737533}
   - component: {fileID: 1945737532}
   - component: {fileID: 1945737534}
+  - component: {fileID: 1945737535}
   m_Layer: 0
   m_Name: Trees
   m_TagString: Untagged
@@ -14987,6 +15034,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _parallaxMultiplier: 0.7
   _speed: 30
+--- !u!95 &1945737535
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945737531}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1965759094
 GameObject:
   m_ObjectHideFlags: 0
@@ -15265,6 +15331,7 @@ GameObject:
   - component: {fileID: 1977711808}
   - component: {fileID: 1977711807}
   - component: {fileID: 1977711809}
+  - component: {fileID: 1977711810}
   m_Layer: 0
   m_Name: Sky
   m_TagString: Untagged
@@ -15353,6 +15420,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _parallaxMultiplier: 0.1
   _speed: 30
+--- !u!95 &1977711810
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977711806}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1993189183
 GameObject:
   m_ObjectHideFlags: 0

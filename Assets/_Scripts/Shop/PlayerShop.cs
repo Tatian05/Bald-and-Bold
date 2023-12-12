@@ -25,7 +25,11 @@ public class PlayerShop : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F3)) Helpers.PersistantData.persistantDataSaved.AddPresiCoins(200);
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            Helpers.PersistantData.persistantDataSaved.AddPresiCoins(200);
+            Helpers.PersistantData.persistantDataSaved.AddGoldenBaldCoins(100);
+        }
         Move();
     }
     void Move()
@@ -43,6 +47,7 @@ public class PlayerShop : MonoBehaviour
         if (!_onGachaTrigger) return;
 
         _gachapon.Gacha();
+        NewInputManager.PlayerInputs.Player.Disable();
     }
     void OpenShop(InputAction.CallbackContext obj)
     {
@@ -125,4 +130,7 @@ public class PlayerShop : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
     }
+
+    void EnablePlayer() { NewInputManager.PlayerInputs.Player.Enable(); }
+    void DisablePlayer() { NewInputManager.PlayerInputs.Player.Disable(); }
 }
