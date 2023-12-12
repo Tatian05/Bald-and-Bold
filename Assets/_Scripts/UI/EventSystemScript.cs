@@ -39,7 +39,8 @@ public class EventSystemScript : MonoBehaviour
     }
     void OnControlsChanged()
     {
-        if (_eventSystem.currentSelectedGameObject) return;
+        Debug.Log(NewInputManager.activeDevice);
+        if (NewInputManager.activeDevice == DeviceType.Keyboard) return;
         var go = _lastSelectedGO ? _lastSelectedGO : _eventSystem.firstSelectedGameObject;
         _eventSystem.SetSelectedGameObject(go);
     }

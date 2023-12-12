@@ -5424,6 +5424,8 @@ GameObject:
   - component: {fileID: 1373751075}
   - component: {fileID: 1373751074}
   - component: {fileID: 1373751076}
+  - component: {fileID: 1373751077}
+  - component: {fileID: 1373751078}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -5493,6 +5495,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _musicName: Elevator Music
+  _stopMusic: 0
+--- !u!114 &1373751077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373751073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c98258b8fae66d41a79f5549e69cadd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lockMode: 2
+  _visible: 1
+--- !u!114 &1373751078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373751073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16ba56089c26feb449cbd05e218f5572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1383852827
 GameObject:
   m_ObjectHideFlags: 0
