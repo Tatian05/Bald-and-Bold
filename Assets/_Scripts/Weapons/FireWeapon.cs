@@ -27,7 +27,7 @@ public class FireWeapon : Weapon
             _spriteRenderer.material = _onFloorMaterial;
             _spriteRenderer.material.SetTexture("_MainText", _weaponSkinData.mainSprite.texture);
             _spriteRenderer.material.SetTexture("_Mask", _weaponSkinData.weaponMask.texture);
-            _spriteRenderer.sprite = _weaponSkinData.mainSprite;
+            _spriteRenderer.sprite = _weaponSkinData.mainSprite;  
         }
         _bulletSpawn = transform.GetChild(0);
         _muzzleFlashAnimator = _bulletSpawn.GetChild(0).GetComponent<Animator>();

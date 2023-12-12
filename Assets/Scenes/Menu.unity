@@ -6403,7 +6403,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eedcebec212bc934fa16f01040402dfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _parallaxMultiplier: 0
+  _parallaxMultiplier: 0.9
+  _speed: 30
 --- !u!1001 &751447625
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9753,6 +9754,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _parallaxMultiplier: 0.5
+  _speed: 30
 --- !u!1 &1302896181
 GameObject:
   m_ObjectHideFlags: 0
@@ -14983,7 +14985,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eedcebec212bc934fa16f01040402dfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _parallaxMultiplier: 0.3
+  _parallaxMultiplier: 0.7
+  _speed: 30
 --- !u!1 &1965759094
 GameObject:
   m_ObjectHideFlags: 0
@@ -15348,7 +15351,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eedcebec212bc934fa16f01040402dfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _parallaxMultiplier: 0.9
+  _parallaxMultiplier: 0.1
+  _speed: 30
 --- !u!1 &1993189183
 GameObject:
   m_ObjectHideFlags: 0
