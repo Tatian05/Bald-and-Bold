@@ -318,7 +318,7 @@ MonoBehaviour:
   - {x: -0.5, y: 0.2, z: 0}
   m_ShapePathHash: -1906480883
   m_Mesh: {fileID: 0}
-  m_InstanceId: 362574
+  m_InstanceId: 52210
 --- !u!1 &859833147576569514
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,8 +858,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c98258b8fae66d41a79f5549e69cadd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lockMode: 1
-  _visible: 0
+  _lockMode: 2
+  _visible: 1
 --- !u!114 &8509274745155489555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -912,6 +912,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _musicName: Levels Music
+  _stopMusic: 0
 --- !u!1 &2566736729711227540
 GameObject:
   m_ObjectHideFlags: 0
