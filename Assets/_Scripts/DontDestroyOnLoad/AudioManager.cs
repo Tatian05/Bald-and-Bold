@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using DG.Tweening;
+using System.Threading.Tasks;
+
 public class AudioManager : SingletonPersistent<AudioManager>
 {
     public Sound[] musicSounds, sfxSounds;
@@ -8,8 +10,9 @@ public class AudioManager : SingletonPersistent<AudioManager>
     public Action setCinematicSound;
     Sound _currentMusic;
     PersistantData persistantData;
-    private void Start()
+    private async void Start()
     {
+        await Task.Yield();
         persistantData = Helpers.PersistantData;
         AudioListener.volume = persistantData.settingsData.generalVolume;
         musicSource.volume = persistantData.settingsData.musicVolume;
