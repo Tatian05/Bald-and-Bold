@@ -2,10 +2,11 @@ using System.Linq;
 using UnityEngine;
 public class Enemy_KamikazeRobot : Enemy
 {
-    [SerializeField] float _dropSpeed;
+    [SerializeField] float _minDropSpeed, _maxDropSpeed;
     [SerializeField] float _overlapCircleRadius = 1.5f;
     [SerializeField] float _dmg;
 
+    float _dropSpeed;
     bool _isDropping;
     EnemyHealth _enemyHealth;
     enum KamikazeStates { Idle, Drop }
@@ -14,6 +15,7 @@ public class Enemy_KamikazeRobot : Enemy
     public override void Start()
     {
         base.Start();
+        _dropSpeed = _minDropSpeed;
         _enemyHealth = GetComponentInChildren<EnemyHealth>();
         IDLE = new State<KamikazeStates>("IDLE");
         var DROP = new State<KamikazeStates>("DROP");
@@ -34,7 +36,13 @@ public class Enemy_KamikazeRobot : Enemy
             }
         };
 
-        DROP.OnUpdate += () => transform.position += -transform.up * _dropSpeed * CustomTime.DeltaTime;
+        DROP.OnUpdate += () =>
+        {
+            _dropSpeed += CustomTime.TimeScale * .3f;
+            transform.position += -transform.up * _dropSpeed * CustomTime.DeltaTime;
+            Mathf.Clamp(_dropSpeed, _minDropSpeed, _maxDropSpeed);
+            Debug.Log(_dropSpeed);
+        };
 
         if (Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<KamikazeStates>(IDLE);
         else EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
@@ -81,6 +89,7 @@ public class Enemy_KamikazeRobot : Enemy
 
     public override void Reset()
     {
+        _dropSpeed = _minDropSpeed;
         _myFSM?.SendInput(KamikazeStates.Idle);
 
         if (_isDropping)
