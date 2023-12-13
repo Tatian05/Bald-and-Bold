@@ -5,7 +5,7 @@ public class Trap_Walls : MonoBehaviour
     Vector3[] _initialPos = new Vector3[2];
     Vector3 _targetPos;
     EventFSM<WallsStates> _myFsm;
-    Collider2D _coll;
+    [SerializeField] GameObject _damageCollider;
 
     [SerializeField] Transform[] _walls;
 
@@ -21,9 +21,7 @@ public class Trap_Walls : MonoBehaviour
 
         _targetPos = (_walls[1].position + _walls[0].position) * .5f;
 
-        _coll = transform.GetChild(2).GetComponentInChildren<Collider2D>();
-        _coll.transform.position = _targetPos;
-        _coll.gameObject.SetActive(false);
+        _damageCollider.SetActive(false);
 
         var go = new State<WallsStates>("GO");
         var back = new State<WallsStates>("BACK");
@@ -51,7 +49,11 @@ public class Trap_Walls : MonoBehaviour
 
         #region GO
 
-        go.OnEnter += x => timer = 0;
+        go.OnEnter += x =>
+        {
+            timer = 0;
+            _damageCollider.SetActive(true);
+        };
 
         go.OnUpdate += () =>
         {
@@ -63,25 +65,23 @@ public class Trap_Walls : MonoBehaviour
             if (timer / _goTopTime >= 1) _myFsm.SendInput(WallsStates.WAIT_TOP);
         };
 
-        go.OnExit += x => Helpers.AudioManager.PlaySFX("WallsTrap");
+        go.OnExit += x =>
+        {
+            Helpers.AudioManager.PlaySFX("WallsTrap");
+            _damageCollider.SetActive(false);
+        };
 
         #endregion
 
         #region WAIT_TOP
 
-        wait_top.OnEnter += x =>
-        {
-            timer = 0;
-            _coll.gameObject.SetActive(true);
-        };
+        wait_top.OnEnter += x => timer = 0;
 
         wait_top.OnUpdate += () =>
         {
             timer += Time.deltaTime;
             if (timer >= _waitTopTime) _myFsm.SendInput(WallsStates.BACK);
         };
-
-        wait_top.OnExit += x => _coll.gameObject.SetActive(false);
 
         #endregion
 

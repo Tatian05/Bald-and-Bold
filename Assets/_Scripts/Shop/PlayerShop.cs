@@ -79,6 +79,7 @@ public class PlayerShop : MonoBehaviour
         }
 
         _collectionCanvas.SetActive(true);
+        DisablePlayer();
        //_movement.Disable();
         ActivateMouse();
     }
