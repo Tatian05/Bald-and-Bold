@@ -46,9 +46,11 @@ public class EnemyManager : BaseEnemyManager
         if (_allEnemies.Count == 0) EventManager.TriggerEvent(Contains.ON_ENEMIES_KILLED);
     }
 
+    int _enemiesDeathCounter = 0;
     public override string EnemyCountString()
     {
-        return Mathf.Abs(_allEnemies.Count - _maxEnemies).ToString() + "/ " + _maxEnemies.ToString();
+        _enemiesDeathCounter++;
+        return $"{_enemiesDeathCounter}/ {_enemiesInLevel}"; ;
     }
     public void OnWeaponEnemyDeath(string weaponName)
     {
@@ -58,6 +60,7 @@ public class EnemyManager : BaseEnemyManager
     }
     void ResetLevel()
     {
+        _enemiesDeathCounter = 0;
         _allEnemies.Clear();
         _weaponEnemyDeath = new Dictionary<string, int>();
     }

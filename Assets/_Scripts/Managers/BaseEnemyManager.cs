@@ -5,7 +5,7 @@ using System;
 public abstract class BaseEnemyManager : MonoBehaviour
 {
     protected GameManager _gameManager;
-    protected List<Enemy> _allEnemies = new List<Enemy>();
+    [SerializeField] protected List<Enemy> _allEnemies = new List<Enemy>();
     protected int _maxEnemies;
     protected int _enemiesInLevel;
 

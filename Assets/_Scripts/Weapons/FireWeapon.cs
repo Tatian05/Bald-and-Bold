@@ -27,7 +27,7 @@ public class FireWeapon : Weapon
             _spriteRenderer.material = _onFloorMaterial;
             _spriteRenderer.material.SetTexture("_MainText", _weaponSkinData.mainSprite.texture);
             _spriteRenderer.material.SetTexture("_Mask", _weaponSkinData.weaponMask.texture);
-            _spriteRenderer.sprite = _weaponSkinData.mainSprite;  
+            _spriteRenderer.sprite = _weaponSkinData.mainSprite;
         }
         _bulletSpawn = transform.GetChild(0);
         _muzzleFlashAnimator = _bulletSpawn.GetChild(0).GetComponent<Animator>();
@@ -54,6 +54,7 @@ public class FireWeapon : Weapon
         if (!raycast)
         {
             FireWeaponShoot(bulletScale);
+            Helpers.AudioManager.PlaySFX(_weaponData.weaponSoundName);
             if (recoil && _weaponData.recoilForce > 0) FireWeaponRecoil();
             _muzzleFlashAnimator.Play("MuzzleFlash");
         }
@@ -76,7 +77,6 @@ public class FireWeapon : Weapon
     }
     protected virtual void FireWeaponShoot(float bulletScale)
     {
-        Helpers.AudioManager.PlaySFX(_weaponData.weaponSoundName);
         FRY_PlayerBullet.Instance.pool.GetObject().
                                             SetDmg(_weaponData.damage).
                                             SetSpeed(_weaponData.bulletSpeed).
@@ -99,9 +99,9 @@ public class FireWeapon : Weapon
         _spriteRenderer.sprite = _weaponSkinData.mainSprite;
         return this;
     }
-    public override Weapon PickUp(bool knife = false)
+    public override Weapon PickUp(Vector3 rotation, bool knife = false)
     {
-        base.PickUp();
+        base.PickUp(rotation, knife);
 
         if (_droppableWeapon)
         {

@@ -34,7 +34,7 @@ public class WeaponManager : MonoBehaviour
         _secundaryWeaponContainer = transform.GetChild(1);
         _currentSecundaryWeapon = _secundaryWeaponContainer.GetComponentInChildren<Weapon>();
         _secundaryWeaponTransform = _currentSecundaryWeapon.transform;
-        _currentSecundaryWeapon.PickUp(true);
+        _currentSecundaryWeapon.PickUp(Vector3.zero, true);
         _playerInputs = NewInputManager.PlayerInputs;
         _lookAtMouse += SecundaryWeapon;
         _knife = _playerInputs.Player.Knife;
@@ -99,9 +99,9 @@ public class WeaponManager : MonoBehaviour
     void EquipWeapon(Weapon newWeapon)
     {
         _currentMainWeapon = newWeapon as FireWeapon;
-        _mainWeaponContainer.localEulerAngles = transform.eulerAngles;
+        //_mainWeaponContainer.localEulerAngles = transform.eulerAngles;
         _lookAtMouse += MainWeapon;
-        _currentMainWeapon.PickUp().SetParent(_mainWeaponContainer).SetPosition(_mainWeaponContainer.position).SetOffset();
+        _currentMainWeapon.PickUp(transform.eulerAngles).SetParent(_mainWeaponContainer).SetPosition(_mainWeaponContainer.position).SetOffset();
         _rightHand.SetActive(false);
         _leftHand.SetActive(false);
 
@@ -119,8 +119,8 @@ public class WeaponManager : MonoBehaviour
         //else
         //    _currentMainWeapon?.ThrowOut(GetMouseDirectionMain()).SetParent(null);
 
-        _shoot.performed -= (_currentMainWeapon as FireWeapon).OnStartShoot;
-        _shoot.canceled -= (_currentMainWeapon as FireWeapon).OnCanceledShoot;
+        _shoot.performed -= _currentMainWeapon.OnStartShoot;
+        _shoot.canceled -= _currentMainWeapon.OnCanceledShoot;
         _lookAtMouse -= MainWeapon;
 
         _weaponBeforeMinigun?.gameObject.SetActive(!minigun);

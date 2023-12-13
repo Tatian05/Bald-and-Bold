@@ -147,7 +147,7 @@ public class ConsumableSelector : MonoBehaviour
         _consumablesInventory = newArray.ToList();
         SetPositions();
     }
-    void TriggerSelectedConsumable(InputAction.CallbackContext obj) { _consumablesInventory[0]?.TriggerConsumable(); }
+    void TriggerSelectedConsumable(InputAction.CallbackContext obj) { if(_consumablesInventory.Any()) _consumablesInventory[0]?.TriggerConsumable(); }
     void TriggerMoveNext(InputAction.CallbackContext obj) { _rightArrow.onClick.Invoke(); }
     void TriggerMoveBefore(InputAction.CallbackContext obj) { _leftArrow.onClick.Invoke(); }
     void UpdateList(params object[] param)

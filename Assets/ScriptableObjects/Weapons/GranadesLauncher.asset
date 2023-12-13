@@ -17,9 +17,6 @@ MonoBehaviour:
   fireRate: 1.5
   damage: 4
   initialAmmo: 6
-  mainSprite: {fileID: 21300000, guid: dec5f96edda42f84cab3468cf5112f67, type: 3}
-  selectedSprite: {fileID: 21300000, guid: b6bfa58617d68ba4cace441d4c732c08, type: 3}
-  handWeapon: {fileID: 21300000, guid: 13d8f33903a1a5649b1da69e39f5d8a5, type: 3}
   weaponSoundName: Weapon_GranadesLauncher
   bulletExplosion: {fileID: 1968799531281686539, guid: 37510bcac70505c4ebeae154016d5d63, type: 3}
   bulletSpeed: 0

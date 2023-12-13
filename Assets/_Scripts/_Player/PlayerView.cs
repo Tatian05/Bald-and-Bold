@@ -35,7 +35,7 @@ public class PlayerView
         _anim.SetInteger("xAxis", Mathf.Abs(Mathf.RoundToInt(xAxis)));
         _stepsTimer += Time.deltaTime;
 
-        if (_stepsTimer >= .1f && xAxis != 0 && !inGround)
+        if (_stepsTimer >= .1f && xAxis != 0 && inGround)
         {
             Helpers.AudioManager.PlaySFX(_stepsSounds[_stepsIndex++ % _stepsSounds.Length]);
             _stepsTimer = 0;

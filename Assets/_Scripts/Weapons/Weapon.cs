@@ -77,11 +77,11 @@ namespace Weapons
             transform.localPosition = _equipedWeaponOffset;
             return this;
         }
-        public virtual Weapon PickUp(bool knife = false)
+        public virtual Weapon PickUp(Vector3 rotation, bool knife = false)
         {
             _rb.simulated = knife;
             _rb.velocity = Vector2.zero;
-            transform.eulerAngles = Vector3.zero;
+            transform.eulerAngles = rotation;
             return this;
         }
 
