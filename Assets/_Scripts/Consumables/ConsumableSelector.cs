@@ -168,4 +168,15 @@ public class ConsumableSelector : MonoBehaviour
         else
             _gamepadContainerGO.SetActive(false);
     }
+
+    #region BUILDER
+
+    public ConsumableSelector SetPosition(Vector3 position)
+    {
+        transform.position = position;
+        return this;
+    }
+
+    #endregion
+
 }

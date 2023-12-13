@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 public abstract class Enemy : MonoBehaviour
 {
@@ -19,9 +20,14 @@ public abstract class Enemy : MonoBehaviour
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, ActionOnPlayerDead);
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_INVISIBLE, PlayerInvisibleConsumable);
 
-        gameManager.EnemyManager.AddEnemy(this);
+        StartCoroutine(AddToCollection());
 
         if (Helpers.PersistantData.consumablesData.invisible) _enemyDataSO.playerPivot = null;
+    }
+    IEnumerator AddToCollection()
+    {
+        yield return new WaitUntil(() => gameManager.EnemyManager != null);
+        gameManager.EnemyManager.AddEnemy(this);
     }
     protected virtual void OnDestroy()
     {

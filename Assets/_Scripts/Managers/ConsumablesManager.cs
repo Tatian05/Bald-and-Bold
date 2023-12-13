@@ -2,8 +2,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class ConsumablesManager : MonoBehaviour
 {
-    [SerializeField] GameObject _consumableCollectionGO;
     [SerializeField] ParticleSystem _buffParticle, _debuffParticle;
+    [SerializeField] ConsumableSelector _consumablesWindowPrefab;
+
+    ConsumableSelector _consumablesWindow;
     InputAction _openConsumablesWindow;
     bool _active;
     private void Start()
@@ -14,10 +16,17 @@ public class ConsumablesManager : MonoBehaviour
         Helpers.LevelTimerManager.OnLevelDefeat += OnLevelEnd;
     }
 
+    private void Update()
+    {
+        _consumablesWindow?.SetPosition(transform.position + (Vector3.up * 3));
+    }
+
     void OpenConsumableWindow(InputAction.CallbackContext obj)
     {
-        _active = _consumableCollectionGO.activeSelf;
-        _consumableCollectionGO.SetActive(_active = !_active);
+        if (!_consumablesWindow) _consumablesWindow = Instantiate(_consumablesWindowPrefab);
+
+        _active = _consumablesWindow.gameObject.activeSelf;
+        _consumablesWindow.gameObject.SetActive(_active = !_active);
         CustomTime.SetSlowDown(_active ? .25f : 1f);
         if (_active)
         {
@@ -39,7 +48,7 @@ public class ConsumablesManager : MonoBehaviour
     {
         if (!_active) return;
 
-        _consumableCollectionGO.SetActive(false);
+        _consumablesWindow.gameObject.SetActive(false);
         CustomTime.SetSlowDown(1f);
     }
     private void OnDestroy()

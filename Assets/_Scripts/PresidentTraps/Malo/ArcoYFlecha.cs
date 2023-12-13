@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 public class ArcoYFlecha : MonoBehaviour
 {
     [SerializeField] GameObject _arrowGO;
@@ -24,7 +25,7 @@ public class ArcoYFlecha : MonoBehaviour
     {
         if (_arrows.Count <= 0) return;
 
-        foreach (var item in _arrows)
+        foreach (var item in _arrows.ToDictionary(x => x.Key, y => y.Value))
         {
             Vector3 distance = item.Value.position - item.Key.transform.position;
             item.Key.transform.right = distance;
