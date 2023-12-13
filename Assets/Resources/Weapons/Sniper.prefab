@@ -117,7 +117,6 @@ GameObject:
   - component: {fileID: 780487468847245912}
   - component: {fileID: 6034120907847639225}
   - component: {fileID: 4088419304027367941}
-  - component: {fileID: 2987822612631570813}
   m_Layer: 13
   m_Name: Sniper
   m_TagString: Untagged
@@ -297,25 +296,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cursor: {fileID: 11400000, guid: d5fa78193e7516241b29de82e9a76029, type: 2}
---- !u!95 &2987822612631570813
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5614521715814990548}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6d8dc8a03226af04c9b24ba6d926de1f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8065988612331856375
 GameObject:
   m_ObjectHideFlags: 0

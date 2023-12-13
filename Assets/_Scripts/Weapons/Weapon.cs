@@ -11,7 +11,6 @@ namespace Weapons
 
         protected float _weaponTimer;
         protected Rigidbody2D _rb;
-        protected Animator _animator;
         protected SpriteRenderer _spriteRenderer;
         protected GameManager _gameManager;
         protected Sprite _equipedBullet, _equipedGrenade;
@@ -21,7 +20,6 @@ namespace Weapons
         {
             _rb = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            if (_droppableWeapon) _animator = GetComponent<Animator>();
             _equipedBullet = Helpers.PersistantData.bulletEquiped.shopSprite;
             _equipedGrenade = Helpers.PersistantData.grenadeEquiped.shopSprite;
         }

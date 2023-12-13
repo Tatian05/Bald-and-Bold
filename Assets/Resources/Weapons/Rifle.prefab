@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 405752360632448899}
   - component: {fileID: 2176851723650000308}
   - component: {fileID: 2790094702740411220}
-  - component: {fileID: 7197969626940890836}
   m_Layer: 13
   m_Name: Rifle
   m_TagString: Untagged
@@ -195,25 +194,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cursor: {fileID: 11400000, guid: d5fa78193e7516241b29de82e9a76029, type: 2}
---- !u!95 &7197969626940890836
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 951707489278078896}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 22e84f4b26630664eb2a8b8e6ee08955, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1123459953686960659
 GameObject:
   m_ObjectHideFlags: 0

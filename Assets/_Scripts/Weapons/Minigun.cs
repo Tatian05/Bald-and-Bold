@@ -4,14 +4,16 @@ public class Minigun : FireWeapon
 {
     [SerializeField] float _maxOverheating = 10;
     [SerializeField] float _minOverheating = 1;
-    float _overheatingValue;
+    [SerializeField] Material _minigunMaterial;
 
+    float _overheatingValue;
     float _minFireRate = 5;
     System.Action _overheating;
-    [SerializeField] Material _minigunMaterial;
+    Animator _animator;
     protected override void Start()
     {
         base.Start();
+        _animator = GetComponent<Animator>();
         _weaponData.currentCadence = _minFireRate;
         _minigunMaterial = GetComponent<SpriteRenderer>().material;
     }

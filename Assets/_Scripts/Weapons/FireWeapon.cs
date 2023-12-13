@@ -95,7 +95,6 @@ public class FireWeapon : Weapon
     {
         _rb.simulated = true;
         _rb.AddForce(direction * 3, ForceMode2D.Impulse);
-        if (_animator) _animator.enabled = true;
         _spriteRenderer.sprite = _weaponSkinData.mainSprite;
         return this;
     }
