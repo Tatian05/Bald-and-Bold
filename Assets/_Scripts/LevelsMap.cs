@@ -4,8 +4,6 @@ using UnityEngine.UI;
 using System.Linq;
 using DG.Tweening;
 using System;
-using System.Collections.Generic;
-
 public class LevelsMap : MonoBehaviour
 {
     [SerializeField] Button[] _allButtons;

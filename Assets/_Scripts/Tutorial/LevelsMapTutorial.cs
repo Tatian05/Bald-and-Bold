@@ -1,27 +1,32 @@
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.EventSystems;
+
 public class LevelsMapTutorial : MonoBehaviour
 {
     [SerializeField] LevelsMapTutorialData[] _tutorialsData;
     [SerializeField] float _typingSpeed;
+    [SerializeField] GameObject _eventSystemGO;
     int _index;
     void Start()
     {
         if (!Helpers.PersistantData.gameData.firstTimeLevelsMap) Destroy(gameObject);
         Helpers.PersistantData.gameData.firstTimeLevelsMap = false;
-
-        Invoke(nameof(InvokeTuto), 1f);
+        _eventSystemGO.SetActive(false);
+        Invoke(nameof(InvokeTuto), .75f);
     }
     void InvokeTuto() { _tutorialsData[_index].Set(_typingSpeed); }
     void Update()
     {
         if (Input.anyKeyDown)
         {
-            if (!_tutorialsData[_index].finish) return;
+            if (!_tutorialsData[_index].finish)
+                return;
 
             if (_index + 1 >= _tutorialsData.Length)
             {
+                _eventSystemGO.SetActive(true);
                 Destroy(gameObject);
                 return;
             }
