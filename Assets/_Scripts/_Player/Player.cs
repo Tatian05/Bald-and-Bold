@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
+
 public enum PlayerStates { Empty, Dash }
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -126,12 +128,12 @@ public class Player : GeneralPlayer, IDamageable
         _controller?.OnFixedUpdate();
         _myFsm.FixedUpdate();
     }
-    public void TakeDamage(float dmg)
+    public async void TakeDamage(float dmg)
     {
         EventManager.TriggerEvent(Contains.PLAYER_DEAD);
+        await Task.Delay(100);
         EventManager.TriggerEvent(Contains.WAIT_PLAYER_DEAD);
     }
-
     public void Die() { }
     private void OnDrawGizmos()
     {
@@ -140,7 +142,6 @@ public class Player : GeneralPlayer, IDamageable
     }
     public override void PausePlayer()
     {
-        Debug.Log("xd");
         _controller.OnDestroy();
         _myFsm.SendInput(PlayerStates.Empty);
         _playerModel.FreezeVelocity();

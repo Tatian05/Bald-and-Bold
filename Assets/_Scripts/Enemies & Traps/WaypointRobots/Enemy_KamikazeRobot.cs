@@ -41,7 +41,6 @@ public class Enemy_KamikazeRobot : Enemy
             _dropSpeed += CustomTime.TimeScale * .3f;
             transform.position += -transform.up * _dropSpeed * CustomTime.DeltaTime;
             Mathf.Clamp(_dropSpeed, _minDropSpeed, _maxDropSpeed);
-            Debug.Log(_dropSpeed);
         };
 
         if (Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<KamikazeStates>(IDLE);
@@ -66,7 +65,6 @@ public class Enemy_KamikazeRobot : Enemy
     {
         if (!_isDropping || collision.CompareTag("Bullet") || collision.gameObject.layer == 25) return;
 
-        _enemyHealth.Die();
 
         if (collision.TryGetComponent(out IDamageable player))
         {
@@ -78,7 +76,12 @@ public class Enemy_KamikazeRobot : Enemy
                       Where(x => Physics2D.Raycast(_eyes.position, DistanceToPlayer(), _overlapCircleRadius)).FirstOrDefault();
 
         if (overlap && overlap.TryGetComponent(out player))
+        {
             player.TakeDamage(_dmg);
+            return;
+        }
+
+        _enemyHealth.Die();
     }
 
     public override void ReturnObject()

@@ -30,16 +30,20 @@ public class EnemyHealth : MonoBehaviour, IDamageable, IEnemy
             StartCoroutine(ChangeColor());
     }
 
+    void OnReset()
+    {
+        _currentHP = _enemyHealthData.maxHP;
+        _renderer.color = Color.white;
+    }
     public virtual void Die()
     {
         if (_withWeaponKilled != null) _gameManager.EnemyManager.OnWeaponEnemyDeath(_withWeaponKilled);
         _gameManager.EnemyManager.RemoveEnemy(_enemy);
-        _enemy.ReturnObject();
-
         _gameManager.EffectsManager.EnemyKilled(transform.position, _enemy.IsRobot);
         _renderer.color = Color.white;
+
+        _enemy.ReturnObject();
     }
-    void OnReset() { _currentHP = _enemyHealthData.maxHP; }
     IEnumerator ChangeColor()
     {
         _renderer.color = Color.red;

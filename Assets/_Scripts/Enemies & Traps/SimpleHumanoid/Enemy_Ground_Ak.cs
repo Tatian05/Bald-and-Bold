@@ -11,12 +11,11 @@ public class Enemy_Ground_Ak : Enemy_Shooters
     enum AK_States { Patrol, Attack, Lost }
     EventFSM<AK_States> _myFSM;
     State<AK_States> PATROL;
-    Vector3 _dir = Vector3.right;
     Tween _currentTween;
     public override void Start()
     {
         base.Start();
-
+        _dirToLook = Vector3.right;
         PATROL = new State<AK_States>("PATROL");
         var ATTACK = new State<AK_States>("ATTACK");
         var LOST = new State<AK_States>("LOST");
@@ -38,8 +37,9 @@ public class Enemy_Ground_Ak : Enemy_Shooters
         PATROL.OnEnter += x => OnPatrolStart();
         PATROL.OnUpdate += () =>
         {
-            transform.position += _dir * _speed * CustomTime.DeltaTime;
+            transform.position += _dirToLook * _speed * CustomTime.DeltaTime;
             if (Physics2D.Raycast(transform.position, transform.right, 1f, _groundLayer)) FlipEnemy();
+
             if (GetCanSeePlayer())
                 _myFSM.SendInput(AK_States.Attack);
         };
@@ -146,7 +146,6 @@ public class Enemy_Ground_Ak : Enemy_Shooters
     public override void ReturnObject()
     {
         _myFSM.SendInput(AK_States.Patrol);
-        base.ReturnObject();
         FRY_Enemy_Ground_Ak.Instance.pool.ReturnObject(this);
     }
 }

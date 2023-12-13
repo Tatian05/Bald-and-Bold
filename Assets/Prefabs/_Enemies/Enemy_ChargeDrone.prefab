@@ -4815,7 +4815,7 @@ GameObject:
   - component: {fileID: 5195078683362578565}
   - component: {fileID: 1700583623668465301}
   - component: {fileID: 6966172128750786804}
-  m_Layer: 12
+  m_Layer: 20
   m_Name: DmgPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4982,7 +4982,6 @@ MonoBehaviour:
   _signGO: {fileID: 6063073957580479126}
   _agroSign: {fileID: 21300000, guid: 3f2771c7942799246953815d2d38b5b5, type: 3}
   _lostSign: {fileID: 21300000, guid: 75d60bc99b7fbd240a839eef4ac6a18b, type: 3}
-  sprite: {fileID: 8856837495568563153}
   _eyes: {fileID: 4577552466452308581}
   _isRobot: 1
   _idleWaitTime: 1.5
@@ -5257,7 +5256,7 @@ MonoBehaviour:
   - {x: -0.35591245, y: 0.10646796, z: 0}
   m_ShapePathHash: -1816243603
   m_Mesh: {fileID: 0}
-  m_InstanceId: 143200
+  m_InstanceId: 74796
 --- !u!114 &921577784702968906
 MonoBehaviour:
   m_ObjectHideFlags: 0

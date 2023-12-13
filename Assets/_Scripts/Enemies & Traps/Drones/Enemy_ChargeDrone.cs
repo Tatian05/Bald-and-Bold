@@ -130,7 +130,6 @@ public class Enemy_ChargeDrone : Enemy
     void LookAtPlayer() { _spriteParentTransform.right = DistanceToPlayer().normalized; }
     public override void ReturnObject()
     {
-        base.ReturnObject();
         _myFSM.SendInput(ChargeDroneStates.Idle);
         FRY_Enemy_ChargeDrone.Instance.pool.ReturnObject(this);
     }

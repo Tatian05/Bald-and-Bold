@@ -4,8 +4,9 @@ public abstract class Enemy_Shooters : Enemy
     [SerializeField] protected Transform _bulletSpawnPosition;
     [SerializeField] protected Transform _armPivot, _gunTransform;
     [SerializeField] protected float _bulletDamage = 1f, _bulletSpeed = 10f, _attackSpeed = 2f;
+    protected Vector3 _dirToLook;
 
-    Vector3 _weaponDir, _dirToLook;
+    Vector3 _weaponDir;
     float _r, _angle, _smoothAngle;
     protected void WeaponRot()
     {

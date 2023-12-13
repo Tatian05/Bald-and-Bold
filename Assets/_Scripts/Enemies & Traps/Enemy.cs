@@ -11,6 +11,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected Transform _eyes;
     [SerializeField] protected bool _isRobot = false;
     public bool IsRobot { get { return _isRobot; } }
+
     public event System.Action OnReturn;
     public virtual void Start()
     {
@@ -66,8 +67,8 @@ public abstract class Enemy : MonoBehaviour
 
     public static void TurnOn(Enemy b)
     {
-        b.Reset();
         b.gameObject.SetActive(true);
+        b.Reset();
     }
 
     public static void TurnOff(Enemy b)
