@@ -3752,6 +3752,7 @@ GameObject:
   - component: {fileID: 962617316}
   - component: {fileID: 962617315}
   - component: {fileID: 962617314}
+  - component: {fileID: 962617319}
   m_Layer: 5
   m_Name: Botones
   m_TagString: Untagged
@@ -3803,8 +3804,6 @@ MonoBehaviour:
   - {fileID: 329167038}
   _menuButton: {fileID: 203279708}
   _shopButton: {fileID: 1308912428}
-  _menuBackground: {fileID: 840233992}
-  _shopBackground: {fileID: 1984998618}
   _deathsZoneGO:
   - {fileID: 2139924710}
   - {fileID: 591561296}
@@ -3817,7 +3816,6 @@ MonoBehaviour:
   _mano: {fileID: 1534318599}
   _easeIn: 3
   _easeOut: 12
-  _buttonsBackgroundColor: {r: 0.8301887, g: 0, b: 0, a: 1}
   _parButtons: []
   _unParButtons: []
 --- !u!114 &962617315
@@ -3918,6 +3916,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &962617319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962617313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64af1775fea43654b87895ed8fc38572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lastSelectedObject: {fileID: 0}
+  _firstSelectedButton: {fileID: 1150474752}
 --- !u!1 &971726268
 GameObject:
   m_ObjectHideFlags: 0

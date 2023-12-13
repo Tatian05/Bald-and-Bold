@@ -11,7 +11,8 @@ public class LevelsMapTutorial : MonoBehaviour
     int _index;
     void Start()
     {
-        if (!Helpers.PersistantData.gameData.firstTimeLevelsMap) Destroy(gameObject);
+        if (!Helpers.PersistantData.gameData.firstTimeLevelsMap)
+            return;
         Helpers.PersistantData.gameData.firstTimeLevelsMap = false;
         _eventSystemGO.SetActive(false);
         Invoke(nameof(InvokeTuto), .75f);

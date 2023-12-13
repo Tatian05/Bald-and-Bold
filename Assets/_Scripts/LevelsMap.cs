@@ -10,11 +10,9 @@ public class LevelsMap : MonoBehaviour
     [SerializeField] Button[] _zonesButtons;
     [SerializeField] Image[] _buttonsBackground;
     [SerializeField] Button _menuButton, _shopButton;
-    [SerializeField] Image _menuBackground, _shopBackground;
     [SerializeField] GameObject[] _deathsZoneGO;
     [SerializeField] Transform _mano;
     [SerializeField] Ease _easeIn, _easeOut;
-    [SerializeField] Color _buttonsBackgroundColor;
 
 
     [SerializeField] Button[] _parButtons;
@@ -117,22 +115,22 @@ public class LevelsMap : MonoBehaviour
             });
         });
     }
-    public void MenuButton(string MenuSceneName)
+    public void MenuButton(string menuSceneName)
     {
         _mano.DOMove(_menuButton.transform.position - new Vector3(0f, .5f), 1f).SetEase(_easeIn).
         OnComplete(() =>
         {
-            _menuBackground.color = _buttonsBackgroundColor;
-            _mano.DOMoveY(_mano.transform.position.y - 100f, 1f).SetEase(_easeOut).OnComplete(() => Helpers.GameManager.LoadSceneManager.LoadLevelAsync(MenuSceneName, true));
+            _menuButton.GetComponent<Animator>().Play("Pressed");
+            _mano.DOMoveY(_mano.transform.position.y - 100f, 1f).SetEase(_easeOut).OnComplete(() => Helpers.GameManager.LoadSceneManager.LoadLevelAsync(menuSceneName, true));
         });
     }
-    public void ShopButton(string ShopSceneName)
+    public void ShopButton(string shopSceneName)
     {
         _mano.DOMove(_shopButton.transform.position - new Vector3(0f, .5f), 1f).SetEase(_easeIn).
         OnComplete(() =>
         {
-            _shopBackground.color = _buttonsBackgroundColor;
-            _mano.DOMoveY(_mano.transform.position.y - 100f, 1f).SetEase(_easeOut).OnComplete(() => Helpers.GameManager.LoadSceneManager.LoadLevelAsync(ShopSceneName, true));
+            _shopButton.GetComponent<Animator>().Play("Pressed");
+            _mano.DOMoveY(_mano.transform.position.y - 100f, 1f).SetEase(_easeOut).OnComplete(() => Helpers.GameManager.LoadSceneManager.LoadLevelAsync(shopSceneName, true));
         });
     }
 }
