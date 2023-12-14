@@ -26,7 +26,6 @@ public class OnBackJoystick : MonoBehaviour
         NewInputManager.RebindCanceled -= OnRebindFinish;
 
         _cancelUI.performed -= CancelBinding;
-        _cancelUI?.Disable();
     }
     void OnRebindStarted(InputAction a, int b) { DisableAction(); }
     void OnRebindFinish() { Invoke(nameof(EnableAction), .05f); }
@@ -34,6 +33,7 @@ public class OnBackJoystick : MonoBehaviour
     void DisableAction() { _cancelUI?.Disable(); }
     private void CancelBinding(InputAction.CallbackContext obj)
     {
+        Debug.Log("Back");
         _onBackEvent.Invoke();
     }
 }

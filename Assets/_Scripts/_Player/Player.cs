@@ -52,13 +52,15 @@ public class Player : GeneralPlayer, IDamageable
 
     EventFSM<PlayerStates> _myFsm;
     GoldenBald _goldenBald;
+    LayerMask _ladderMask;
     private void Start()
     {
         _weaponManager = GetComponent<WeaponManager>();
         _rb = GetComponent<Rigidbody2D>();
         float defaultGravity = _rb.gravityScale;
+        _ladderMask = LayerMask.GetMask("Ladder");
 
-        _playerModel = new PlayerModel(_rb, transform, _playerSprite, _groundCheckTransform, _speed, _jumpForce, _maxJumps, _dashSpeed, defaultGravity, _coyotaTime, _weaponManager);
+        _playerModel = new PlayerModel(_rb, transform, _playerSprite, _groundCheckTransform, _speed, _jumpForce, _maxJumps, _dashSpeed, defaultGravity, _coyotaTime, _weaponManager, _anim);
         _playerView = new PlayerView(transform, _anim, _dashParticle, _playerSprites, _bootsCollider);
 
         OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, y); };
@@ -121,6 +123,10 @@ public class Player : GeneralPlayer, IDamageable
         _controller?.OnUpdate();
         _myFsm.Update();
         _goldenBald?.SetPosition(transform.position + Vector3.up * 2.25f);
+
+        var ropeCheck = Physics2D.OverlapCircle(transform.position, 1f, _ladderMask);
+
+        if ((bool)ropeCheck) CheckForRope(ropeCheck.transform);
     }
 
     private void FixedUpdate()
@@ -139,6 +145,9 @@ public class Player : GeneralPlayer, IDamageable
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(_groundCheckTransform.position, .2f);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, 1f);
     }
     public override void PausePlayer()
     {
@@ -154,23 +163,10 @@ public class Player : GeneralPlayer, IDamageable
 
         if (collision.CompareTag("Rope") && !_dead)
         {
-            _playerModel.InRope = true;
             if (_playerModel.InGrounded) return;
 
             _myFsm.SendInput(PlayerStates.Empty);
-            EnterRope(collision.gameObject);
-        }
-    }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (_playerModel.InRope && !_dead)
-        {
-            if (!_playerModel.InGrounded) return;
-
-            if (_controller.YAxis >= 1 || _rb.velocity.y >= 1)
-                EnterRope(collision.gameObject);
-            else if (_controller.XAxis != 0)
-                ExitClimb();
+            EnterRope(collision.transform);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -178,8 +174,20 @@ public class Player : GeneralPlayer, IDamageable
         if (collision.CompareTag("Rope"))
             ExitClimb();
     }
+    void CheckForRope(Transform ropeTransform)
+    {
+        _playerModel.InRope = true;
+        if (_playerModel.InRope && !_dead)
+        {
+            if (!_playerModel.InGrounded) return;
 
-    void EnterRope(GameObject rope)
+            if (_controller.YAxis > 0)
+                EnterRope(ropeTransform);
+            else if (_controller.XAxis != 0)
+                ExitClimb();
+        }
+    }
+    void EnterRope(Transform rope)
     {
         _playerModel.FreezeVelocity();
         _playerModel.ResetStats();
@@ -188,12 +196,15 @@ public class Player : GeneralPlayer, IDamageable
         OnMove = _playerModel.ClimbMove;
 
         _anim.SetInteger("xAxis", 0);
-        transform.position = new Vector2(rope.transform.position.x, transform.position.y);
+        _anim.SetTrigger("Climb");
+        transform.position = new Vector2(rope.position.x, transform.position.y);
     }
     public void ExitClimb()
     {
         if (!_playerModel.InRope) return;
 
+        _anim.Play("Idle");
+        _anim.ResetTrigger("Climb");
         _playerModel.InRope = false;
         _playerModel.NormalGravity();
         OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, y); };

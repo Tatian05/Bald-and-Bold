@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 public class PlayerModel
 {
@@ -9,6 +10,7 @@ public class PlayerModel
     bool _secondJump;
     bool _inRope;
     Vector3 _initialPos;
+    Animator _animator;
     public bool InRope { get { return _inRope; } set { _inRope = value; } }
 
     #region Constructor 
@@ -25,7 +27,7 @@ public class PlayerModel
     public bool CanJump => InGrounded || _coyotaTimer > 0 || _secondJump && _currentJumps <= _maxJumps;
     public bool CanDash => _dashTimer >= _dashCooldown;
     public PlayerModel(Rigidbody2D rb, Transform myTransform, Transform spriteContainerTransform, Transform groundCheckTransform,
-        float speed, float jumpForce, float maxJumps, float dashSpeed, float defaultGravity, float coyotaTime, WeaponManager weaponManager)
+        float speed, float jumpForce, float maxJumps, float dashSpeed, float defaultGravity, float coyotaTime, WeaponManager weaponManager, Animator animator)
     {
         _rb = rb;
         _myTransform = myTransform;
@@ -38,6 +40,7 @@ public class PlayerModel
         _defaultGravity = defaultGravity;
         _coyotaTime = coyotaTime;
         _weaponManager = weaponManager;
+        _animator = animator;
 
         _rb.gravityScale = defaultGravity;
         _dashTimer = _dashCooldown;
@@ -65,6 +68,7 @@ public class PlayerModel
     public void ClimbMove(float xAxis, float yAxis)
     {
         _rb.velocity = new Vector2(_rb.velocity.x, yAxis * _speed * Time.fixedDeltaTime);
+        _animator.SetFloat("yAxis", yAxis);
     }
     public void Jump()
     {

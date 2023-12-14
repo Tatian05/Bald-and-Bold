@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 public class BrokenLight : MonoBehaviour, IDamageable
 {
+    [SerializeField] SpriteRenderer _spriteRenderer;
     [SerializeField] Sprite _brokenLightSprite;
     [SerializeField] ParticleSystem _brokenLightPT;
 
@@ -65,7 +66,7 @@ public class BrokenLight : MonoBehaviour, IDamageable
         {
             GetComponent<Collider2D>().enabled = false;
             var light2D = _targetObject.GetComponent<Light2D>();
-            GetComponent<SpriteRenderer>().sprite = _brokenLightSprite;
+            _spriteRenderer.sprite = _brokenLightSprite;
             light2D.color = Lightcolor;
             light2D.blendStyleIndex = 2;
             light2D.pointLightInnerAngle = 30;
