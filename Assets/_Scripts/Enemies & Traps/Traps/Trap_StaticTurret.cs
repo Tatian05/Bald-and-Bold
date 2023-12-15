@@ -1,32 +1,29 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
 public class Trap_StaticTurret : MonoBehaviour
 {
-    Action OnUpdate;
-
     [SerializeField] Transform _shootingPoint;
+    [SerializeField] ParticleSystem _sparksShootPT;
     [SerializeField] float _damage = 1;
     [SerializeField] float _bulletSpeed = 5;
-    [SerializeField] float _startDelay;
     [SerializeField] float _attackSpeed;
     float _currentAttackSpeed;
 
+    Action onUpdate;
     private void Start()
     {
-        StartCoroutine(StartShooting());
+        EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, OnStart);
+    }
+    private void OnDestroy()
+    {
+        EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, OnStart);
+        onUpdate -= Shoot;
     }
     private void Update()
     {
-        OnUpdate?.Invoke();
-    }
-    IEnumerator StartShooting()
-    {
-        yield return new WaitForSeconds(_startDelay);
-
-        OnUpdate += Shoot;
+        onUpdate?.Invoke();
     }
     void Shoot()
     {
@@ -34,6 +31,7 @@ public class Trap_StaticTurret : MonoBehaviour
 
         if (_currentAttackSpeed > _attackSpeed)
         {
+            _sparksShootPT.Play();
             FRY_EnemyBullet.Instance.pool.GetObject().SetPosition(_shootingPoint.position)
                                                 .SetDirection(_shootingPoint.right)
                                                 .SetDmg(_damage)
@@ -41,4 +39,5 @@ public class Trap_StaticTurret : MonoBehaviour
             _currentAttackSpeed = 0;
         }
     }
+    void OnStart(params object[] param) { onUpdate += Shoot; }
 }

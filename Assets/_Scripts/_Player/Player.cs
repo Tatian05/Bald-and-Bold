@@ -145,9 +145,6 @@ public class Player : GeneralPlayer, IDamageable
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(_groundCheckTransform.position, .2f);
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, 1f);
     }
     public override void PausePlayer()
     {

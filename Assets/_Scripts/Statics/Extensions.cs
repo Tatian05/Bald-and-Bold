@@ -41,6 +41,16 @@ public static class Extensions
         return components.FirstOrDefault(childComponent =>
             childComponent.transform != obj.transform);
     }
+    public static T GetComponentInParent<T>(this GameObject obj, bool includeInactive = false, bool excludeThis = false) where T : Component
+    {
+        var components = obj.GetComponentsInParent<T>(includeInactive);
+
+        if (!excludeThis)
+            return components.FirstOrDefault();
+
+        return components.FirstOrDefault(parent =>
+            parent.transform != obj.transform);
+    }
     public static T[] AddToArray<T>(this T[] array, T element)
     {
         return (FList.Cast(array) + element).ToArray();
