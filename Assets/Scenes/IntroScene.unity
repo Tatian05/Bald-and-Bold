@@ -459,6 +459,7 @@ GameObject:
   - component: {fileID: 579059827}
   - component: {fileID: 579059826}
   - component: {fileID: 579059825}
+  - component: {fileID: 579059828}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -529,6 +530,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &579059828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 579059824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60550a27753ad0643948a0ff57ee8784, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _musicName: MenuMusic
+  _stopMusic: 0
 --- !u!1001 &615442686
 PrefabInstance:
   m_ObjectHideFlags: 0
