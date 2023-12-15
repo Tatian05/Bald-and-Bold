@@ -108,7 +108,7 @@ MonoBehaviour:
   - {x: -1, y: 0.3, z: 0}
   m_ShapePathHash: -962476955
   m_Mesh: {fileID: 0}
-  m_InstanceId: 62910
+  m_InstanceId: 154294
 --- !u!1 &2435884290681187626
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,8 +158,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 482a4f64b0c3422488f8cace13dba9c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeToDisappear: 2
   _timeToAppear: 1.5
+  _defaultAnimationClip: {fileID: 7400000, guid: 678a0f494f12e164baf91e7bdcfd2832, type: 2}
   _sprite: {fileID: 2435884290159541663}
   _dustPS: {fileID: 6345878325186143262}
 --- !u!61 &2435884290681187628
@@ -262,6 +262,10 @@ PrefabInstance:
     - target: {fileID: 4498869681119558539, guid: 316919ecf04aeda4a8f35102e5340379, type: 3}
       propertyPath: m_Name
       value: Dust
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498869681119558541, guid: 316919ecf04aeda4a8f35102e5340379, type: 3}
+      propertyPath: looping
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4498869681119558541, guid: 316919ecf04aeda4a8f35102e5340379, type: 3}
       propertyPath: playOnAwake
