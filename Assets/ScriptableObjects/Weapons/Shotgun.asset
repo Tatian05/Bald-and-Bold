@@ -17,9 +17,6 @@ MonoBehaviour:
   fireRate: 1
   damage: 2
   initialAmmo: 8
-  mainSprite: {fileID: 21300000, guid: 0b6c59837e0320d4881853edb159b622, type: 3}
-  selectedSprite: {fileID: 21300000, guid: 5314f620cee231940bac24fa919767c5, type: 3}
-  handWeapon: {fileID: 0}
   weaponSoundName: Weapon_Shotgun
   bulletExplosion: {fileID: 0}
   bulletSpeed: 12
@@ -28,5 +25,6 @@ MonoBehaviour:
   recoilWeaponRot: 0
   recoilWeaponRotDuration: 0
   currentCadence: 1
+  weaponOffsetPosition: {x: 0, y: 0, z: 0}
   attackRange: 0
   knifeSpeed: 0

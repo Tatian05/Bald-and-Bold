@@ -102,6 +102,7 @@ public class FireWeapon : Weapon
     {
         base.PickUp(rotation, knife);
 
+        transform.localPosition = _equipedWeaponOffset;
         if (_droppableWeapon)
         {
             _spriteRenderer.material = _weaponSkinData.mainMaterial;

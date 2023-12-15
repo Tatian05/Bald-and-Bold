@@ -17,9 +17,6 @@ MonoBehaviour:
   fireRate: 0.7
   damage: 5
   initialAmmo: 10
-  mainSprite: {fileID: 21300000, guid: 2a16164e6715c124bbe6efffad836d9d, type: 3}
-  selectedSprite: {fileID: 21300000, guid: 79c5dad9eff81fe43bbdff23a65ca7b4, type: 3}
-  handWeapon: {fileID: 21300000, guid: 4e2886bf29d5cb545af52df8354a64b3, type: 3}
   weaponSoundName: Weapon_Sniper
   bulletExplosion: {fileID: 0}
   bulletSpeed: 50

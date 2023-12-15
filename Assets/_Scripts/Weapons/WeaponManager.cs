@@ -21,6 +21,8 @@ public class WeaponManager : MonoBehaviour
     Minigun _minigun;
     PersistantData _persistantData;
 
+    public bool HasWeapon { get { return _currentMainWeapon != null; } }
+
     #region ConsumablesVariables
 
     float _currentBulletScale, _cadenceBoost;

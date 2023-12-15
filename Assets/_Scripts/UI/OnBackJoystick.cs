@@ -33,7 +33,6 @@ public class OnBackJoystick : MonoBehaviour
     void DisableAction() { _cancelUI?.Disable(); }
     private void CancelBinding(InputAction.CallbackContext obj)
     {
-        Debug.Log("Back");
         _onBackEvent.Invoke();
     }
 }

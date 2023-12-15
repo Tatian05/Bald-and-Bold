@@ -13,7 +13,7 @@ public class Player : GeneralPlayer, IDamageable
 
     #region Components
     [SerializeField] Animator _anim;
-    [SerializeField] Transform _playerSprite, _groundCheckTransform;
+    [SerializeField] Transform _playerSprite, _groundCheckTransform, _spritesContainer;
     [SerializeField] SpriteRenderer[] _playerSprites;
     [SerializeField] BoxCollider2D _bootsCollider;
 
@@ -61,7 +61,7 @@ public class Player : GeneralPlayer, IDamageable
         _ladderMask = LayerMask.GetMask("Ladder");
 
         _playerModel = new PlayerModel(_rb, transform, _playerSprite, _groundCheckTransform, _speed, _jumpForce, _maxJumps, _dashSpeed, defaultGravity, _coyotaTime, _weaponManager, _anim);
-        _playerView = new PlayerView(transform, _anim, _dashParticle, _playerSprites, _bootsCollider);
+        _playerView = new PlayerView(transform, _anim, _dashParticle, _playerSprites, _bootsCollider, _spritesContainer);
 
         OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, y); };
 
@@ -192,16 +192,14 @@ public class Player : GeneralPlayer, IDamageable
 
         OnMove = _playerModel.ClimbMove;
 
-        _anim.SetInteger("xAxis", 0);
-        _anim.SetTrigger("Climb");
+        _playerView.OnStartClimb(_weaponManager.HasWeapon);
         transform.position = new Vector2(rope.position.x, transform.position.y);
     }
     public void ExitClimb()
     {
         if (!_playerModel.InRope) return;
 
-        _anim.Play("Idle");
-        _anim.ResetTrigger("Climb");
+        _playerView.OnExitClimb();
         _playerModel.InRope = false;
         _playerModel.NormalGravity();
         OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, y); };

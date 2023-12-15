@@ -1,7 +1,7 @@
 using UnityEngine;
 public class PlayerView
 {
-    Transform _transform;
+    Transform _transform, _spritesContainerTransform;
     Animator _anim;
     ParticleSystem _dashParticle;
     SpriteRenderer[] _playerSprites;
@@ -13,13 +13,14 @@ public class PlayerView
     GameManager _gameManager;
     PersistantData _persistantData;
     bool _invisible;
-    public PlayerView(Transform transform, Animator anim, ParticleSystem dashParticle, SpriteRenderer[] playerSprites, BoxCollider2D bootsCollider)
+    public PlayerView(Transform transform, Animator anim, ParticleSystem dashParticle, SpriteRenderer[] playerSprites, BoxCollider2D bootsCollider, Transform spritesContainer)
     {
         _transform = transform;
         _anim = anim;
         _dashParticle = dashParticle;
         _playerSprites = playerSprites;
         _bootsCollider = bootsCollider;
+        _spritesContainerTransform = spritesContainer;
 
         _gameManager = Helpers.GameManager;
         _persistantData = Helpers.PersistantData;
@@ -58,7 +59,23 @@ public class PlayerView
         _gameManager.EffectsManager.PlayerKilled(_transform.position + Vector3.up);
         Helpers.AudioManager.PlaySFX("PlayerDeath");
     }
+    public void OnStartClimb(bool hasWeapon)
+    {
+        if (hasWeapon) _spritesContainerTransform.eulerAngles += new Vector3(0, 0, 5);
+        else _spritesContainerTransform.eulerAngles += new Vector3(0, 0, 25);
 
+        _anim.SetInteger("xAxis", 0);
+        _anim.SetTrigger("Climb");
+    }
+    public void OnExitClimb()
+    {
+        Vector3 rotation = _spritesContainerTransform.eulerAngles;
+        rotation.z = 0;
+        _spritesContainerTransform.eulerAngles = rotation;
+
+        _anim.Play("Idle");
+        _anim.ResetTrigger("Climb");
+    }
     public void OnDestroy()
     {
         EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_INVISIBLE, InvisibleConsumable);

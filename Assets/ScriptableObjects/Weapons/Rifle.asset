@@ -17,9 +17,6 @@ MonoBehaviour:
   fireRate: 8
   damage: 1
   initialAmmo: 30
-  mainSprite: {fileID: 21300000, guid: 14947fa32cd245e48b783ea98cd0ed09, type: 3}
-  selectedSprite: {fileID: 21300000, guid: 735f3efaaca344343bdc45116649fc70, type: 3}
-  handWeapon: {fileID: 21300000, guid: 3d0233f22664cc14b8efa9e44ce33348, type: 3}
   weaponSoundName: Weapon_Rifle
   bulletExplosion: {fileID: 0}
   bulletSpeed: 20
@@ -28,5 +25,6 @@ MonoBehaviour:
   recoilWeaponRot: 5
   recoilWeaponRotDuration: 0.5
   currentCadence: 8
+  weaponOffsetPosition: {x: 0, y: 0, z: 0}
   attackRange: 0
   knifeSpeed: 0
