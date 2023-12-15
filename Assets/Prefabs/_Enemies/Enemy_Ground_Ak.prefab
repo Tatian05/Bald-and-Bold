@@ -305,7 +305,7 @@ MonoBehaviour:
   - {x: -0.4508499, y: 0.44186878, z: 0}
   m_ShapePathHash: 1484441434
   m_Mesh: {fileID: 0}
-  m_InstanceId: 143814
+  m_InstanceId: 215252
 --- !u!114 &3811069208634687853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -594,7 +594,6 @@ MonoBehaviour:
   _signGO: {fileID: 492562350271586227}
   _agroSign: {fileID: 21300000, guid: 3f2771c7942799246953815d2d38b5b5, type: 3}
   _lostSign: {fileID: 21300000, guid: 75d60bc99b7fbd240a839eef4ac6a18b, type: 3}
-  sprite: {fileID: 1729968459289125578}
   _eyes: {fileID: 1729968459289125578}
   _isRobot: 0
   _bulletSpawnPosition: {fileID: 1729968458609842710}
@@ -867,7 +866,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.4528302, g: 0.057671774, b: 0.057671774, a: 1}
   m_Intensity: 1
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 3d9b2f0f
