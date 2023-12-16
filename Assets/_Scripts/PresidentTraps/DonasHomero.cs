@@ -39,6 +39,7 @@ public class DonasHomero : MonoBehaviour
         {
             counter = 0;
             for (int i = 0; i < _cintas.Length; i++) _cintas[i].enabled = true;
+            Helpers.AudioManager.PlaySFX("PalancaMalo");
         };
 
         go.OnUpdate += () =>

@@ -63,7 +63,7 @@ public class PlayerModel
     }
     public void Move(float xAxis, float yAxis = 0)
     {
-        _currentSpeed = Mathf.Sign(_myTransform.right.x) != Mathf.Sign(_rb.velocity.x) ? _speed * .5f : _speed;
+        _currentSpeed = Mathf.Sign(_myTransform.right.x) != Mathf.Sign(_rb.velocity.x) && InGrounded ? _speed * .5f : _speed;
 
         _rb.velocity = new Vector2(xAxis * _currentSpeed * Time.fixedDeltaTime, _rb.velocity.y);
     }

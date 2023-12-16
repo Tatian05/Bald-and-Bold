@@ -228,6 +228,18 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 0c5ddc2e5e5c8fa4692f3a587240bdf4, type: 3}
   - soundName: ButtonSound
     clip: {fileID: 8300000, guid: a72e445f96606554ca814062c010a530, type: 3}
+  - soundName: PilarFall
+    clip: {fileID: 8300000, guid: a1b753a61601ea8459f003de94e4c654, type: 3}
+  - soundName: PilarUp
+    clip: {fileID: 8300000, guid: 4cba576099cea6040bd6b0d363b0569f, type: 3}
+  - soundName: Inflador
+    clip: {fileID: 8300000, guid: 1f3b1a795af00684cbe239e22a3786b4, type: 3}
+  - soundName: FlechaMalo
+    clip: {fileID: 8300000, guid: 7454ae8dd0a327745b295be41b41be57, type: 3}
+  - soundName: CoheteCountDown
+    clip: {fileID: 8300000, guid: 29c3191d58967f74bbd4c82342b5994d, type: 3}
+  - soundName: PalancaMalo
+    clip: {fileID: 8300000, guid: 5c82022e894002b49b745e99f0895e8c, type: 3}
   musicSource: {fileID: 1265094814124689759}
   sfxSource: {fileID: 818653475253159961}
 --- !u!1 &7539644245263002980

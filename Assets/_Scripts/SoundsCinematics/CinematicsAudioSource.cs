@@ -10,7 +10,7 @@ public class CinematicsAudioSource : MonoBehaviour
     }
     void SetSounds()
     {
-        foreach (var item in _audioSources) item.volume = Helpers.AudioManager.sfxSource.volume;
+        foreach (var item in _audioSources) item.volume = Helpers.PersistantData.settingsData.sfxVolume;
     }
     private void OnDestroy()
     {

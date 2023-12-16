@@ -19,7 +19,7 @@ public abstract class Bullet : MonoBehaviour
     }
     protected virtual void ReturnBullet(params object[] param)
     {
-        _trail.sortingOrder = 0;
+        _trail.sortingOrder = -1;
         _trail.Clear();
     }
 }

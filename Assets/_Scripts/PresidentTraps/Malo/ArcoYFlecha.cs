@@ -41,6 +41,7 @@ public class ArcoYFlecha : MonoBehaviour
     public void Shoot()
     {
         var arrow = Instantiate(_arrowGO, _arrowParent.position, _arrowParent.rotation);
+        Helpers.AudioManager.PlaySFX("FlechaMalo");
         arrow.transform.SetParent(GameObject.Find("MainGame").transform);
         _arrows[arrow] = _targets[_counter++ % _targets.Length];
     }

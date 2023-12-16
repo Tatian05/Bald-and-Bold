@@ -7,6 +7,7 @@ public class PresidentWallsTrap : MonoBehaviour
 {
     [SerializeField] float _time, _timeGoing, _timeComingBack, _timeWaiting, _timer;
     [SerializeField] GameObject[] _walls;
+
     Vector3[] _wallsInitialPositions, _wallsFinalPositions;
 
     int _counter;
@@ -51,6 +52,7 @@ public class PresidentWallsTrap : MonoBehaviour
         {
             _timer = 0;
             _wallAction = WallComingBack;
+            Helpers.AudioManager.PlaySFX("PilarUp");
         }
     }
     void WallComingBack()
@@ -62,7 +64,12 @@ public class PresidentWallsTrap : MonoBehaviour
         {
             _timer = 0;
             ++_counter;
-            _wallAction = _counter >= _walls.Length - 1 ? (Action)delegate { } : WallGoing;
+            if (_counter >= _walls.Length - 1) _wallAction = (Action)delegate { };
+            else
+            {
+                _wallAction = WallGoing;
+                Helpers.AudioManager.PlaySFX("PilarFall");
+            }
         }
     }
 

@@ -12,6 +12,7 @@ public class Malo : MonoBehaviour
         Helpers.LevelTimerManager.OnLevelDefeat += () => _animator.Play(_winAnimationName);
     }
     void PlayAnim(params object[] param) { _animator.Play(_levelStartAnimName); }
+    public void PlaySound() { Helpers.AudioManager.PlaySFX("Inflador"); }
     private void OnDestroy()
     {
         EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, PlayAnim);
