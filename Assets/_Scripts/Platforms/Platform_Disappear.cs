@@ -1,12 +1,12 @@
 using System;
 using UnityEngine;
 using System.Collections;
-
 public class Platform_Disappear : MonoBehaviour
 {
     public Action OnUpdate;
 
     [SerializeField] float _timeToAppear;
+    [SerializeField, Range(0, 1)] float _addCracksMultiplier;
     [SerializeField] AnimationClip _defaultAnimationClip;
     [SerializeField] GameObject _sprite;
     [SerializeField] ParticleSystem _dustPS;
@@ -45,7 +45,7 @@ public class Platform_Disappear : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             if (_disappeatTimer < _disappearAnimDuration) OnUpdate = LessCracks;
-            _anim.SetFloat("Disappear", -1);
+            _anim.SetFloat("Disappear", -1 * _addCracksMultiplier);
         }
     }
 
@@ -60,18 +60,20 @@ public class Platform_Disappear : MonoBehaviour
             return;
 
         _anim.SetBool("Idle", _disappeatTimer <= 0);
-        _psModule.maxParticles = (int)Mathf.Lerp(0, 50, _disappeatTimer / _disappearAnimDuration);
-        _disappeatTimer -= Time.deltaTime;
+        _psModule.maxParticles = (int)Mathf.Lerp(0, 30, _disappeatTimer / _disappearAnimDuration);
+        _disappeatTimer -= Time.deltaTime * _addCracksMultiplier;
     }
     void AddCracks()
     {
         if (_disappeatTimer > _disappearAnimDuration)
         {
-            DisappearPlatform();
+            _anim.Play("Breaking");
+            _psModule.maxParticles = 0;
+            OnUpdate = null;
             return;
         }
         _anim.SetBool("Idle", _disappeatTimer <= 0);
-        _psModule.maxParticles = (int)Mathf.Lerp(0, 50, _disappeatTimer / _disappearAnimDuration);
+        _psModule.maxParticles = (int)Mathf.Lerp(0, 30, _disappeatTimer / _disappearAnimDuration);
         _disappeatTimer += Time.deltaTime;
     }
 
@@ -89,21 +91,21 @@ public class Platform_Disappear : MonoBehaviour
     void StartAppearPlatform()
     {
         _startAppearTimer += Time.deltaTime;
-        if (_startAppearTimer >= _timeToAppear) AppearPlatform();
+        if (_startAppearTimer >= _timeToAppear)
+        {
+            AppearPlatform();
+            _anim.Play("Repair");
+        }
     }
-    void DisappearPlatform()
+
+    //LO LLAMO POR ANIMACION
+    public void DisappearPlatform()
     {
-        _anim.SetBool("Idle", true);
-        _psModule.maxParticles = 0;
         OnUpdate = StartAppearPlatform;
         _sprite.SetActive(false);
 
         foreach (var item in _colliders)
             item.enabled = false;
-    }
-    public void PlayDust()
-    {
-        _dustPS.Play();
     }
     IEnumerator Shake()
     {
