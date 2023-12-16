@@ -60,10 +60,10 @@ public class Player : GeneralPlayer, IDamageable
         float defaultGravity = _rb.gravityScale;
         _ladderMask = LayerMask.GetMask("Ladder");
 
-        _playerModel = new PlayerModel(_rb, transform, _playerSprite, _groundCheckTransform, _speed, _jumpForce, _maxJumps, _dashSpeed, defaultGravity, _coyotaTime, _weaponManager, _anim);
+        _playerModel = new PlayerModel(_rb, transform, _playerSprite, _groundCheckTransform, _speed, _jumpForce, _maxJumps, _dashSpeed, defaultGravity, _coyotaTime, _weaponManager);
         _playerView = new PlayerView(transform, _anim, _dashParticle, _playerSprites, _bootsCollider, _spritesContainer);
 
-        OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, y); };
+        OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, _playerModel.Speed / _speed, y); };
 
         OnJump += _playerModel.FreezeVelocity;
         OnJump += () => _myFsm.SendInput(PlayerStates.Empty);
@@ -96,7 +96,8 @@ public class Player : GeneralPlayer, IDamageable
             dashTimer += Time.deltaTime;
             if (dashTimer >= .1f) _myFsm.SendInput(PlayerStates.Empty);
         };
-        Dash.OnFixedUpdate += _playerModel.Dash;
+
+        Dash.OnFixedUpdate += delegate { _playerModel.Dash(_controller.XAxis); };
         Dash.OnExit += x => { OnMove = onMove; _playerModel.NormalGravity(); };
 
         #endregion
@@ -191,6 +192,7 @@ public class Player : GeneralPlayer, IDamageable
         _playerModel.CeroGravity();
 
         OnMove = _playerModel.ClimbMove;
+        OnMove += _playerView.Climb;
 
         _playerView.OnStartClimb(_weaponManager.HasWeapon);
         transform.position = new Vector2(rope.position.x, transform.position.y);
@@ -202,7 +204,8 @@ public class Player : GeneralPlayer, IDamageable
         _playerView.OnExitClimb();
         _playerModel.InRope = false;
         _playerModel.NormalGravity();
-        OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, y); };
+        OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, _playerModel.Speed / _speed, y); };
+        OnMove -= _playerView.Climb;
     }
 
     IEnumerator Death()
@@ -219,6 +222,6 @@ public class Player : GeneralPlayer, IDamageable
         _goldenBald = null;
         StartCoroutine(Death());
         _myFsm.SendInput(PlayerStates.Empty);
-        OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, y); };
+        OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, _playerModel.Speed / _speed, y); };
     }
 }

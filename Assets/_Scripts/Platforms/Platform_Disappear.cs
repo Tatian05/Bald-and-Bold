@@ -10,17 +10,16 @@ public class Platform_Disappear : MonoBehaviour
     [SerializeField] AnimationClip _defaultAnimationClip;
     [SerializeField] GameObject _sprite;
     [SerializeField] ParticleSystem _dustPS;
+    [SerializeField] BoxCollider2D _collision, _trigger;
 
     float _disappeatTimer, _startAppearTimer;
     float _disappearAnimDuration;
-    Collider2D[] _colliders;
     Animator _anim;
     bool _shaking;
     ParticleSystem.MainModule _psModule;
     private void Start()
     {
         _anim = GetComponent<Animator>();
-        _colliders = GetComponents<BoxCollider2D>();
         _disappearAnimDuration = _defaultAnimationClip.length;
         _psModule = _dustPS.main;
 
@@ -67,7 +66,6 @@ public class Platform_Disappear : MonoBehaviour
     {
         if (_disappeatTimer > _disappearAnimDuration)
         {
-            _anim.Play("Breaking");
             _psModule.maxParticles = 0;
             OnUpdate = null;
             return;
@@ -85,8 +83,8 @@ public class Platform_Disappear : MonoBehaviour
         _startAppearTimer = 0;
         OnUpdate = null;
 
-        foreach (var item in _colliders)
-            item.enabled = true;
+        _collision.enabled = true;
+        _trigger.enabled = true;
     }
     void StartAppearPlatform()
     {
@@ -98,14 +96,16 @@ public class Platform_Disappear : MonoBehaviour
         }
     }
 
-    //LO LLAMO POR ANIMACION
+    //LOS LLAMO POR ANIMACION
     public void DisappearPlatform()
     {
         OnUpdate = StartAppearPlatform;
         _sprite.SetActive(false);
-
-        foreach (var item in _colliders)
-            item.enabled = false;
+    }
+    public void DisableColliders()
+    {
+        _collision.enabled = false;
+        _trigger.enabled = false;
     }
     IEnumerator Shake()
     {

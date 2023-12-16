@@ -22,6 +22,7 @@ public class WeaponManager : MonoBehaviour
     PersistantData _persistantData;
 
     public bool HasWeapon { get { return _currentMainWeapon != null; } }
+    public Vector3 AimDirection { get { return _cursorPosition().normalized; } }
 
     #region ConsumablesVariables
 
@@ -135,7 +136,7 @@ public class WeaponManager : MonoBehaviour
     Vector2 primaryWeaponRotation;
     void MainWeapon()
     {
-        if (Vector3.Dot(transform.right, _cursorPosition()) < Mathf.Cos(90) * Mathf.Deg2Rad || _cursorPosition() == Vector2.zero) return;
+        //if (Vector3.Dot(transform.right, _cursorPosition()) < Mathf.Cos(90) * Mathf.Deg2Rad || _cursorPosition() == Vector2.zero) return;
         _mainWeaponContainer.eulerAngles = new Vector3(0, 0, GetAngle());
 
         primaryWeaponRotation = new Vector2(_currentMainWeapon.transform.localScale.x, Mathf.Sign(_cursorPosition().x));
@@ -145,7 +146,7 @@ public class WeaponManager : MonoBehaviour
     Vector2 secondaryWeaponSize;
     void SecundaryWeapon()
     {
-        if (Vector3.Dot(transform.right, _cursorPosition()) < Mathf.Cos(90) * Mathf.Deg2Rad) return;
+        //if (Vector3.Dot(transform.right, _cursorPosition()) < Mathf.Cos(90) * Mathf.Deg2Rad) return;
 
         _secundaryWeaponContainer.eulerAngles = new Vector3(0, 0, GetAngle());
         secondaryWeaponSize = new Vector2(_secundaryWeaponTransform.localScale.x, Mathf.Sign(_cursorPosition().x));

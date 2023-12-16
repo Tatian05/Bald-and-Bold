@@ -108,7 +108,7 @@ MonoBehaviour:
   - {x: -1, y: 0.3, z: 0}
   m_ShapePathHash: -962476955
   m_Mesh: {fileID: 0}
-  m_InstanceId: 75946
+  m_InstanceId: 96198
 --- !u!1 &2435884290681187626
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,6 +163,8 @@ MonoBehaviour:
   _defaultAnimationClip: {fileID: 7400000, guid: 678a0f494f12e164baf91e7bdcfd2832, type: 2}
   _sprite: {fileID: 2435884290159541663}
   _dustPS: {fileID: 6345878325186143262}
+  _collision: {fileID: 2435884290681187628}
+  _trigger: {fileID: 2435884290681187629}
 --- !u!61 &2435884290681187628
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -31,8 +31,6 @@ public class PlayerController
         _playerModel.OnUpdate();
 
         _movementAxis = new Vector2 { x = Mathf.RoundToInt(_movement.ReadValue<Vector2>().x), y = Mathf.RoundToInt(_movement.ReadValue<Vector2>().y) };
-
-        _playerModel.LookAt(_movementAxis.x);
     }
     public void OnFixedUpdate()
     {

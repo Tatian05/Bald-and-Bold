@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 public class PlayerModel
 {
@@ -7,11 +6,12 @@ public class PlayerModel
     float _dashTimer, _dashCooldown = .2f;
     float _coyotaTimer;
     float _coyotaTime;
+    float _currentSpeed;
     bool _secondJump;
     bool _inRope;
     Vector3 _initialPos;
-    Animator _animator;
     public bool InRope { get { return _inRope; } set { _inRope = value; } }
+    public float Speed { get { return _currentSpeed; } }
 
     #region Constructor 
 
@@ -27,7 +27,7 @@ public class PlayerModel
     public bool CanJump => InGrounded || _coyotaTimer > 0 || _secondJump && _currentJumps <= _maxJumps;
     public bool CanDash => _dashTimer >= _dashCooldown;
     public PlayerModel(Rigidbody2D rb, Transform myTransform, Transform spriteContainerTransform, Transform groundCheckTransform,
-        float speed, float jumpForce, float maxJumps, float dashSpeed, float defaultGravity, float coyotaTime, WeaponManager weaponManager, Animator animator)
+        float speed, float jumpForce, float maxJumps, float dashSpeed, float defaultGravity, float coyotaTime, WeaponManager weaponManager)
     {
         _rb = rb;
         _myTransform = myTransform;
@@ -40,7 +40,6 @@ public class PlayerModel
         _defaultGravity = defaultGravity;
         _coyotaTime = coyotaTime;
         _weaponManager = weaponManager;
-        _animator = animator;
 
         _rb.gravityScale = defaultGravity;
         _dashTimer = _dashCooldown;
@@ -59,16 +58,19 @@ public class PlayerModel
         else _coyotaTimer -= Time.deltaTime;
 
         _dashTimer += Time.deltaTime;
+
+        LookAt();
     }
     public void Move(float xAxis, float yAxis = 0)
     {
-        _rb.velocity = new Vector2(xAxis * _speed * Time.fixedDeltaTime, _rb.velocity.y);
+        _currentSpeed = Mathf.Sign(_myTransform.right.x) != Mathf.Sign(_rb.velocity.x) ? _speed * .5f : _speed;
+
+        _rb.velocity = new Vector2(xAxis * _currentSpeed * Time.fixedDeltaTime, _rb.velocity.y);
     }
 
     public void ClimbMove(float xAxis, float yAxis)
     {
         _rb.velocity = new Vector2(_rb.velocity.x, yAxis * _speed * Time.fixedDeltaTime);
-        _animator.SetFloat("yAxis", yAxis);
     }
     public void Jump()
     {
@@ -78,16 +80,17 @@ public class PlayerModel
         _secondJump = false;
     }
 
-    public void Dash()
+    public void Dash(float xAxis)
     {
-        _rb.velocity = new Vector2(Mathf.Sign(_myTransform.right.x) * _dashSpeed * Time.fixedDeltaTime, 0f);
+        float dir = xAxis != 0 ? xAxis : _myTransform.right.x;
+
+        _rb.velocity = Vector2.right * Mathf.Sign(dir) * _dashSpeed * Time.fixedDeltaTime;
         _dashTimer = 0;
         _secondJump = true;
     }
-    public void LookAt(float xAxis)
+    public void LookAt()
     {
-        if (xAxis != 0)
-            _myTransform.localEulerAngles = new Vector3(0, Mathf.Sign(xAxis) >= 1 ? 0 : 180, 0);
+        _myTransform.localEulerAngles = new Vector3(0, _weaponManager.AimDirection.x >= 0 ? 0 : 180, 0);
     }
     public void FreezeVelocity() { _rb.velocity = Vector2.zero; }
     public void CeroGravity() { _rb.gravityScale = 0; }

@@ -31,9 +31,11 @@ public class PlayerView
         _invisible = _persistantData.consumablesData.invisible;
         if (_invisible) EventManager.TriggerEvent(Contains.CONSUMABLE_INVISIBLE, true);//InvisibleConsumable(true);
     }
-    public void Run(float xAxis, bool inGround, float yAxis = 0)
+    public void Run(float xAxis, bool inGround, float speed, float yAxis = 0)
     {
         _anim.SetInteger("xAxis", Mathf.Abs(Mathf.RoundToInt(xAxis)));
+        _anim.SetFloat("Speed", speed);
+
         _stepsTimer += Time.deltaTime;
 
         if (_stepsTimer >= .1f && xAxis != 0 && inGround)
@@ -58,6 +60,11 @@ public class PlayerView
     {
         _gameManager.EffectsManager.PlayerKilled(_transform.position + Vector3.up);
         Helpers.AudioManager.PlaySFX("PlayerDeath");
+    }
+
+    public void Climb(float xAxis, float yAxis)
+    {
+        _anim.SetFloat("yAxis", yAxis);
     }
     public void OnStartClimb(bool hasWeapon)
     {
