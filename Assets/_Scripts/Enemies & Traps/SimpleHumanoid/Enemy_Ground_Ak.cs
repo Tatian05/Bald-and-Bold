@@ -7,6 +7,7 @@ public class Enemy_Ground_Ak : Enemy_Shooters
     [SerializeField] float _speed = 1f;
     [SerializeField] int _bulletsAmountToShoot = 3;
     [SerializeField] float _bulletsDelay = .05f;
+    [SerializeField] Transform _groundCheck;
     float _currentAttackSpeed;
     enum AK_States { Patrol, Attack, Lost }
     EventFSM<AK_States> _myFSM;
@@ -38,7 +39,7 @@ public class Enemy_Ground_Ak : Enemy_Shooters
         PATROL.OnUpdate += () =>
         {
             transform.position += _dirToLook * _speed * CustomTime.DeltaTime;
-            if (Physics2D.Raycast(transform.position, transform.right, 1f, _groundLayer)) FlipEnemy();
+            if (Physics2D.Raycast(transform.position, transform.right, 1f, _groundLayer) || !Physics2D.Raycast(_groundCheck.position, Vector2.down, .1f, _groundLayer)) FlipEnemy();
 
             if (GetCanSeePlayer())
                 _myFSM.SendInput(AK_States.Attack);

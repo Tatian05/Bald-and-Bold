@@ -305,7 +305,7 @@ MonoBehaviour:
   - {x: -0.4508499, y: 0.44186878, z: 0}
   m_ShapePathHash: 1484441434
   m_Mesh: {fileID: 0}
-  m_InstanceId: 215252
+  m_InstanceId: 292224
 --- !u!114 &3811069208634687853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,6 +574,7 @@ Transform:
   - {fileID: 1729968459289125578}
   - {fileID: 1729968457899327859}
   - {fileID: 539458315023686637}
+  - {fileID: 5376455383532094118}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -607,6 +608,7 @@ MonoBehaviour:
   _speed: 1
   _bulletsAmountToShoot: 3
   _bulletsDelay: 0.1
+  _groundCheck: {fileID: 5376455383532094118}
 --- !u!114 &2501165664187744183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -892,3 +894,33 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!1 &8693921962100124027
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5376455383532094118}
+  m_Layer: 10
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5376455383532094118
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8693921962100124027}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.3, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1729968459251276775}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
