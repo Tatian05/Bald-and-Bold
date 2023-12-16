@@ -23,7 +23,10 @@ public class LevelsMapTutorial : MonoBehaviour
         if (Input.anyKeyDown)
         {
             if (!_tutorialsData[_index].finish)
+            {
+                _tutorialsData[_index].Complete();
                 return;
+            }
 
             if (_index + 1 >= _tutorialsData.Length)
             {
@@ -47,15 +50,22 @@ public class LevelsMapTutorialData
     public TextMeshProUGUI _descriptionTMPRO;
     public bool finish;
     string description;
+    Tween _tween;
     public void Set(float typingSpeed)
     {
         description = LanguageManager.Instance.GetTranslate(ID).Replace("-", ",").Replace("/", "\"");
         _window.SetActive(true);
         var text = "";
-        DOTween.To(() => text, x => x = text = x, description, description.Length / typingSpeed).
+        _tween = DOTween.To(() => text, x => x = text = x, description, description.Length / typingSpeed).
         SetEase(Ease.Linear).
         OnUpdate(() => _descriptionTMPRO.text = text).
         OnComplete(() => finish = true);
+    }
+    public void Complete()
+    {
+        _tween.Kill();
+        _descriptionTMPRO.text = description;
+        finish = true;
     }
     public void DisableGO()
     {

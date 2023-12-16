@@ -4,9 +4,13 @@ using UnityEngine.EventSystems;
 public class LevelSelectButtons : EventTrigger
 {
     Image _backgroundImg;
+    Color _currentColor;
     private void Start()
     {
+        if (!GetComponent<Button>().interactable) enabled = false;
+
         _backgroundImg = gameObject.GetComponentInParent<Image>(false, true);
+        _currentColor = _backgroundImg.color;
     }
     public override void OnSelect(BaseEventData eventData)
     {
@@ -14,7 +18,7 @@ public class LevelSelectButtons : EventTrigger
     }
     public override void OnDeselect(BaseEventData eventData)
     {
-        _backgroundImg.color = Color.green;
+        _backgroundImg.color = _currentColor;
     }
     public override void OnSubmit(BaseEventData eventData)
     {
