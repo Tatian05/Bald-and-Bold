@@ -17,11 +17,12 @@ public class GlobalLightEffect : MonoBehaviour
         _levelTimerManager = Helpers.LevelTimerManager;
         _volume = GetComponent<Volume>();
         _volume.profile.TryGet<ColorAdjustments>(out _colorAdjustments);
-        _levelTimerManager.RedButton += OnWinLevel;
-        _levelTimerManager.OnLevelDefeat += OnLevelDefeat;
+        _levelTimerManager.RedButton += OnLevelFinish;
+        _levelTimerManager.OnLevelDefeat += OnLevelFinish;
 
-        _frecuenciaParpadeo = new float[7] { _levelTimerManager.LevelMaxTime * .5f, (_levelTimerManager.LevelMaxTime * .5f) +_levelTimerManager.LevelMaxTime * .5f * .5f, _levelTimerManager.LevelMaxTime - 5,
-        _levelTimerManager.LevelMaxTime - 4,_levelTimerManager.LevelMaxTime - 3,_levelTimerManager.LevelMaxTime - 2,_levelTimerManager.LevelMaxTime - 1};
+        _frecuenciaParpadeo = new float[10] { _levelTimerManager.LevelMaxTime - 10,  _levelTimerManager.LevelMaxTime - 9, _levelTimerManager.LevelMaxTime - 8,
+        _levelTimerManager.LevelMaxTime - 7 ,_levelTimerManager.LevelMaxTime - 6, _levelTimerManager.LevelMaxTime - 5, _levelTimerManager.LevelMaxTime - 4,
+        _levelTimerManager.LevelMaxTime - 3, _levelTimerManager.LevelMaxTime - 2, _levelTimerManager.LevelMaxTime - 1 };
 
         var goingRed = new State<ColorPhases>("GoingRed");
         var goingWhite = new State<ColorPhases>("GoingWhite");
@@ -66,19 +67,15 @@ public class GlobalLightEffect : MonoBehaviour
     {
         _myFsm?.Update();
     }
-    void OnWinLevel()
+    void OnLevelFinish()
     {
         _myFsm = null;
         _colorAdjustments.colorFilter.value = Color.white;
-    }
-    void OnLevelDefeat()
-    {
-        _myFsm = null;
         _index = 0;
     }
     private void OnDestroy()
     {
-        _levelTimerManager.RedButton -= OnWinLevel;
-        _levelTimerManager.OnLevelDefeat -= OnLevelDefeat;
+        _levelTimerManager.RedButton -= OnLevelFinish;
+        _levelTimerManager.OnLevelDefeat -= OnLevelFinish;
     }
 }

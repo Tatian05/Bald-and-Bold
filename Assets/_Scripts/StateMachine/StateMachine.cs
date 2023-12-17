@@ -3,8 +3,6 @@ using UnityEngine;
 public enum StateName
 {
     Climb,               //Player
-    FlyingUp, Droping, OnFloor,                         //JetpackPlayer
-    LIGHT_GoingRed, LIGHT_Normal                        //Lights
 }
 
 public class StateMachine : MonoBehaviour

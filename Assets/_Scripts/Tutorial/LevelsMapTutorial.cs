@@ -1,8 +1,6 @@
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
-using UnityEngine.EventSystems;
-
 public class LevelsMapTutorial : MonoBehaviour
 {
     [SerializeField] LevelsMapTutorialData[] _tutorialsData;
