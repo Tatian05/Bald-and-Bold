@@ -36,6 +36,7 @@ public class PlayerShop : MonoBehaviour
     }
     void Move()
     {
+        _animator.SetFloat("Speed", 1);
         _movementInputs = new Vector3 { x = Mathf.RoundToInt(_movement.ReadValue<Vector2>().x), y = 0};
         transform.position += _movementInputs * _speedMovement * Time.deltaTime;
 
