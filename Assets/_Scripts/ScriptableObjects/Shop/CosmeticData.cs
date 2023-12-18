@@ -7,6 +7,9 @@ public class CosmeticData : ShoppableSO
     public CosmeticType cosmeticType;
     public Sprite torsoSprite, rightLegSprite, leftLegSprite, rightHandSprite, leftHandSprite, tailSprite;
 
+    [HideInInspector] public Sprite playerDashTexture;
+    [HideInInspector] public Sprite presidentExplodeTexture;
+
     public void SetCosmetic(Image headSprite, Image torsoSprite, Image rightLegSprite, Image leftLegSprite, Image rightHandSprite, Image leftHandSprite, Image tailSprite)
     {
         headSprite.sprite = shopSprite;
