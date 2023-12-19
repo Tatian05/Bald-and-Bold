@@ -10,7 +10,7 @@ public class ReplayPanel : MonoBehaviour
     [SerializeField] TextMeshProUGUI[] _levelsDeaths;
     [SerializeField] Image[] _backgroundButtons;
     [SerializeField] Transform _mano;
-    [SerializeField] GameObject _ascensorGO;
+    [SerializeField] GameObject _ascensorGO, _backButtonGO;
     [SerializeField] LevelsMap _levelsMap;
 
     [Header("Gamepad")]
@@ -55,6 +55,7 @@ public class ReplayPanel : MonoBehaviour
             }
 
             _backgroundButtons[i].color = Color.green;
+            button.GetComponent<LevelSelectButtons>().ButtonColor = _backgroundButtons[i].color;
             _levelsDeaths[i].text = _gameData.GetDeathsInLevel(_zone.levelsZone[i]).ToString();
 
             button.onClick.AddListener(() =>
@@ -101,17 +102,17 @@ public class ReplayPanel : MonoBehaviour
     }
     void Gamepad()
     {
-        if(NewInputManager.activeDevice != DeviceType.Keyboard)
+        if (NewInputManager.activeDevice != DeviceType.Keyboard)
         {
             _gamepadContainer.SetActive(true);
-            _backButton.gameObject.SetActive(false);
+            _backButtonGO.SetActive(false);
 
             _backTxt.text = _onBackTMP[(int)NewInputManager.activeDevice - 1];
         }
         else
         {
             _gamepadContainer.SetActive(false);
-            _backButton.gameObject.SetActive(true);
+            _backButtonGO.SetActive(true);
         }
     }
 }

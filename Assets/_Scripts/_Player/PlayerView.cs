@@ -36,7 +36,7 @@ public class PlayerView
         _anim.SetInteger("xAxis", Mathf.Abs(Mathf.RoundToInt(xAxis)));
         _anim.SetFloat("Speed", speed);
 
-        _stepsTimer += Time.deltaTime;
+        _stepsTimer += Time.deltaTime * speed;
 
         if (_stepsTimer >= .1f && xAxis != 0 && inGround)
         {

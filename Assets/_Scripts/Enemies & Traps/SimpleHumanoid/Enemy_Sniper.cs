@@ -141,7 +141,8 @@ public class Enemy_Sniper : Enemy_Shooters
         _myFSM?.Update();
         _laserFSM?.Update();
 
-        _ray = Physics2D.Raycast(_bulletSpawnPosition.position, _bulletSpawnPosition.right, 100, _laserMask);
+        if (!Physics2D.OverlapCircle(_bulletSpawnPosition.position, .1f, _laserMask))
+            _ray = Physics2D.Raycast(_bulletSpawnPosition.position, _bulletSpawnPosition.right, 100, _laserMask);
     }
     protected override void Shoot()
     {

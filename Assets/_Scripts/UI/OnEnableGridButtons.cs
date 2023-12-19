@@ -14,11 +14,13 @@ public class OnEnableGridButtons : MonoBehaviour
     }
     private void OnDisable()
     {
-        _lastSelectedObject = _eventSystemScript.CurrentSelectedGO;
+        if (_eventSystemScript.CurrentSelectedGO)
+            _lastSelectedObject = _eventSystemScript.CurrentSelectedGO;
     }
     void SetSelectedButton()
     {
         if (NewInputManager.activeDevice != DeviceType.Keyboard)
             EventSystemScript.Instance.SetCurrentGameObjectSelected(_lastSelectedObject ? _lastSelectedObject : _firstSelectedButton);
     }
+    public void SetLastSelectedButton(GameObject lastSelectedButton) { _lastSelectedObject = lastSelectedButton; }
 }

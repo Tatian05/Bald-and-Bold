@@ -49,6 +49,7 @@ public class FireWeapon : Weapon
         Helpers.LevelTimerManager.StartLevelTimer();
         //_currentAmmo--;
         //UpdateAmmoAmount();
+
         bool raycast = Physics2D.OverlapCircle(_bulletSpawn.position, .1f, _borderMask);
 
         if (!raycast)
@@ -58,6 +59,11 @@ public class FireWeapon : Weapon
             if (recoil && _weaponData.recoilForce > 0) FireWeaponRecoil();
             _muzzleFlashAnimator.Play("MuzzleFlash");
         }
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(_bulletSpawn.position, .1f);
     }
     void ResetRecoil(params object[] param)
     {

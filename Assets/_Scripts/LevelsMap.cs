@@ -9,7 +9,7 @@ public class LevelsMap : MonoBehaviour
     [SerializeField] Button[] _allButtons;
     [SerializeField] Button[] _zonesButtons;
     [SerializeField] Image[] _buttonsBackground;
-    [SerializeField] Button _menuButton, _shopButton;
+    [SerializeField] Button _menuButton, _shopButton, _alarmButton;
     [SerializeField] GameObject[] _deathsZoneGO;
     [SerializeField] Transform _mano;
     [SerializeField] Ease _easeIn, _easeOut;
@@ -100,36 +100,56 @@ public class LevelsMap : MonoBehaviour
 
             item.navigation = navigation;
         }
+
+        if (_deathsZoneGO[_gameData.unlockedZones] == _deathsZoneGO.Last()) return;
+
+        var nextZoneDeaths = _deathsZoneGO.Next(_deathsZoneGO[_gameData.unlockedZones]);
+        if (nextZoneDeaths)
+        {
+            nextZoneDeaths.SetActive(true);
+            var text = nextZoneDeaths.GetComponentInChildren<TextMeshProUGUI>();
+            text.color = Color.yellow;
+            text.text = $"{deathsAmount} / {_zonesManager.zones.Next(_zonesManager.zones[_gameData.unlockedZones]).deathsNeeded}";
+        }
+
+        //_menuButton.GetComponent<LevelSelectButtons>().OnStart();
+        //_shopButton.GetComponent<LevelSelectButtons>().OnStart();
+        //_alarmButton.GetComponent<LevelSelectButtons>().OnStart();
     }
     public void SetButton(int index, int deathsAmount)
     {
         var zone = _zonesManager.zones[index];
+        var button = _zonesButtons[index];
 
-        _zonesButtons[index].interactable = true;
-
+        button.interactable = true;
         _deathsZoneGO[index].SetActive(true);
         _buttonsBackground[index].color = Color.green;
+
+        //button.GetComponent<OnMouseOverButton>().OnStart();
+        button.GetComponent<LevelSelectButtons>().ButtonColor = _buttonsBackground[index].color;
+
         var deathZoneText = _deathsZoneGO[index].GetComponentInChildren<TextMeshProUGUI>();
 
         deathZoneText.text = $"{deathsAmount} / {zone.deathsNeeded}";
 
         deathZoneText.color = deathsAmount <= zone.deathsNeeded ? Color.green : Color.red;
 
-        _zonesButtons[index].onClick.AddListener(() =>
+        button.onClick.AddListener(() =>
         {
             Vector3 manoPos = _mano.position;
-            _zonesButtons[index].interactable = false;
-            _mano.DOMove(_zonesButtons[index].transform.position - new Vector3(0f, .5f), 1f).SetEase(_easeIn).
+            button.interactable = false;
+            _mano.DOMove(button.transform.position - new Vector3(0f, .5f), 1f).SetEase(_easeIn).
             OnComplete(() =>
             {
-                _zonesButtons[index].GetComponent<Animator>().Play("Pressed");
+                button.GetComponent<Animator>().Play("Pressed");
 
                 if (_gameData.zonesPlayed[index])
                 {
+                    _ascensorParentGO.GetComponent<OnEnableGridButtons>().SetLastSelectedButton(button.gameObject);
                     _mano.DOMove(manoPos, 1f).SetEase(_easeOut);
                     _ascensorParentGO.SetActive(false);
                     _replayPanel.gameObject.SetActive(true);
-                    _zonesButtons[index].interactable = true;
+                    button.interactable = true;
                     _replayPanel.SetZone(zone);
                 }
                 else

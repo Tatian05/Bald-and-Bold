@@ -875,7 +875,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 103143969}
   m_OnClick:
     m_PersistentCalls:
@@ -1584,7 +1584,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 218080747}
   m_OnClick:
     m_PersistentCalls:
@@ -2975,6 +2975,7 @@ MonoBehaviour:
   - {fileID: 72581623}
   _mano: {fileID: 1534318599}
   _ascensorGO: {fileID: 1389071981}
+  _backButtonGO: {fileID: 470784799}
   _levelsMap: {fileID: 962617314}
   _onBackTMP:
   - <size=1em><sprite="PlaystationButtons" anim="0,0, 5"></size>
@@ -4357,7 +4358,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 660770649}
   m_OnClick:
     m_PersistentCalls:
@@ -5665,7 +5666,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 830884466}
   m_OnClick:
     m_PersistentCalls:
@@ -6388,6 +6389,7 @@ MonoBehaviour:
   - {fileID: 329167038}
   _menuButton: {fileID: 203279708}
   _shopButton: {fileID: 1308912428}
+  _alarmButton: {fileID: 41923733}
   _deathsZoneGO:
   - {fileID: 2139924710}
   - {fileID: 591561296}
@@ -6396,7 +6398,7 @@ MonoBehaviour:
   - {fileID: 1659632645}
   - {fileID: 1823230456}
   - {fileID: 1322799212}
-  - {fileID: 1685441471}
+  - {fileID: 474286158}
   _mano: {fileID: 1534318599}
   _easeIn: 3
   _easeOut: 12
@@ -7424,7 +7426,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1150474754}
   m_OnClick:
     m_PersistentCalls:
@@ -8831,7 +8833,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1383852830}
   m_OnClick:
     m_PersistentCalls:
@@ -10510,7 +10512,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1655537459}
   m_OnClick:
     m_PersistentCalls:
@@ -10752,7 +10754,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1696575892}
   m_OnClick:
     m_PersistentCalls:
