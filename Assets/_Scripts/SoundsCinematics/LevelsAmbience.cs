@@ -17,16 +17,14 @@ public class LevelsAmbience : MonoBehaviour
         await Task.Yield();
         _ambienceAudioSource.Play();
         _ambienceAudioSource.time = _ambienceTime;
+
+        EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, PlaySound);
+        Helpers.LevelTimerManager.RedButton -= StopSound;
     }
     private void OnDisable()
     {
         _ambienceTime = _ambienceAudioSource.time;
         _ambienceAudioSource.Stop();
-    }
-    private void OnDestroy()
-    {
-        EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, PlaySound);
-        Helpers.LevelTimerManager.RedButton -= StopSound;
     }
     void PlaySound(params object[] param) { _ambienceAudioSource.Play(); _first = true; }
     public void StopSound() { _ambienceAudioSource.Stop(); }

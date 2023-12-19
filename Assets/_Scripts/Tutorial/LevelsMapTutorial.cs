@@ -10,12 +10,16 @@ public class LevelsMapTutorial : MonoBehaviour
     void Start()
     {
         if (!Helpers.PersistantData.gameData.firstTimeLevelsMap)
-            return;
+            Destroy(gameObject);
+
         Helpers.PersistantData.gameData.firstTimeLevelsMap = false;
-        _eventSystemGO.SetActive(false);
         Invoke(nameof(InvokeTuto), .75f);
     }
-    void InvokeTuto() { _tutorialsData[_index].Set(_typingSpeed); }
+    void InvokeTuto()
+    {
+        _tutorialsData[_index].Set(_typingSpeed);
+        _eventSystemGO.SetActive(false);
+    }
     void Update()
     {
         if (Input.anyKeyDown)

@@ -49,10 +49,10 @@ public class PersistantData : SingletonPersistent<PersistantData>
         if (persistantDataSaved.presidentCosmeticEquipedID >= 0) presidentCosmeticEquiped = allShoppables[persistantDataSaved.presidentCosmeticEquipedID] as CosmeticData;
         if (persistantDataSaved.bulletEquipedID >= 0) bulletEquiped = allShoppables[persistantDataSaved.bulletEquipedID] as BulletData;
         if (persistantDataSaved.grenadeEquipedID >= 0) grenadeEquiped = allShoppables[persistantDataSaved.grenadeEquipedID] as BulletData;
-        if(persistantDataSaved.pistolEquipedID >= 0) pistolEquiped = allShoppables[persistantDataSaved.pistolEquipedID] as WeaponSkinData;
-        if(persistantDataSaved.rifleEquipedID >= 0) rifleEquiped = allShoppables[persistantDataSaved.rifleEquipedID] as WeaponSkinData;
-        if(persistantDataSaved.sniperEquipedID >= 0) sniperEquiped = allShoppables[persistantDataSaved.sniperEquipedID] as WeaponSkinData;
-        if(persistantDataSaved.grenadeLauncherID >= 0) grenadeLauncherEquiped = allShoppables[persistantDataSaved.grenadeLauncherID] as WeaponSkinData;
+        if (persistantDataSaved.pistolEquipedID >= 0) pistolEquiped = allShoppables[persistantDataSaved.pistolEquipedID] as WeaponSkinData;
+        if (persistantDataSaved.rifleEquipedID >= 0) rifleEquiped = allShoppables[persistantDataSaved.rifleEquipedID] as WeaponSkinData;
+        if (persistantDataSaved.sniperEquipedID >= 0) sniperEquiped = allShoppables[persistantDataSaved.sniperEquipedID] as WeaponSkinData;
+        if (persistantDataSaved.grenadeLauncherID >= 0) grenadeLauncherEquiped = allShoppables[persistantDataSaved.grenadeLauncherID] as WeaponSkinData;
 
         //CONSUMABLES ACTIVADOS
         consumablesActivated = allShoppables.OfType<ConsumableData>().Where(x => consumablesData.consumablesActivatedIDs.Contains(x.ID)).ToList();
@@ -118,6 +118,7 @@ public class PersistantData : SingletonPersistent<PersistantData>
 
         persistantDataSaved.Load();
         LoadLists();
+        gameData.LoadLevelInfo();
 
         foreach (var item in tasksSO) item.taskProgress = tasks.GetTaskProgress(item.ID);
     }
@@ -139,7 +140,7 @@ public class PersistantData : SingletonPersistent<PersistantData>
         SaveLoadSystem.SaveData(PERSISTANT_DATA, persistantDataSaved, true);
         SaveLoadSystem.SaveData(TASKS, tasks, true);
         SaveLoadSystem.SaveData(CONSUMABLES_DATA, consumablesData, true);
-   
+
         base.OnApplicationQuit();
     }
 
@@ -307,10 +308,19 @@ public class GameData
     //Deaths per level
     public List<string> levels;
     public List<int> deaths;
+    public List<bool> levelsCompleted;
+    public bool[] zonesPlayed;
 
+    public IEnumerable<Tuple<string, int, bool>> levelsDeathCompleted;
     public GameData()
     {
         levels = new List<string>();
         deaths = new List<int>();
+        levelsCompleted = new List<bool>();
+        zonesPlayed = new bool[8];
     }
+
+    public void LoadLevelInfo() => levelsDeathCompleted = levels.Zip(deaths, (l, d) => Tuple.Create(l, d)).Zip(levelsCompleted, (ld, lc) => Tuple.Create(ld.Item1, ld.Item2, lc));
+    public int GetDeathsInLevel(string levelName) => levelsDeathCompleted.Single(x => x.Item1 == levelName).Item2;
+    public bool GetIfCompleted(string levelName) => levelsDeathCompleted.Single(x => x.Item1 == levelName).Item3;
 }

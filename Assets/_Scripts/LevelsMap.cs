@@ -13,16 +13,23 @@ public class LevelsMap : MonoBehaviour
     [SerializeField] GameObject[] _deathsZoneGO;
     [SerializeField] Transform _mano;
     [SerializeField] Ease _easeIn, _easeOut;
-
+    [SerializeField] ReplayPanel _replayPanel;
 
     [SerializeField] Button[] _parButtons;
     [SerializeField] Button[] _unParButtons;
+    [SerializeField] GameObject _ascensorParentGO;
+
+    ZonesManager _zonesManager;
+    GameData _gameData;
+    Vector3 _manoPos;
+    public Vector3 ManoPos { get { return _manoPos; } }
     private void Start()
     {
+        _manoPos = _mano.position;
         foreach (var item in _zonesButtons) item.interactable = false;
 
-        ZonesManager zonesManager = ZonesManager.Instance;
-        GameData gameData = Helpers.PersistantData.gameData;
+        _zonesManager = ZonesManager.Instance;
+        _gameData = Helpers.PersistantData.gameData;
 
         //for (int i = 0; i < _zones[_currentUnlockedZone].levelsZone.Length; i++)
         //{
@@ -30,30 +37,32 @@ public class LevelsMap : MonoBehaviour
         //    deathsAmount += Helpers.PersistantData.persistantDataSaved.deaths[i + (_zones[i].levelsZone.Length * _zones[_currentUnlockedZone].ID)];
         //}
 
-        var coll = zonesManager.zones.Select(x => x.levelsZone).Take(gameData.unlockedZones + 1);
-        int actualLevelsZone = 0;
+        var coll = _zonesManager.zones.Select(x => x.levelsZone).Take(_gameData.unlockedZones + 1);
 
-        foreach (var item in coll)
-            actualLevelsZone += item.Count();
+        //int actualLevelsZone = 0;
 
-        bool canUnlockNewZone = gameData.levels.Any()  //Chequeo si jugo todos los niveles de la zona
-            && gameData.currentDeaths <= zonesManager.zones[gameData.unlockedZones].deathsNeeded  //Chequeo si murio menos veces que lo requerido
-            && gameData.levels.Count >= actualLevelsZone   //Chequeo si jugo mas niveles que los que hay en las zonas desbloqueadas
-            && gameData.unlockedZones < zonesManager.zones.Length - 1;
+        //foreach (var item in coll)
+        //    actualLevelsZone += item.Count();
+
+        bool canUnlockNewZone = _gameData.levels.Any()  //Chequeo si jugo todos los niveles de la zona
+            && _gameData.currentDeaths <= _zonesManager.zones[_gameData.unlockedZones].deathsNeeded  //Chequeo si murio menos veces que lo requerido
+                                                                                                     //&& _gameData.levels.Count >= actualLevelsZone   //Chequeo si jugo mas niveles que los que hay en las zonas desbloqueadas
+            && _gameData.levelsDeathCompleted.All(x => x.Item3)
+            && _gameData.unlockedZones < _zonesManager.zones.Length - 1;
 
         if (canUnlockNewZone)
         {
-            gameData.unlockedZones++;
-            EventManager.TriggerEvent(Contains.MISSION_PROGRESS, "Get Over Zones", gameData.unlockedZones);
+            _gameData.unlockedZones++;
+            EventManager.TriggerEvent(Contains.MISSION_PROGRESS, "Get Over Zones", _gameData.unlockedZones);
         }
 
         int deathsAmount = 0;
-        for (int i = 0; i <= gameData.unlockedZones; i++)            //UPDATE DE MUERTES Y ZONAS
+        for (int i = 0; i <= _gameData.unlockedZones; i++)            //UPDATE DE MUERTES Y ZONAS
         {
-            zonesManager.zones[i].SetCurrentDeaths();
-            deathsAmount += zonesManager.zones[i].currentDeathsInZone;
-            SetButton(_deathsZoneGO[i], _zonesButtons[i], zonesManager.zones[i].deathsNeeded, ref deathsAmount, ZonesManager.Instance.zones[i].levelsZone.First(), _buttonsBackground[i]);
-            if (zonesManager.zones[i].currentDeathsInZone > zonesManager.zones[i].deathsNeeded) break;
+            _zonesManager.zones[i].SetCurrentDeaths();
+            deathsAmount += _zonesManager.zones[i].currentDeathsInZone;
+            SetButton(i, deathsAmount);
+            if (_zonesManager.zones[i].currentDeathsInZone > _zonesManager.zones[i].deathsNeeded) break;
         }
 
         Button[] allSelectables = _allButtons.Where(x => x.interactable).ToArray();
@@ -92,26 +101,42 @@ public class LevelsMap : MonoBehaviour
             item.navigation = navigation;
         }
     }
-    public void SetButton(GameObject deathsZoneGO, Button buttonZone, int deathsNeeded, ref int deathsAmount, string sceneToLoad, Image buttonBackground)
+    public void SetButton(int index, int deathsAmount)
     {
-        buttonZone.interactable = true;
+        var zone = _zonesManager.zones[index];
 
-        deathsZoneGO.SetActive(true);
-        buttonBackground.color = Color.green;
-        var deathZoneText = deathsZoneGO.GetComponentInChildren<TextMeshProUGUI>();
+        _zonesButtons[index].interactable = true;
 
-        deathZoneText.text = $"{deathsAmount} / {deathsNeeded}";
+        _deathsZoneGO[index].SetActive(true);
+        _buttonsBackground[index].color = Color.green;
+        var deathZoneText = _deathsZoneGO[index].GetComponentInChildren<TextMeshProUGUI>();
 
-        deathZoneText.color = deathsAmount <= deathsNeeded ? Color.green : Color.red;
+        deathZoneText.text = $"{deathsAmount} / {zone.deathsNeeded}";
 
-        buttonZone.onClick.AddListener(() =>
+        deathZoneText.color = deathsAmount <= zone.deathsNeeded ? Color.green : Color.red;
+
+        _zonesButtons[index].onClick.AddListener(() =>
         {
-            buttonZone.interactable = false;
-            _mano.DOMove(buttonZone.transform.position - new Vector3(0f, .5f), 1f).SetEase(_easeIn).
+            Vector3 manoPos = _mano.position;
+            _zonesButtons[index].interactable = false;
+            _mano.DOMove(_zonesButtons[index].transform.position - new Vector3(0f, .5f), 1f).SetEase(_easeIn).
             OnComplete(() =>
             {
-                buttonZone.GetComponent<Animator>().Play("Pressed");
-                _mano.DOMoveY(_mano.transform.position.y - 100f, 1f).SetEase(_easeOut).OnComplete(() => Helpers.GameManager.LoadSceneManager.LoadLevelAsync(sceneToLoad, true));
+                _zonesButtons[index].GetComponent<Animator>().Play("Pressed");
+
+                if (_gameData.zonesPlayed[index])
+                {
+                    _mano.DOMove(manoPos, 1f).SetEase(_easeOut);
+                    _ascensorParentGO.SetActive(false);
+                    _replayPanel.gameObject.SetActive(true);
+                    _zonesButtons[index].interactable = true;
+                    _replayPanel.SetZone(zone);
+                }
+                else
+                {
+                    _gameData.zonesPlayed[index] = true;
+                    _mano.DOMoveY(_mano.transform.position.y - 100, 1f).SetEase(_easeOut).OnComplete(() => Helpers.GameManager.LoadSceneManager.LoadLevelAsync(zone.levelsZone.First(), true));
+                }
             });
         });
     }

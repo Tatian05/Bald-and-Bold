@@ -131,6 +131,7 @@ MonoBehaviour:
     currentDeaths: 0
     levels: []
     deaths: 
+    zonesPlayed: 0000000000000000
   persistantDataSaved:
     presiCoins: 0
     goldenBaldCoins: 0
@@ -138,6 +139,10 @@ MonoBehaviour:
     presidentCosmeticEquipedID: 0
     bulletEquipedID: 0
     grenadeEquipedID: 0
+    pistolEquipedID: -5
+    rifleEquipedID: -6
+    sniperEquipedID: -7
+    grenadeLauncherID: -8
     shoppablesInCollectionIDs: 
     userBindingKeys: []
     userBindingValues: []
@@ -181,6 +186,7 @@ MonoBehaviour:
     deathsNeeded: 6
     currentDeathsInZone: 0
     ID: 0
+    played: 0
   - levelsZone:
     - Level 6
     - Level 7
@@ -190,6 +196,7 @@ MonoBehaviour:
     deathsNeeded: 15
     currentDeathsInZone: 0
     ID: 1
+    played: 0
   - levelsZone:
     - Level 11
     - Level 12
@@ -199,6 +206,7 @@ MonoBehaviour:
     deathsNeeded: 25
     currentDeathsInZone: 0
     ID: 2
+    played: 0
   - levelsZone:
     - Level 16
     - Level 17
@@ -208,6 +216,7 @@ MonoBehaviour:
     deathsNeeded: 35
     currentDeathsInZone: 0
     ID: 3
+    played: 0
   - levelsZone:
     - Level 21
     - Level 22
@@ -217,6 +226,7 @@ MonoBehaviour:
     deathsNeeded: 45
     currentDeathsInZone: 0
     ID: 4
+    played: 0
   - levelsZone:
     - Level 26
     - Level 27
@@ -226,6 +236,7 @@ MonoBehaviour:
     deathsNeeded: 55
     currentDeathsInZone: 0
     ID: 5
+    played: 0
   - levelsZone:
     - Level 31
     - Level 32
@@ -235,6 +246,7 @@ MonoBehaviour:
     deathsNeeded: 65
     currentDeathsInZone: 0
     ID: 6
+    played: 0
   - levelsZone:
     - Level 36
     - Level 37
@@ -244,4 +256,5 @@ MonoBehaviour:
     deathsNeeded: 85
     currentDeathsInZone: 0
     ID: 7
+    played: 0
   lastLevelsZone: []
