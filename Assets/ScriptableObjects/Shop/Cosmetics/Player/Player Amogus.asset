@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shoppableType: 0
   shoppableQuality: 1
+  ID: 0
   cost: 5
   localizationID: ID_SkinAmogus
   shopSprite: {fileID: 21300000, guid: 439c268e250a3c143a017e0e481720a0, type: 3}
@@ -25,3 +26,4 @@ MonoBehaviour:
   rightHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
   leftHandSprite: {fileID: 21300000, guid: 1f9f86295c61c854c80a1dace15d7cb6, type: 3}
   tailSprite: {fileID: 0}
+  playerDashTexture: {fileID: 21300000, guid: 7dc0d0573a758f14392a8d65814752cb, type: 3}

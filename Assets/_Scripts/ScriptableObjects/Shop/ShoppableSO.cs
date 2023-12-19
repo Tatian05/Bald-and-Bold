@@ -19,4 +19,20 @@ public class ShoppableSO : ScriptableObject
         Helpers.PersistantData.persistantDataSaved.Buy(cost);
         Helpers.PersistantData.AddShoppableToCollection(this);
     }
+
+#if UNITY_EDITOR
+
+    [ContextMenu("ForceSave")]
+
+    private void ForceSave()
+
+    {
+
+        UnityEditor.EditorUtility.SetDirty(this);
+
+        UnityEditor.AssetDatabase.SaveAssets();
+
+    }
+
+#endif
 }
