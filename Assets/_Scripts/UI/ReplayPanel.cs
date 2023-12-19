@@ -45,6 +45,7 @@ public class ReplayPanel : MonoBehaviour
         {
             var levelName = _zone.levelsZone[i];
             var button = _levelsButtons[i];
+            var levelButton = button.GetComponent<LevelSelectButtons>();
             button.interactable = _gameData.levels.Contains(levelName);
 
             _levelsNumber[i].text = _zone.levelsZone[i].Replace("Level ", "");
@@ -54,8 +55,12 @@ public class ReplayPanel : MonoBehaviour
                 continue;
             }
 
-            _backgroundButtons[i].color = Color.green;
-            button.GetComponent<LevelSelectButtons>().ButtonColor = _backgroundButtons[i].color;
+            if (i != 0) _backgroundButtons[i].color = Color.green;
+
+            levelButton.enabled = true;
+            levelButton.BackgroundColor = Color.green;
+            button.GetComponent<OnMouseOverButton>().enabled = true;
+
             _levelsDeaths[i].text = _gameData.GetDeathsInLevel(_zone.levelsZone[i]).ToString();
 
             button.onClick.AddListener(() =>

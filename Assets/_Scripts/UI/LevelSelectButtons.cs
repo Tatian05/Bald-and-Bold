@@ -6,16 +6,15 @@ public class LevelSelectButtons : EventTrigger
     Image _backgroundImg;
     Color _currentColor = Color.green;
 
-    public Color ButtonColor { get { return _currentColor; } set { _currentColor = value; } }
-    private void Awake()
+    public Color BackgroundColor { get { return _currentColor; } set { _currentColor = value; } }
+    private void Start()
     {
-        if (!GetComponent<Button>().interactable) enabled = false;
+        if (!GetComponent<Selectable>().interactable) enabled = false;
         _backgroundImg = gameObject.GetComponentInParent<Image>(false, true);
     }
     public override void OnSelect(BaseEventData eventData)
     {
-        base.OnSelect(eventData); 
-
+        if (_backgroundImg == null) _backgroundImg = gameObject.GetComponentInParent<Image>(false, true);
         _backgroundImg.color = Color.yellow;
     }
 

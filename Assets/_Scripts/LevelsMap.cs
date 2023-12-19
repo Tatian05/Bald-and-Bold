@@ -125,8 +125,9 @@ public class LevelsMap : MonoBehaviour
         _deathsZoneGO[index].SetActive(true);
         _buttonsBackground[index].color = Color.green;
 
-        //button.GetComponent<OnMouseOverButton>().OnStart();
-        button.GetComponent<LevelSelectButtons>().ButtonColor = _buttonsBackground[index].color;
+        button.GetComponent<LevelSelectButtons>().enabled = true;
+        button.GetComponent<LevelSelectButtons>().BackgroundColor = Color.green;
+        button.GetComponent<OnMouseOverButton>().enabled = true;
 
         var deathZoneText = _deathsZoneGO[index].GetComponentInChildren<TextMeshProUGUI>();
 

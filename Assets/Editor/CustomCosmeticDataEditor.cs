@@ -16,11 +16,6 @@ public class CustomCosmeticDataEditor : Editor
             EditorGUILayout.LabelField("Player Dash Texture");
             cosmetic.playerDashTexture = (Sprite)EditorGUILayout.ObjectField(cosmetic.playerDashTexture, typeof(Sprite), true, GUILayout.MaxWidth(500));
         }
-        else
-        {
-            EditorGUILayout.LabelField("President Explode Texture");
-            cosmetic.presidentExplodeTexture = (Sprite)EditorGUILayout.ObjectField(cosmetic.presidentExplodeTexture, typeof(Sprite), true, GUILayout.MaxWidth(500));
-        }
 
         EditorGUILayout.EndVertical();
     }

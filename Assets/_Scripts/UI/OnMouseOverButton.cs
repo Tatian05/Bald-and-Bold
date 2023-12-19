@@ -5,7 +5,7 @@ public class OnMouseOverButton : EventTrigger
     EventSystemScript _eventSystem;
     private void Start()
     {
-        if (!GetComponent<Button>().interactable) enabled = false;
+        if (!GetComponent<Selectable>().interactable) enabled = false;
         _eventSystem = EventSystemScript.Instance;
     }
     public override void OnSelect(BaseEventData eventData)

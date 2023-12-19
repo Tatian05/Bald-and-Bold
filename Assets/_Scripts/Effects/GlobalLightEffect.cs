@@ -13,6 +13,13 @@ public class GlobalLightEffect : MonoBehaviour
     void Start()
     {
         _levelTimerManager = Helpers.LevelTimerManager;
+        AudioManager audioManager = Helpers.AudioManager;
+        if(!_levelTimerManager || !_levelTimerManager.enabled)
+        {
+            enabled = false;
+            return;
+        }
+
         _volume = GetComponent<Volume>();
         _volume.profile.TryGet<ColorAdjustments>(out _colorAdjustments);
         _levelTimerManager.RedButton += OnLevelFinish;
@@ -28,6 +35,7 @@ public class GlobalLightEffect : MonoBehaviour
 
         float timer = 0;
 
+        goingRed.OnEnter += x => audioManager.PlaySFX("Sirena");
         goingRed.OnUpdate += delegate
         {
             timer += CustomTime.DeltaTime;
