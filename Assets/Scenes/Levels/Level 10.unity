@@ -3008,6 +3008,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoldenPelado
       objectReference: {fileID: 0}
+    - target: {fileID: 8233579397590988257, guid: 37b6cf0ef38cfbd4aa4452a7686187ca, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8233579397590988257, guid: 37b6cf0ef38cfbd4aa4452a7686187ca, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8233579397590988257, guid: 37b6cf0ef38cfbd4aa4452a7686187ca, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8233579397590988258, guid: 37b6cf0ef38cfbd4aa4452a7686187ca, type: 3}
       propertyPath: m_RootOrder
       value: 18
