@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ElectricWather
+  m_Shader: {fileID: -6465566751694194690, guid: 630412d95e815544da0d0199c81dcd94, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_d86655211ef64d6b8fce9fd61c047387:
+        m_Texture: {fileID: 2800000, guid: 4678a1e7a8797b54881fc8e8e7eb8cb5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: ff0ef0cf2d8e25d419d049c0e93004a7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_e6dc1e90d7774223966ff175a791a302: 0.62
+    - _Fill: 1
+    m_Colors:
+    - Color_822049c6d7c74685b4ecd1a87004d735: {r: 0, g: 0, b: 0, a: 0}
+    - Color_bcef8959e2bb4b869f61f4ceac57f894: {r: 0.7896493, g: 0.990566, b: 0.9587357, a: 1}
+    - Color_c80f9b0d368b43cfb40ea5773ae0c3db: {r: 0.09011213, g: 0.120016, b: 0.1415094, a: 0}
+    - _Tilling: {r: 15, g: 15, b: 0, a: 0}
+  m_BuildTextureStacks: []
