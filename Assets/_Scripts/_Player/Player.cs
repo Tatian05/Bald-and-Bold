@@ -175,7 +175,7 @@ public class Player : GeneralPlayer, IDamageable
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Rope") && !_playerModel.InGrounded)
+        if (collision.CompareTag("Rope"))
             ExitClimb();
     }
     void CheckForRope(Transform ropeTransform)

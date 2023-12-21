@@ -9,8 +9,6 @@ public class PlayerModel
     float _currentSpeed;
     bool _secondJump;
     bool _inRope;
-
-    Vector3 _groundCheckSize = new Vector3(.1f, .2f);
     public bool InRope { get { return _inRope; } set { _inRope = value; } }
     public float Speed { get { return _currentSpeed; } }
 
@@ -25,7 +23,7 @@ public class PlayerModel
     public int GetLookingForDir => _weaponManager.GetAngle() < -90 || _weaponManager.GetAngle() > 90 ? -1 : 1;
 
     public bool InGrounded => Physics2D.OverlapCircle(_groundCheckTransform1.position, .05f, _groundLayer) || Physics2D.OverlapCircle(_groundCheckTransform2.position, .05f, _groundLayer);
-    public bool CanJump => InGrounded || _coyotaTimer > 0 || _secondJump && _currentJumps <= _maxJumps;
+    public bool CanJump => (InGrounded && _currentJumps <= 0) || _coyotaTimer > 0 || (!InGrounded && _secondJump && _currentJumps <= _maxJumps);
     public bool CanDash => _dashTimer >= _dashCooldown;
     public PlayerModel(Rigidbody2D rb, Transform myTransform, Transform groundCheckTransform1, Transform groundCheckTransform2,
         float speed, float jumpForce, float maxJumps, float dashSpeed, float defaultGravity, float coyotaTime, WeaponManager weaponManager)
@@ -100,7 +98,7 @@ public class PlayerModel
         _dashTimer = _dashCooldown;
         _currentJumps = 0;
         _coyotaTimer = _coyotaTime;
-        _secondJump = false;
+        _secondJump = true;
         NormalGravity();
     }
     void BootsConsumable(params object[] param) { _groundLayer += (bool)param[0] ? LayerMask.GetMask("OnlyPlayerInteractuable") : -LayerMask.GetMask("OnlyPlayerInteractuable"); }
