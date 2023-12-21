@@ -60,7 +60,8 @@ public class LevelsMap : MonoBehaviour
         int deathsAmount = 0;
         for (int i = 0; i <= _gameData.unlockedZones; i++)            //UPDATE DE MUERTES Y ZONAS
         {
-            _gameData.zonesPlayed[i] = true;
+            if (_gameData.levels.Contains(_zonesManager.zones[i].levelsZone.First())) _gameData.zonesPlayed[i] = true;
+
             _zonesManager.zones[i].SetCurrentDeaths();
             deathsAmount += _zonesManager.zones[i].currentDeathsInZone;
             SetButton(i, deathsAmount);
