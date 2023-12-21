@@ -9,6 +9,7 @@ public class EventSystemScript : MonoBehaviour
     GameObject _lastSelectedGO;
     DefaultInputActions _uiNavigateActions;
     public DefaultInputActions UIInputs { get { return _uiNavigateActions; } private set { } }
+    public EventSystem EventSystem { get { return _eventSystem; } private set { } }
     public GameObject CurrentSelectedGO
     {
         get

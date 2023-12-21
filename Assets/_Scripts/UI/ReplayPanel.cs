@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 using DG.Tweening;
+using UnityEngine.EventSystems;
+
 public class ReplayPanel : MonoBehaviour
 {
     [SerializeField] Button[] _levelsButtons;
@@ -38,7 +40,6 @@ public class ReplayPanel : MonoBehaviour
     public ReplayPanel SetZone(Zone zone)
     {
         _gameData = Helpers.PersistantData.gameData;
-        _gameData.LoadLevelInfo();
         _zone = zone;
 
         for (int i = 0; i < _levelsButtons.Length; i++)
@@ -55,7 +56,7 @@ public class ReplayPanel : MonoBehaviour
                 continue;
             }
 
-            if (i != 0) _backgroundButtons[i].color = Color.green;
+            _backgroundButtons[i].color = Color.green;
 
             levelButton.enabled = true;
             levelButton.BackgroundColor = Color.green;
@@ -74,11 +75,15 @@ public class ReplayPanel : MonoBehaviour
             });
         }
 
+        SelectFirstButton();
         SetNavigation();
-
         return this;
     }
-
+    void SelectFirstButton()
+    {
+        if (NewInputManager.activeDevice != DeviceType.Keyboard)
+            _levelsButtons[0].GetComponent<LevelSelectButtons>().OnSelect(new BaseEventData(EventSystem.current));
+    }
     void SetNavigation()
     {
         Button beforeButton = null;

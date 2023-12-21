@@ -30,6 +30,7 @@ public class LevelsMap : MonoBehaviour
 
         _zonesManager = ZonesManager.Instance;
         _gameData = Helpers.PersistantData.gameData;
+        _gameData.LoadLevelInfo();
 
         //for (int i = 0; i < _zones[_currentUnlockedZone].levelsZone.Length; i++)
         //{
@@ -44,7 +45,7 @@ public class LevelsMap : MonoBehaviour
         //foreach (var item in coll)
         //    actualLevelsZone += item.Count();
 
-        bool canUnlockNewZone = _gameData.levels.Any()  //Chequeo si jugo todos los niveles de la zona
+        bool canUnlockNewZone = _gameData.levels.Any() //Chequeo si jugo todos los niveles de la zona
             && _gameData.currentDeaths <= _zonesManager.zones[_gameData.unlockedZones].deathsNeeded  //Chequeo si murio menos veces que lo requerido
                                                                                                      //&& _gameData.levels.Count >= actualLevelsZone   //Chequeo si jugo mas niveles que los que hay en las zonas desbloqueadas
             && _gameData.levelsDeathCompleted.All(x => x.Item3)
@@ -59,6 +60,7 @@ public class LevelsMap : MonoBehaviour
         int deathsAmount = 0;
         for (int i = 0; i <= _gameData.unlockedZones; i++)            //UPDATE DE MUERTES Y ZONAS
         {
+            _gameData.zonesPlayed[i] = true;
             _zonesManager.zones[i].SetCurrentDeaths();
             deathsAmount += _zonesManager.zones[i].currentDeathsInZone;
             SetButton(i, deathsAmount);
@@ -155,7 +157,7 @@ public class LevelsMap : MonoBehaviour
                 }
                 else
                 {
-                    _gameData.zonesPlayed[index] = true;
+                    //_gameData.zonesPlayed[index] = true;
                     _mano.DOMoveY(_mano.transform.position.y - 100, 1f).SetEase(_easeOut).OnComplete(() => Helpers.GameManager.LoadSceneManager.LoadLevelAsync(zone.levelsZone.First(), true));
                 }
             });
