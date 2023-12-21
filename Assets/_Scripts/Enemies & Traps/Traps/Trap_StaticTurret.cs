@@ -13,12 +13,13 @@ public class Trap_StaticTurret : MonoBehaviour
     Action onUpdate;
     private void Start()
     {
-        EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, OnStart);
+        if (Helpers.LevelTimerManager) EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, OnStart);
+        else OnStart();
     }
     private void OnDestroy()
     {
-        EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, OnStart);
-        onUpdate -= Shoot;
+        if (Helpers.LevelTimerManager) EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, OnStart);
+        else onUpdate -= Shoot;
     }
     private void Update()
     {

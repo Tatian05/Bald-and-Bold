@@ -262,7 +262,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2556ad53a1572c64aa8e4a3c8807ddc0, type: 3}
---- !u!43 &39167095
+--- !u!43 &37595501
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2262,6 +2262,10 @@ PrefabInstance:
     - target: {fileID: 1827700129482549589, guid: d5afc733bd1076b499dee882b714c0a0, type: 3}
       propertyPath: m_RootOrder
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584042116478046257, guid: d5afc733bd1076b499dee882b714c0a0, type: 3}
+      propertyPath: _cancelEffect
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3782091186744342444, guid: d5afc733bd1076b499dee882b714c0a0, type: 3}
       propertyPath: m_LocalPosition.x

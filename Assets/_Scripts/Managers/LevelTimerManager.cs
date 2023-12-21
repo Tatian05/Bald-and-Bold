@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using System;
-public class LevelTimerManager : MonoBehaviour
+public class LevelTimerManager : Singleton<LevelTimerManager>
 {
     [SerializeField] float _timer;
     [SerializeField] float _levelMaxTime;

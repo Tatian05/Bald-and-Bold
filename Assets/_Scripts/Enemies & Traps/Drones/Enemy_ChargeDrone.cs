@@ -41,7 +41,7 @@ public class Enemy_ChargeDrone : Enemy
         };
 
         IDLE.OnUpdate += delegate {
-            if (!_enemyDataSO.playerPivot) return;
+            if (!_playerPosition) return;
             if (CanSeePlayer()) _myFSM.SendInput(ChargeDroneStates.Wait_To_Charge);
         };
 
@@ -104,13 +104,13 @@ public class Enemy_ChargeDrone : Enemy
         LOST.OnUpdate += delegate
         {
             lostTimer += CustomTime.DeltaTime;
-            if (lostTimer >= _enemyDataSO.lostTime) _myFSM.SendInput(ChargeDroneStates.Idle);
+            if (lostTimer >= _lostTime) _myFSM.SendInput(ChargeDroneStates.Idle);
         };
         LOST.OnExit += x => SetSign(false);
 
         #endregion
 
-        if (Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<ChargeDroneStates>(IDLE);
+        if (!Helpers.LevelTimerManager || Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<ChargeDroneStates>(IDLE);
         else EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
     }
     void StartFSM(params object[] param) { _myFSM = new EventFSM<ChargeDroneStates>(IDLE); }

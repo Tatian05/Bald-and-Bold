@@ -23,7 +23,7 @@ public class PlayerController
     }
     public void OnUpdate()
     {
-        if (FirstInput())
+        if (FirstInput() && Helpers.LevelTimerManager)
         {
             Helpers.LevelTimerManager.StartLevelTimer();
             _fistInput = false;

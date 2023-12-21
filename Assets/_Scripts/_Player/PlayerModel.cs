@@ -9,30 +9,31 @@ public class PlayerModel
     float _currentSpeed;
     bool _secondJump;
     bool _inRope;
-    Vector3 _initialPos;
+
+    Vector3 _groundCheckSize = new Vector3(.1f, .2f);
     public bool InRope { get { return _inRope; } set { _inRope = value; } }
     public float Speed { get { return _currentSpeed; } }
 
     #region Constructor 
 
     Rigidbody2D _rb;
-    Transform _myTransform, _spriteContainerTransform, _groundCheckTransform;
+    Transform _myTransform, _groundCheckTransform1, _groundCheckTransform2;
     float _speed, _jumpForce, _dashSpeed, _defaultGravity;
     WeaponManager _weaponManager;
 
     #endregion
     public int GetLookingForDir => _weaponManager.GetAngle() < -90 || _weaponManager.GetAngle() > 90 ? -1 : 1;
 
-    public bool InGrounded => Physics2D.OverlapCircle(_groundCheckTransform.position, .2f, _groundLayer);
+    public bool InGrounded => Physics2D.OverlapCircle(_groundCheckTransform1.position, .05f, _groundLayer) || Physics2D.OverlapCircle(_groundCheckTransform2.position, .05f, _groundLayer);
     public bool CanJump => InGrounded || _coyotaTimer > 0 || _secondJump && _currentJumps <= _maxJumps;
     public bool CanDash => _dashTimer >= _dashCooldown;
-    public PlayerModel(Rigidbody2D rb, Transform myTransform, Transform spriteContainerTransform, Transform groundCheckTransform,
+    public PlayerModel(Rigidbody2D rb, Transform myTransform, Transform groundCheckTransform1, Transform groundCheckTransform2,
         float speed, float jumpForce, float maxJumps, float dashSpeed, float defaultGravity, float coyotaTime, WeaponManager weaponManager)
     {
         _rb = rb;
         _myTransform = myTransform;
-        _spriteContainerTransform = spriteContainerTransform;
-        _groundCheckTransform = groundCheckTransform;
+        _groundCheckTransform1 = groundCheckTransform1;
+        _groundCheckTransform2 = groundCheckTransform2;
         _speed = speed;
         _jumpForce = jumpForce;
         _maxJumps = maxJumps;
@@ -44,7 +45,6 @@ public class PlayerModel
         _rb.gravityScale = defaultGravity;
         _dashTimer = _dashCooldown;
         _groundLayer = LayerMask.GetMask("Border") + LayerMask.GetMask("Ground");
-        _initialPos = _myTransform.position;
 
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_BOOTS, BootsConsumable);
     }
@@ -108,7 +108,6 @@ public class PlayerModel
     {
         FreezeVelocity();
         ResetStats();
-        _myTransform.position = _initialPos;
     }
 
     public void OnDestroy()

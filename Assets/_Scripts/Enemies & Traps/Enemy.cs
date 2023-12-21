@@ -4,18 +4,22 @@ public abstract class Enemy : MonoBehaviour
 {
     protected GameManager gameManager;
     protected LayerMask _groundLayer;
-    [SerializeField] protected EnemyData _enemyDataSO;
+    protected Transform _playerPosition;
+    protected float _lostTime = 3;
+
     [SerializeField] protected Animator anim;
     [SerializeField] protected GameObject _signGO;
     [SerializeField] protected Sprite _agroSign, _lostSign;
     [SerializeField] protected Transform _eyes;
     [SerializeField] protected bool _isRobot = false;
+
     public bool IsRobot { get { return _isRobot; } }
 
     public event System.Action OnReturn;
     public virtual void Start()
     {
         gameManager = Helpers.GameManager;
+        _playerPosition = gameManager.Player.CenterPivot;
         _groundLayer = gameManager.BorderLayer;
         OnReturn += OnReset;
         EventManager.SubscribeToEvent(Contains.PLAYER_DEAD, ActionOnPlayerDead);
@@ -23,7 +27,7 @@ public abstract class Enemy : MonoBehaviour
 
         StartCoroutine(AddToCollection());
 
-        if (Helpers.PersistantData.consumablesData.invisible) _enemyDataSO.playerPivot = null;
+        if (Helpers.PersistantData.consumablesData.invisible) _playerPosition = null;
     }
     IEnumerator AddToCollection()
     {
@@ -46,7 +50,7 @@ public abstract class Enemy : MonoBehaviour
         if (enabled) _signGO.GetComponent<SpriteRenderer>().sprite = sign;
     }
 
-    protected Vector3 DistanceToPlayer() => _enemyDataSO.playerPivot.position - _eyes.position;
+    protected Vector3 DistanceToPlayer() => _playerPosition.position - _eyes.position;
 
     public virtual bool CanSeePlayer() => !Physics2D.Raycast(_eyes.position, DistanceToPlayer().normalized, DistanceToPlayer().magnitude, _groundLayer);
 

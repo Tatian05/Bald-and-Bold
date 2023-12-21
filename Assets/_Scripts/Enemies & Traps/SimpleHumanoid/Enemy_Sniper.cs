@@ -68,7 +68,7 @@ public class Enemy_Sniper : Enemy_Shooters
         IDLE.OnEnter += x => SetSign(false);
         IDLE.OnUpdate += delegate
         {
-            if (!_enemyDataSO.playerPivot) return;
+            if (!_playerPosition) return;
             if (CanSeePlayer()) _myFSM.SendInput(SniperStates.LoadShoot);
         };
 
@@ -118,13 +118,13 @@ public class Enemy_Sniper : Enemy_Shooters
         LOST.OnUpdate += delegate
         {
             lostTimer += CustomTime.DeltaTime;
-            if (lostTimer >= _enemyDataSO.lostTime) _myFSM.SendInput(SniperStates.Idle);
+            if (lostTimer >= _lostTime) _myFSM.SendInput(SniperStates.Idle);
         };
         LOST.OnExit += x => SetSign(false);
 
         #endregion
 
-        if (Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<SniperStates>(IDLE);
+        if (!Helpers.LevelTimerManager || Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<SniperStates>(IDLE);
         else EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
 
         #endregion

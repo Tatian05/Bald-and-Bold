@@ -46,7 +46,7 @@ public class FireWeapon : Weapon
         //    return;
         //}
 
-        Helpers.LevelTimerManager.StartLevelTimer();
+        if (Helpers.LevelTimerManager) Helpers.LevelTimerManager.StartLevelTimer();
         //_currentAmmo--;
         //UpdateAmmoAmount();
 

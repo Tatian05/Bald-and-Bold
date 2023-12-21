@@ -43,7 +43,7 @@ public static class Helpers
     {
         get
         {
-            if (_levelTimerManager == null) _levelTimerManager = GameObject.FindObjectOfType<LevelTimerManager>();
+            if (_levelTimerManager == null) _levelTimerManager = LevelTimerManager.Instance;
             return _levelTimerManager;
         }
     }

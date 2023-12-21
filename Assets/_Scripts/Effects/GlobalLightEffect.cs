@@ -10,11 +10,13 @@ public class GlobalLightEffect : MonoBehaviour
     EventFSM<ColorPhases> _myFsm;
 
     [SerializeField, ColorUsage(true, true)] Color _signalColor;
+    [SerializeField] bool _cancelEffect;
+    [SerializeField] bool _startBlinking;
     void Start()
     {
         _levelTimerManager = Helpers.LevelTimerManager;
         AudioManager audioManager = Helpers.AudioManager;
-        if(!_levelTimerManager || !_levelTimerManager.enabled)
+        if (_cancelEffect)
         {
             enabled = false;
             return;
@@ -22,8 +24,12 @@ public class GlobalLightEffect : MonoBehaviour
 
         _volume = GetComponent<Volume>();
         _volume.profile.TryGet<ColorAdjustments>(out _colorAdjustments);
-        _levelTimerManager.RedButton += OnLevelFinish;
-        _levelTimerManager.OnLevelDefeat += OnLevelFinish;
+
+        if (_levelTimerManager)
+        {
+            _levelTimerManager.RedButton += OnLevelFinish;
+            _levelTimerManager.OnLevelDefeat += OnLevelFinish;
+        }
 
         var goingRed = new State<ColorPhases>("GoingRed");
         var goingWhite = new State<ColorPhases>("GoingWhite");
@@ -60,7 +66,7 @@ public class GlobalLightEffect : MonoBehaviour
                 _myFsm.SendInput(ColorPhases.GoingRed);
         };
 
-        _myFsm = new EventFSM<ColorPhases>(empty);
+        _myFsm = new EventFSM<ColorPhases>(_startBlinking ? goingRed : empty);
     }
     private void Update()
     {
@@ -71,9 +77,12 @@ public class GlobalLightEffect : MonoBehaviour
         _myFsm = null;
         _colorAdjustments.colorFilter.value = Color.white;
     }
-    private void OnDestroy()
+    private void OnDisable()
     {
-        _levelTimerManager.RedButton -= OnLevelFinish;
-        _levelTimerManager.OnLevelDefeat -= OnLevelFinish;
+        if (_levelTimerManager)
+        {
+            _levelTimerManager.RedButton -= OnLevelFinish;
+            _levelTimerManager.OnLevelDefeat -= OnLevelFinish;
+        }
     }
 }

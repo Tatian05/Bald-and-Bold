@@ -7,15 +7,17 @@ public class LevelLightsManager : MonoBehaviour
 {
     Action OnUpdate;
 
-    [SerializeField]List<Light2D> _lights;
+    [SerializeField] List<Light2D> _lights;
     [SerializeField] Color[] _colors;
     [SerializeField] [Range(0.0f, 1.0f)] float _startBlinkingLights;
     [SerializeField] SpriteRenderer _onOffLight;
     [SerializeField] Color[] _onOffLightColors;
 
     List<BrokenLight> _brokenLights;
+    LevelTimerManager levelTimerManager;
     private void Start()
     {
+        levelTimerManager = Helpers.LevelTimerManager;
         _lights = GetComponentsInChildren<Light2D>().ToList();
         _brokenLights = GetComponentsInChildren<BrokenLight>().ToList();
         _onOffLight = GameObject.Find("IMG_OnOffLight_Color").GetComponent<SpriteRenderer>();
@@ -24,12 +26,21 @@ public class LevelLightsManager : MonoBehaviour
 
         EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartLights);
 
-        Helpers.LevelTimerManager.RedButton += StopLights;
-        Helpers.LevelTimerManager.OnLevelDefeat += StopLights;
+        if (levelTimerManager)
+        {
+            levelTimerManager.RedButton += StopLights;
+            levelTimerManager.OnLevelDefeat += StopLights;
+        }
     }
     private void OnDestroy()
     {
         EventManager.UnSubscribeToEvent(Contains.ON_LEVEL_START, StartLights);
+
+        if (levelTimerManager)
+        {
+            levelTimerManager.RedButton -= StopLights;
+            levelTimerManager.OnLevelDefeat -= StopLights;
+        }
     }
     private void Update()
     {
@@ -53,7 +64,7 @@ public class LevelLightsManager : MonoBehaviour
 
     void CheckForBlinkingLights()
     {
-        if (Helpers.LevelTimerManager.Timer / Helpers.LevelTimerManager.LevelMaxTime >= _startBlinkingLights)
+        if (levelTimerManager.Timer / levelTimerManager.LevelMaxTime >= _startBlinkingLights)
         {
             StartBlinkLights();
             OnUpdate -= CheckForBlinkingLights;

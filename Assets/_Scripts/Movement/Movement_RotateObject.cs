@@ -1,17 +1,16 @@
 using UnityEngine;
 public class Movement_RotateObject : IMovement
 {
-    Transform _armPivot, _weaponSprite;
-    EnemyData _enemyData;
-    public Movement_RotateObject(Transform armPivot, EnemyData enemyData, Transform weaponSprite = null)
+    Transform _armPivot, _weaponSprite, _playerPosition;
+    public Movement_RotateObject(Transform armPivot, Transform playerPosition, Transform weaponSprite = null)
     {
         _armPivot = armPivot;
-        _enemyData = enemyData;
+        _playerPosition = playerPosition;
         _weaponSprite = weaponSprite;
     }
     public void Move()
     {
-        Vector3 dirToLookAt = (_enemyData.playerPivot.position - _armPivot.position).normalized;
+        Vector3 dirToLookAt = (_playerPosition.position - _armPivot.position).normalized;
         float angle = Mathf.Atan2(dirToLookAt.y, dirToLookAt.x) * Mathf.Rad2Deg;
 
         _armPivot.eulerAngles = new Vector3(0, 0, angle);

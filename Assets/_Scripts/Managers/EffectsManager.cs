@@ -3,7 +3,7 @@ public class EffectsManager : MonoBehaviour
 {
     public void EnemyKilled(Vector3 pos, bool isRobot)
     {
-        FRY_EnemyFeedback.Instance.pool.GetObject().SetPosition(pos).SetText(Helpers.GameManager.EnemyManager.EnemyCountString());
+        if(FRY_EnemyFeedback.Instance) FRY_EnemyFeedback.Instance.pool.GetObject().SetPosition(pos).SetText(Helpers.GameManager.EnemyManager.EnemyCountString());
 
         if (isRobot)
         {

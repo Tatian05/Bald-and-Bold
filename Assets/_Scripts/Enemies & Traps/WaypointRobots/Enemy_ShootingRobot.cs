@@ -14,7 +14,7 @@ public class Enemy_ShootingRobot : Enemy_Shooters
     public override void Start()
     {
         base.Start();
-        _armRotation = new Movement_RotateObject(_armPivot, _enemyDataSO, _armPivot);
+        _armRotation = new Movement_RotateObject(_armPivot, _playerPosition, _armPivot);
         _invisibleWallMask = gameManager.InvisibleWallLayer;
         IDLE = new State<ShootingRobot>("IDLE");
         var SHOOT = new State<ShootingRobot>("SHOOT");
@@ -36,7 +36,7 @@ public class Enemy_ShootingRobot : Enemy_Shooters
                 _armPivot.DOLocalRotate(new Vector3(0, 0, Random.Range(0, -180)), .1f).SetEase(Ease.Linear);
                 idleTimer = 0;
             }
-            if (!_enemyDataSO.playerPivot) return;
+            if (!_playerPosition) return;
             if (CanSeePlayer()) _myFSM.SendInput(ShootingRobot.Shoot);
         };
 
@@ -67,13 +67,13 @@ public class Enemy_ShootingRobot : Enemy_Shooters
         LOST.OnUpdate += delegate
         {
             lostTimer += CustomTime.DeltaTime;
-            if (lostTimer >= _enemyDataSO.lostTime) _myFSM.SendInput(ShootingRobot.Idle);
+            if (lostTimer >= _lostTime) _myFSM.SendInput(ShootingRobot.Idle);
         };
         LOST.OnExit += x => SetSign(false);
 
         #endregion
 
-        if (Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<ShootingRobot>(IDLE);
+        if (!Helpers.LevelTimerManager || Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<ShootingRobot>(IDLE);
         else EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
     }
     void StartFSM(params object[] param) { _myFSM = new EventFSM<ShootingRobot>(IDLE); }

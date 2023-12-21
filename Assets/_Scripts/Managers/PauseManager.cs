@@ -30,7 +30,7 @@ public class PauseManager : MonoBehaviour
     private void Start()
     {
         _cinematicManager = Helpers.GameManager.CinematicManager;
-        Helpers.LevelTimerManager.OnLevelDefeat += PauseObjectsInCinematic;
+        if (Helpers.LevelTimerManager) Helpers.LevelTimerManager.OnLevelDefeat += PauseObjectsInCinematic;
     }
     void Pause(InputAction.CallbackContext obj)
     {

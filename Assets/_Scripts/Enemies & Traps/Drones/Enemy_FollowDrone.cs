@@ -29,7 +29,7 @@ public class Enemy_FollowDrone : Enemy
 
         idle.OnUpdate += delegate
         {
-            if (!_enemyDataSO.playerPivot) return;
+            if (!_playerPosition) return;
             if (CanSeePlayer()) _myFsm.SendInput(DroneStates.Follow);
         };
 
@@ -42,7 +42,7 @@ public class Enemy_FollowDrone : Enemy
         lost.OnUpdate += delegate
         {
             lostTimer += CustomTime.DeltaTime;
-            if (lostTimer >= _enemyDataSO.lostTime) _myFsm.SendInput(DroneStates.Idle);
+            if (lostTimer >= _lostTime) _myFsm.SendInput(DroneStates.Idle);
         };
         lost.OnExit += x => SetSign(false);
 
@@ -51,12 +51,12 @@ public class Enemy_FollowDrone : Enemy
         #region FOLLOW
 
         follow.OnEnter += x => SetSign(true, _agroSign);
-        follow.OnUpdate += delegate { _navMeshAgent.speed = _speed * CustomTime.LocalTimeScale; _navMeshAgent.SetDestination(_enemyDataSO.playerPivot.position); };
+        follow.OnUpdate += delegate { _navMeshAgent.speed = _speed * CustomTime.LocalTimeScale; _navMeshAgent.SetDestination(_playerPosition.position); };
         follow.OnExit += x => SetSign(false);
 
         #endregion
 
-        if (Helpers.LevelTimerManager.LevelStarted) _myFsm = new EventFSM<DroneStates>(idle);
+        if (!Helpers.LevelTimerManager || Helpers.LevelTimerManager.LevelStarted) _myFsm = new EventFSM<DroneStates>(idle);
         else EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
     }
     void StartFSM(params object[] param) { _myFsm = new EventFSM<DroneStates>(idle); }

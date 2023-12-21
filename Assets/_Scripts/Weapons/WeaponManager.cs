@@ -87,16 +87,24 @@ public class WeaponManager : MonoBehaviour
         if (_currentMainWeapon && _currentMainWeapon == _minigun)
             return;
 
-        if (newWeapon == null)
+        //if (newWeapon == null)
+        //{
+        //}
+        if (newWeapon is Minigun)
         {
-            var col = Physics2D.OverlapCircle(transform.position, 2f, Helpers.GameManager.WeaponLayer);
-            newWeapon = col ? col.GetComponent<Weapon>() : null;
+            EquipWeapon(newWeapon);
+            return;
         }
+
+        var col = Physics2D.OverlapCircle(transform.position, 2f, Helpers.GameManager.WeaponLayer);
+        newWeapon = col ? col.GetComponent<Weapon>() : null;
 
         if (newWeapon == null) return;
 
-        //if (!newWeapon.CanPickUp) return;
+        if (_currentMainWeapon)
+            _currentMainWeapon.ThrowOut(Vector2.down).SetParent(null);
 
+        //if (!newWeapon.CanPickUp) return;
         EquipWeapon(newWeapon);
     }
     void EquipWeapon(Weapon newWeapon)

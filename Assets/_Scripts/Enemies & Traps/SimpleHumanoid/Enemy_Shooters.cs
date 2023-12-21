@@ -10,7 +10,7 @@ public abstract class Enemy_Shooters : Enemy
     float _r, _angle, _smoothAngle;
     protected void WeaponRot()
     {
-        _weaponDir = (_enemyDataSO.playerPivot.position - _armPivot.position).normalized;
+        _weaponDir = (_playerPosition.position - _armPivot.position).normalized;
         _angle = CanSeePlayer() ? Mathf.Atan2(_weaponDir.y, _weaponDir.x * Mathf.Sign(_weaponDir.x)) * Mathf.Rad2Deg : 0;
         _smoothAngle = Mathf.SmoothDampAngle(_armPivot.localEulerAngles.z, _angle, ref _r, .1f);
         _armPivot.localEulerAngles = new Vector3(0, 0, _smoothAngle);

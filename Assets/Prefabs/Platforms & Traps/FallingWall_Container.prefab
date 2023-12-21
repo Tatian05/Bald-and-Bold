@@ -614,7 +614,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.65968406, y: -0.1102753}
@@ -770,7 +770,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.65968406, y: -0.1102753}
@@ -926,7 +926,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.65968406, y: -0.1102753}
@@ -1000,7 +1000,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.65968406, y: -0.1102753}
@@ -1563,7 +1563,6 @@ MonoBehaviour:
   _wayPoints:
   - {fileID: 3033957346439115834}
   - {fileID: 2002101373514546479}
-  _startDelay: 0.5
   _speed: 10
   _waitSeconds: 1
 --- !u!50 &4517483956743067968

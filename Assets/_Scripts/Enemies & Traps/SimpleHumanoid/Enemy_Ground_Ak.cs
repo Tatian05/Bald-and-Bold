@@ -77,13 +77,13 @@ public class Enemy_Ground_Ak : Enemy_Shooters
         LOST.OnUpdate += delegate
         {
             lostTimer += CustomTime.DeltaTime;
-            if (lostTimer >= _enemyDataSO.lostTime) _myFSM.SendInput(AK_States.Patrol);
+            if (lostTimer >= _lostTime) _myFSM.SendInput(AK_States.Patrol);
         };
         LOST.OnExit += x => SetSign(false);
 
         #endregion
 
-        if (Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<AK_States>(PATROL);
+        if (!Helpers.LevelTimerManager || Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<AK_States>(PATROL);
         else EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
     }
     void StartFSM(params object[] param) { _myFSM = new EventFSM<AK_States>(PATROL); }

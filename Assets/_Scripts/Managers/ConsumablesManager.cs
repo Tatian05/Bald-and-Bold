@@ -8,12 +8,15 @@ public class ConsumablesManager : MonoBehaviour
     ConsumableSelector _consumablesWindow;
     InputAction _openConsumablesWindow;
     bool _active;
+    LevelTimerManager _levelTimerManager;
     private void Start()
     {
+        _levelTimerManager = Helpers.LevelTimerManager;
         _openConsumablesWindow = NewInputManager.PlayerInputs.Player.OpenConsumableCollection;
         _openConsumablesWindow.performed += OpenConsumableWindow;
         EventManager.SubscribeToEvent(Contains.CONSUMABLE_VISUAL_EFFECTS, ConsumableEffect);
-        Helpers.LevelTimerManager.OnLevelDefeat += OnLevelEnd;
+
+        if (_levelTimerManager) _levelTimerManager.OnLevelDefeat += OnLevelEnd;
     }
 
     private void Update()
@@ -55,5 +58,6 @@ public class ConsumablesManager : MonoBehaviour
     {
         _openConsumablesWindow.performed -= OpenConsumableWindow;
         EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_VISUAL_EFFECTS, ConsumableEffect);
+        if (_levelTimerManager) _levelTimerManager.OnLevelDefeat -= OnLevelEnd;
     }
 }

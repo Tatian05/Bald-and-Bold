@@ -43,7 +43,7 @@ public class Enemy_KamikazeRobot : Enemy
             Mathf.Clamp(_dropSpeed, _minDropSpeed, _maxDropSpeed);
         };
 
-        if (Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<KamikazeStates>(IDLE);
+        if (!Helpers.LevelTimerManager || Helpers.LevelTimerManager.LevelStarted) _myFSM = new EventFSM<KamikazeStates>(IDLE);
         else EventManager.SubscribeToEvent(Contains.ON_LEVEL_START, StartFSM);
     }
 

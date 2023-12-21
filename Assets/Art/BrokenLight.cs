@@ -29,6 +29,7 @@ public class BrokenLight : MonoBehaviour, IDamageable
     [Header("BROKEN LIGHT VARIABLES")]
     [SerializeField] float _brokenBlinkTime;
     [SerializeField] Color Lightcolor;
+    [SerializeField] bool _startBlinking;
     float _brokenBlinkTimer;
 
     enum LightStates { IDLE, BLINK, RETURN_BLINK, BROKEN }
@@ -76,7 +77,7 @@ public class BrokenLight : MonoBehaviour, IDamageable
 
         #endregion
 
-        _myFSM = new EventFSM<LightStates>(idle);
+        _myFSM = new EventFSM<LightStates>(_startBlinking ? blink : idle);
     }
     private void Update()
     {

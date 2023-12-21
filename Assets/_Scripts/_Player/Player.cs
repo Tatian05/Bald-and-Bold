@@ -9,11 +9,11 @@ public enum PlayerStates { Empty, Dash }
 [RequireComponent(typeof(BoxCollider2D))]
 public class Player : GeneralPlayer, IDamageable
 {
-    bool _dead, _boots;
+    bool _dead, _boots, _climbing;
 
     #region Components
     [SerializeField] Animator _anim;
-    [SerializeField] Transform _playerSprite, _groundCheckTransform, _spritesContainer;
+    [SerializeField] Transform _playerSprite, _groundCheckTransform1, _groundCheckTransform2, _spritesContainer;
     [SerializeField] SpriteRenderer[] _playerSprites;
     [SerializeField] BoxCollider2D _bootsCollider;
 
@@ -22,7 +22,9 @@ public class Player : GeneralPlayer, IDamageable
     PlayerView _playerView;
     Rigidbody2D _rb;
     WeaponManager _weaponManager;
+    Vector3 _initialPos;
     public WeaponManager WeaponManager { get { return _weaponManager; } private set { } }
+    public Vector3 Checkpoint { get; set; }
 
     #endregion
 
@@ -59,8 +61,10 @@ public class Player : GeneralPlayer, IDamageable
         _rb = GetComponent<Rigidbody2D>();
         float defaultGravity = _rb.gravityScale;
         _ladderMask = LayerMask.GetMask("Ladder");
+        _initialPos = transform.position;
+        Checkpoint = _initialPos;
 
-        _playerModel = new PlayerModel(_rb, transform, _playerSprite, _groundCheckTransform, _speed, _jumpForce, _maxJumps, _dashSpeed, defaultGravity, _coyotaTime, _weaponManager);
+        _playerModel = new PlayerModel(_rb, transform, _groundCheckTransform1, _groundCheckTransform2, _speed, _jumpForce, _maxJumps, _dashSpeed, defaultGravity, _coyotaTime, _weaponManager);
         _playerView = new PlayerView(transform, _anim, _dashParticle, _playerSprites, _bootsCollider, _spritesContainer);
 
         OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, _playerModel.Speed / _speed, y); };
@@ -142,10 +146,12 @@ public class Player : GeneralPlayer, IDamageable
         EventManager.TriggerEvent(Contains.WAIT_PLAYER_DEAD);
     }
     public void Die() { }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_groundCheckTransform.position, .2f);
+        Gizmos.DrawWireSphere(_groundCheckTransform1.position, .05f);
+        Gizmos.DrawWireSphere(_groundCheckTransform2.position, .05f);
     }
     public override void PausePlayer()
     {
@@ -169,7 +175,7 @@ public class Player : GeneralPlayer, IDamageable
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Rope"))
+        if (collision.CompareTag("Rope") && !_playerModel.InGrounded)
             ExitClimb();
     }
     void CheckForRope(Transform ropeTransform)
@@ -179,28 +185,33 @@ public class Player : GeneralPlayer, IDamageable
         {
             if (!_playerModel.InGrounded) return;
 
-            if (_controller.YAxis > 0)
+            if (_controller.YAxis > 0 && !_climbing)
                 EnterRope(ropeTransform);
-            else if (_controller.XAxis != 0)
+            else if (_controller.XAxis != 0 && _controller.YAxis <= 0 && _climbing)
                 ExitClimb();
         }
     }
     void EnterRope(Transform rope)
     {
+        if (_climbing) return;
+
         _playerModel.FreezeVelocity();
-        _playerModel.ResetStats();
+        transform.position = new Vector2(rope.position.x, transform.position.y);
+
         _playerModel.CeroGravity();
+        _playerModel.ResetStats();
+        _climbing = true;
 
         OnMove = _playerModel.ClimbMove;
         OnMove += _playerView.Climb;
 
         _playerView.OnStartClimb(_weaponManager.HasWeapon);
-        transform.position = new Vector2(rope.position.x, transform.position.y);
     }
     public void ExitClimb()
     {
-        if (!_playerModel.InRope) return;
+        if (!_playerModel.InRope || !_climbing) return;
 
+        _climbing = false;
         _playerView.OnExitClimb();
         _playerModel.InRope = false;
         _playerModel.NormalGravity();
@@ -223,5 +234,12 @@ public class Player : GeneralPlayer, IDamageable
         StartCoroutine(Death());
         _myFsm.SendInput(PlayerStates.Empty);
         OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, _playerModel.Speed / _speed, y); };
+        transform.position = Checkpoint;
     }
+    public void PauseInDeath()
+    {
+        PausePlayer();
+        _playerModel.CeroGravity();
+    }
+    public void ResetCheckPoint() => Checkpoint = _initialPos;
 }

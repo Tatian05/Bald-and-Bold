@@ -4,60 +4,57 @@ using UnityEngine;
 
 public class Trap_FallingWall : MonoBehaviour
 {
+    enum FallingWall { Wait, Move }
     [SerializeField] Transform[] _wayPoints;
     int _index = 0;
 
-    [SerializeField] float _startDelay = .5f;
     [SerializeField] float _speed;
     [SerializeField] float _waitSeconds;
     Vector3 _dir;
-    bool _canMove;
 
-    public void Start()
+    EventFSM<FallingWall> _myFSM;
+
+    private void Start()
     {
-        StartCoroutine(StartDelay());
+        var wait = new State<FallingWall>("wait");
+        var move = new State<FallingWall>("Move");
+
+        StateConfigurer.Create(wait).SetTransition(FallingWall.Move, move).Done();
+        StateConfigurer.Create(move).SetTransition(FallingWall.Wait, wait).Done();
+
+        float waitTimer = 0;
+        wait.OnEnter += x =>
+        {
+            Helpers.GameManager.EnemyManager.HeavyAttack();
+            _index++;
+            if (_index > _wayPoints.Length - 1) _index = 0;
+
+            _dir = _wayPoints[_index].position - transform.position;
+
+            _dir.Normalize();
+        };
+        wait.OnUpdate += () =>
+        {
+            waitTimer += CustomTime.DeltaTime;
+            if (waitTimer >= _waitSeconds)
+            {
+                waitTimer = 0;
+                _myFSM.SendInput(FallingWall.Move);
+            }
+        };
+
+        move.OnUpdate += () => Move();
+
+        _myFSM = new EventFSM<FallingWall>(wait);
     }
 
     private void Update()
     {
-        if(_canMove) Move();
+        _myFSM?.Update();
     }
-
-    IEnumerator Wait()
-    {
-        _canMove = false;
-
-        yield return new WaitForSeconds(_waitSeconds);
-
-        _canMove = true;
-    }
-
     void Move()
     {
         transform.position += _dir * _speed * Time.deltaTime;
-        if (Vector3.Distance(transform.position, _wayPoints[_index].transform.position) < .2f) ChangeDir();
-    }
-
-    void ChangeDir()
-    {
-        Helpers.GameManager.EnemyManager.HeavyAttack();
-        _index++;
-
-        if (_index > _wayPoints.Length - 1)
-        {
-            _index = 0;
-        }
-
-        _dir = (_wayPoints[_index].position - transform.position);
-
-        _dir.Normalize();
-        StartCoroutine(Wait());
-    }
-
-    IEnumerator StartDelay()
-    {
-        yield return new WaitForSeconds(_startDelay);
-        _canMove = true;
-        ChangeDir();
+        if (Vector3.Distance(transform.position, _wayPoints[_index].transform.position) < .2f) _myFSM.SendInput(FallingWall.Wait);
     }
 }
