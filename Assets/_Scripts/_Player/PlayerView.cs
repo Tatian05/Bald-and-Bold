@@ -44,7 +44,11 @@ public class PlayerView
             _stepsTimer = 0;
         }
     }
-
+    public void ElectrocuteDeath()
+    {
+        _anim.Play("Electro");
+        Helpers.AudioManager.PlaySFX("PlayerElectrocute");
+    }
     public void Jump()
     {
         Helpers.AudioManager.PlaySFX("Player_Jump");

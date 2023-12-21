@@ -32,7 +32,7 @@ public class LoadSceneManager : MonoBehaviour
 
         string nextScene = lastLevel && _persistantData.gameData.currentDeaths > ZonesManager.Instance.zones.Last().deathsNeeded ||
             ZonesManager.Instance.lastLevelsZone.Any(x => x == SceneManager.GetActiveScene().name) ? "LevelSelect" :
-            lastLevel && Helpers.PersistantData.gameData.currentDeaths <= ZonesManager.Instance.zones.Last().deathsNeeded ? "WinScreen"
+            lastLevel && Helpers.PersistantData.gameData.currentDeaths <= ZonesManager.Instance.zones.Last().deathsNeeded ? "LevelFinal"
             : $"Level {currentLevel + 1}";
 
         LoadLevelAsync(nextScene, nextScene.Equals("LevelSelect"));

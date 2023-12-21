@@ -8589,6 +8589,7 @@ GameObject:
   - component: {fileID: 970227996}
   - component: {fileID: 970227991}
   - component: {fileID: 970227992}
+  - component: {fileID: 970227997}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -8698,6 +8699,20 @@ MonoBehaviour:
   _trainCinematic: {fileID: 1648621868}
   _continueButton: {fileID: 1317919799}
   _warningWindow: {fileID: 1023502932}
+--- !u!114 &970227997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970227990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60550a27753ad0643948a0ff57ee8784, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _musicName: MenuMusic
+  _stopMusic: 0
 --- !u!1 &981346598
 GameObject:
   m_ObjectHideFlags: 0

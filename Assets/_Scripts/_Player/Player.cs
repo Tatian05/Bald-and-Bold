@@ -13,7 +13,7 @@ public class Player : GeneralPlayer, IDamageable
 
     #region Components
     [SerializeField] Animator _anim;
-    [SerializeField] Transform _playerSprite, _groundCheckTransform1, _groundCheckTransform2, _spritesContainer;
+    [SerializeField] Transform _groundCheckTransform1, _groundCheckTransform2, _spritesContainer;
     [SerializeField] SpriteRenderer[] _playerSprites;
     [SerializeField] BoxCollider2D _bootsCollider;
 
@@ -240,6 +240,7 @@ public class Player : GeneralPlayer, IDamageable
     {
         PausePlayer();
         _playerModel.CeroGravity();
+        _playerView.ElectrocuteDeath();
     }
     public void ResetCheckPoint() => Checkpoint = _initialPos;
 }
