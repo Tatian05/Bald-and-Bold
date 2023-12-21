@@ -9,6 +9,12 @@ public class CosmeticData : ShoppableSO
 
     [HideInInspector] public Sprite playerDashTexture;
 
+    public override void OnStart()
+    {
+        base.OnStart();
+        var playerOrPresi = LanguageManager.Instance.GetTranslate(cosmeticType == CosmeticType.Player ? "ID_Player" : "ID_President");
+        shoppableTypeText = $"{LanguageManager.Instance.GetTranslate("ID_Cosmetic")} {playerOrPresi}";
+    }
     public void SetCosmetic(Image headSprite, Image torsoSprite, Image rightLegSprite, Image leftLegSprite, Image rightHandSprite, Image leftHandSprite, Image tailSprite)
     {
         headSprite.sprite = shopSprite;

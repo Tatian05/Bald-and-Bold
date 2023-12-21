@@ -9,7 +9,7 @@ public class GachaBallAnimationScrip : MonoBehaviour
     public void PlayGachaBallAnim(ShoppableSO shoppable)
     {
         _animator.Play("GachaBall");
-        _gachaItem.SetCosmeticData(shoppable);
+        _gachaItem.SetCosmeticData(shoppable, true);
     }
 
     //LO LLAMO POR ANIMACION

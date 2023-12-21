@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using BaldAndBold.Consumables;
+using System.Linq;
 
 [CreateAssetMenu(fileName = "New Consumable Data", menuName = "New Consumable")]
 public class ConsumableData : ShoppableSO
@@ -15,6 +16,7 @@ public class ConsumableData : ShoppableSO
     {
         base.OnStart();
         description = LanguageManager.Instance.GetTranslate(descriptionLocalizationID);
+        shoppableTypeText = LanguageManager.Instance.GetTranslate("ID_Consumable");
     }
     public void SetShopConsumable(TextMeshProUGUI descriptionTxt, TextMeshProUGUI durationTxt, Image image) {
         descriptionTxt.text = description;

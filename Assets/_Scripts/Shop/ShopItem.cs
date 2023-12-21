@@ -8,7 +8,7 @@ public class ShopItem : MonoBehaviour
 
     [SerializeField] ShoppableSO _shoppableSO;
     [SerializeField] Image _cosmeticImg;
-    [SerializeField] TextMeshProUGUI _shoppableSONameTxt;
+    [SerializeField] TextMeshProUGUI _shoppableSONameTxt, _shoppableTypeTxt;
     [SerializeField] TextMeshProUGUI _inCollectionTxt;
     [SerializeField] Image _qualityImg;
 
@@ -24,11 +24,12 @@ public class ShopItem : MonoBehaviour
         _inCollectionTxt.gameObject.SetActive(true);
         _inCollectionTxt.rectTransform.eulerAngles = new Vector3(0, 0, Random.Range(-45, 46));
     }
-    public ShopItem SetCosmeticData(ShoppableSO shoppableSO)
+    public ShopItem SetCosmeticData(ShoppableSO shoppableSO, bool gachaball = false)
     {
         _shoppableSO = shoppableSO;
         _shoppableSO.OnStart();
         _qualityImg.color = GetQualityColor(_shoppableSO.shoppableQuality);
+        _shoppableTypeTxt.text = gachaball ? shoppableSO.shoppableTypeText : string.Empty;
         _cosmeticImg.sprite = _shoppableSO.shopSprite;
         _shoppableSONameTxt.text = _shoppableSO.shoppableName;
         transform.localScale = Vector3.one;

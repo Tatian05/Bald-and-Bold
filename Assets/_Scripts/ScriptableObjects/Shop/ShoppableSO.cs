@@ -9,7 +9,7 @@ public class ShoppableSO : ScriptableObject
     public int ID, cost;
     public string localizationID;
     public Sprite shopSprite;
-    [HideInInspector] public string shoppableName;
+    [HideInInspector] public string shoppableName, shoppableTypeText;
     public virtual void OnStart()
     {
         shoppableName = LanguageManager.Instance.GetTranslate(localizationID);
