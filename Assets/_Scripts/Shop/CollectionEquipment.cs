@@ -12,8 +12,6 @@ public class CollectionEquipment : MonoBehaviour
     [SerializeField] Button _nextCosmetic, _previousCosmetic, _equipButton;
     [SerializeField] GameObject _cosmeticWindow, _playerWindow, _presidentWindow, _weaponsWindow, _bulletsWindow;
     [SerializeField] TextMeshProUGUI _cosmeticName;
-    [SerializeField] Material _playerDashMaterial;
-    [SerializeField] Material _presidentLeftHeadMaterial, _presidentRightHeadMaterial, _presidentLeftChestMaterial, _presidentRightChestMaterial;
 
     [Header("Player Sprites")]
     [SerializeField] Image _playerHead, _playerTorso, _playerRightLeg, _playerLeftLeg, _playerRightHand, _playerLeftHand, _playerTail;
@@ -202,17 +200,12 @@ public class CollectionEquipment : MonoBehaviour
         {
             _playerCosmeticEquiped = _playerCosmeticsList[_index];
             _persistantData.playerCosmeticEquiped = _playerCosmeticEquiped;
-            _playerDashMaterial.SetTexture("_MainTex", _persistantData.playerCosmeticEquiped.playerDashTexture.texture);
             if (Helpers.GameManager) Helpers.GameManager.SetPlayerSkin();
         }
         else if (_presidentWindow.activeSelf)
         {
             _presidentCosmeticEquiped = _presidentCosmeticsList[_index];
             _persistantData.presidentCosmeticEquiped = _presidentCosmeticEquiped;
-            _presidentLeftHeadMaterial.SetTexture("_MainTex", _persistantData.presidentCosmeticEquiped.shopSprite.texture);
-            _presidentRightHeadMaterial.SetTexture("_MainTex", _persistantData.presidentCosmeticEquiped.shopSprite.texture);
-            _presidentLeftChestMaterial.SetTexture("_MainTex", _persistantData.presidentCosmeticEquiped.torsoSprite.texture);
-            _presidentRightChestMaterial.SetTexture("_MainTex", _persistantData.presidentCosmeticEquiped.torsoSprite.texture);
             if (Helpers.GameManager) Helpers.GameManager.SetPresidentSkin();
         }
         else if (_weaponsWindow.activeSelf) EquipCurrentWeapon(_weaponCollectionList[_index])();

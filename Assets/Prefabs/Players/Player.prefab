@@ -338,7 +338,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _centerPivot: {fileID: 8554356772988801619}
   _anim: {fileID: 1266088773945994461}
-  _playerSprite: {fileID: 1266088773945994460}
   _groundCheckTransform1: {fileID: 3908799562993498720}
   _groundCheckTransform2: {fileID: 3257389388616347495}
   _spritesContainer: {fileID: 1266088773945994460}
@@ -584,7 +583,7 @@ MonoBehaviour:
   - {x: -0.32084942, y: 0.014481306, z: 0}
   m_ShapePathHash: -460105547
   m_Mesh: {fileID: 0}
-  m_InstanceId: 802172
+  m_InstanceId: 168060
 --- !u!1 &1266088774822671311
 GameObject:
   m_ObjectHideFlags: 0
@@ -1222,6 +1221,7 @@ MonoBehaviour:
   _rightHandSprite: {fileID: 5098717044179903179}
   _leftHandSprite: {fileID: 8385142605212391193}
   _tailSprite: {fileID: 3705668771093959524}
+  _playerDashMaterial: {fileID: 2100000, guid: a71c864524774e545bc6eb998561b0f1, type: 2}
 --- !u!1 &7932435277857605481
 GameObject:
   m_ObjectHideFlags: 0
