@@ -65,4 +65,8 @@ public class GameManager : Singleton<GameManager>
         Cursor.lockState = CursorLockMode.Confined;
         if (!Helpers.LevelTimerManager || !Helpers.LevelTimerManager.enabled) CustomTime.SetTimeScale(1);
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F4)) _loadSceneManager.LoadAsyncFadeOut("LevelFinal");
+    }
 }
