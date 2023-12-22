@@ -3,7 +3,7 @@ public class InundationWater : MonoBehaviour
 {
     [SerializeField] float _zoneTime;
     [SerializeField] Transform _endPoint;
-    float _timer;
+    [SerializeField] float _timer;
     Vector3 _waterInitialPos;
     private void Start()
     {
@@ -25,6 +25,9 @@ public class InundationWater : MonoBehaviour
             Helpers.GameManager.LoadSceneManager.ReloadLevel();
         }
         if (collision.TryGetComponent(out CheckPoint checkPoint))
-            checkPoint.OnDestroyCheckpoint();
+        {
+            if (checkPoint.IsCurrentCheckpoint)
+                checkPoint.OnDestroyCheckpoint();
+        }
     }
 }

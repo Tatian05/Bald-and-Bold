@@ -23,8 +23,9 @@ public class Player : GeneralPlayer, IDamageable
     Rigidbody2D _rb;
     WeaponManager _weaponManager;
     Vector3 _initialPos;
+    CheckPoint _checkpoint;
     public WeaponManager WeaponManager { get { return _weaponManager; } private set { } }
-    public Vector3 Checkpoint { get; set; }
+    public CheckPoint Checkpoint { get { return _checkpoint; } set { _checkpoint = value; } }
 
     #endregion
 
@@ -62,7 +63,6 @@ public class Player : GeneralPlayer, IDamageable
         float defaultGravity = _rb.gravityScale;
         _ladderMask = LayerMask.GetMask("Ladder");
         _initialPos = transform.position;
-        Checkpoint = _initialPos;
 
         _playerModel = new PlayerModel(_rb, transform, _groundCheckTransform1, _groundCheckTransform2, _speed, _jumpForce, _maxJumps, _dashSpeed, defaultGravity, _coyotaTime, _weaponManager);
         _playerView = new PlayerView(transform, _anim, _dashParticle, _playerSprites, _bootsCollider, _spritesContainer);
@@ -234,7 +234,7 @@ public class Player : GeneralPlayer, IDamageable
         StartCoroutine(Death());
         _myFsm.SendInput(PlayerStates.Empty);
         OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, _playerModel.Speed / _speed, y); };
-        transform.position = Checkpoint;
+        transform.position = _checkpoint ? _checkpoint.transform.position : _initialPos;
     }
     public void PauseInDeath()
     {
@@ -242,5 +242,5 @@ public class Player : GeneralPlayer, IDamageable
         _playerModel.CeroGravity();
         _playerView.ElectrocuteDeath();
     }
-    public void ResetCheckPoint() => Checkpoint = _initialPos;
+    public void ResetCheckPoint() => _checkpoint = null;
 }

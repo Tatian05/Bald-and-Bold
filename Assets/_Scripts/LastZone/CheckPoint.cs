@@ -7,8 +7,9 @@ public class CheckPoint : MonoBehaviour
 
     BoxCollider2D _trigger;
     Player _player;
-    bool _isThisCheckpoint;
     GameObject _checkpointCamera;
+
+    public bool IsCurrentCheckpoint { get { return _player != null && _player.Checkpoint == this; } private set { } }
     private void Start()
     {
         _trigger = GetComponent<BoxCollider2D>();
@@ -20,7 +21,7 @@ public class CheckPoint : MonoBehaviour
     {
         _trigger.enabled = false;
         _animator.Play("Destroy");
-        if (_player && _isThisCheckpoint) _player.ResetCheckPoint();
+        if (_player && _player.Checkpoint == this) _player.ResetCheckPoint();
     }
     IEnumerator ShowCheckpointDestroying()
     {
@@ -37,8 +38,7 @@ public class CheckPoint : MonoBehaviour
         if (collision.TryGetComponent(out Player player))
         {
             _player = player;
-            _player.Checkpoint = transform.position;
-            _isThisCheckpoint = true;
+            _player.Checkpoint = this;
             _animator.Play("Checkpoint");
         }
     }
