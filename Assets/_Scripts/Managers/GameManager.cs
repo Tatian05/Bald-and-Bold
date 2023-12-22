@@ -68,5 +68,6 @@ public class GameManager : Singleton<GameManager>
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F4)) _loadSceneManager.LoadAsyncFadeOut("LevelFinal");
+        if (Input.GetKeyDown(KeyCode.F5)) _loadSceneManager.LoadAsyncFadeOut("WinScreen");
     }
 }

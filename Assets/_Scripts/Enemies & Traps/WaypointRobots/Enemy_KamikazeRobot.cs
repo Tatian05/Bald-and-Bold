@@ -39,7 +39,7 @@ public class Enemy_KamikazeRobot : Enemy
         DROP.OnUpdate += () =>
         {
             _dropSpeed += CustomTime.TimeScale * _dropSpeedMultiplier;
-            transform.position += -transform.up * _dropSpeed * CustomTime.DeltaTime;
+            transform.position += -transform.up * _dropSpeed;
             Mathf.Clamp(_dropSpeed, _minDropSpeed, _maxDropSpeed);
         };
 
