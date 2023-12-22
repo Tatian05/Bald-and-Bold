@@ -40,14 +40,14 @@ public class LevelsMap : MonoBehaviour
 
         var coll = _zonesManager.zones.Select(x => x.levelsZone).Take(_gameData.unlockedZones + 1);
 
-        //int actualLevelsZone = 0;
+        int actualLevelsZone = 0;
 
-        //foreach (var item in coll)
-        //    actualLevelsZone += item.Count();
+        foreach (var item in coll)
+            actualLevelsZone += item.Count();
 
         bool canUnlockNewZone = _gameData.levels.Any() //Chequeo si jugo todos los niveles de la zona
             && _gameData.currentDeaths <= _zonesManager.zones[_gameData.unlockedZones].deathsNeeded  //Chequeo si murio menos veces que lo requerido
-                                                                                                     //&& _gameData.levels.Count >= actualLevelsZone   //Chequeo si jugo mas niveles que los que hay en las zonas desbloqueadas
+            && _gameData.levels.Count >= actualLevelsZone   //Chequeo si jugo mas niveles que los que hay en las zonas desbloqueadas
             && _gameData.levelsDeathCompleted.All(x => x.Item3)
             && _gameData.unlockedZones < _zonesManager.zones.Length - 1;
 

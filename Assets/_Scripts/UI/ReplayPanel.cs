@@ -4,6 +4,7 @@ using TMPro;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class ReplayPanel : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class ReplayPanel : MonoBehaviour
     [SerializeField] TextMeshProUGUI[] _levelsDeaths;
     [SerializeField] Image[] _backgroundButtons;
     [SerializeField] Transform _mano;
-    [SerializeField] GameObject _ascensorGO, _backButtonGO;
+    [SerializeField] GameObject _ascensorGO;
     [SerializeField] LevelsMap _levelsMap;
 
     [Header("Gamepad")]
@@ -23,6 +24,7 @@ public class ReplayPanel : MonoBehaviour
 
     Zone _zone;
     GameData _gameData;
+    InputAction _gamepadCloseReplyPanel;
     private void Start()
     {
         _backButton.onClick.AddListener(BackButton);
@@ -31,11 +33,19 @@ public class ReplayPanel : MonoBehaviour
     {
         NewInputManager.ActiveDeviceChangeEvent += Gamepad;
 
+        if (_gamepadCloseReplyPanel == null) _gamepadCloseReplyPanel = EventSystemScript.Instance.UIInputs.UI.Cancel;
+
+        _gamepadCloseReplyPanel.performed += GamepadCloseReplayWindow;
+        _gamepadCloseReplyPanel.Enable();
+
         Gamepad();
     }
     private void OnDisable()
     {
         NewInputManager.ActiveDeviceChangeEvent -= Gamepad;
+
+        _gamepadCloseReplyPanel.performed -= GamepadCloseReplayWindow;
+        _gamepadCloseReplyPanel.Disable();
     }
 
     public ReplayPanel SetZone(Zone zone)
@@ -119,14 +129,10 @@ public class ReplayPanel : MonoBehaviour
         if (NewInputManager.activeDevice != DeviceType.Keyboard)
         {
             _gamepadContainer.SetActive(true);
-            _backButtonGO.SetActive(false);
-
             _backTxt.text = _onBackTMP[(int)NewInputManager.activeDevice - 1];
         }
         else
-        {
             _gamepadContainer.SetActive(false);
-            _backButtonGO.SetActive(true);
-        }
     }
+    void GamepadCloseReplayWindow(InputAction.CallbackContext obj) { _backButton.onClick.Invoke(); }
 }
