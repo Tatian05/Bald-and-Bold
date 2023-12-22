@@ -149,7 +149,7 @@ MonoBehaviour:
   _isRobot: 1
   _minDropSpeed: 1
   _maxDropSpeed: 5
-  _dropSpeedMultiplier: 0.1
+  _dropSpeedMultiplier: 0.05
   _overlapCircleRadius: 1.5
   _dmg: 1
 --- !u!114 &6757386262002888153
@@ -278,7 +278,7 @@ MonoBehaviour:
   - {x: -0.44740832, y: 0.25287962, z: 0}
   m_ShapePathHash: -1361071055
   m_Mesh: {fileID: 0}
-  m_InstanceId: 399176
+  m_InstanceId: 436168
 --- !u!114 &6048746220676528147
 MonoBehaviour:
   m_ObjectHideFlags: 0
