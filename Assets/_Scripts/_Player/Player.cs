@@ -133,7 +133,7 @@ public class Player : GeneralPlayer, IDamageable
         _myFsm.Update();
         _goldenBald?.SetPosition(transform.position + Vector3.up * 2.25f);
 
-        var ropeCheck = Physics2D.OverlapCircle(transform.position, .5f, _ladderMask);
+        var ropeCheck = Physics2D.OverlapCircle(transform.position, 1f, _ladderMask);
 
         if ((bool)ropeCheck && _playerModel.InGrounded) CheckForRope(ropeCheck.transform);
     }
@@ -159,7 +159,7 @@ public class Player : GeneralPlayer, IDamageable
 
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, .5f);
+        Gizmos.DrawWireSphere(transform.position, 1f);
     }
     public override void PausePlayer()
     {
@@ -216,10 +216,8 @@ public class Player : GeneralPlayer, IDamageable
     }
     public void ExitClimb()
     {
-        Debug.Log("Exitd");
         if (!_playerModel.InRope) return;
 
-        Debug.Log("Exit");
         _climbing = false;
         _playerModel.InRope = false;
         _playerModel.NormalGravity();
