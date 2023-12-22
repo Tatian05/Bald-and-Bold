@@ -199,7 +199,6 @@ public class Player : GeneralPlayer, IDamageable
     }
     void EnterRope(Transform rope)
     {
-        Debug.Log("Enter");
         if (_climbing) return;
 
         _playerModel.InRope = true;
@@ -217,10 +216,8 @@ public class Player : GeneralPlayer, IDamageable
     }
     public void ExitClimb()
     {
-        Debug.Log("Exitd");
         if (!_playerModel.InRope) return;
 
-        Debug.Log("Exit");
         _climbing = false;
         _playerModel.InRope = false;
         _playerModel.NormalGravity();
