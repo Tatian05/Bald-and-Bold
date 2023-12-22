@@ -354,7 +354,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37c3b53d40d9a98459ed8fb22297657b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _signalColor: {r: 1.4142135, g: 0, b: 0, a: 1}
+  _signalColor: {r: 1, g: 0.5801887, b: 0.5801887, a: 1}
+  _cancelEffect: 0
+  _startBlinking: 0
 --- !u!1001 &1609216149828260144
 PrefabInstance:
   m_ObjectHideFlags: 0
