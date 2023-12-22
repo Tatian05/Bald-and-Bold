@@ -58,10 +58,15 @@ public class EnemyManager : BaseEnemyManager
 
         _weaponEnemyDeath[weaponName]++;
     }
+    public override void AddEnemy(Enemy enemy)
+    {
+        base.AddEnemy(enemy);
+        _enemiesDeathCounter = 0;
+    }
     void ResetLevel()
     {
-        _enemiesDeathCounter = 0;
         //_allEnemies.Clear();
+        _enemiesDeathCounter = 0;
         _weaponEnemyDeath = new Dictionary<string, int>();
     }
     void SetTasksProgress(params object[] param)

@@ -51,6 +51,6 @@ public class PlayerController
 
         _playerInputs.Disable();
     }
-    void OnJump(InputAction.CallbackContext obj) { if (_playerModel.CanJump || (_playerModel.InRope && _playerModel.CanJump)) { _player.ExitClimb(); _player.OnJump(); } }
-    void OnDash(InputAction.CallbackContext obj) { if (_playerModel.CanDash) { _player.ExitClimb(); _player.SendInput(PlayerStates.Dash); } }
+    void OnJump(InputAction.CallbackContext obj) { if (_playerModel.CanJump) { if (_playerModel.InRope) _player.ExitClimb(); _player.OnJump(); } }
+    void OnDash(InputAction.CallbackContext obj) { if (_playerModel.CanDash) { _player.SendInput(PlayerStates.Dash); } }
 }

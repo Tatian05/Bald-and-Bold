@@ -85,12 +85,11 @@ public class Player : GeneralPlayer, IDamageable
         StateConfigurer.Create(Empty).SetTransition(PlayerStates.Dash, Dash).Done();
         StateConfigurer.Create(Dash).SetTransition(PlayerStates.Empty, Empty).Done();
 
-        Action<float, float> onMove = delegate { };
         float dashTimer = 0;
         Dash.OnEnter += x =>
         {
             OnDash();
-            onMove = OnMove;
+            ExitClimb();
             OnMove = delegate { };
             dashTimer = 0;
             _playerModel.CeroGravity();
@@ -102,7 +101,12 @@ public class Player : GeneralPlayer, IDamageable
         };
 
         Dash.OnFixedUpdate += delegate { _playerModel.Dash(_controller.XAxis); };
-        Dash.OnExit += x => { OnMove = onMove; _playerModel.NormalGravity(); };
+        Dash.OnExit += x =>
+        {
+            OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, _playerModel.Speed / _speed, y); };
+            _playerModel.NormalGravity();
+            ExitClimb();
+        };
 
         #endregion
 
@@ -129,9 +133,9 @@ public class Player : GeneralPlayer, IDamageable
         _myFsm.Update();
         _goldenBald?.SetPosition(transform.position + Vector3.up * 2.25f);
 
-        var ropeCheck = Physics2D.OverlapCircle(transform.position, 1f, _ladderMask);
+        var ropeCheck = Physics2D.OverlapCircle(transform.position, .5f, _ladderMask);
 
-        if ((bool)ropeCheck) CheckForRope(ropeCheck.transform);
+        if ((bool)ropeCheck && _playerModel.InGrounded) CheckForRope(ropeCheck.transform);
     }
 
     private void FixedUpdate()
@@ -152,6 +156,10 @@ public class Player : GeneralPlayer, IDamageable
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(_groundCheckTransform1.position, .05f);
         Gizmos.DrawWireSphere(_groundCheckTransform2.position, .05f);
+
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, .5f);
     }
     public override void PausePlayer()
     {
@@ -183,8 +191,6 @@ public class Player : GeneralPlayer, IDamageable
         _playerModel.InRope = true;
         if (_playerModel.InRope && !_dead)
         {
-            if (!_playerModel.InGrounded) return;
-
             if (_controller.YAxis > 0 && !_climbing)
                 EnterRope(ropeTransform);
             else if (_controller.XAxis != 0 && _controller.YAxis <= 0 && _climbing)
@@ -195,6 +201,7 @@ public class Player : GeneralPlayer, IDamageable
     {
         if (_climbing) return;
 
+        _playerModel.InRope = true;
         _playerModel.FreezeVelocity();
         transform.position = new Vector2(rope.position.x, transform.position.y);
 
@@ -209,14 +216,16 @@ public class Player : GeneralPlayer, IDamageable
     }
     public void ExitClimb()
     {
-        if (!_playerModel.InRope || !_climbing) return;
+        Debug.Log("Exitd");
+        if (!_playerModel.InRope) return;
 
+        Debug.Log("Exit");
         _climbing = false;
-        _playerView.OnExitClimb();
         _playerModel.InRope = false;
         _playerModel.NormalGravity();
         OnMove = (x, y) => { _playerModel.Move(x, y); _playerView.Run(x, _playerModel.InGrounded, _playerModel.Speed / _speed, y); };
         OnMove -= _playerView.Climb;
+        _playerView.OnExitClimb();
     }
 
     IEnumerator Death()
