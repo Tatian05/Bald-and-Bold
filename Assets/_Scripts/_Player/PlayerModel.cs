@@ -50,7 +50,11 @@ public class PlayerModel
     {
         if (InGrounded)
         {
-            if (_rb.velocity.y <= 0 && _currentJumps != 0) _currentJumps = 0;
+            if (_rb.velocity.y <= 0 && _currentJumps != 0)
+            {
+                _currentJumps = 0;
+                _secondJump = true;
+            }
             _coyotaTimer = _coyotaTime;
         }
         else _coyotaTimer -= Time.deltaTime;
