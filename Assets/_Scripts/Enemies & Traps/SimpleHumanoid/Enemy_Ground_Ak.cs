@@ -144,9 +144,21 @@ public class Enemy_Ground_Ak : Enemy_Shooters
             _currentBullets = 0;
         }
     }
+    protected override void OnReset()
+    {
+        base.OnReset();
+
+        _myFSM?.SendInput(AK_States.Patrol);
+    }
+    protected override void Reset()
+    {
+        base.Reset();
+
+        _myFSM?.SendInput(AK_States.Patrol);
+    }
     public override void ReturnObject()
     {
-        _myFSM.SendInput(AK_States.Patrol);
         FRY_Enemy_Ground_Ak.Instance.pool.ReturnObject(this);
+        base.ReturnObject();
     }
 }

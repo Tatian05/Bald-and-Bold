@@ -155,11 +155,22 @@ public class Enemy_Sniper : Enemy_Shooters
     {
         _myFSM.SendInput((bool)param[0] ? SniperStates.Lost : SniperStates.Idle);
     }
+    protected override void OnReset()
+    {
+        base.OnReset();
+
+        _myFSM?.SendInput(SniperStates.Idle);
+    }
+    protected override void Reset()
+    {
+        base.Reset();
+
+        _myFSM?.SendInput(SniperStates.Idle);
+    }
     public override void ReturnObject()
     {
-        _myFSM.SendInput(SniperStates.Idle);
-        base.ReturnObject();
         FRY_Enemy_Sniper.Instance.pool.ReturnObject(this);
+        base.ReturnObject();
     }
     Color MultiLerp(float time, Color[] points)
     {

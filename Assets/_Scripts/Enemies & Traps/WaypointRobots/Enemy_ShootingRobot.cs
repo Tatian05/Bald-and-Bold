@@ -116,15 +116,23 @@ public class Enemy_ShootingRobot : Enemy_Shooters
         transform.GetChild(0).transform.localScale = new Vector3(1, -1, 1);
         return this;
     }
-    public override void Reset()
+    protected override void OnReset()
     {
-        _currentAttackSpeed = 0;
+        base.OnReset();
 
+        _currentAttackSpeed = 0;
+        _myFSM?.SendInput(ShootingRobot.Idle);
+    }
+    protected override void Reset()
+    {
         base.Reset();
+
+        _currentAttackSpeed = 0;
+        _myFSM?.SendInput(ShootingRobot.Idle);
     }
     public override void ReturnObject()
     {
-        base.ReturnObject();
         FRY_Enemy_ShootingRobot.Instance.pool.ReturnObject(this);
+        base.ReturnObject();
     }
 }

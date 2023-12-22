@@ -128,9 +128,21 @@ public class Enemy_ChargeDrone : Enemy
         _myFSM.SendInput((bool)param[0] ? ChargeDroneStates.Lost : ChargeDroneStates.Idle);
     }
     void LookAtPlayer() { _spriteParentTransform.right = DistanceToPlayer().normalized; }
+    protected override void OnReset()
+    {
+        base.OnReset();
+
+        _myFSM?.SendInput(ChargeDroneStates.Idle);
+    }
+    protected override void Reset()
+    {
+        base.Reset();
+
+        _myFSM?.SendInput(ChargeDroneStates.Idle);
+    }
     public override void ReturnObject()
     {
-        _myFSM.SendInput(ChargeDroneStates.Idle);
         FRY_Enemy_ChargeDrone.Instance.pool.ReturnObject(this);
+        base.ReturnObject();
     }
 }

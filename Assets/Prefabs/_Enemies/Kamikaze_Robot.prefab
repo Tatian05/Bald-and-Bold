@@ -141,7 +141,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54f6e2cb60737c9469137bf7d9f8653c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyDataSO: {fileID: 11400000, guid: 3849563205829cd4bb2b9ff16a3e7599, type: 2}
   anim: {fileID: 0}
   _signGO: {fileID: 0}
   _agroSign: {fileID: 0}
@@ -150,6 +149,7 @@ MonoBehaviour:
   _isRobot: 1
   _minDropSpeed: 5
   _maxDropSpeed: 20
+  _dropSpeedMultiplier: 0.15
   _overlapCircleRadius: 1.5
   _dmg: 1
 --- !u!114 &6757386262002888153
@@ -278,7 +278,7 @@ MonoBehaviour:
   - {x: -0.44740832, y: 0.25287962, z: 0}
   m_ShapePathHash: -1361071055
   m_Mesh: {fileID: 0}
-  m_InstanceId: 149820
+  m_InstanceId: 62390
 --- !u!114 &6048746220676528147
 MonoBehaviour:
   m_ObjectHideFlags: 0

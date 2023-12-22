@@ -16,6 +16,10 @@ public class EnemyHealth : MonoBehaviour, IDamageable, IEnemy
         _currentHP = _enemyHealthData.maxHP;
         _enemy.OnReturn += OnReset;
     }
+    private void OnEnable()
+    {
+        OnReset();
+    }
     private void OnDestroy()
     {
         _enemy.OnReturn -= OnReset;

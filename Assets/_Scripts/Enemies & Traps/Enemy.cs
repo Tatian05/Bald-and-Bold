@@ -16,6 +16,8 @@ public abstract class Enemy : MonoBehaviour
     public bool IsRobot { get { return _isRobot; } }
 
     public event System.Action OnReturn;
+    Vector3 _initialPos;
+    Spawner_Enemy _spawner;
     public virtual void Start()
     {
         gameManager = Helpers.GameManager;
@@ -40,7 +42,7 @@ public abstract class Enemy : MonoBehaviour
         EventManager.UnSubscribeToEvent(Contains.CONSUMABLE_INVISIBLE, PlayerInvisibleConsumable);
         OnReturn -= OnReset;
     }
-    public virtual void ActionOnPlayerDead(params object[] param) { ReturnObject(); }
+    void ActionOnPlayerDead(params object[] param) { OnReturn?.Invoke(); }
     protected abstract void PlayerInvisibleConsumable(params object[] param);
     protected void SetSign(bool enabled, Sprite sign = null)
     {
@@ -57,16 +59,25 @@ public abstract class Enemy : MonoBehaviour
     public Enemy SetPosition(Vector3 pos)
     {
         transform.position = pos;
+        _initialPos = pos;
         return this;
     }
-    void OnReset()
+    public Enemy SetSpawner(Spawner_Enemy spawner)
+    {
+        _spawner = spawner;
+        return this;
+    }
+    protected virtual void OnReset()
+    {
+        if (!enabled) return;
+
+        transform.position = _initialPos;
+        transform.localScale = new Vector3(1, 1, 1);
+    }
+    protected virtual void Reset()
     {
         transform.localScale = new Vector3(1, 1, 1);
         if (gameManager) gameManager.EnemyManager.AddEnemy(this);
-    }
-    public virtual void Reset()
-    {
-        OnReturn?.Invoke();
     }
 
     public static void TurnOn(Enemy b)
@@ -81,5 +92,6 @@ public abstract class Enemy : MonoBehaviour
     }
     public virtual void ReturnObject()
     {
+        _spawner.onEnemyDeath();
     }
 }

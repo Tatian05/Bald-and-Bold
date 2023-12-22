@@ -29,7 +29,7 @@ public class EnemyManager : BaseEnemyManager
     }
     IEnumerator CheckForEmptyLevel()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.2f);
         _maxEnemies = _allEnemies.Count;
         if (_maxEnemies == 0) EventManager.TriggerEvent(Contains.ON_ENEMIES_KILLED);
     }
@@ -61,7 +61,7 @@ public class EnemyManager : BaseEnemyManager
     void ResetLevel()
     {
         _enemiesDeathCounter = 0;
-        _allEnemies.Clear();
+        //_allEnemies.Clear();
         _weaponEnemyDeath = new Dictionary<string, int>();
     }
     void SetTasksProgress(params object[] param)

@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 public class Enemy_KamikazeRobot : Enemy
 {
-    [SerializeField] float _minDropSpeed, _maxDropSpeed;
+    [SerializeField] float _minDropSpeed, _maxDropSpeed, _dropSpeedMultiplier = .25f;
     [SerializeField] float _overlapCircleRadius = 1.5f;
     [SerializeField] float _dmg;
 
@@ -38,7 +38,7 @@ public class Enemy_KamikazeRobot : Enemy
 
         DROP.OnUpdate += () =>
         {
-            _dropSpeed += CustomTime.TimeScale * .3f;
+            _dropSpeed += CustomTime.TimeScale * _dropSpeedMultiplier;
             transform.position += -transform.up * _dropSpeed * CustomTime.DeltaTime;
             Mathf.Clamp(_dropSpeed, _minDropSpeed, _maxDropSpeed);
         };
@@ -83,22 +83,30 @@ public class Enemy_KamikazeRobot : Enemy
 
         _enemyHealth.Die();
     }
-
-    public override void ReturnObject()
+    protected override void OnReset()
     {
-        base.ReturnObject();
-        FRY_Enemy_KamikazeRobot.Instance.pool.ReturnObject(this);
-    }
+        base.OnReset();
 
-    public override void Reset()
-    {
         _dropSpeed = _minDropSpeed;
         _myFSM?.SendInput(KamikazeStates.Idle);
 
         if (_isDropping)
-        {
             _isDropping = false;
-        }
+    }
+
+    protected override void Reset()
+    {
         base.Reset();
+
+        _dropSpeed = _minDropSpeed;
+        _myFSM?.SendInput(KamikazeStates.Idle);
+
+        if (_isDropping)
+            _isDropping = false;
+    }
+    public override void ReturnObject()
+    {
+        FRY_Enemy_KamikazeRobot.Instance.pool.ReturnObject(this);
+        base.ReturnObject();
     }
 }

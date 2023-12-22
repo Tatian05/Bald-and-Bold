@@ -27,11 +27,12 @@ public class Enemy_FollowDrone : Enemy
 
         #region IDLE
 
+        idle.OnEnter += x => _navMeshAgent.Warp(transform.position);
         idle.OnUpdate += delegate
-        {
-            if (!_playerPosition) return;
-            if (CanSeePlayer()) _myFsm.SendInput(DroneStates.Follow);
-        };
+         {
+             if (!_playerPosition) return;
+             if (CanSeePlayer()) _myFsm.SendInput(DroneStates.Follow);
+         };
 
         #endregion
 
@@ -74,10 +75,21 @@ public class Enemy_FollowDrone : Enemy
         _myFsm?.SendInput((bool)param[0] ? DroneStates.Lost : DroneStates.Idle);
         _navMeshAgent.ResetPath();
     }
+    protected override void OnReset()
+    {
+        base.OnReset();
+
+        _myFsm?.SendInput(DroneStates.Idle);
+    }
+    protected override void Reset()
+    {
+        base.Reset();
+
+        _myFsm?.SendInput(DroneStates.Idle);
+    }
     public override void ReturnObject()
     {
+        FRY_Enemy_FollowDrone.Instance.ReturnObject(this);
         base.ReturnObject();
-        _myFsm?.SendInput(DroneStates.Idle);
-        FRY_Enemy_FollowDrone.Instance.pool.ReturnObject(this);
     }
 }

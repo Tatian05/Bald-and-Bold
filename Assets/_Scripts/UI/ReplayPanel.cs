@@ -37,6 +37,7 @@ public class ReplayPanel : MonoBehaviour
     {
         NewInputManager.ActiveDeviceChangeEvent -= Gamepad;
     }
+
     public ReplayPanel SetZone(Zone zone)
     {
         _gameData = Helpers.PersistantData.gameData;
@@ -47,20 +48,23 @@ public class ReplayPanel : MonoBehaviour
             var levelName = _zone.levelsZone[i];
             var button = _levelsButtons[i];
             var levelButton = button.GetComponent<LevelSelectButtons>();
+            var onMouseOverButton = button.GetComponent<OnMouseOverButton>();
+
             button.interactable = _gameData.levels.Contains(levelName);
+            _backgroundButtons[i].color = Color.red;
+            levelButton.BackgroundColor = _backgroundButtons[i].color;
+            levelButton.enabled = false;
+            onMouseOverButton.enabled = false;
 
             _levelsNumber[i].text = _zone.levelsZone[i].Replace("Level ", "");
             if (!button.interactable)
-            {
-                _backgroundButtons[i].color = Color.red;
                 continue;
-            }
 
             _backgroundButtons[i].color = Color.green;
 
             levelButton.enabled = true;
-            levelButton.BackgroundColor = Color.green;
-            button.GetComponent<OnMouseOverButton>().enabled = true;
+            levelButton.BackgroundColor = _backgroundButtons[i].color;
+            onMouseOverButton.enabled = true;
 
             _levelsDeaths[i].text = _gameData.GetDeathsInLevel(_zone.levelsZone[i]).ToString();
 
