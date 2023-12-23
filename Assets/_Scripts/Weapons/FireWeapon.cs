@@ -99,14 +99,14 @@ public class FireWeapon : Weapon
 
     public FireWeapon ThrowOut(Vector2 direction)
     {
-        _rb.simulated = true;
+        _rb.isKinematic = false;
         _rb.AddForce(direction * 3, ForceMode2D.Impulse);
         _spriteRenderer.sprite = _weaponSkinData.mainSprite;
         return this;
     }
-    public override Weapon PickUp(Vector3 rotation, bool knife = false)
+    public override Weapon PickUp(bool knife = false)
     {
-        base.PickUp(rotation, knife);
+        base.PickUp(knife);
 
         if (_droppableWeapon)
         {

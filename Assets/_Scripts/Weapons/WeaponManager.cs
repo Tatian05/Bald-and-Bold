@@ -37,7 +37,7 @@ public class WeaponManager : MonoBehaviour
         _secundaryWeaponContainer = transform.GetChild(1);
         _currentSecundaryWeapon = _secundaryWeaponContainer.GetComponentInChildren<Weapon>();
         _secundaryWeaponTransform = _currentSecundaryWeapon.transform;
-        _currentSecundaryWeapon.PickUp(Vector3.zero, true);
+        _currentSecundaryWeapon.PickUp(true);
         _playerInputs = NewInputManager.PlayerInputs;
         _lookAtMouse += SecundaryWeapon;
         _knife = _playerInputs.Player.Knife;
@@ -112,7 +112,7 @@ public class WeaponManager : MonoBehaviour
         _currentMainWeapon = newWeapon as FireWeapon;
         //_mainWeaponContainer.localEulerAngles = transform.eulerAngles;
         _lookAtMouse += MainWeapon;
-        _currentMainWeapon.PickUp(transform.eulerAngles).SetParent(_mainWeaponContainer).SetPosition(_mainWeaponContainer.position).SetOffset();
+        _currentMainWeapon.PickUp().SetParent(_mainWeaponContainer).SetPosition(_mainWeaponContainer.position).SetOffset();
         _rightHand.SetActive(false);
         _leftHand.SetActive(false);
 
